@@ -14,7 +14,17 @@ _start:
     move.b #0xFF, DDRB
     move.b #0xFF, DDRA
     move.b #0xAA, PORTB
-    move.b #0xAA, PORTA
+
+    move.w #0, %d0
 _loop:
+    move.b %d0, PORTA
+    add #1, %d0
+
+    move.w #0x0000, %d1
+
+_delay:
+    addi.w #1, %d1
+    cmpi.w #0x1000, %d1
+    bne.s _delay
+
     jmp _loop
-    
