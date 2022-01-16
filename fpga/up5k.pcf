@@ -2,5 +2,7 @@ set_io --warn-no-port CLK 23
 set_io --warn-no-port RST 25
 set_io --warn-no-port A19 27
 set_io --warn-no-port AS 32
+set_io --warn-no-port DS 43
 set_io --warn-no-port ROM_EN 28
 set_io --warn-no-port ACIA_EN 36
+set_io --warn-no-port CLK2 42
