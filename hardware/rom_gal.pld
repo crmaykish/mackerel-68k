@@ -1,0 +1,10 @@
+GAL16V8
+ROM_GAL
+
+NC NC NC A19 NC NC NC NC AS GND
+NC NC NC NC NC NC NC ROMEN NC VCC
+
+/ROMEN = /A19 * /AS
+
+DESCRIPTION
+Address decoder for the Mackerel ROM board

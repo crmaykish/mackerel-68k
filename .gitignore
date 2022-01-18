@@ -1,5 +1,5 @@
 *.bin
-fpga/.sconsign.dblite
-fpga/hardware.asc
-fpga/hardware.json
-fpga/hardware.out
+*.chp
+*.fus
+*.pin
+*.jed

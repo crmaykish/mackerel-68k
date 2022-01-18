@@ -1,14 +1,16 @@
+    | ACIA memory-mapped registers
     .equ ACIA_DATA, 0x80000
     .equ ACIA_STATUS, 0x80001
     .equ ACIA_COMMAND, 0x80002
     .equ ACIA_CONTROL, 0x80003
 
+    | ACIA status flags
     .equ ACIA_TX_READY, 0x10
     .equ ACIA_RX_READY, 0x08
 
     .section .vectors, #alloc
 
-resetsp:    .long 0xF0000
+resetsp:    .long 0x0000    | Unused, no RAM installed
 resetpc:    .long _start
 
     .section .text
