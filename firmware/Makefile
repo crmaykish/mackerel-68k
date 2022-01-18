@@ -4,7 +4,7 @@ OBJCOPY = m68k-linux-gnu-objcopy
 
 MEMORY_MAP=linker_mackerel.scr
 
-BINS = nop_loop.bin
+BINS = nop_loop.bin echo_test.bin
 
 all: $(BINS)
 
@@ -18,6 +18,8 @@ all: $(BINS)
 	$(OBJCOPY) $< -O binary $@
 
 nop_loop.bin: nop_loop.s
+
+echo_test.bin: echo_test.s
 
 clean:
 	rm -f *.o *.elf *.bin
