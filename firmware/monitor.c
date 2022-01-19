@@ -2,22 +2,23 @@
 
 int main()
 {
-    char input[40];
+    char buffer[64];
 
     mack_acia_init();
 
-    puts("Mackerel 68k\r\n");
+    acia_puts("Mackerel 68k\r\n");
 
-    // Echo each line back as it's typed in
     while (1)
     {
-        puts("> ");
-        readline(input);
+        acia_puts("> ");
+        acia_readline(buffer);
 
-        puts("\r\nLine: ");
+        acia_puts("\r\n");
 
-        puts(input);
+        acia_puts("You entered: ");
 
-        puts("\r\n");
+        acia_puts(buffer);
+
+        acia_puts("\r\n");
     }
 }

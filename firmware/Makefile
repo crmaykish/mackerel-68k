@@ -12,7 +12,7 @@ BINS = monitor.bin
 all: $(BINS)
 
 %.o: %.c
-	$(CC) -mcpu=68000 -g -Wall -O2 -c $< -o $@
+	$(CC) -mcpu=68000 -g -Wall -c $< -o $@
 
 %.o: %.s
 	$(AS) -mcpu=68000 $< -o $@
@@ -20,8 +20,8 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-monitor.elf: start.s monitor.c mackerel.c
-	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostdlib -nostartfiles $^ -lgcc -o $@
+monitor.elf: start.o monitor.o mackerel.o
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -static -nostartfiles $^ -l:libc.a -o $@
 
 clean:
 	rm -f *.o *.elf *.bin

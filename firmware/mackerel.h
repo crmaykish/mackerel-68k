@@ -16,9 +16,9 @@
 void mack_acia_init();
 
 // Console I/O
-void putc(unsigned char a);
-void puts(unsigned char *s);
-unsigned char getc();
-void readline(char *buffer);
+int acia_putc(int a);
+int acia_puts(const char *s);
+int acia_getc();
+void acia_readline(char *buffer);
 
 #endif

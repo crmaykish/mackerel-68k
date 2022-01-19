@@ -7,27 +7,31 @@ void mack_acia_init()
     MEM(ACIA_CONTROL) = 0b00010000;
 }
 
-void putc(unsigned char a)
+int acia_putc(int a)
 {
     while ((MEM(ACIA_STATUS) & ACIA_TX_READY) == 0)
     {
     }
 
     MEM(ACIA_DATA) = a;
+
+    return a;
 }
 
-void puts(unsigned char *s)
+int acia_puts(const char *s)
 {
     unsigned i = 0;
 
     while (s[i] != 0)
     {
-        putc(s[i]);
+        acia_putc(s[i]);
         i++;
     }
+
+    return 0;
 }
 
-unsigned char getc()
+int acia_getc()
 {
     while ((MEM(ACIA_STATUS) & ACIA_RX_READY) == 0)
     {
@@ -36,23 +40,23 @@ unsigned char getc()
     return MEM(ACIA_DATA);
 }
 
-void readline(char *buffer)
+void acia_readline(char *buffer)
 {
     int count = 0;
-    char in = getc();
+    char in = acia_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            putc(in);
+            acia_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = getc();
+        in = acia_getc();
     }
 
     buffer[count] = 0;
