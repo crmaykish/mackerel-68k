@@ -1,4 +1,5 @@
 #include "mackerel.h"
+#include <string.h>
 
 int main()
 {
@@ -15,9 +16,15 @@ int main()
 
         acia_puts("\r\n");
 
-        acia_puts("You entered: ");
-
-        acia_puts(buffer);
+        if (strncmp(buffer, "help", 4) == 0)
+        {
+            acia_puts("Help");
+        }
+        else
+        {
+            acia_puts("You entered: ");
+            acia_puts(buffer);
+        }
 
         acia_puts("\r\n");
     }

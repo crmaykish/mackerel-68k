@@ -15,13 +15,13 @@ all: $(BINS)
 	$(CC) -mcpu=68000 -g -Wall -c $< -o $@
 
 %.o: %.s
-	$(AS) -mcpu=68008 $< -o $@
+	$(AS) -mcpu=68000 $< -o $@
 
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
 monitor.elf: start.o monitor.o mackerel.o
-	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostdlib -nostartfiles $^ -lgcc -o $@
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostartfiles $^ -o $@
 
 clean:
 	rm -f *.o *.elf *.bin
