@@ -18,58 +18,44 @@ resetpc:    .long _start
     .section .text
 
 _start:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+    bsr.s _acia_init
+    
+_loop:
+    bsr.s _getc
+    bsr.s _putc
+    bra.s _loop
+
+_acia_init:
     | Reset the ACIA
     move.b #0x00, ACIA_STATUS
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+
     | Send the ACIA init command
     move.b #0x0B, ACIA_COMMAND
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+
     | Set baudrate to 1/16 oscillator, no parity, 1 stop bit
     move.b #0b00010000, ACIA_CONTROL
+    rts
 
-_loop:
+_getc:
     | Wait for serial input data
-    move.b ACIA_STATUS, %d0
-    andi.b #ACIA_RX_READY, %d0
-    cmpi.b #0x00, %d0
-    beq.s _loop
+    move.b ACIA_STATUS, %d1
+    andi.b #ACIA_RX_READY, %d1
+    cmpi.b #0x00, %d1
+    beq.s _getc
 
-    | Read byte from serial
-    move.b ACIA_DATA, %d1
+    | Read byte from serial input
+    move.b ACIA_DATA, %d0
 
-_wait_to_write:
+    rts
+
+_putc:
     | Wait for TX ready status
-    move.b ACIA_STATUS, %d0
-    andi.b #ACIA_TX_READY, %d0 
-    cmpi.b #0x00, %d0
-    beq.s _wait_to_write
+    move.b ACIA_STATUS, %d1
+    andi.b #ACIA_TX_READY, %d1 
+    cmpi.b #0x00, %d1
+    beq.s _putc
 
-    | Echo input byte back to serial output
-    move.b %d1, ACIA_DATA
+    | Echo input byte to serial output
+    move.b %d0, ACIA_DATA
 
-    jmp _loop
+    rts
