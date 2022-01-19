@@ -1,27 +1,27 @@
+CC = m68k-linux-gnu-gcc
 AS = m68k-linux-gnu-as
 LD = m68k-linux-gnu-ld
 OBJCOPY = m68k-linux-gnu-objcopy
 
-MEMORY_MAP=linker_mackerel.scr
+MEMORY_MAP = linker_mackerel.scr
 
-BINS = nop_loop.bin echo_test.bin ram_test.bin
+BINS = monitor.bin
+
+.SECONDARY: monitor.elf
 
 all: $(BINS)
 
-%.o: %.s
-	$(AS) $< -o $@
+%.o: %.c
+	$(CC) -mcpu=68000 -g -Wall -c $< -o $@
 
-%.elf: %.o
-	$(LD) -T $(MEMORY_MAP) -nostdlib $< -o $@
+%.o: %.s
+	$(AS) -mcpu=68000 $< -o $@
 
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-nop_loop.bin: nop_loop.s
-
-echo_test.bin: echo_test.s
-
-ram_test.bin: ram_test.s
+monitor.elf: start.o monitor.c
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostdlib -nostartfiles $^ -lgcc -o $@
 
 clean:
 	rm -f *.o *.elf *.bin

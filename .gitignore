@@ -1,4 +1,9 @@
+# C/ASM
+*.o
 *.bin
+*.elf
+
+# GAL
 *.chp
 *.fus
 *.pin
