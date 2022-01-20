@@ -13,12 +13,14 @@
 #define MEM(address) (*(volatile unsigned char *)(address))
 
 // Hardware Setup
-void mack_acia_init();
+void m_init();
 
 // Console I/O
-int acia_putc(int a);
-int acia_puts(const char *s);
-int acia_getc();
-void acia_readline(char *buffer);
+void m_putc(char a);
+void m_puts(const char *s);
+char m_getc();
+void m_readline(char *buffer);
+
+int m_printf(const char *fmt, ...);
 
 #endif

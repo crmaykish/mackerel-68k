@@ -5,7 +5,7 @@ OBJCOPY = m68k-elf-objcopy
 
 MEMORY_MAP = linker_mackerel.scr
 
-COMMON_OBJS = vectors.o start.o mackerel.o
+COMMON_OBJS = vectors.o start.o glue.o mackerel.o
 
 BINS = monitor.bin
 

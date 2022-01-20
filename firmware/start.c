@@ -6,8 +6,8 @@ void _start()
 {
     // TODO: Setup .bss and .data sections correctly in RAM
 
-    // Setup the serial port
-    mack_acia_init();
+    // Setup the hardware peripherals
+    m_init();
 
     // Call main
     main();

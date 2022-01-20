@@ -1,30 +1,28 @@
 #include "mackerel.h"
 #include <string.h>
+#include <stdio.h>
 
 int main()
 {
-    char buffer[64];
+    char input[64];
 
-    acia_puts("Mackerel 68k\r\n");
+    m_printf("Mackerel 68k");
 
     while (1)
     {
-        acia_puts("> ");
-        acia_readline(buffer);
+        m_printf("\r\n> ");
+        m_readline(input);
 
-        acia_puts("\r\n");
+        m_printf("\r\n");
 
-        if (strncmp(buffer, "help", 4) == 0)
+        if (strncmp(input, "help", 4) == 0)
         {
-            acia_puts("Help");
+            m_printf("Help");
         }
         else
         {
-            acia_puts("You entered: ");
-            acia_puts(buffer);
+            m_printf("You entered: %s", input);
         }
-
-        acia_puts("\r\n");
     }
 
     return 0;

@@ -1,37 +1,35 @@
 #include "mackerel.h"
+#include <stdarg.h>
+#include <stdio.h>
 
-void mack_acia_init()
+void m_init()
 {
     MEM(ACIA_STATUS) = 0;
     MEM(ACIA_COMMAND) = 0x0B;
     MEM(ACIA_CONTROL) = 0b00010000;
 }
 
-int acia_putc(int a)
+void m_putc(char a)
 {
     while ((MEM(ACIA_STATUS) & ACIA_TX_READY) == 0)
     {
     }
 
     MEM(ACIA_DATA) = a;
-
-    return a;
 }
 
-int acia_puts(const char *s)
+void m_puts(const char *s)
 {
     unsigned i = 0;
 
     while (s[i] != 0)
     {
-        acia_putc(s[i]);
+        m_putc(s[i]);
         i++;
     }
-
-    return 0;
 }
 
-int acia_getc()
+char m_getc()
 {
     while ((MEM(ACIA_STATUS) & ACIA_RX_READY) == 0)
     {
@@ -40,24 +38,41 @@ int acia_getc()
     return MEM(ACIA_DATA);
 }
 
-void acia_readline(char *buffer)
+void m_readline(char *buffer)
 {
     int count = 0;
-    char in = acia_getc();
+    char in = m_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            acia_putc(in);
+            m_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = acia_getc();
+        in = m_getc();
     }
 
     buffer[count] = 0;
+}
+
+int m_printf(const char *fmt, ...)
+{
+    char buffer[64];
+    int ret;
+
+    va_list myargs;
+    va_start(myargs, fmt);
+
+    ret = vsiprintf(buffer, fmt, myargs);
+
+    m_puts(buffer);
+
+    va_end(myargs);
+
+    return ret;
 }
