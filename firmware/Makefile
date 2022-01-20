@@ -5,6 +5,8 @@ OBJCOPY = m68k-elf-objcopy
 
 MEMORY_MAP = linker_mackerel.scr
 
+COMMON_OBJS = vectors.o start.o mackerel.o
+
 BINS = monitor.bin
 
 .SECONDARY: monitor.elf
@@ -20,7 +22,7 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-monitor.elf: start.o monitor.o mackerel.o
+monitor.elf: $(COMMON_OBJS) monitor.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostartfiles $^ -o $@
 
 clean:

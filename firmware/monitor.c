@@ -5,8 +5,6 @@ int main()
 {
     char buffer[64];
 
-    mack_acia_init();
-
     acia_puts("Mackerel 68k\r\n");
 
     while (1)
@@ -28,4 +26,6 @@ int main()
 
         acia_puts("\r\n");
     }
+
+    return 0;
 }
