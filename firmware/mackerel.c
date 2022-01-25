@@ -6,7 +6,7 @@ void m_init()
 {
     MEM(ACIA_STATUS) = 0;
     MEM(ACIA_COMMAND) = 0x0B;
-    MEM(ACIA_CONTROL) = 0b00010000;
+    MEM(ACIA_CONTROL) = 0b00011110; // 9600 baud
 }
 
 void m_putc(char a)
