@@ -3,13 +3,15 @@ AS = m68k-elf-as
 LD = m68k-elf-ld
 OBJCOPY = m68k-elf-objcopy
 
-MEMORY_MAP = linker_mackerel.scr
+MEMORY_MAP_ROM = linker_rom.scr
+MEMORY_MAP_RAM = linker_ram.scr
 
-COMMON_OBJS = vectors.o start.o glue.o mackerel.o
+COMMON_OBJS_ROM = vectors.o start.o glue.o mackerel.o
+COMMON_OBJS_RAM = start.o glue.o mackerel.o
 
-BINS = monitor.bin
+BINS = bootloader.bin hello.bin
 
-.SECONDARY: monitor.elf
+.SECONDARY: bootloader.elf hello.elf
 
 all: $(BINS)
 
@@ -22,8 +24,11 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-monitor.elf: $(COMMON_OBJS) monitor.o
-	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP) -nostartfiles $^ -o $@
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
+
+hello.elf: $(COMMON_OBJS_RAM) hello.o 
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 clean:
 	rm -f *.o *.elf *.bin

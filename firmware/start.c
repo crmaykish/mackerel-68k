@@ -11,8 +11,4 @@ void _start()
 
     // Call main
     main();
-
-    while (1)
-    {
-    }
 }

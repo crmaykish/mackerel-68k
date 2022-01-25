@@ -34,12 +34,10 @@ void command_not_found(char *command_name);
 // Input command definitions
 static const command_t commands[] = {
     {"dump", "addr", "", "Dump memory in hex and ASCII", handler_dump},
-    {"run", "", "", "Jump to program RAM (0x1000)", handler_run},
+    {"run", "", "", "Jump to program RAM (0x81000)", handler_run},
     {"load", "addr", "", "Load a program over serial", handler_load}};
 
 static const uint8_t COMMAND_COUNT = sizeof(commands) / sizeof(command_t);
-
-static uint8_t *RAM_START = (uint8_t *)0x90000;
 
 void print_string_bin(char *str, uint8_t max)
 {
@@ -69,7 +67,7 @@ int main()
     char *command;
     bool command_handled;
 
-    printf("\r\n### Mackerel-8 ###\r\n");
+    printf("\r\n### Mackerel-8 Bootloader ###\r\n");
 
     while (true)
     {
@@ -107,12 +105,13 @@ int main()
 
 void handler_dump()
 {
-    memdump(RAM_START, MEMDUMP_BYTES);
+    memdump((uint8_t *)0x81000, MEMDUMP_BYTES);
 }
 
 void handler_run()
 {
-    printf("TODO: Run loaded program");
+    printf("Run loaded program\r\n");
+    asm("jsr 0x81000");
 }
 
 void handler_load()
@@ -121,29 +120,27 @@ void handler_load()
     int magic_count = 0;
     uint8_t in = 0;
 
-    printf("Loading into: 0x%06X...", 0x90000);
+    printf("Loading into: 0x%06X...", 0x81000);
 
     while (magic_count != 3)
     {
         in = m_getc();
 
-        MEM(0x90000 + in_count) = in;
+        MEM(0x81000 + in_count) = in;
 
         if (in == 0xDE)
         {
             magic_count++;
-            m_putc('&');
         }
         else
         {
             magic_count = 0;
-            m_putc('*');
         }
 
         in_count++;
     }
 
-    printf("%d bytes read\r\nDone!", in_count);
+    printf("%d bytes read\r\nDone!", in_count - 3);
 }
 
 void command_not_found(char *command_name)
