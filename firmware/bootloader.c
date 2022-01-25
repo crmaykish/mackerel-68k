@@ -34,7 +34,7 @@ void command_not_found(char *command_name);
 // Input command definitions
 static const command_t commands[] = {
     {"dump", "addr", "", "Dump memory in hex and ASCII", handler_dump},
-    {"run", "", "", "Jump to program RAM (0x81000)", handler_run},
+    {"run", "", "", "Jump to program RAM (0x80000)", handler_run},
     {"load", "addr", "", "Load a program over serial", handler_load}};
 
 static const uint8_t COMMAND_COUNT = sizeof(commands) / sizeof(command_t);
@@ -105,13 +105,13 @@ int main()
 
 void handler_dump()
 {
-    memdump((uint8_t *)0x81000, MEMDUMP_BYTES);
+    memdump((uint8_t *)0x80000, MEMDUMP_BYTES);
 }
 
 void handler_run()
 {
     printf("Run loaded program\r\n");
-    asm("jsr 0x81000");
+    asm("jsr 0x80000");
 }
 
 void handler_load()
@@ -120,13 +120,13 @@ void handler_load()
     int magic_count = 0;
     uint8_t in = 0;
 
-    printf("Loading into: 0x%06X...", 0x81000);
+    printf("Loading into: 0x%06X...", 0x80000);
 
     while (magic_count != 3)
     {
         in = m_getc();
 
-        MEM(0x81000 + in_count) = in;
+        MEM(0x80000 + in_count) = in;
 
         if (in == 0xDE)
         {

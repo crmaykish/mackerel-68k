@@ -2,5 +2,5 @@
 
     .section .vectors, #alloc
 
-resetsp:    .long 0xC0000
+resetsp:    .long 0x100000
 resetpc:    .long _start

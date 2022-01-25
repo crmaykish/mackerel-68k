@@ -1,1 +1,9 @@
 # Mackerel 68k SBC
+
+## Memory Map
+
+ROM (64 KB): 0x000000 - 0x00FFFF
+
+ACIA: 0x010000 - 0x1FFFF
+
+RAM (512 KB): 0x080000 - 0x0FFFFF
