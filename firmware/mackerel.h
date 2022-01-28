@@ -13,14 +13,12 @@
 #define MEM(address) (*(volatile unsigned char *)(address))
 
 // Hardware Setup
-void m_init();
+void serial_init();
 
-// Console I/O
-void m_putc(char a);
-void m_puts(const char *s);
-char m_getc();
-void m_readline(char *buffer);
-
-int m_printf(const char *fmt, ...);
+// Serial port
+void serial_putc(char a);
+void serial_puts(const char *s);
+char serial_getc();
+void serial_readline(char *buffer);
 
 #endif

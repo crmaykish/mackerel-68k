@@ -7,8 +7,6 @@
 #include "mackerel.h"
 
 // TODO: get printf working for real
-#define printf(s...) m_printf(s)
-
 #define INPUT_BUFFER_SIZE 32
 #define COMMAND_MAX_LENGTH 6
 #define MEMDUMP_BYTES 256
@@ -47,11 +45,11 @@ void print_string_bin(char *str, uint8_t max)
     {
         if (str[i] >= 32 && str[i] < 127)
         {
-            m_putc(str[i]);
+            serial_putc(str[i]);
         }
         else
         {
-            m_putc('.');
+            serial_putc('.');
         }
 
         i++;
@@ -124,7 +122,7 @@ void handler_load()
 
     while (magic_count != 3)
     {
-        in = m_getc();
+        in = serial_getc();
 
         MEM(0x80000 + in_count) = in;
 
@@ -152,20 +150,20 @@ void command_not_found(char *command_name)
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = m_getc();
+    uint8_t in = serial_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            m_putc(in);
+            serial_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = m_getc();
+        in = serial_getc();
     }
 
     buffer[count] = 0;
@@ -196,11 +194,11 @@ void memdump(uint8_t *address, uint16_t bytes)
         }
         else if (i % 8 == 0)
         {
-            m_putc(' ');
+            serial_putc(' ');
         }
     }
 
-    m_putc('|');
+    serial_putc('|');
     print_string_bin((address + i - 16), 16);
-    m_putc('|');
+    serial_putc('|');
 }

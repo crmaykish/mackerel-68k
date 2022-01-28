@@ -1,10 +1,18 @@
+#include "mackerel.h"
+
 // Glue functions required to use the newlib standard library
 
-void sbrk() {}
+void write(int file, char *s, int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        serial_putc(s[i]);
+    }
+}
 
-// void write() {}
-// void close() {}
-// void fstat() {}
-// void isatty() {}
-// void lseek() {}
-// void read() {}
+void sbrk() {}
+void close() {}
+void fstat() {}
+void isatty() {}
+void lseek() {}
+void read() {}
