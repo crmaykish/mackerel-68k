@@ -14,6 +14,11 @@ void serial_putc(char a)
     }
 
     MEM(ACIA_DATA) = a;
+
+    if (a == '\n')
+    {
+        serial_putc('\r');
+    }
 }
 
 void serial_puts(const char *s)

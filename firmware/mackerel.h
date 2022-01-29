@@ -6,6 +6,9 @@
 #define ACIA_COMMAND 0x10002
 #define ACIA_CONTROL 0x10003
 
+#define USB_DATA 0x18000
+#define USB_COMMAND 0x18001
+
 #define ACIA_TX_READY 0x10
 #define ACIA_RX_READY 0x08
 
