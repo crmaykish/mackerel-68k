@@ -129,13 +129,25 @@ int main()
 {
     printf("Hello from Mackerel. Here are some numbers %d %04X\r\n", 99, 0xBEEF);
 
+    uint8_t i = 1;
+
     uint8_t buffer[200000] = {0};
 
     usb_reset();
 
-    size_t file_size = file_read("HACKING.TXT", buffer);
+    size_t file_size = file_read("APPLE2.TXT", buffer);
     printf("Read %ld bytes\r\n", file_size);
-    serial_puts(buffer);
+    serial_puts((char *)buffer);
+
+    MEM(MFP_DDR) = 0xFF;
+
+    while (1)
+    {
+        MEM(MFP_GPDR) = i;
+        i++;
+
+        delay(1000);
+    }
 
     return 0;
 }
