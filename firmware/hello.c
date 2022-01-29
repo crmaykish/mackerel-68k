@@ -36,8 +36,9 @@ uint8_t wait_for_interrupt()
     return MEM(USB_DATA);
 }
 
-void file_read(char *file_name, uint8_t *buffer)
+size_t file_read(char *file_name, uint8_t *buffer)
 {
+    size_t total_bytes_read = 0;
     uint8_t response = 0;
 
     MEM(USB_COMMAND) = CH376S_CMD_SET_FILENAME;
@@ -80,7 +81,8 @@ void file_read(char *file_name, uint8_t *buffer)
 
                     for (int i = 0; i < bytes_available; i++)
                     {
-                        serial_putc(MEM(USB_DATA));
+                        buffer[total_bytes_read] = MEM(USB_DATA);
+                        total_bytes_read++;
                     }
 
                     MEM(USB_COMMAND) = CH376S_CMD_BYTE_RD_GO;
@@ -104,6 +106,8 @@ void file_read(char *file_name, uint8_t *buffer)
     MEM(USB_DATA) = 0;
 
     wait_for_interrupt();
+
+    return total_bytes_read;
 }
 
 int main()
@@ -121,10 +125,16 @@ int main()
 
     uint8_t response = MEM(USB_DATA);
 
+    uint8_t buffer[20000] = {0};
+
     printf("host mode: %02X\r\n", response);
 
     printf("why\r\n");
-    file_read("WHY.TXT", NULL);
+    size_t file_size = file_read("WHY.TXT", buffer);
+
+    printf("Read %d bytes\r\n", file_size);
+
+    serial_puts(buffer);
 
     return 0;
 }
