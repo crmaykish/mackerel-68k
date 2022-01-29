@@ -45,11 +45,11 @@ size_t file_read(char *file_name, uint8_t *buffer)
     send_string(file_name);
 
     response = MEM(USB_DATA);
-    // printf("set filename: %02X\r\n", response);
+    printf("set filename: %02X\r\n", response);
 
     MEM(USB_COMMAND) = CH376S_CMD_FILE_OPEN;
     response = wait_for_interrupt();
-    // printf("open file: %02X\r\n", response);
+    printf("open file: %02X\r\n", response);
 
     if (response == CH376S_USB_INT_SUCCESS)
     {
@@ -102,6 +102,9 @@ size_t file_read(char *file_name, uint8_t *buffer)
         }
     }
 
+    // Zero-terminate the buffer (in case it's used as a string)
+    buffer[total_bytes_read] = 0;
+
     MEM(USB_COMMAND) = CH376S_CMD_FILE_CLOSE;
     MEM(USB_DATA) = 0;
 
@@ -110,30 +113,28 @@ size_t file_read(char *file_name, uint8_t *buffer)
     return total_bytes_read;
 }
 
+void usb_reset()
+{
+    MEM(USB_COMMAND) = CH376S_CMD_RESET_ALL;
+    delay(20000);
+    MEM(USB_COMMAND) = CH376S_CMD_SET_MODE;
+    MEM(USB_DATA) = CH376S_USB_HOST_MODE;
+    delay(10000);
+
+    uint8_t response = MEM(USB_DATA);
+    printf("host mode: %02X\r\n", response);
+}
+
 int main()
 {
     printf("Hello from Mackerel. Here are some numbers %d %04X\r\n", 99, 0xBEEF);
 
-    MEM(USB_COMMAND) = CH376S_CMD_RESET_ALL;
+    uint8_t buffer[200000] = {0};
 
-    delay(20000);
+    usb_reset();
 
-    MEM(USB_COMMAND) = CH376S_CMD_SET_MODE;
-    MEM(USB_DATA) = 0x05;
-
-    delay(10000);
-
-    uint8_t response = MEM(USB_DATA);
-
-    uint8_t buffer[20000] = {0};
-
-    printf("host mode: %02X\r\n", response);
-
-    printf("why\r\n");
-    size_t file_size = file_read("WHY.TXT", buffer);
-
-    printf("Read %d bytes\r\n", file_size);
-
+    size_t file_size = file_read("HACKING.TXT", buffer);
+    printf("Read %ld bytes\r\n", file_size);
     serial_puts(buffer);
 
     return 0;
