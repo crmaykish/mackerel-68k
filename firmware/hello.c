@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "mackerel.h"
 #include "ch376s.h"
@@ -129,25 +130,40 @@ int main()
 {
     printf("Hello from Mackerel. Here are some numbers %d %04X\r\n", 99, 0xBEEF);
 
-    uint8_t i = 1;
+    char buffer[50] = {0};
+    bool exit = false;
 
-    uint8_t buffer[200000] = {0};
-
-    usb_reset();
-
-    size_t file_size = file_read("APPLE2.TXT", buffer);
-    printf("Read %ld bytes\r\n", file_size);
-    serial_puts((char *)buffer);
-
-    MEM(MFP_DDR) = 0xFF;
+    char i = 'A';
 
     while (1)
     {
         MEM(MFP_GPDR) = i;
+
+        mfp_putc(i);
+
         i++;
 
-        delay(1000);
+        // delay(1000);
+
+        if (i > 'Z')
+        {
+            i = 'A';
+
+            mfp_puts("\r\n");
+        }
     }
+
+    // while (!exit)
+    // {
+    //     mfp_readline(buffer);
+
+    //     printf("You wrote: %s\r\n", buffer);
+
+    //     if (strncmp(buffer, "exit", 4) == 0)
+    //     {
+    //         exit = true;
+    //     }
+    // }
 
     return 0;
 }

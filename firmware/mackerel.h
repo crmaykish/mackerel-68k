@@ -18,19 +18,28 @@
 
 // MC68901 Multi-function Peripheral
 
-#define MFP_GPDR 0x18000
-#define MFP_DDR 0x18002
+#define MFP_GPDR 0x18001
+#define MFP_DDR 0x18005
+#define MFP_UCR 0x18029 // USART Control Register
+#define MFP_RSR 0x1802B // USART Receiver Status Register
+#define MFP_TSR 0x1802D // USART Transmitter Status Register
+#define MFP_UDR 0x1802F // USART Data Register
 
 // Get a pointer to a memory address
 #define MEM(address) (*(volatile unsigned char *)(address))
 
-// Hardware Setup
-void serial_init();
-
 // Serial port
+void serial_init();
 void serial_putc(char a);
 void serial_puts(const char *s);
 char serial_getc();
 void serial_readline(char *buffer);
+
+// MFP
+void mfp_init();
+void mfp_putc(char s);
+void mfp_puts(const char *s);
+char mfp_getc();
+void mfp_readline(char *buffer);
 
 #endif

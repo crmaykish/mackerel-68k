@@ -62,3 +62,64 @@ void serial_readline(char *buffer)
 
     buffer[count] = 0;
 }
+
+void mfp_init()
+{
+    MEM(MFP_DDR) = 0xFF;       // Set GPIO direction to output
+    MEM(MFP_UCR) = 0b10001000; // 1/16 clock, 8 data, 1 stop bit, no parity
+    MEM(MFP_TSR) = 1;          // Enable transmitter
+    MEM(MFP_RSR) = 1;          // Enable receiver
+
+    // char w = MEM(MFP_UCR);
+}
+
+void mfp_putc(char s)
+{
+    while ((MEM(MFP_TSR) & 0b10000000) == 0)
+    {
+    }
+
+    MEM(MFP_UDR) = s;
+}
+
+void mfp_puts(const char *s)
+{
+    unsigned i = 0;
+
+    while (s[i] != 0)
+    {
+        mfp_putc(s[i]);
+        i++;
+    }
+}
+
+char mfp_getc()
+{
+    while ((MEM(MFP_RSR) & 0b10000000) == 0)
+    {
+    }
+
+    return MEM(MFP_UDR);
+}
+
+void mfp_readline(char *buffer)
+{
+    int count = 0;
+    char in = mfp_getc();
+
+    while (in != '\n' && in != '\r')
+    {
+        // Character is printable ASCII
+        if (in >= 0x20 && in < 0x7F)
+        {
+            mfp_putc(in);
+
+            buffer[count] = in;
+            count++;
+        }
+
+        in = mfp_getc();
+    }
+
+    buffer[count] = 0;
+}

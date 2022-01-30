@@ -8,6 +8,7 @@ void _start()
 
     // Setup the hardware peripherals
     serial_init();
+    mfp_init();
 
     // Call main
     main();
