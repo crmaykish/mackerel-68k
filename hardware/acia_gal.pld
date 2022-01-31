@@ -11,7 +11,7 @@ CLK2 = CLK
 /USBEN = RW * /A19 * /A18 * /A17 * A16 * /A15 * A14 * /AS
        + /RW * /A19 * /A18 * /A17 * A16 * /A15 * A14 * /AS * /DS
 
-/MFPEN = /A19 * /A18 * /A17 * A16 * A15 * /A14 * /AS
+/MFPEN = /A19 * /A18 * /A17 * A16 * A15 * /A14
 
 DESCRIPTION
 ACIA decoder

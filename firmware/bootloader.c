@@ -1,3 +1,4 @@
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -9,20 +10,21 @@
 uint8_t readline(char *buffer);
 void handler_run();
 void handler_load();
+void handler_print();
 void command_not_found(char *command);
 
 char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    serial_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
+    mfp_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
 
     while (true)
     {
         // Present the command prompt and wait for input
-        serial_puts("> ");
+        mfp_puts("> ");
         readline(buffer);
-        serial_puts("\r\n");
+        mfp_puts("\r\n");
 
         if (strncmp(buffer, "load", 4) == 0)
         {
@@ -32,20 +34,29 @@ int main()
         {
             handler_run();
         }
+        else if (strncmp(buffer, "print", 5) == 0)
+        {
+            handler_print();
+        }
         else
         {
             command_not_found(buffer);
         }
 
-        serial_puts("\r\n");
+        mfp_puts("\r\n");
     }
 
     return 0;
 }
 
+void handler_print()
+{
+    mfp_puts((char *)0x80000);
+}
+
 void handler_run()
 {
-    serial_puts("Run loaded program\r\n");
+    mfp_puts("Run loaded program\r\n");
     asm("jsr 0x80000");
 }
 
@@ -55,11 +66,11 @@ void handler_load()
     int magic_count = 0;
     uint8_t in = 0;
 
-    serial_puts("Loading from serial...\r\n");
+    mfp_puts("Loading from serial...\r\n");
 
     while (magic_count != 3)
     {
-        in = serial_getc();
+        in = mfp_getc();
 
         MEM(0x80000 + in_count) = in;
 
@@ -75,32 +86,34 @@ void handler_load()
         in_count++;
     }
 
-    serial_puts("Done!");
+    MEM(0x80000 + in_count - 3) = 0;
+
+    mfp_puts("Done!");
 }
 
 void command_not_found(char *command_name)
 {
-    serial_puts("Command not found: ");
-    serial_puts(command_name);
+    mfp_puts("Command not found: ");
+    mfp_puts(command_name);
 }
 
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = serial_getc();
+    uint8_t in = mfp_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            serial_putc(in);
+            mfp_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = serial_getc();
+        in = mfp_getc();
     }
 
     buffer[count] = 0;

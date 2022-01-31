@@ -33,13 +33,11 @@ void serial_init();
 void serial_putc(char a);
 void serial_puts(const char *s);
 char serial_getc();
-void serial_readline(char *buffer);
 
 // MFP
 void mfp_init();
 void mfp_putc(char s);
 void mfp_puts(const char *s);
 char mfp_getc();
-void mfp_readline(char *buffer);
 
 #endif
