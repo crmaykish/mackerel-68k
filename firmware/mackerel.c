@@ -44,7 +44,11 @@ char serial_getc()
 void mfp_init()
 {
     MEM(MFP_DDR) = 0xFF;       // Set GPIO direction to output
-    MEM(MFP_UCR) = 0b10001000; // 1/16 clock, 8 data, 1 stop bit, no parity
+
+    MEM(MFP_TACR) = 0b00010001; // timer A enabled, delay mode, /4 prescalar
+    MEM(MFP_TADR) = 2;          // 115.2 kHz square wave on timer A
+
+    MEM(MFP_UCR) = 0b00001000; // UART uses 1/1 clock rate, 8 data, 1 stop bit, no parity
     MEM(MFP_TSR) = 1;          // Enable transmitter
     MEM(MFP_RSR) = 1;          // Enable receiver
 }

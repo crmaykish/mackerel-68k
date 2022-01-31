@@ -6,7 +6,7 @@ void write(int file, char *s, int len)
 {
     for (int i = 0; i < len; i++)
     {
-        mfp_putc(s[i]);
+        serial_putc(s[i]);
     }
 }
 

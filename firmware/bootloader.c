@@ -17,14 +17,14 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    mfp_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
+    serial_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
 
     while (true)
     {
         // Present the command prompt and wait for input
-        mfp_puts("> ");
+        serial_puts("> ");
         readline(buffer);
-        mfp_puts("\r\n");
+        serial_puts("\r\n");
 
         if (strncmp(buffer, "load", 4) == 0)
         {
@@ -43,7 +43,7 @@ int main()
             command_not_found(buffer);
         }
 
-        mfp_puts("\r\n");
+        serial_puts("\r\n");
     }
 
     return 0;
@@ -51,12 +51,12 @@ int main()
 
 void handler_print()
 {
-    mfp_puts((char *)0x80000);
+    serial_puts((char *)0x80000);
 }
 
 void handler_run()
 {
-    mfp_puts("Run loaded program\r\n");
+    serial_puts("Run loaded program\r\n");
     asm("jsr 0x80000");
 }
 
@@ -66,11 +66,11 @@ void handler_load()
     int magic_count = 0;
     uint8_t in = 0;
 
-    mfp_puts("Loading from serial...\r\n");
+    serial_puts("Loading from serial...\r\n");
 
     while (magic_count != 3)
     {
-        in = mfp_getc();
+        in = serial_getc();
 
         MEM(0x80000 + in_count) = in;
 
@@ -88,32 +88,32 @@ void handler_load()
 
     MEM(0x80000 + in_count - 3) = 0;
 
-    mfp_puts("Done!");
+    serial_puts("Done!");
 }
 
 void command_not_found(char *command_name)
 {
-    mfp_puts("Command not found: ");
-    mfp_puts(command_name);
+    serial_puts("Command not found: ");
+    serial_puts(command_name);
 }
 
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = mfp_getc();
+    uint8_t in = serial_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            mfp_putc(in);
+            serial_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = mfp_getc();
+        in = serial_getc();
     }
 
     buffer[count] = 0;
