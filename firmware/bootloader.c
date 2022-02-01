@@ -66,6 +66,8 @@ void handler_load()
     int magic_count = 0;
     uint8_t in = 0;
 
+    MEM(MFP_GPDR) = 0x01;
+
     serial_puts("Loading from serial...\r\n");
 
     while (magic_count != 3)
@@ -87,6 +89,8 @@ void handler_load()
     }
 
     MEM(0x80000 + in_count - 3) = 0;
+
+    MEM(MFP_GPDR) = 0xF0;
 
     serial_puts("Done!");
 }
