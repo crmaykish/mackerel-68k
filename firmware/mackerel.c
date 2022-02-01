@@ -4,7 +4,7 @@ void serial_init()
 {
     MEM(ACIA_STATUS) = 0;
     MEM(ACIA_COMMAND) = 0x0B;
-    MEM(ACIA_CONTROL) = 0b00011110; // 9600 baud
+    MEM(ACIA_CONTROL) = 0b00010000; // 1/16 oscillator
 }
 
 void serial_putc(char a)
@@ -45,7 +45,7 @@ void mfp_init()
 {
     MEM(MFP_DDR) = 0xFF;        // Set GPIO direction to output
     MEM(MFP_TACR) = 0b00010001; // timer A enabled, delay mode, /4 prescalar
-    MEM(MFP_TADR) = 12;          // 19.2 kHz square wave on timer A
+    MEM(MFP_TADR) = 24;         // 19.2 kHz square wave on timer A (with 3.6864 MHz oscillator)
 }
 
 void mfp_putc(char s)

@@ -7,7 +7,7 @@ MEMORY_MAP_ROM = linker_rom.scr
 MEMORY_MAP_RAM = linker_ram.scr
 
 COMMON_OBJS_ROM = vectors.o start.o glue.o mackerel.o
-COMMON_OBJS_RAM = start.o glue.o mackerel.o
+COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
 BINS = bootloader.bin hello.bin
 

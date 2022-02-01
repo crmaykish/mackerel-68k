@@ -130,40 +130,14 @@ int main()
 {
     printf("Hello from Mackerel. Here are some numbers %d %04X\r\n", 99, 0xBEEF);
 
-    char buffer[50] = {0};
-    bool exit = false;
-
-    char i = 'A';
+    uint8_t i = 0;
 
     while (1)
     {
         MEM(MFP_GPDR) = i;
-
-        mfp_putc(i);
-
         i++;
-
-        // delay(1000);
-
-        if (i > 'Z')
-        {
-            i = 'A';
-
-            mfp_puts("\r\n");
-        }
+        delay(1000);
     }
-
-    // while (!exit)
-    // {
-    //     mfp_readline(buffer);
-
-    //     printf("You wrote: %s\r\n", buffer);
-
-    //     if (strncmp(buffer, "exit", 4) == 0)
-    //     {
-    //         exit = true;
-    //     }
-    // }
 
     return 0;
 }
