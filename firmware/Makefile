@@ -9,7 +9,7 @@ MEMORY_MAP_RAM = linker_ram.scr
 COMMON_OBJS_ROM = vectors.o start.o glue.o mackerel.o
 COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
-BINS = bootloader.bin hello.bin
+BINS = bootloader.bin hello.bin kernel.bin
 
 .SECONDARY: bootloader.elf hello.elf
 
@@ -24,10 +24,13 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o ch376s.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o 
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+
+kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 clean:

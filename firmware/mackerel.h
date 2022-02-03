@@ -47,4 +47,6 @@ void mfp_putc(char s);
 void mfp_puts(const char *s);
 char mfp_getc();
 
+void delay(int time);
+
 #endif

@@ -52,14 +52,8 @@
 // Mode values
 #define CH376S_USB_HOST_MODE 0x05
 
-// void ch376s_init();
-// void ch376s_send_command(uint8_t command);
-// void ch376s_send_byte(uint8_t b);
-// void ch376s_send_string(char *s);
-// uint8_t ch376s_get_byte();
+uint8_t usb_reset();
 
-// size_t ch376s_file_read(char *filename, uint8_t *buffer, size_t max_length);
-
-// void ch376s_file_list();
+size_t file_read(char *file_name, uint8_t *buffer);
 
 #endif

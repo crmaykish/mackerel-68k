@@ -81,3 +81,9 @@ char mfp_getc()
 
     return MEM(MFP_UDR);
 }
+
+void delay(int time)
+{
+    for (int delay = 0; delay < time; delay++)
+        __asm__ __volatile__("");
+}

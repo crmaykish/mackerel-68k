@@ -4,12 +4,14 @@
 #include <string.h>
 
 #include "mackerel.h"
+#include "ch376s.h"
 
 #define INPUT_BUFFER_SIZE 32
 
 uint8_t readline(char *buffer);
 void handler_run();
 void handler_load();
+void handler_boot();
 void handler_print();
 void command_not_found(char *command);
 
@@ -37,6 +39,10 @@ int main()
         else if (strncmp(buffer, "print", 5) == 0)
         {
             handler_print();
+        }
+        else if (strncmp(buffer, "boot", 4) == 0)
+        {
+            handler_boot();
         }
         else
         {
@@ -93,6 +99,29 @@ void handler_load()
     MEM(MFP_GPDR) = 0xF0;
 
     serial_puts("Done!");
+}
+
+void handler_boot()
+{
+    serial_puts("Booting from USB...\r\n");
+
+    if (usb_reset() != CH376S_CMD_RET_SUCCESS)
+    {
+        serial_puts("Failed to reset USB module\r\n");
+        return;
+    }
+
+    size_t kernel_size = file_read("KERNEL.BIN", (uint8_t *)0x80000);
+
+    if (kernel_size == 0)
+    {
+        serial_puts("Failed to load kernel file.\r\n");
+        return;
+    }
+
+    serial_puts("Kernel loaded at 0x80000\r\n");
+
+    asm("jsr 0x80000");
 }
 
 void command_not_found(char *command_name)
