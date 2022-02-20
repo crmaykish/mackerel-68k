@@ -7,7 +7,7 @@ void _start()
     // TODO: Setup .bss and .data sections correctly in RAM
 
     // Setup the hardware peripherals
-    serial_init();
+    // serial_init();
     mfp_init();
 
     // Call main

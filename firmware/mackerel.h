@@ -18,19 +18,19 @@
 
 // MC68901 Multi-function Peripheral
 
-#define MFP_GPDR 0x18001
-#define MFP_DDR 0x18005
-#define MFP_TACR 0x18019
-#define MFP_TBCR 0x1801B
-#define MFP_TCDCR 0x1801D
-#define MFP_TADR 0x1801F
-#define MFP_TBDR 0x18021
-#define MFP_TCDR 0x18023
-#define MFP_TDDR 0x18015
-#define MFP_UCR 0x18029 // USART Control Register
-#define MFP_RSR 0x1802B // USART Receiver Status Register
-#define MFP_TSR 0x1802D // USART Transmitter Status Register
-#define MFP_UDR 0x1802F // USART Data Register
+#define MFP_GPDR 0x8001
+#define MFP_DDR 0x8005
+#define MFP_TACR 0x8019
+#define MFP_TBCR 0x801B
+#define MFP_TCDCR 0x801D
+#define MFP_TADR 0x801F
+#define MFP_TBDR 0x8021
+#define MFP_TCDR 0x8023
+#define MFP_TDDR 0x8015
+#define MFP_UCR 0x8029 // USART Control Register
+#define MFP_RSR 0x802B // USART Receiver Status Register
+#define MFP_TSR 0x802D // USART Transmitter Status Register
+#define MFP_UDR 0x802F // USART Data Register
 
 // Get a pointer to a memory address
 #define MEM(address) (*(volatile unsigned char *)(address))

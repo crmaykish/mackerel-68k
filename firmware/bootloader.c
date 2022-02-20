@@ -19,38 +19,47 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    serial_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
-
+    int a = 0;
     while (true)
     {
-        // Present the command prompt and wait for input
-        serial_puts("> ");
-        readline(buffer);
-        serial_puts("\r\n");
+        MEM(MFP_GPDR) = a;
+        a += 1;
 
-        if (strncmp(buffer, "load", 4) == 0)
-        {
-            handler_load();
-        }
-        else if (strncmp(buffer, "run", 3) == 0)
-        {
-            handler_run();
-        }
-        else if (strncmp(buffer, "print", 5) == 0)
-        {
-            handler_print();
-        }
-        else if (strncmp(buffer, "boot", 4) == 0)
-        {
-            handler_boot();
-        }
-        else
-        {
-            command_not_found(buffer);
-        }
-
-        serial_puts("\r\n");
+        delay(1000);
     }
+
+    // serial_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
+
+    // while (true)
+    // {
+    //     // Present the command prompt and wait for input
+    //     serial_puts("> ");
+    //     readline(buffer);
+    //     serial_puts("\r\n");
+
+    //     if (strncmp(buffer, "load", 4) == 0)
+    //     {
+    //         handler_load();
+    //     }
+    //     else if (strncmp(buffer, "run", 3) == 0)
+    //     {
+    //         handler_run();
+    //     }
+    //     else if (strncmp(buffer, "print", 5) == 0)
+    //     {
+    //         handler_print();
+    //     }
+    //     else if (strncmp(buffer, "boot", 4) == 0)
+    //     {
+    //         handler_boot();
+    //     }
+    //     else
+    //     {
+    //         command_not_found(buffer);
+    //     }
+
+    //     serial_puts("\r\n");
+    // }
 
     return 0;
 }
