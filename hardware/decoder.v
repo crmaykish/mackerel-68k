@@ -18,8 +18,8 @@ module mackerel_decoder(
 	always @(posedge CLK_SRC) clock_counter <= clock_counter + 1'b1;
 	assign CLK_GEN = clock_counter[3];
 	
-	reg [3:0] bus_cycles = 0;
 	
+	reg [3:0] bus_cycles = 0;
 	reg got_cycle = 1'b0;
 	
 	always @(posedge CLK_GEN) begin
@@ -43,16 +43,17 @@ module mackerel_decoder(
 		end
 	end
 	
-	// 0x0000
-	assign ROMEN = ~(~AS & ~ADDR[21] & ~ADDR[20] & ~ADDR[19] & ~ADDR[18] & ~ADDR[17] & ~ADDR[16] & ~ADDR[15]);
+	// 0x3F8000
+	assign ROMEN = ~(~AS & (~BOOT | (ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ADDR[15])));
 	
-	// 0x8000
-	assign MFPEN = ~(~ADDR[21] & ~ADDR[20] & ~ADDR[19] & ~ADDR[18] & ~ADDR[17] & ~ADDR[16] & ADDR[15]);
+	// 0x3F0000
+	assign MFPEN = ~(ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ~ADDR[15]);
 	
-	// 0x380000
-	assign RAMEN0 = ~(~AS & ADDR[21] & ADDR[20] & ADDR[19]);
+	// 0x000000
+	assign RAMEN0 = ~(~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
+	
 	assign RAMEN1 = 1'b1;
 	assign RAMEN2 = 1'b1;
-	assign RAMEN3 = BOOT;
+	assign RAMEN3 = 1'b1;
 	
 endmodule
