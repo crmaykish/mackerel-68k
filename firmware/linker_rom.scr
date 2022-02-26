@@ -7,7 +7,7 @@ MEMORY
 SECTIONS
 {
 	.vectors 0x3F8000 : { *(.vectors) } > ROM
-	.text 0x3F8400 : { *(.text) } > ROM
+	.text : { *(.text) } > ROM
 	.rodata : { *(.rodata) } > ROM
 	.bss 0x000400 : { *(.bss) } > RAM
 }

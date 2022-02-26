@@ -1,19 +1,11 @@
 #ifndef _MACKEREL_H
 #define _MACKEREL_H
 
+#include <stdbool.h>
+
 #define RAM_START 0x000000
 #define ROM_START 0x3F8000
-#define VECTOR_TABLE_SIZE 0x400
-
-// 65C51 ACIA
-
-#define ACIA_DATA 0x10000
-#define ACIA_STATUS 0x10001
-#define ACIA_COMMAND 0x10002
-#define ACIA_CONTROL 0x10003
-
-#define ACIA_TX_READY 0x10
-#define ACIA_RX_READY 0x08
+#define VECTOR_TABLE_SIZE 0x100
 
 // CH376S USB Module
 
@@ -44,14 +36,11 @@
 // Get the value at a memory address
 #define MEM(address) (*(volatile unsigned char *)(address))
 
-// Get a pointer to a memory address
-#define PTR(address) ((unsigned char *)(address))
+// Enable/disable CPU interrupts
+void set_interrupts(bool enabled);
 
-// Serial port
-void serial_init();
-void serial_putc(char a);
-void serial_puts(const char *s);
-char serial_getc();
+// Assign a handler function to an exception number (0x00 - 0xFF)
+void set_exception_handler(unsigned char exception_number, void (*exception_handler)());
 
 // MFP
 void mfp_init();
