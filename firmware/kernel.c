@@ -11,7 +11,8 @@ int main()
 
     while (true)
     {
-        delay(10000);
+        delay(1000);
+        MEM(MFP_GPDR) = (unsigned char)(i & 0xFF);
         printf("kernel tick %d\r\n", i);
         i++;
     }
