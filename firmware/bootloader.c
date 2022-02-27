@@ -57,13 +57,13 @@ int main()
 
 void handler_print()
 {
-    mfp_puts((char *)0x40000);
+    mfp_puts((char *)0x8000);
 }
 
 void handler_run()
 {
     mfp_puts("Run loaded program\r\n");
-    asm("jsr 0x40000");
+    asm("jsr 0x8000");
 }
 
 void handler_load()
@@ -78,7 +78,7 @@ void handler_load()
     {
         in = mfp_getc();
 
-        MEM(0x40000 + in_count) = in;
+        MEM(0x8000 + in_count) = in;
 
         if (in == 0xDE)
         {
@@ -92,7 +92,7 @@ void handler_load()
         in_count++;
     }
 
-    MEM(0x40000 + in_count - 3) = 0;
+    MEM(0x8000 + in_count - 3) = 0;
 
     mfp_puts("Done!");
 }
@@ -107,7 +107,7 @@ void handler_boot()
         return;
     }
 
-    size_t kernel_size = file_read("KERNEL.BIN", (uint8_t *)0x40000);
+    size_t kernel_size = file_read("KERNEL.BIN", (uint8_t *)0x8000);
 
     if (kernel_size == 0)
     {
@@ -115,9 +115,9 @@ void handler_boot()
         return;
     }
 
-    mfp_puts("Kernel loaded at 0x40000\r\n");
+    mfp_puts("Kernel loaded at 0x8000\r\n");
 
-    asm("jsr 0x40000");
+    asm("jsr 0x8000");
 }
 
 void command_not_found(char *command_name)

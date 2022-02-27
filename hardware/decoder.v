@@ -63,10 +63,12 @@ module mackerel_decoder(
 	// 512KB SRAM at 0x000000
 	assign RAMEN0 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
 	
-	// 512 SRAM at 0x080000
+	// 512KB SRAM at 0x080000
 	assign RAMEN1 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ADDR[19]);
 	
-	assign RAMEN2 = 1'b1;
+	// 512KB SRAM at 0x100000
+	assign RAMEN2 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ADDR[20] & ~ADDR[19]);
+	
 	assign RAMEN3 = 1'b1;
 	
 	// Generate DTACK signal
