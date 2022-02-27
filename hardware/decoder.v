@@ -60,10 +60,12 @@ module mackerel_decoder(
 	// 0x3F0000
 	assign MFPEN = ~(ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ~ADDR[15]);
 	
-	// 0x000000
+	// 512KB SRAM at 0x000000
 	assign RAMEN0 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
 	
-	assign RAMEN1 = 1'b1;
+	// 512 SRAM at 0x080000
+	assign RAMEN1 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ADDR[19]);
+	
 	assign RAMEN2 = 1'b1;
 	assign RAMEN3 = 1'b1;
 	
