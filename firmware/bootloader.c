@@ -107,15 +107,19 @@ void handler_boot()
         return;
     }
 
-    size_t kernel_size = file_read("KERNEL.BIN", (uint8_t *)0x8000);
+    size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x8000);
+
+    mfp_puts("\r\n");
 
     if (kernel_size == 0)
     {
-        mfp_puts("Failed to load kernel file.\r\n");
+        mfp_puts("Failed to load image file.\r\n");
         return;
     }
 
-    mfp_puts("Kernel loaded at 0x8000\r\n");
+    mfp_puts("Image loaded at 0x8000\r\n");
+
+    mfp_puts("Booting image...\r\n");
 
     asm("jsr 0x8000");
 }

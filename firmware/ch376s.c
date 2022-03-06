@@ -100,6 +100,8 @@ size_t file_read(char *file_name, uint8_t *buffer)
                     file_done = true;
                 }
             }
+
+            mfp_putc('.');
         }
     }
 

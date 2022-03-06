@@ -9,8 +9,8 @@
 
 // CH376S USB Module
 
-#define USB_DATA 0x14000
-#define USB_COMMAND 0x14001
+#define USB_DATA 0x3E8000
+#define USB_COMMAND 0x3E8001
 
 // MC68901 Multi-function Peripheral
 

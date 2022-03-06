@@ -13,6 +13,7 @@ module mackerel_decoder(
 	output RAMEN2,
 	output RAMEN3,        
 	output MFPEN,
+	output USBEN,
 	output DTACK,
 	output IACK
 );
@@ -59,6 +60,9 @@ module mackerel_decoder(
 	
 	// 0x3F0000
 	assign MFPEN = ~(ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ~ADDR[15]);
+	
+	// 0x3E8000
+	assign USBEN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ADDR[15]);
 	
 	// 512KB SRAM at 0x000000
 	assign RAMEN0 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
