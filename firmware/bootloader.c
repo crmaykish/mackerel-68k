@@ -12,7 +12,6 @@ uint8_t readline(char *buffer);
 void handler_run();
 void handler_load();
 void handler_boot();
-void handler_print();
 void handler_zero();
 void handler_memtest();
 void command_not_found(char *command);
@@ -38,10 +37,6 @@ int main()
         {
             handler_run();
         }
-        else if (strncmp(buffer, "print", 5) == 0)
-        {
-            handler_print();
-        }
         else if (strncmp(buffer, "boot", 4) == 0)
         {
             handler_boot();
@@ -63,11 +58,6 @@ int main()
     }
 
     return 0;
-}
-
-void handler_print()
-{
-    mfp_puts((char *)0x400);
 }
 
 void handler_run()

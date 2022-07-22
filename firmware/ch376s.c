@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "ch376s.h"
 #include "mackerel.h"
 
@@ -104,9 +105,6 @@ size_t file_read(char *file_name, uint8_t *buffer)
             mfp_putc('.');
         }
     }
-
-    // Zero-terminate the buffer (in case it's used as a string)
-    buffer[total_bytes_read] = 0;
 
     MEM(USB_COMMAND) = CH376S_CMD_FILE_CLOSE;
     MEM(USB_DATA) = 0;
