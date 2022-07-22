@@ -1,11 +1,11 @@
 MEMORY
 {
-	RAM(RWX) : ORIGIN = 0x008000, LENGTH = 2040K
+	RAM(RWX) : ORIGIN = 0x0, LENGTH = 2048K
 }
 
 SECTIONS
 {
-	.text : { *(.text) } > RAM
+	.text 0x000400 : { *(.text) } > RAM
 	.rodata : { *(.rodata) } > RAM
 	.bss : { *(.bss) } > RAM
 }

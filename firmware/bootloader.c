@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -13,6 +13,8 @@ void handler_run();
 void handler_load();
 void handler_boot();
 void handler_print();
+void handler_zero();
+void handler_memtest();
 void command_not_found(char *command);
 
 char buffer[INPUT_BUFFER_SIZE];
@@ -44,6 +46,14 @@ int main()
         {
             handler_boot();
         }
+        else if (strncmp(buffer, "zero", 4) == 0)
+        {
+            handler_zero();
+        }
+        else if (strncmp(buffer, "memtest", 6) == 0)
+        {
+            handler_memtest();
+        }
         else
         {
             command_not_found(buffer);
@@ -57,13 +67,13 @@ int main()
 
 void handler_print()
 {
-    mfp_puts((char *)0x8000);
+    mfp_puts((char *)0x400);
 }
 
 void handler_run()
 {
-    mfp_puts("Run loaded program\r\n");
-    asm("jsr 0x8000");
+    mfp_puts("Jumping to 0x400\r\n");
+    asm("jsr 0x400");
 }
 
 void handler_load()
@@ -78,7 +88,7 @@ void handler_load()
     {
         in = mfp_getc();
 
-        MEM(0x8000 + in_count) = in;
+        MEM(0x400 + in_count) = in;
 
         if (in == 0xDE)
         {
@@ -92,14 +102,15 @@ void handler_load()
         in_count++;
     }
 
-    MEM(0x8000 + in_count - 3) = 0;
+    MEM(0x400 + in_count - 3) = 0;
 
     mfp_puts("Done!");
 }
 
+// Load a kernel image into RAM at 0x00, then jump to 0x400
 void handler_boot()
 {
-    mfp_puts("Booting from USB...\r\n");
+    mfp_puts("Copying IMAGE.BIN from USB drive...\r\n");
 
     if (usb_reset() != CH376S_CMD_RET_SUCCESS)
     {
@@ -107,7 +118,7 @@ void handler_boot()
         return;
     }
 
-    size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x8000);
+    size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x400);
 
     mfp_puts("\r\n");
 
@@ -117,11 +128,50 @@ void handler_boot()
         return;
     }
 
-    mfp_puts("Image loaded at 0x8000\r\n");
+    mfp_puts("\r\nKernel image loaded\r\n");
 
-    mfp_puts("Booting image...\r\n");
+    mfp_puts("Jumping to 0x400\r\n");
 
-    asm("jsr 0x8000");
+    asm("jsr 0x400");
+}
+
+void handler_zero()
+{
+    mfp_puts("Erasing RAM... ");
+    memset((void *)VECTOR_TABLE_SIZE, 0, BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE);
+    mfp_puts("Done!");
+}
+
+void handler_memtest()
+{
+    mfp_puts("Starting RAM test...\r\n");
+
+    int start = VECTOR_TABLE_SIZE;
+    int end = BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE;
+    uint8_t val = 0xAA;
+
+    mfp_puts("Setting RAM values to 0xAA...\r\n");
+
+    memset((void *)start, val, end);
+
+    mfp_puts("Checking for write errors... (this will take a while)\r\n");
+
+    for (int i = start; i < end; i++)
+    {
+        if (MEM(i) != val)
+        {
+            printf("MEM ERROR AT: %06X, value: %02X\r\n", i, MEM(i));
+        }
+
+        MEM(MFP_GPDR) = (i & 0xFF);
+    }
+
+    MEM(MFP_GPDR) = 0;
+
+    mfp_puts("Zeroing out RAM...\r\n");
+    memset((void *)start, 0, end);
+
+    mfp_puts("Done!");
 }
 
 void command_not_found(char *command_name)
