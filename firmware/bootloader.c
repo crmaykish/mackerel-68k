@@ -62,8 +62,8 @@ int main()
 
 void handler_run()
 {
-    mfp_puts("Jumping to 0x400\r\n");
-    asm("jsr 0x400");
+    mfp_puts("Jumping to 0x8000\r\n");
+    asm("jsr 0x8000");
 }
 
 void handler_load()
@@ -78,7 +78,7 @@ void handler_load()
     {
         in = mfp_getc();
 
-        MEM(0x400 + in_count) = in;
+        MEM(0x8000 + in_count) = in;
 
         if (in == 0xDE)
         {
@@ -92,12 +92,12 @@ void handler_load()
         in_count++;
     }
 
-    MEM(0x400 + in_count - 3) = 0;
+    MEM(0x8000 + in_count - 3) = 0;
 
     mfp_puts("Done!");
 }
 
-// Load a kernel image into RAM at 0x00, then jump to 0x400
+// Load a kernel image into RAM at 0x00, then jump to 0x8000
 void handler_boot()
 {
     mfp_puts("Copying IMAGE.BIN from USB drive...\r\n");
@@ -108,7 +108,7 @@ void handler_boot()
         return;
     }
 
-    size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x400);
+    size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x8000);
 
     mfp_puts("\r\n");
 
@@ -120,15 +120,15 @@ void handler_boot()
 
     mfp_puts("\r\nKernel image loaded\r\n");
 
-    mfp_puts("Jumping to 0x400\r\n");
+    mfp_puts("Jumping to 0x8000\r\n");
 
-    asm("jsr 0x400");
+    asm("jsr 0x8000");
 }
 
 void handler_zero()
 {
     mfp_puts("Erasing RAM... ");
-    memset((void *)VECTOR_TABLE_SIZE, 0, BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE);
+    memset((void *)0x8000, 0, BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE);
     mfp_puts("Done!");
 }
 
@@ -136,7 +136,7 @@ void handler_memtest()
 {
     mfp_puts("Starting RAM test...\r\n");
 
-    int start = VECTOR_TABLE_SIZE;
+    int start = 0x8000;
     int end = BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE;
     uint8_t val = 0xAA;
 
