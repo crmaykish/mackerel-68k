@@ -97,7 +97,7 @@ void handler_load()
     mfp_puts("Done!");
 }
 
-// Load a kernel image into RAM at 0x00, then jump to 0x8000
+// Load a kernel image into RAM, then jump to 0x8000
 void handler_boot()
 {
     mfp_puts("Copying IMAGE.BIN from USB drive...\r\n");
@@ -128,7 +128,7 @@ void handler_boot()
 void handler_zero()
 {
     mfp_puts("Erasing RAM... ");
-    memset((void *)0x8000, 0, BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE);
+    memset((void *)0x8000, 0, RAM_SIZE - 0x8000);
     mfp_puts("Done!");
 }
 
@@ -137,7 +137,7 @@ void handler_memtest()
     mfp_puts("Starting RAM test...\r\n");
 
     int start = 0x8000;
-    int end = BOOTLOADER_RAM_START - VECTOR_TABLE_SIZE;
+    int end = RAM_SIZE;
     uint8_t val = 0xAA;
 
     mfp_puts("Setting RAM values to 0xAA...\r\n");

@@ -3,15 +3,10 @@
 
 #include <stdbool.h>
 
-#define RAM_START 0x000000
 #define RAM_SIZE 0x200000
-
-#define BOOTLOADER_RAM_SIZE 0x8000
-#define BOOTLOADER_RAM_START (RAM_SIZE - BOOTLOADER_RAM_SIZE)
-
 #define ROM_START 0x3F8000
 
-#define VECTOR_TABLE_SIZE 0x100
+#define VECTOR_TABLE_SIZE 0x400
 
 // CH376S USB Module
 

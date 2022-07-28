@@ -1,7 +1,7 @@
 MEMORY
 {
   	ROM(RX) : ORIGIN = 0x3F8000, LENGTH = 32K
-	RAM(RWX) : ORIGIN = 0x1F8000, LENGTH = 32K
+	RAM(RWX) : ORIGIN = 0x00, LENGTH = 2K
 }
 
 SECTIONS
@@ -9,5 +9,5 @@ SECTIONS
 	.vectors 0x3F8000 : { *(.vectors) } > ROM
 	.text : { *(.text) } > ROM
 	.rodata : { *(.rodata) } > ROM
-	.bss 0x1F8000 : { *(.bss) } > RAM
+	.bss 0x400 : { *(.bss) } > RAM
 }
