@@ -2,14 +2,13 @@
 
 extern int main();
 
-// Something terrible has happened, stop everything and wait
 void panic(const char *err)
 {
     mfp_puts("\r\nPANIC: ");
     mfp_puts(err);
     mfp_puts("\r\n");
 
-    while(1) {}
+    // while(1) {}
 }
 
 void __attribute((interrupt)) exception_unhandled() { MEM(MFP_GPDR) = 0xAA; panic("Unhandled exception"); }
@@ -29,8 +28,6 @@ void __attribute((interrupt)) user_interrupt() { MEM(MFP_GPDR) = 64; panic("User
 
 void _start()
 {
-    // TODO: Setup .bss and .data sections correctly in RAM
-
     // Disable interrupts
     set_interrupts(false);
 

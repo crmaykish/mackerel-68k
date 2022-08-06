@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:jessie
 
 RUN apt-get update
 
@@ -18,12 +18,12 @@ ENV TARGET=m68k-elf
 ENV PATH="$PREFIX/bin:$PATH"
 
 # Download the build tools source
-RUN wget -q http://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.gz
+RUN wget -q http://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.bz2
 
 
 # Download and build binutils
-RUN tar xzf binutils-2.38.tar.gz
-WORKDIR binutils-2.38
+RUN tar xf binutils-2.25.tar.bz2
+WORKDIR binutils-2.25
 RUN mkdir build
 WORKDIR build
 RUN ../configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
@@ -33,9 +33,9 @@ RUN make install
 WORKDIR /home/mackerel/
 
 # Download and build gcc
-RUN wget -q http://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.gz
-RUN tar xvf gcc-11.3.0.tar.gz
-WORKDIR gcc-11.3.0
+RUN wget -q http://ftp.gnu.org/gnu/gcc/gcc-4.9.2/gcc-4.9.2.tar.bz2
+RUN tar xf gcc-4.9.2.tar.bz2
+WORKDIR gcc-4.9.2
 RUN mkdir build
 WORKDIR build
 RUN ../configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
@@ -45,3 +45,5 @@ RUN make install-gcc
 RUN make install-target-libgcc
 
 WORKDIR /home/mackerel/project/
+
+# TODO: build and install newlib for bare metal apps

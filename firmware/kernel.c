@@ -7,7 +7,7 @@ int main()
 {
     int i = 0;
 
-    printf("Starting kernel...\r\n");
+    printf("Starting kernel...%X\r\n", 0xDEADBEEF);
 
     while (true)
     {

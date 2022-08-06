@@ -3,9 +3,10 @@
 
 #include <stdbool.h>
 
+// Memory
+
 #define RAM_SIZE 0x200000
 #define ROM_START 0x3F8000
-
 #define VECTOR_TABLE_SIZE 0x400
 
 // CH376S USB Module

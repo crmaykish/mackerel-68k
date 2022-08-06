@@ -1,8 +1,6 @@
-#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-
 #include "mackerel.h"
 #include "ch376s.h"
 
@@ -13,8 +11,38 @@ void handler_run();
 void handler_load();
 void handler_boot();
 void handler_zero();
-void handler_memtest();
 void command_not_found(char *command);
+
+void print_string_bin(char *str, uint8_t max)
+{
+    uint8_t i = 0;
+
+    while (i < max)
+    {
+        if (str[i] >= 32 && str[i] < 127)
+        {
+            mfp_putc(str[i]);
+        }
+        else
+        {
+            mfp_putc('.');
+        }
+
+        i++;
+    }
+}
+
+void memdump(uint32_t address, uint32_t bytes)
+{
+    uint32_t i = 0;
+
+    while (i < bytes)
+    {
+        print_string_bin((char *)(address + i), 16);
+        mfp_puts("\r\n");
+        i+= 16;
+    }
+}
 
 char buffer[INPUT_BUFFER_SIZE];
 
@@ -45,9 +73,17 @@ int main()
         {
             handler_zero();
         }
-        else if (strncmp(buffer, "memtest", 6) == 0)
+        else if (strncmp(buffer, "prog", 4) == 0)
         {
-            handler_memtest();
+            memdump(0x8000, 0x1000);
+        }
+        else if (strncmp(buffer, "vectors", 7) == 0)
+        {
+            memdump(0, 0x400);
+        }
+        else if (strncmp(buffer, "stack", 5) == 0)
+        {
+            memdump(0x1FFFFF-0x100, 0x100);
         }
         else
         {
@@ -128,39 +164,7 @@ void handler_boot()
 void handler_zero()
 {
     mfp_puts("Erasing RAM... ");
-    memset((void *)0x8000, 0, RAM_SIZE - 0x8000);
-    mfp_puts("Done!");
-}
-
-void handler_memtest()
-{
-    mfp_puts("Starting RAM test...\r\n");
-
-    int start = 0x8000;
-    int end = RAM_SIZE;
-    uint8_t val = 0xAA;
-
-    mfp_puts("Setting RAM values to 0xAA...\r\n");
-
-    memset((void *)start, val, end);
-
-    mfp_puts("Checking for write errors... (this will take a while)\r\n");
-
-    for (int i = start; i < end; i++)
-    {
-        if (MEM(i) != val)
-        {
-            printf("MEM ERROR AT: %06X, value: %02X\r\n", i, MEM(i));
-        }
-
-        MEM(MFP_GPDR) = (i & 0xFF);
-    }
-
-    MEM(MFP_GPDR) = 0;
-
-    mfp_puts("Zeroing out RAM...\r\n");
-    memset((void *)start, 0, end);
-
+    memset((void *)0x8000, 0, RAM_SIZE - 0x8000 - 0x1000); // subtract ram start and approximate stack size
     mfp_puts("Done!");
 }
 
