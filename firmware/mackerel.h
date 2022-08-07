@@ -4,8 +4,8 @@
 #include <stdbool.h>
 
 // NOTE: Baselibc has no stdint header
-#define uint8_t unsigned char
-#define uint32_t unsigned int
+typedef unsigned char uint8_t;
+typedef unsigned int uint32_t;
 
 // Memory
 

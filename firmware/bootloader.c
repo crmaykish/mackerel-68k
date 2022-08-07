@@ -35,13 +35,33 @@ void print_string_bin(char *str, uint8_t max)
 void memdump(uint32_t address, uint32_t bytes)
 {
     uint32_t i = 0;
+    uint32_t b = 0;
+
+    printf("%08X  ", address);
 
     while (i < bytes)
     {
-        print_string_bin((char *)(address + i), 16);
-        mfp_puts("\r\n");
-        i += 16;
+        b = MEM(address + i);
+        printf("%02X ", b);
+
+        i++;
+
+        if (i % 16 == 0 && i < bytes)
+        {
+            printf(" |");
+            print_string_bin((char *)(address + i - 16), 16);
+
+            printf("|\r\n%08X  ", address + i);
+        }
+        else if (i % 8 == 0)
+        {
+            mfp_putc(' ');
+        }
     }
+
+    mfp_putc('|');
+    print_string_bin((char *)(address + i - 16), 16);
+    mfp_putc('|');
 }
 
 char buffer[INPUT_BUFFER_SIZE];
@@ -73,17 +93,9 @@ int main()
         {
             handler_zero();
         }
-        else if (strncmp(buffer, "prog", 4) == 0)
+        else if (strncmp(buffer, "dump", 4) == 0)
         {
-            memdump(0x8000, 0x1000);
-        }
-        else if (strncmp(buffer, "vectors", 7) == 0)
-        {
-            memdump(0, 0x400);
-        }
-        else if (strncmp(buffer, "stack", 5) == 0)
-        {
-            memdump(0x1FFFFF - 0x100, 0x100);
+            memdump(0x8000, 256);
         }
         else
         {
