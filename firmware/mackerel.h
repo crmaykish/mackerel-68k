@@ -3,6 +3,10 @@
 
 #include <stdbool.h>
 
+// NOTE: Baselibc has no stdint header
+#define uint8_t unsigned char
+#define uint32_t unsigned int
+
 // Memory
 
 #define RAM_SIZE 0x200000

@@ -8,7 +8,7 @@ void panic(const char *err)
     mfp_puts(err);
     mfp_puts("\r\n");
 
-    // while(1) {}
+    while(1) {}
 }
 
 void __attribute((interrupt)) exception_unhandled() { MEM(MFP_GPDR) = 0xAA; panic("Unhandled exception"); }

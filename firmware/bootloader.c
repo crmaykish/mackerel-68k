@@ -1,6 +1,6 @@
-#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 #include "mackerel.h"
 #include "ch376s.h"
 
@@ -40,7 +40,7 @@ void memdump(uint32_t address, uint32_t bytes)
     {
         print_string_bin((char *)(address + i), 16);
         mfp_puts("\r\n");
-        i+= 16;
+        i += 16;
     }
 }
 
@@ -83,7 +83,7 @@ int main()
         }
         else if (strncmp(buffer, "stack", 5) == 0)
         {
-            memdump(0x1FFFFF-0x100, 0x100);
+            memdump(0x1FFFFF - 0x100, 0x100);
         }
         else
         {

@@ -7,6 +7,8 @@ void __attribute__((interrupt)) MFPTimerBTick()
 
 int main()
 {
+    int a = 'A';
+    
     // Map an exception handler for the MFP timer B interrupt
     set_exception_handler(0x48, &MFPTimerBTick);
 
@@ -17,8 +19,9 @@ int main()
     MEM(MFP_IERA) = 0x01;      // Enable interrupts for Timer B
     MEM(MFP_IMRA) = 0x01;      // Unmask interrupt for Timer B
 
-    int a = 'A';
-
+    // Turn interrupts on
+    set_interrupts(true);
+    
     while (1)
     {
         mfp_putc(a);

@@ -1,18 +1,17 @@
+#include <stdio.h>
 #include "mackerel.h"
 
-// Glue functions required to use the newlib standard library
+// Glue code for Baselibc
 
-void write(int file, char *s, int len)
+size_t uart_write(FILE *instance, const char *bp, size_t n)
 {
-    for (int i = 0; i < len; i++)
-    {
-        mfp_putc(s[i]);
-    }
+	for (size_t c = 0; c < n; c++)
+	{
+		mfp_putc(bp[c]);
+	}
+	return n;
 }
 
-void sbrk() {}
-void close() {}
-void fstat() {}
-void isatty() {}
-void lseek() {}
-void read() {}
+const struct File_methods output_methods = { uart_write, NULL };
+struct File stdout_data = { &output_methods };
+FILE* const stdout = &stdout_data;

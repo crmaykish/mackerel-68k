@@ -11,8 +11,8 @@
 #define CH376S_H
 
 #include <stddef.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include "mackerel.h"
 
 // Command return values
 #define CH376S_CMD_RET_SUCCESS 0x51
