@@ -1,6 +1,7 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <stdio.h>
 #include "mackerel.h"
 #include "ch376s.h"
 
@@ -10,7 +11,7 @@ uint8_t readline(char *buffer);
 void handler_run();
 void handler_load();
 void handler_boot();
-void handler_zero();
+void zero(uint32_t start, uint32_t end);
 void command_not_found(char *command);
 
 void print_string_bin(char *str, uint8_t max)
@@ -91,11 +92,21 @@ int main()
         }
         else if (strncmp(buffer, "zero", 4) == 0)
         {
-            handler_zero();
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t end = strtoul(param2, 0, 16);
+
+            zero(start, end);
         }
         else if (strncmp(buffer, "dump", 4) == 0)
         {
-            memdump(0x8000, 256);
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            uint32_t addr = strtoul(param1, 0, 16);
+
+            memdump(addr, 256);
         }
         else
         {
@@ -173,10 +184,16 @@ void handler_boot()
     asm("jsr 0x8000");
 }
 
-void handler_zero()
+void zero(uint32_t start, uint32_t end)
 {
-    mfp_puts("Erasing RAM... ");
-    memset((void *)0x8000, 0, RAM_SIZE - 0x8000 - 0x1000); // subtract ram start and approximate stack size
+    if (end <= start)
+    {
+        printf("Error: end value must be higher than start value");
+        return;
+    }
+
+    printf("Zeroing RAM from %X to %X... ", start, end);
+    memset((void *)start, 0, end - start);
     mfp_puts("Done!");
 }
 
