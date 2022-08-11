@@ -67,6 +67,51 @@ char mfp_getc()
     return MEM(MFP_UDR);
 }
 
+void duart_init()
+{
+    MEM(DUART_IMR) = 0x00; // Mask all interrupts
+    MEM(DUART_MR1A) = 0x93;
+    MEM(DUART_MR2A) = 0x07;
+    MEM(DUART_ACR) = 0x60;
+    unsigned char x = MEM(DUART_CRA); // Enabled undocumented baudrates
+    MEM(DUART_CSRA) = 0x66;
+    MEM(DUART_CUR) = 0x00;
+    MEM(DUART_CLR) = 0x02;
+    unsigned char y = MEM(DUART_OPR); // Start counter
+    MEM(DUART_CRA) = 0b101;           // Enable Tx/Rx
+    MEM(DUART_OPR_RESET) = 0xFF;
+    MEM(DUART_OPR) = 0x00;
+}
+
+void duart_putc(char c)
+{
+    while ((MEM(DUART_SRA) & 0b00000001) == 0)
+    {
+    }
+
+    MEM(DUART_TBA) = c;
+}
+
+char duart_getc()
+{
+    while ((MEM(DUART_SRA) & 0b00001000) == 0)
+    {
+    }
+
+    return MEM(DUART_RBA);
+}
+
+void duart_puts(const char *s)
+{
+    unsigned i = 0;
+
+    while (s[i] != 0)
+    {
+        duart_putc(s[i]);
+        i++;
+    }
+}
+
 void delay(int time)
 {
     for (int delay = 0; delay < time; delay++)

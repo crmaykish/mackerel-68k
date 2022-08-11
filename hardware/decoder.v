@@ -6,6 +6,7 @@ module mackerel_decoder(
 	input FC0, FC1, FC2,
 	input AS,
 	input DTACK_MFP,
+	input DTACK_SER,
 	output CLK_SLOW,
 	output ROMEN,
 	output RAMEN0,
@@ -14,6 +15,7 @@ module mackerel_decoder(
 	output RAMEN3,        
 	output MFPEN,
 	output USBEN,
+	output SEREN,
 	output DTACK,
 	output IACK
 );
@@ -64,6 +66,9 @@ module mackerel_decoder(
 	// 0x3E8000
 	assign USBEN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ADDR[15]);
 	
+	// 0x3E0000
+	assign SEREN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ~ADDR[15]);
+
 	// 512KB SRAM at 0x000000
 	assign RAMEN0 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
 	
@@ -79,6 +84,10 @@ module mackerel_decoder(
 	// Generate DTACK signal
 	assign DTACK = (MFPEN & DTACK_MFP & ~IACK) | (~MFPEN & DTACK_MFP & IACK);
 	
+	// DTACK is effectively grounded for 68681...
+
+
+
 	// Generate IACK signal
 	// NOTE: this will respond to all interrupt levels, eventually this will need to include the A2:A0 interrupt vector to ACK the appropriate interrupt level
 	assign IACK = ~(FC0 & FC1 & FC2);

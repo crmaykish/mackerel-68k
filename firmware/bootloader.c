@@ -14,6 +14,16 @@ void handler_boot();
 void zero(uint32_t start, uint32_t end);
 void command_not_found(char *command);
 
+uint32_t stack_pointer()
+{
+    uint32_t *stack_pointer;
+
+    asm volatile("move.l %%sp, %0"
+                 : "=p"(stack_pointer));
+
+    return (uint32_t)stack_pointer;
+}
+
 void print_string_bin(char *str, uint8_t max)
 {
     uint8_t i = 0;
@@ -107,6 +117,31 @@ int main()
             uint32_t addr = strtoul(param1, 0, 16);
 
             memdump(addr, 256);
+        }
+        else if (strncmp(buffer, "stack", 5) == 0)
+        {
+            uint32_t sp = stack_pointer();
+
+            printf("Stack pointer: %X\r\n", sp);
+            memdump(sp, MEM_UINT(INIT_SP_ADDRESS) - sp);
+        }
+        else if (strncmp(buffer, "peek", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            uint32_t addr = strtoul(param1, 0, 16);
+
+            printf("%02X", MEM(addr));
+        }
+        else if (strncmp(buffer, "poke", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t addr = strtoul(param1, 0, 16);
+            uint8_t val = (uint8_t)strtoul(param2, 0, 16);
+
+            MEM(addr) = val;
         }
         else
         {
