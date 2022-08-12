@@ -69,14 +69,14 @@ char mfp_getc()
 
 void duart_init()
 {
-    MEM(DUART_IMR) = 0x00; // Mask all interrupts
-    MEM(DUART_MR1A) = 0x93;
-    MEM(DUART_MR2A) = 0x07;
-    MEM(DUART_ACR) = 0x60;
+    MEM(DUART_IMR) = 0x00;            // Mask all interrupts
+    MEM(DUART_MR1A) = 0b00010011;     // No Rx RTS, No Parity, 8 bits per character
+    MEM(DUART_MR2A) = 0x07;           // Channel mode normal, No Tx RTS, no CTS, stop bit length 1
+    MEM(DUART_ACR) = 0x60;            // Set mode to Timer, external clock
     unsigned char x = MEM(DUART_CRA); // Enabled undocumented baudrates
-    MEM(DUART_CSRA) = 0x66;
-    MEM(DUART_CUR) = 0x00;
-    MEM(DUART_CLR) = 0x02;
+    MEM(DUART_CSRA) = 0x66;           // 1200 baud, something about clock???
+    MEM(DUART_CUR) = 0x00;            // Counter high 0
+    MEM(DUART_CLR) = 0x02;            // Counter low 2
     unsigned char y = MEM(DUART_OPR); // Start counter
     MEM(DUART_CRA) = 0b101;           // Enable Tx/Rx
     MEM(DUART_OPR_RESET) = 0xFF;
@@ -87,6 +87,11 @@ void duart_putc(char c)
 {
     while ((MEM(DUART_SRA) & 0b00000001) == 0)
     {
+    }
+
+    if (c == '\n')
+    {
+        duart_putc('\r');
     }
 
     MEM(DUART_TBA) = c;

@@ -82,11 +82,7 @@ module mackerel_decoder(
 	assign RAMEN3 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ADDR[20] & ADDR[19]);
 	
 	// Generate DTACK signal
-	assign DTACK = (MFPEN & DTACK_MFP & ~IACK) | (~MFPEN & DTACK_MFP & IACK);
-	
-	// DTACK is effectively grounded for 68681...
-
-
+	assign DTACK = (MFPEN & DTACK_MFP & ~IACK) | (~MFPEN & DTACK_MFP & IACK) | (SEREN & DTACK_SER & ~IACK) | (~SEREN & DTACK_SER & IACK);
 
 	// Generate IACK signal
 	// NOTE: this will respond to all interrupt levels, eventually this will need to include the A2:A0 interrupt vector to ACK the appropriate interrupt level
