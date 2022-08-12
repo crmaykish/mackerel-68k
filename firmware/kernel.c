@@ -9,7 +9,7 @@ void __attribute__((interrupt)) MFPTimerBTick()
 
 int main()
 {
-    char a = 'A';
+    uint32_t i = 0;
 
     // Map an exception handler for the MFP timer B interrupt
     set_exception_handler(0x48, &MFPTimerBTick);
@@ -28,15 +28,9 @@ int main()
 
     while (true)
     {
-        duart_putc(a);
+        printf("Loop: %X\r\n", i);
 
-        a++;
-
-        if (a == 'Z')
-        {
-            a = 'A';
-            duart_puts("\r\n");
-        }
+        i++;
 
         delay(1000);
     }
