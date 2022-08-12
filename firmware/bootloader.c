@@ -32,11 +32,11 @@ void print_string_bin(char *str, uint8_t max)
     {
         if (str[i] >= 32 && str[i] < 127)
         {
-            mfp_putc(str[i]);
+            duart_putc(str[i]);
         }
         else
         {
-            mfp_putc('.');
+            duart_putc('.');
         }
 
         i++;
@@ -66,27 +66,27 @@ void memdump(uint32_t address, uint32_t bytes)
         }
         else if (i % 8 == 0)
         {
-            mfp_putc(' ');
+            duart_putc(' ');
         }
     }
 
-    mfp_putc('|');
+    duart_putc('|');
     print_string_bin((char *)(address + i - 16), 16);
-    mfp_putc('|');
+    duart_putc('|');
 }
 
 char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    mfp_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
+    duart_puts("\r\n### Mackerel-8 Bootloader ###\r\n");
 
     while (true)
     {
         // Present the command prompt and wait for input
-        mfp_puts("> ");
+        duart_puts("> ");
         readline(buffer);
-        mfp_puts("\r\n");
+        duart_puts("\r\n");
 
         if (strncmp(buffer, "load", 4) == 0)
         {
@@ -143,12 +143,23 @@ int main()
 
             MEM(addr) = val;
         }
+        else if (strncmp(buffer, "duart", 5) == 0)
+        {
+            duart_puts("Starting DUART test...");
+
+            for (int i = 0; i < 500; i++)
+            {
+                duart_puts("This is a test of the DUART.\r\n");
+            }
+
+            duart_puts("Done!");
+        }
         else
         {
             command_not_found(buffer);
         }
 
-        mfp_puts("\r\n");
+        duart_puts("\r\n");
     }
 
     return 0;
@@ -156,7 +167,7 @@ int main()
 
 void handler_run()
 {
-    mfp_puts("Jumping to 0x8000\r\n");
+    duart_puts("Jumping to 0x8000\r\n");
     asm("jsr 0x8000");
 }
 
@@ -166,11 +177,11 @@ void handler_load()
     int end_count = 0;
     uint8_t in = 0;
 
-    mfp_puts("Loading from serial...\r\n");
+    duart_puts("Loading from serial...\r\n");
 
     while (end_count != 3)
     {
-        in = mfp_getc();
+        in = duart_getc();
 
         MEM(0x8000 + in_count) = in;
 
@@ -188,33 +199,33 @@ void handler_load()
 
     MEM(0x8000 + in_count - 3) = 0;
 
-    mfp_puts("Done!");
+    duart_puts("Done!");
 }
 
 // Load a kernel image into RAM, then jump to 0x8000
 void handler_boot()
 {
-    mfp_puts("Copying IMAGE.BIN from USB drive...\r\n");
+    duart_puts("Copying IMAGE.BIN from USB drive...\r\n");
 
     if (usb_reset() != CH376S_CMD_RET_SUCCESS)
     {
-        mfp_puts("Failed to reset USB module\r\n");
+        duart_puts("Failed to reset USB module\r\n");
         return;
     }
 
     size_t kernel_size = file_read("IMAGE.BIN", (uint8_t *)0x8000);
 
-    mfp_puts("\r\n");
+    duart_puts("\r\n");
 
     if (kernel_size == 0)
     {
-        mfp_puts("Failed to load image file.\r\n");
+        duart_puts("Failed to load image file.\r\n");
         return;
     }
 
-    mfp_puts("\r\nKernel image loaded\r\n");
+    duart_puts("\r\nKernel image loaded\r\n");
 
-    mfp_puts("Jumping to 0x8000\r\n");
+    duart_puts("Jumping to 0x8000\r\n");
 
     asm("jsr 0x8000");
 }
@@ -229,32 +240,32 @@ void zero(uint32_t start, uint32_t end)
 
     printf("Zeroing RAM from %X to %X... ", start, end);
     memset((void *)start, 0, end - start);
-    mfp_puts("Done!");
+    duart_puts("Done!");
 }
 
 void command_not_found(char *command_name)
 {
-    mfp_puts("Command not found: ");
-    mfp_puts(command_name);
+    duart_puts("Command not found: ");
+    duart_puts(command_name);
 }
 
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = mfp_getc();
+    uint8_t in = duart_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            mfp_putc(in);
+            duart_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = mfp_getc();
+        in = duart_getc();
     }
 
     buffer[count] = 0;

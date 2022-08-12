@@ -77,7 +77,7 @@ void mfp_puts(const char *s);
 char mfp_getc();
 
 // DUART
-void duart_init();
+extern void duart_init();
 void duart_putc(char c);
 void duart_puts(const char *s);
 char duart_getc();

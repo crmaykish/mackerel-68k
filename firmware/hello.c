@@ -24,7 +24,7 @@ int main()
     
     while (1)
     {
-        mfp_putc(a);
+        duart_putc(a);
 
         a++;
 
