@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include "spi.h"
-#include "speed.h"
 
 void gpio_put(uint8_t pin, bool val)
 {
