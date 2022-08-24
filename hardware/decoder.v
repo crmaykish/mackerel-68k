@@ -69,19 +69,8 @@ module mackerel_decoder(
 	// 0x3E0000
 	assign SEREN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ~ADDR[15]);
 
-	// 512KB SRAM at 0x000000
-	assign RAMEN0 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
-	
-	// 512KB SRAM at 0x080000
-	assign RAMEN1 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ADDR[19]);
-	
-	// 512KB SRAM at 0x100000
-	assign RAMEN2 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ADDR[20] & ~ADDR[19]);
-	
-	// 512KB SRAM at 0x180000
-	assign RAMEN3 = ~(IACK & ~AS & BOOT & ~ADDR[21] & ADDR[20] & ADDR[19]);
-
-	// assign RAMEN = ~(IACK & ~AS & BOOT);	// TODO: Use this AND the address decoder on the RAM board to select the RAM chip
+	// All RAM enable
+	assign RAMEN3 = ~(IACK & ~AS & BOOT);
 	
 	// Generate DTACK signal
 	assign DTACK = (MFPEN & DTACK_MFP & ~IACK) | (~MFPEN & DTACK_MFP & IACK) | (SEREN & DTACK_SER & ~IACK) | (~SEREN & DTACK_SER & IACK);
