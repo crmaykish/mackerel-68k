@@ -85,6 +85,54 @@ int main()
 
             MEM(addr) = val;
         }
+        else if (strncmp(buffer, "memtest", 7) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t end = strtoul(param2, 0, 16);
+
+            int mem_errors = 0;
+
+            printf("Start first pass\r\n");
+
+            memset((void *)start, 0xAA, end - start);
+
+            for (int i = 0; i < end - start; i++)
+            {
+                if (i > 0 && (i % 0x1000) == 0)
+                {
+                    printf("%X\r\n", start + i);
+                }
+
+                if (MEM(start + i) != 0xAA)
+                {
+                    printf("Mem error at: %X: %X\r\n", start + i, MEM(start + i));
+                    mem_errors++;
+                }
+            }
+
+            printf("Start second pass\r\n");
+
+            memset((void *)start, 0x55, end - start);
+
+            for (int i = 0; i < end - start; i++)
+            {
+                if (i > 0 && (i % 0x1000) == 0)
+                {
+                    printf("%X\r\n", start + i);
+                }
+
+                if (MEM(start + i) != 0x55)
+                {
+                    printf("Mem error at: %X: %X\r\n", start + i, MEM(start + i));
+                    mem_errors++;
+                }
+            }
+
+            printf("Done! Total errors: %d", mem_errors);
+        }
         else
         {
             command_not_found(buffer);
