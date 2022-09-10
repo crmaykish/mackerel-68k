@@ -2,8 +2,6 @@ module mack_decoder_v2(
 	input CLK,
 	input RST,
 	input [23:15] ADDR,
-	// input A0, A1, A2,
-	// input FC0, FC1, FC2,
 	input AS,
 	input DTACK_IN,
     input IACK,
@@ -57,14 +55,11 @@ module mack_decoder_v2(
 	// 0x300000
 	assign MFPEN = ~(IACK & ~AS & BOOT & ADDR[21] & ADDR[20] & ~ADDR[19]);
 	
-	// RAM enable - chip selects are handled on the RAM board
-	// assign RAMEN = ~(IACK & ~AS & BOOT);
 	// TODO: use the GAL on the RAM board to determine individual CS pins based on address
 	assign RAMEN = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
-	
+	// assign RAMEN = ~(IACK & ~AS & BOOT);
+
 	// Generate DTACK signal
 	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
-	
-	//assign IACK = 1'b0;
 	
 endmodule
