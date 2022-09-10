@@ -5,22 +5,12 @@ module mack_decoder_v2(
 	input AS,
 	input DTACK_IN,
     input IACK,
-	output CLK_SLOW,
 	output ROMEN,
 	output RAMEN,        
 	output MFPEN,
 	output DTACK
 );
-	
-	reg [1:0] count_slow = 0;
-	
-	always @(posedge CLK) begin
-		count_slow <= count_slow + 1'b1;
-	end
-	
-	// Secondary clock at 1/2 speed of the CPU clock
-	assign CLK_SLOW = count_slow[0];
-	
+
 	// Generate the BOOT signal for the first 8 memory accesses after reset
 	reg BOOT = 1'b0;
 	reg [3:0] bus_cycles = 0;
