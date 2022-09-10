@@ -69,7 +69,7 @@ void _start()
 
     // Setup the hardware peripherals
     mfp_init();
-    duart_init();
+    // duart_init();
 
     // Call main
     main();

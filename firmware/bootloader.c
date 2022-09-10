@@ -160,7 +160,7 @@ void handler_load()
 
     while (end_count != 3)
     {
-        in = duart_getc();
+        in = mfp_getc();
 
         MEM(0x8000 + in_count) = in;
 
