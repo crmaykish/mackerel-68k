@@ -14,6 +14,7 @@ int main()
     // Map an exception handler for the MFP timer B interrupt
     set_exception_handler(0x48, &MFPTimerBTick);
 
+
     // // Set MFP Timer B to run at 36 Hz and trigger an interrupt on every tick
     MEM(MFP_TBDR) = 0;         // Timer B counter max (i.e 255);
     MEM(MFP_TBCR) = 0b0010111; // Timer B enabled, delay mode, /200 prescalar
