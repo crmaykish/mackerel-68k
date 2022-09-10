@@ -21,7 +21,7 @@ typedef unsigned int uint32_t;
 
 // MC68901 Multi-function Peripheral
 
-#define MFP_BASE 0x300000
+#define MFP_BASE 0x3C0000
 #define MFP_GPDR (MFP_BASE + 0x01)
 #define MFP_DDR (MFP_BASE + 0x05)
 #define MFP_IERA (MFP_BASE + 0x07)
