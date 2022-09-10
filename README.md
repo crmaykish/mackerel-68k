@@ -2,10 +2,8 @@
 
 ## Memory Map
 
-RAM (2 MB): 0x000000 - 0x200000
+RAM (512 KB): 0x000000 - 0x80000
 
-ROM (32 KB): 0x3F8000 - 0x3FFFFF (mapped to 0x0000 at boot)
+ROM (512 KB): 0x380000 - 0x3FFFFF (mapped to 0x0000 at boot)
 
-MFP: 0x3F0000
-
-USB: 0x3E8000
+MFP: 0x300000

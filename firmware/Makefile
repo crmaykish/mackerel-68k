@@ -9,7 +9,7 @@ MEMORY_MAP_RAM = linker_ram.scr
 COMMON_OBJS_ROM = vectors.o start.o glue.o mackerel.o
 COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
-BINS = bootloader.bin hello.bin kernel.bin
+BINS = bootloader.bin hello.bin kernel.bin selftest.bin
 
 .SECONDARY: bootloader.elf hello.elf
 
@@ -32,6 +32,9 @@ hello.elf: $(COMMON_OBJS_RAM) hello.o
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+
+selftest.elf: vectors.o mackerel.o selftest.o
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 clean:
 	rm -f *.o *.elf *.bin

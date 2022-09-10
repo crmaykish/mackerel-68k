@@ -1,33 +1,27 @@
-module mackerel_decoder(
+module mack_decoder_v2(
 	input CLK,
 	input RST,
-	input [21:15] ADDR,
-	//input A0, A1, A2,
-	input FC0, FC1, FC2,
+	input [23:15] ADDR,
+	// input A0, A1, A2,
+	// input FC0, FC1, FC2,
 	input AS,
-	input DTACK_MFP,
-	input DTACK_SER,
-	output CLK_SLOW,
+	input DTACK_IN,
+    input IACK,
+	// output CLK_SLOW,
 	output ROMEN,
-	output RAMEN0,
-	output RAMEN1,
-	output RAMEN2,
-	output RAMEN3,        
+	output RAMEN,        
 	output MFPEN,
-	output USBEN,
-	output SEREN,
-	output DTACK,
-	output IACK
+	output DTACK
 );
 	
-	reg [1:0] count_slow = 0;
+	// reg [1:0] count_slow = 0;
 	
-	always @(posedge CLK) begin
-		count_slow <= count_slow + 1'b1;
-	end
+	// always @(posedge CLK) begin
+	// 	count_slow <= count_slow + 1'b1;
+	// end
 	
 	// Secondary clock at 1/2 speed of the CPU clock
-	assign CLK_SLOW = count_slow[0];
+	// assign CLK_SLOW = count_slow[0];
 	
 	// Generate the BOOT signal for the first 8 memory accesses after reset
 	reg BOOT = 1'b0;
@@ -57,26 +51,20 @@ module mackerel_decoder(
 	
 	// Define memory map
 	
-	// 0x3F8000
-	assign ROMEN = ~(IACK & ~AS & (~BOOT | (ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ADDR[15])));
+	// 0x380000
+	assign ROMEN = ~(IACK & ~AS & (~BOOT | (ADDR[21] & ADDR[20] & ADDR[19])));
 	
-	// 0x3F0000
-	assign MFPEN = ~(ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ADDR[16] & ~ADDR[15]);
+	// 0x300000
+	assign MFPEN = ~(ADDR[21] & ADDR[20] & ~ADDR[19]);
 	
-	// 0x3E8000
-	assign USBEN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ADDR[15]);
-	
-	// 0x3E0000
-	assign SEREN = ~(IACK & ~AS & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17] & ~ADDR[16] & ~ADDR[15]);
-
-	// All RAM enable
-	assign RAMEN3 = ~(IACK & ~AS & BOOT);
+	// RAM enable - chip selects are handled on the RAM board
+	// assign RAMEN = ~(IACK & ~AS & BOOT);
+	// TODO: use the GAL on the RAM board to determine individual CS pins based on address
+	assign RAMEN = ~(IACK & ~AS & BOOT & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
 	
 	// Generate DTACK signal
-	assign DTACK = (MFPEN & DTACK_MFP & ~IACK) | (~MFPEN & DTACK_MFP & IACK) | (SEREN & DTACK_SER & ~IACK) | (~SEREN & DTACK_SER & IACK);
-
-	// Generate IACK signal
-	// NOTE: this will respond to all interrupt levels, eventually this will need to include the A2:A0 interrupt vector to ACK the appropriate interrupt level
-	assign IACK = ~(FC0 & FC1 & FC2);
+	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
+	
+	//assign IACK = 1'b0;
 	
 endmodule

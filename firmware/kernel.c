@@ -22,7 +22,7 @@ int main()
     MEM(MFP_IMRA) = 0x01;      // Unmask interrupt for Timer B
 
     // Turn interrupts on
-    set_interrupts(true);
+    // set_interrupts(true);
 
     printf("Starting kernel...%X\r\n", 0xC0FFEE);
 

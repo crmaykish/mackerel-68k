@@ -9,10 +9,10 @@ typedef unsigned int uint32_t;
 
 // Memory
 
-#define RAM_SIZE 0x200000
-#define ROM_START 0x3F8000
+#define RAM_SIZE 0x80000
+#define ROM_START 0x380000
 #define VECTOR_TABLE_SIZE 0x400
-#define INIT_SP_ADDRESS 0x3F8000
+#define INIT_SP_ADDRESS 0x8000
 
 // CH376S USB Module
 
@@ -21,24 +21,25 @@ typedef unsigned int uint32_t;
 
 // MC68901 Multi-function Peripheral
 
-#define MFP_GPDR 0x3F0001
-#define MFP_DDR 0x3F0005
-#define MFP_IERA 0x3F0007
-#define MFP_IERB 0x3F0009
-#define MFP_IMRA 0x3F0013
-#define MFP_IMRB 0x3F0015
-#define MFP_TACR 0x3F0019
-#define MFP_TBCR 0x3F001B
-#define MFP_TCDCR 0x3F001D
-#define MFP_TADR 0x3F001F
-#define MFP_TBDR 0x3F0021
-#define MFP_TCDR 0x3F0023
-#define MFP_TDDR 0x3F0015
-#define MFP_VR 0x3F0017  // Vector Register
-#define MFP_UCR 0x3F0029 // USART Control Register
-#define MFP_RSR 0x3F002B // USART Receiver Status Register
-#define MFP_TSR 0x3F002D // USART Transmitter Status Register
-#define MFP_UDR 0x3F002F // USART Data Register
+#define MFP_BASE 0x300000
+#define MFP_GPDR (MFP_BASE + 0x01)
+#define MFP_DDR (MFP_BASE + 0x05)
+#define MFP_IERA (MFP_BASE + 0x07)
+#define MFP_IERB (MFP_BASE + 0x09)
+#define MFP_IMRA (MFP_BASE + 0x13)
+#define MFP_IMRB (MFP_BASE + 0x15)
+#define MFP_TACR (MFP_BASE + 0x19)
+#define MFP_TBCR (MFP_BASE + 0x1B)
+#define MFP_TCDCR (MFP_BASE + 0x1D)
+#define MFP_TADR (MFP_BASE + 0x1F)
+#define MFP_TBDR (MFP_BASE + 0x21)
+#define MFP_TCDR (MFP_BASE + 0x23)
+#define MFP_TDDR (MFP_BASE + 0x15)
+#define MFP_VR (MFP_BASE + 0x17)  // Vector Register
+#define MFP_UCR (MFP_BASE + 0x29) // USART Control Register
+#define MFP_RSR (MFP_BASE + 0x2B) // USART Receiver Status Register
+#define MFP_TSR (MFP_BASE + 0x2D) // USART Transmitter Status Register
+#define MFP_UDR (MFP_BASE + 0x2F) // USART Data Register
 
 // MC68691 DUART
 
