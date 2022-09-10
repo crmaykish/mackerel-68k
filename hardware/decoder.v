@@ -7,21 +7,21 @@ module mack_decoder_v2(
 	input AS,
 	input DTACK_IN,
     input IACK,
-	// output CLK_SLOW,
+	output CLK_SLOW,
 	output ROMEN,
 	output RAMEN,        
 	output MFPEN,
 	output DTACK
 );
 	
-	// reg [1:0] count_slow = 0;
+	reg [1:0] count_slow = 0;
 	
-	// always @(posedge CLK) begin
-	// 	count_slow <= count_slow + 1'b1;
-	// end
+	always @(posedge CLK) begin
+		count_slow <= count_slow + 1'b1;
+	end
 	
 	// Secondary clock at 1/2 speed of the CPU clock
-	// assign CLK_SLOW = count_slow[0];
+	assign CLK_SLOW = count_slow[0];
 	
 	// Generate the BOOT signal for the first 8 memory accesses after reset
 	reg BOOT = 1'b0;
@@ -55,7 +55,7 @@ module mack_decoder_v2(
 	assign ROMEN = ~(IACK & ~AS & (~BOOT | (ADDR[21] & ADDR[20] & ADDR[19])));
 	
 	// 0x300000
-	assign MFPEN = ~(ADDR[21] & ADDR[20] & ~ADDR[19]);
+	assign MFPEN = ~(IACK & ~AS & BOOT & ADDR[21] & ADDR[20] & ~ADDR[19]);
 	
 	// RAM enable - chip selects are handled on the RAM board
 	// assign RAMEN = ~(IACK & ~AS & BOOT);
