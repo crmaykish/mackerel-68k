@@ -41,23 +41,23 @@ typedef unsigned int uint32_t;
 #define MFP_TSR (MFP_BASE + 0x2D) // USART Transmitter Status Register
 #define MFP_UDR (MFP_BASE + 0x2F) // USART Data Register
 
-// MC68691 DUART
-
-#define DUART_MR1A 0x3E0001
-#define DUART_MR2A 0x3E0001
-#define DUART_SRA 0x3E0003
-#define DUART_CSRA 0x3E0003
-#define DUART_CRA 0x3E0005
-#define DUART_RBA 0x3E0007
-#define DUART_TBA 0x3E0007
-#define DUART_ACR 0x3E0009
-#define DUART_ISR 0x3E000B
-#define DUART_IMR 0x3E000B
-#define DUART_CUR 0x3E000D
-#define DUART_CLR 0x3E000F
-#define DUART_OPCR 0x3E001B
-#define DUART_OPR 0x3E001D
-#define DUART_OPR_RESET 0x3E001F
+// MC68681P DUART
+#define DUART_BASE 0x3C0000
+#define DUART_MR1A (DUART_BASE + 0x01)
+#define DUART_MR2A (DUART_BASE + 0x01)
+#define DUART_SRA (DUART_BASE + 0x03)
+#define DUART_CSRA (DUART_BASE + 0x03)
+#define DUART_CRA (DUART_BASE + 0x05)
+#define DUART_RBA (DUART_BASE + 0x07)
+#define DUART_TBA (DUART_BASE + 0x07)
+#define DUART_ACR (DUART_BASE + 0x09)
+#define DUART_ISR (DUART_BASE + 0x0B)
+#define DUART_IMR (DUART_BASE + 0x0B)
+#define DUART_CUR (DUART_BASE + 0x0D)
+#define DUART_CLR (DUART_BASE + 0x0F)
+#define DUART_OPCR (DUART_BASE + 0x1B)
+#define DUART_OPR (DUART_BASE + 0x1D)
+#define DUART_OPR_RESET (DUART_BASE + 0x1F)
 
 // Get the value at a memory address
 #define MEM(address) (*(volatile unsigned char *)(address))
