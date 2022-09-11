@@ -4,8 +4,8 @@
 #include "mackerel.h"
 
 // The register containing the GPIO pins used for SPI
-#define SPI_IO_PORT MFP_GPDR
-#define SPI_IO_DDR MFP_DDR
+#define SPI_IO_PORT 0 // TODO: Fix me
+#define SPI_IO_DDR 0  // TODO: Fix me
 
 // Define the pin numbers relative to the IO_PORT register
 #define SCLK (3)

@@ -11,20 +11,20 @@ void panic(const char *err)
     while(1) {}
 }
 
-void __attribute((interrupt)) exception_unhandled() { MEM(MFP_GPDR) = 0xAA; panic("Unhandled exception"); }
-void __attribute((interrupt)) exception_bus_error() { MEM(MFP_GPDR) = 2; panic("Bus error"); }
-void __attribute((interrupt)) exception_addr_error() { MEM(MFP_GPDR) = 3; panic("Address error"); }
-void __attribute((interrupt)) exception_illegal_inst() { MEM(MFP_GPDR) = 4; panic("Illegal instruction"); }
-void __attribute((interrupt)) exception_div_zero() { MEM(MFP_GPDR) = 5; panic("Divide by zero"); }
-void __attribute((interrupt)) exception_chk() { MEM(MFP_GPDR) = 6; panic("Chk instruction out of bounds"); }
-void __attribute((interrupt)) exception_trapv() { MEM(MFP_GPDR) = 7; panic("Trap v"); }
-void __attribute((interrupt)) exception_priv_violation() { MEM(MFP_GPDR) = 8; panic("Privilege violation"); }
-void __attribute((interrupt)) exception_unimp_inst() { MEM(MFP_GPDR) = 10; panic("Unimplemented instruction"); }
-void __attribute((interrupt)) exception_uninit_int_vector() { MEM(MFP_GPDR) = 15; panic("Uninitialized interrupt vector"); }
-void __attribute((interrupt)) exception_spurious_intr() { MEM(MFP_GPDR) = 24; panic("Spurious interrupt"); }
-void __attribute((interrupt)) autovector() { MEM(MFP_GPDR) = 25; panic("Autovector"); }
-void __attribute((interrupt)) trap() { MEM(MFP_GPDR) = 32; panic("Trap"); }
-void __attribute((interrupt)) user_interrupt() { MEM(MFP_GPDR) = 64; panic("User interrupt"); }
+void __attribute((interrupt)) exception_unhandled() { panic("Unhandled exception"); }
+void __attribute((interrupt)) exception_bus_error() { panic("Bus error"); }
+void __attribute((interrupt)) exception_addr_error() { panic("Address error"); }
+void __attribute((interrupt)) exception_illegal_inst() { panic("Illegal instruction"); }
+void __attribute((interrupt)) exception_div_zero() { panic("Divide by zero"); }
+void __attribute((interrupt)) exception_chk() { panic("Chk instruction out of bounds"); }
+void __attribute((interrupt)) exception_trapv() { panic("Trap v"); }
+void __attribute((interrupt)) exception_priv_violation() { panic("Privilege violation"); }
+void __attribute((interrupt)) exception_unimp_inst() { panic("Unimplemented instruction"); }
+void __attribute((interrupt)) exception_uninit_int_vector() { panic("Uninitialized interrupt vector"); }
+void __attribute((interrupt)) exception_spurious_intr() { panic("Spurious interrupt"); }
+void __attribute((interrupt)) autovector() { panic("Autovector"); }
+void __attribute((interrupt)) trap() { panic("Trap"); }
+void __attribute((interrupt)) user_interrupt() { panic("User interrupt"); }
 
 void _start()
 {
@@ -68,7 +68,6 @@ void _start()
     }
 
     // Setup the hardware peripherals
-    // mfp_init();
     duart_init();
 
     // Call main

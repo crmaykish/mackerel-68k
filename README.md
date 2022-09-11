@@ -2,8 +2,8 @@
 
 ## Memory Map
 
-RAM (512 KB): 0x000000 - 0x80000
+RAM (1024 KB): 0x000000 - 0x100000
 
-ROM (512 KB): 0x380000 - 0x3FFFFF (mapped to 0x0000 at boot)
+ROM (256 KB): 0x380000 - 0x380000 (mapped to 0x0000 at boot)
 
-MFP: 0x300000
+M68681P DUART: 0x3C0000 - 0x400000

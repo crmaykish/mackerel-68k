@@ -102,7 +102,7 @@ size_t file_read(char *file_name, uint8_t *buffer)
                 }
             }
 
-            mfp_putc('.');
+            duart_putc('.');
         }
     }
 

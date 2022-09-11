@@ -7,7 +7,7 @@ module mack_decoder_v2(
     input IACK,
 	output ROMEN,
 	output RAMEN,        
-	output MFPEN,
+	output DUARTEN,
 	output DTACK
 );
 
@@ -43,11 +43,11 @@ module mack_decoder_v2(
 	assign ROMEN = ~(IACK & ~AS & (~BOOT | (~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ~ADDR[18])));
 	
 	// 0x3C0000 - 256K
-	assign MFPEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18]);
+	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18]);
 	
 	assign RAMEN = ~(IACK & ~AS & BOOT);
 
 	// Generate DTACK signal
-	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
+	assign DTACK = (DUARTEN & DTACK_IN & ~IACK) | (~DUARTEN & DTACK_IN & IACK);
 	
 endmodule
