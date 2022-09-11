@@ -9,7 +9,7 @@ typedef unsigned int uint32_t;
 
 // Memory
 
-#define RAM_SIZE 0x80000
+#define RAM_SIZE 0x100000
 #define ROM_START 0x380000
 #define VECTOR_TABLE_SIZE 0x400
 #define INIT_SP_ADDRESS 0x8000
