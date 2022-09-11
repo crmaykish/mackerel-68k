@@ -45,11 +45,7 @@ module mack_decoder_v2(
 	// 0x3C0000 - 256K
 	assign MFPEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18]);
 	
-	// TODO: use the GAL on the RAM board to determine individual CS pins based on address
-
-	assign RAMEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ~ADDR[21] & ~ADDR[20] & ~ADDR[19]);
-	
-	// assign RAMEN = ~(IACK & ~AS & BOOT);
+	assign RAMEN = ~(IACK & ~AS & BOOT);
 
 	// Generate DTACK signal
 	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
