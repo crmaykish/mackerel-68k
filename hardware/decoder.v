@@ -8,7 +8,8 @@ module mack_decoder_v2(
 	output ROMEN,
 	output RAMEN,        
 	output MFPEN,
-	output DTACK
+	output DTACK,
+	output TIMER
 );
 
 	// Generate the BOOT signal for the first 8 memory accesses after reset
@@ -36,7 +37,46 @@ module mack_decoder_v2(
 			end
 		end
 	end
+
+	// System timer
 	
+	// Create a periodic interrupt every 65536 clock cycles (~122 Hz at 8MHz clock)
+	
+	// At each interval, TIMER output will be pulled low until an IACK signal is received
+	// If no IACK signal comes (interrupts disabled on the CPU), it will be reset on the next interval
+	
+	// TODO: Interrupts from other sources will probably not work with IACK connected directly to VPA on the CPU
+	// Need some logic to only set VPA when the interrupt is from this periodic timer
+	
+	reg [15:0] timer_reg = 0;
+	reg timer_out = 1;
+	reg acked = 0;
+	
+	always @(posedge CLK) begin
+		if (~RST) begin
+			timer_reg <= 0;
+			timer_out <= 1;
+			acked <= 0;
+		end
+		else begin
+			timer_reg <= timer_reg + 1'b1;
+			
+			if (timer_reg[15] & ~acked) timer_out <= 0;
+			
+			if (~IACK) begin
+				acked <= 1;
+				timer_out <= 1;
+			end
+			
+			if (~timer_reg[15]) begin
+				acked <= 0;
+				timer_out <= 1;
+			end
+		end
+	end
+
+	assign TIMER = timer_out;
+
 	// Define memory map
 	
 	// 0x380000 - 256K
