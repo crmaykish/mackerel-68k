@@ -6,7 +6,8 @@ module mack_decoder_v2(
 	input DTACK_IN,
     input IACK,
 	output ROMEN,
-	output RAMEN,        
+	output RAMEN,  
+	output MFPEN,      
 	output DUARTEN,
 	output DTACK
 );
@@ -37,56 +38,20 @@ module mack_decoder_v2(
 		end
 	end
 
-	// System timer
-	
-	// Create a periodic interrupt every 65536 clock cycles (~122 Hz at 8MHz clock)
-	
-	// At each interval, TIMER output will be pulled low until an IACK signal is received
-	// If no IACK signal comes (interrupts disabled on the CPU), it will be reset on the next interval
-	
-	// TODO: Interrupts from other sources will probably not work with IACK connected directly to VPA on the CPU
-	// Need some logic to only set VPA when the interrupt is from this periodic timer
-	
-	reg [15:0] timer_reg = 0;
-	reg timer_out = 1;
-	reg acked = 0;
-	
-	always @(posedge CLK) begin
-		if (~RST) begin
-			timer_reg <= 0;
-			timer_out <= 1;
-			acked <= 0;
-		end
-		else begin
-			timer_reg <= timer_reg + 1'b1;
-			
-			if (timer_reg[15] & ~acked) timer_out <= 0;
-			
-			if (~IACK) begin
-				acked <= 1;
-				timer_out <= 1;
-			end
-			
-			if (~timer_reg[15]) begin
-				acked <= 0;
-				timer_out <= 1;
-			end
-		end
-	end
-
-	assign TIMER = timer_out;
-
 	// Define memory map
 	
 	// 0x380000 - 256K
 	assign ROMEN = ~(IACK & ~AS & (~BOOT | (~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ~ADDR[18])));
 	
-	// 0x3C0000 - 256K
-	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18]);
+	// 0x3C0000
+	assign MFPEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17]);
 	
+	// 0x3E0000
+	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ~ADDR[17]);
+
 	assign RAMEN = ~(IACK & ~AS & BOOT);
 
 	// Generate DTACK signal
-	assign DTACK = (DUARTEN & DTACK_IN & ~IACK) | (~DUARTEN & DTACK_IN & IACK);
+	assign DTACK = (DUARTEN & DTACK_IN & ~IACK) | (~DUARTEN & DTACK_IN & IACK) | (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
 	
 endmodule
