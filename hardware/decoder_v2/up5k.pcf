@@ -1,0 +1,17 @@
+set_io --warn-no-port CLK 20
+
+set_io --warn-no-port RST 28
+set_io --warn-no-port AS 38
+
+set_io --warn-no-port ADDR[16] 37
+set_io --warn-no-port ADDR[17] 31
+set_io --warn-no-port ADDR[18] 35
+set_io --warn-no-port ADDR[19] 32
+set_io --warn-no-port ADDR[20] 27
+set_io --warn-no-port ADDR[21] 26
+set_io --warn-no-port ADDR[22] 25
+set_io --warn-no-port ADDR[23] 23
+
+set_io --warn-no-port DTACK 6
+
+set_io --warn-no-port LED_BLUE 40
