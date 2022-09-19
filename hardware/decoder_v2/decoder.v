@@ -2,7 +2,14 @@ module decoder(
 	input CLK,
 	input RST,
 	input AS,
-	// output VALID_ADDRESS,
+	input DTACK_IN,
+	input IACK,
+	input [23:16] ADDR,
+	output ROMEN,
+	output RAMEN,
+	output MFPEN,
+	output DUARTEN,
+	output DTACK,
 	output LED_BLUE
 );
 
@@ -51,8 +58,20 @@ module decoder(
 	// Address Decoding
 	// ======================
 
-	// assign VALID_ADDRESS = ~(IACK & ~AS & BOOT);
-	// assign VALID_ADDRESS = ~(~AS & BOOT);
+	// 0x380000 - 256K
+	assign ROMEN = ~(IACK & ~AS & (~BOOT | (~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ~ADDR[18])));
+	
+	assign RAMEN = ~(IACK & ~AS & BOOT);
+
+	// 0x3C0000
+	assign MFPEN = ~(~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ~ADDR[17]);
+	
+	// 0x3E0000
+	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17]);
+
+	// DTACK
+	// TODO: ignoring DUART DTACK
+	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
 
 
 endmodule
