@@ -2,12 +2,12 @@
 
 int main()
 {
-    duart_puts("Echo test:\r\n");
+    mputs("Echo test:\r\n");
 
     while (1)
     {
-        char a = duart_getc();
-        duart_putc(a);
+        char a = mgetc();
+        mputc(a);
     }
 
     return 0;

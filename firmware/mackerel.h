@@ -3,6 +3,10 @@
 
 #include <stdbool.h>
 
+#define mputc(s) duart_putc(s)
+#define mputs(s) duart_puts(s)
+#define mgetc() duart_getc()
+
 // NOTE: Baselibc has no stdint header
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
@@ -53,6 +57,15 @@ typedef unsigned int uint32_t;
 #define DUART_IMR (DUART_BASE + 0x0B)
 #define DUART_CUR (DUART_BASE + 0x0D)
 #define DUART_CLR (DUART_BASE + 0x0F)
+
+#define DUART_MR1B (DUART_BASE + 0x11)
+#define DUART_MR2B (DUART_BASE + 0x11)
+#define DUART_SRB (DUART_BASE + 0x13)
+#define DUART_CSRB (DUART_BASE + 0x13)
+#define DUART_CRB (DUART_BASE + 0x15)
+#define DUART_RBB (DUART_BASE + 0x17)
+#define DUART_TBB (DUART_BASE + 0x17)
+
 #define DUART_IVR (DUART_BASE + 0x19)
 #define DUART_OPCR (DUART_BASE + 0x1B)
 #define DUART_OPR (DUART_BASE + 0x1D)
