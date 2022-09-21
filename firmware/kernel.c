@@ -2,13 +2,11 @@
 #include <stdbool.h>
 #include "mackerel.h"
 
-// uint32_t a = 0;
-
 void __attribute__((interrupt)) system_timer_intr()
 {
-    uint8_t a = MEM(DUART_OPR_RESET); // stop counter, i.e. reset the timer
+    MEM(DUART_OPR_RESET); // Stop counter, i.e. reset the timer
 
-    mputc('X');
+    // TODO: Interrupt handler code goes here
 }
 
 int main()
@@ -18,14 +16,13 @@ int main()
     // Map an exception handler for the periodic timer interrupt
     set_exception_handler(0x40, &system_timer_intr);
 
-    MEM(DUART_IVR) = 0x40; // Interrupt base register
-    MEM(DUART_ACR) = 0xF0;       // set timer mode X/16
-    MEM(DUART_IMR) = 0b00001000; // unmask counter interrupt
-    MEM(DUART_CUR) = 0x09;       // Counter upper byte, (3.6864MHz / 2 / 16 / 0x900) = 100Hz
+    // Setup DUART timer as 50 Hz interrupt
+    MEM(DUART_IVR) = 0x40;       // Interrupt base register
+    MEM(DUART_ACR) = 0xF0;       // Set timer mode X/16
+    MEM(DUART_IMR) = 0b00001000; // Unmask counter interrupt
+    MEM(DUART_CUR) = 0x09;       // Counter upper byte, (3.6864MHz / 2 / 16 / 0x900) = 50 Hz
     MEM(DUART_CLR) = 0x00;       // Counter lower byte
-
-    uint8_t a = MEM(DUART_OPR); // start counter
-
+    MEM(DUART_OPR);              // Start counter
 
     printf("Starting kernel...%X\r\n", 0xC0FFEE);
 

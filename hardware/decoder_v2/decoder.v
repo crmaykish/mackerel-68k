@@ -72,8 +72,8 @@ module decoder(
 	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17]);
 
 	// DTACK
-	// TODO: ignoring DUART DTACK
-	assign DTACK = (MFPEN & DTACK_IN & ~IACK) | (~MFPEN & DTACK_IN & IACK);
+	// TODO: Implement proper DTACK handling for DUART and interrupt handling
+	assign DTACK = 0;
 
 
 endmodule
