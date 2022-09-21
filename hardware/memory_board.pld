@@ -2,11 +2,12 @@ GAL16V8
 MEM_BOARD
 
 NC RAMEN A19 A20 A21 A22 A23 NC NC GND
-NC EN0 EN1 EN2 NC NC NC NC NC VCC
+NC NC NC NC NC EN3 EN2 EN1 EN0 VCC
 
-/EN0 = /RAMEN * /A21 * /A20 * /A19
-/EN1 = /RAMEN * /A21 * /A20 * A19
-/EN2 = /RAMEN * /A21 * A20 * /A19
+/EN0 = /RAMEN * /A23 * /A22 * /A21 * /A20 * /A19
+/EN1 = /RAMEN * /A23 * /A22 * /A21 * /A20 * A19
+/EN2 = /RAMEN * /A23 * /A22 * /A21 * A20 * /A19
+/EN3 = /RAMEN * /A23 * /A22 * /A21 * A20 * A19
 
 DESCRIPTION
 Memory board chip selection logic
@@ -14,3 +15,4 @@ Memory board chip selection logic
 EN0 : 0x00000 - 0x80000
 EN1 : 0x80000 - 0x100000
 EN2 : 0x100000 - 0x180000
+EN3 : 0x180000 - 0x200000
