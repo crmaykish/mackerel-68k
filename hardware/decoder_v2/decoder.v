@@ -17,13 +17,15 @@ module decoder(
 	// Counter
 	// ======================
 
-	reg [20:0] counter = 0;
+	// reg [20:0] counter = 0;
 
-	always @(posedge CLK) begin
-		counter <= counter + 1;
-	end
+	// always @(posedge CLK) begin
+	// 	counter <= counter + 1;
+	// end
 
-	assign LED_BLUE = counter[20];
+	// assign LED_BLUE = counter[20];
+
+	assign LED_BLUE = 1;	// LED signal is inverted?
 
 	// ======================
 	// BOOT Signal
