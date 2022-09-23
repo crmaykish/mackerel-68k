@@ -8,7 +8,7 @@
 #define INPUT_BUFFER_SIZE 32
 
 void handler_run();
-void handler_load();
+void handler_load(uint32_t addr);
 void handler_boot();
 void zero(uint32_t start, uint32_t end);
 uint8_t readline(char *buffer);
@@ -32,7 +32,9 @@ int main()
 
         if (strncmp(buffer, "load", 4) == 0)
         {
-            handler_load();
+            char *param1 = strtok(NULL, " ");
+            uint32_t addr = strtoul(param1, 0, 16);
+            handler_load(addr);
         }
         else if (strncmp(buffer, "run", 3) == 0)
         {
@@ -150,19 +152,24 @@ void handler_run()
     asm("jsr 0x8000");
 }
 
-void handler_load()
+void handler_load(uint32_t addr)
 {
     int in_count = 0;
     int end_count = 0;
     uint8_t in = 0;
 
-    mputs("Loading from serial...\r\n");
+    if (addr == 0)
+    {
+        addr = 8000;
+    }
+
+    printf("Loading from serial into 0x%X...\r\n", addr);
 
     while (end_count != 3)
     {
         in = mgetc();
 
-        MEM(0x8000 + in_count) = in;
+        MEM(addr + in_count) = in;
 
         if (in == 0xDE)
         {
@@ -176,7 +183,7 @@ void handler_load()
         in_count++;
     }
 
-    MEM(0x8000 + in_count - 3) = 0;
+    MEM(addr + in_count - 3) = 0;
 
     mputs("Done!");
 }
