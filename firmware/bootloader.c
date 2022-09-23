@@ -32,6 +32,7 @@ int main()
 
         if (strncmp(buffer, "load", 4) == 0)
         {
+            strtok(buffer, " ");
             char *param1 = strtok(NULL, " ");
             uint32_t addr = strtoul(param1, 0, 16);
             handler_load(addr);
