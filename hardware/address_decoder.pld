@@ -1,23 +1,20 @@
 GAL16V8
 DECODER
 
-NC BOOT AS NC NC A16 A17 A18 A19 GND
+NC BOOT AS IACK NC A16 A17 A18 A19 GND
 NC A20 A21 NC NC ROMEN RAMEN DUARTEN DTACK VCC
 
-/RAMEN = /AS * BOOT
+/RAMEN = /AS * BOOT * IACK
 
-/ROMEN =  /BOOT * /AS
-        + BOOT * /AS * A21 * A20 * A19 * /A18
+/ROMEN =  /BOOT * /AS * IACK
+        + BOOT * /AS * IACK * A21 * A20 * A19 * /A18
 
-/DUARTEN = /AS * BOOT * A21 * A20 * A19 * A18 * A17
+/DUARTEN = /AS * BOOT * IACK * A21 * A20 * A19 * A18 * A17
 
 DTACK = GND
 
 DESCRIPTION
-
 RAMEN: Any valid bus access outside of BOOT
 ROMEN: First 8 bus accesses or 0x380000 (256K)
 DUARTEN: 0x3E0000 (128K)
 DTACK: Grounded
-
-TODO: wire up A23 to a pin other than 15
