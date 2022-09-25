@@ -75,7 +75,7 @@ void duart_init(void)
     MEM(DUART_ACR) = 0x80;        // Baudrate set 2
     MEM(DUART_CRB) = 0x80;        // Set Rx extended bit
     MEM(DUART_CRB) = 0xA0;        // Set Tx extended bit
-    MEM(DUART_CSRB) = 0x77;       // 57600 baud
+    MEM(DUART_CSRB) = 0x88;       // 115200 baud
     MEM(DUART_CRB) = 0b0101;      // Enable Tx/Rx
 }
 
