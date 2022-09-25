@@ -7,7 +7,6 @@ module decoder(
 	input [23:16] ADDR,
 	output ROMEN,
 	output RAMEN,
-	output MFPEN,
 	output DUARTEN,
 	output DTACK
 );
@@ -36,20 +35,20 @@ module decoder(
 	// Address Decoding
 	// ======================
 
-	// 0x380000 - 256K
-	assign ROMEN = ~(IACK & ~AS & (~BOOT | (~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ~ADDR[18])));
-	
 	assign RAMEN = ~(IACK & ~AS & BOOT);
 
-	// 0x3C0000
-	assign MFPEN = ~(~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ~ADDR[17]);
-	
+	// 0x380000 - 256K
+	assign ROMEN = ~(IACK & ~AS & (~BOOT | (~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ~ADDR[18])));
+
 	// 0x3E0000
 	assign DUARTEN = ~(IACK & ~AS & BOOT & ~ADDR[23] & ~ADDR[22] & ADDR[21] & ADDR[20] & ADDR[19] & ADDR[18] & ADDR[17]);
 
 	// DTACK
 	// TODO: Implement proper DTACK handling for DUART and interrupt handling
 	assign DTACK = 0;
+
+	// I don't think this is right
+	// assign DTACK = ~((~DUARTEN * ~DTACK_IN * IACK) | DUARTEN);
 
 
 endmodule
