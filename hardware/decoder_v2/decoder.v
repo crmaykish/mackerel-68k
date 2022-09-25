@@ -9,23 +9,8 @@ module decoder(
 	output RAMEN,
 	output MFPEN,
 	output DUARTEN,
-	output DTACK,
-	output LED_BLUE
+	output DTACK
 );
-
-	// ======================
-	// Counter
-	// ======================
-
-	// reg [20:0] counter = 0;
-
-	// always @(posedge CLK) begin
-	// 	counter <= counter + 1;
-	// end
-
-	// assign LED_BLUE = counter[20];
-
-	assign LED_BLUE = 1;	// LED signal is inverted?
 
 	// ======================
 	// BOOT Signal
@@ -33,25 +18,16 @@ module decoder(
 
 	reg BOOT = 1'b0;
 	reg [3:0] bus_cycles = 0;
-	reg got_cycle = 1'b0;
 	
-	always @(posedge CLK) begin
+	always @(posedge AS) begin
 		if (~RST) begin 
 			bus_cycles = 0;
 			BOOT <= 1'b0;
 		end
 		else begin
 			if (~BOOT) begin
-				if (~AS) begin
-					if(~got_cycle) begin
-						bus_cycles <= bus_cycles + 4'b1;
-						got_cycle <= 1'b1;
-					end
-				end
-				else begin 
-					got_cycle <= 1'b0;
-					if (bus_cycles > 4'd8) BOOT <= 1'b1;
-				end
+				bus_cycles <= bus_cycles + 4'b1;
+				if (bus_cycles == 4'd8) BOOT <= 1'b1;
 			end
 		end
 	end

@@ -21,5 +21,3 @@ set_io --warn-no-port RAMEN 9
 set_io --warn-no-port ROMEN 11
 set_io --warn-no-port MFPEN 18
 set_io --warn-no-port DUARTEN 19
-
-set_io --warn-no-port LED_BLUE 40
