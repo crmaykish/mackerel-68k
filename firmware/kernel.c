@@ -16,6 +16,8 @@ int main()
     // Map an exception handler for the periodic timer interrupt
     set_exception_handler(0x40, &system_timer_intr);
 
+    // NOTE: Interrupts don't work with classic DUART
+
     // Setup DUART timer as 50 Hz interrupt
     MEM(DUART_IVR) = 0x40;       // Interrupt base register
     MEM(DUART_ACR) = 0xF0;       // Set timer mode X/16
