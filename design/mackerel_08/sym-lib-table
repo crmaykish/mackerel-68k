@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "mackerel")(type "KiCad")(uri "${KIPRJMOD}/mackerel.kicad_sym")(options "")(descr ""))
+)
