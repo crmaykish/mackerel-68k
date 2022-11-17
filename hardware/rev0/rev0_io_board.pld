@@ -1,0 +1,17 @@
+GAL16V8
+IODEC
+
+AS A1 A2 A3 CSIO IACK A12 A13 A14 GND
+NC CS0 CS1 NC NC NC NC IACK2 IACK1 VCC
+
+/CS0 = /CSIO * /A12 * /A13 * /A14
+/CS1 = /CSIO * A12 * /A13 * /A14
+
+/IACK1 = /AS * /IACK * A1 * /A2 * /A3
+/IACK2 = /AS * /IACK * /A1 * A2 * /A3
+
+DESCRIPTION
+Address and IACK decoder for 2xDUART board
+
+DUART1 is enabled at 0x000 offset from CS_IO and connected to IACK1
+DUART2 is enabled at 0x800 offset from CS_IO and connected to IACK2
