@@ -1,7 +1,7 @@
-CC = m68k-elf-gcc
-AS = m68k-elf-as
-LD = m68k-elf-ld
-OBJCOPY = m68k-elf-objcopy
+CC = ~/opt/cross/bin/m68k-elf-gcc
+AS = ~/opt/cross/bin/m68k-elf-as
+LD = ~/opt/cross/bin/m68k-elf-ld
+OBJCOPY = ~/opt/cross/bin/m68k-elf-objcopy
 
 MEMORY_MAP_ROM = linker_rom.scr
 MEMORY_MAP_RAM = linker_ram.scr

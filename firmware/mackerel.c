@@ -75,14 +75,10 @@ void duart_init(void)
     MEM(DUART_MR1B) = 0b00010011; // No Rx RTS, No Parity, 8 bits per character
     MEM(DUART_MR2B) = 0b00000111; // Channel mode normal, No Tx RTS, No CTS, stop bit length 1
     MEM(DUART_ACR) = 0x80;        // Baudrate set 2
-#ifdef ENABLE_XR68C681
-    MEM(DUART_CRB) = 0x80;  // Set Rx extended bit
-    MEM(DUART_CRB) = 0xA0;  // Set Tx extended bit
-    MEM(DUART_CSRB) = 0x88; // 115200 baud
-#else
-    MEM(DUART_CSRB) = 0xBB; // 9600 baud
-#endif
-    MEM(DUART_CRB) = 0b0101; // Enable Tx/Rx
+    MEM(DUART_CRB) = 0x80;        // Set Rx extended bit
+    MEM(DUART_CRB) = 0xA0;        // Set Tx extended bit
+    MEM(DUART_CSRB) = 0x88;       // 115200 baud
+    MEM(DUART_CRB) = 0b0101;      // Enable Tx/Rx
 }
 
 void duart_putc(char c)

@@ -21,7 +21,7 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    mputs("\r\n### Mackerel-8 Bootloader ###\r\n");
+    mputs("\r\n### Mackerel-8 Bootloader ###\r\n###   crmaykish - 2024    ###\r\n");
 
     while (true)
     {
@@ -149,8 +149,8 @@ int main()
 
 void handler_run()
 {
-    mputs("Jumping to 0x8000\r\n");
-    asm("jsr 0x8000");
+    mputs("Jumping to 0x400\r\n");
+    asm("jsr 0x400");
 }
 
 void handler_load(uint32_t addr)
@@ -161,7 +161,7 @@ void handler_load(uint32_t addr)
 
     if (addr == 0)
     {
-        addr = 8000;
+        addr = 0x400;
     }
 
     printf("Loading from serial into 0x%X...\r\n", addr);
