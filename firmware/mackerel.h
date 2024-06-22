@@ -99,7 +99,7 @@ typedef unsigned int uint32_t;
 
 // Interrupt bits
 #define DUART_INTR_COUNTER 0b0001000
-#define DUART_INTR_RXRDY  0b00100000
+#define DUART_INTR_RXRDY 0b00100000
 
 // Get the value at a memory address
 #define MEM(address) (*(volatile unsigned char *)(address))

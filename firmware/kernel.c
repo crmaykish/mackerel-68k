@@ -2,9 +2,6 @@
 #include <stdbool.h>
 #include "mackerel.h"
 
-#define DUART_BASE_REGISTER 0x40
-#define DUART1_BASE_REGISTER 0x50
-
 void __attribute__((interrupt)) duart_isr()
 {
     // Determine the type of interrupt
@@ -14,7 +11,7 @@ void __attribute__((interrupt)) duart_isr()
     {
         // RX character available
         uint8_t a = MEM(DUART_RBB); // Read the available byte. This clears the interrupt
-        mputc(a);                   // Print the character back out
+        duart_putc(a);              // Print the character back out
     }
 }
 
@@ -25,10 +22,8 @@ void __attribute__((interrupt)) duart1_isr()
 
     if (misr & DUART_INTR_COUNTER)
     {
-        // Counter timed out
-        MEM(DUART1_OPR_RESET); // Read the OPR port to clear the counter and reset the timer. This clears the interrupt
-
-        mputc('Y'); // Print a Y when the timer ticks
+        MEM(DUART1_OPR_RESET);
+        duart_putc('y');
     }
 }
 
@@ -36,22 +31,15 @@ int main()
 {
     uint32_t i = 0;
 
+    printf("Starting Mackerel kernel...\n");
+
     // Map an exception handler for the periodic timer interrupt
-    set_exception_handler(DUART_BASE_REGISTER, &duart_isr);
-    set_exception_handler(DUART1_BASE_REGISTER, &duart1_isr);
+    set_exception_handler(65, &duart_isr);
+    set_exception_handler(66, &duart1_isr);
 
     // Setup DUART0
-    MEM(DUART_IVR) = DUART_BASE_REGISTER; // Set interrupt base register
-    MEM(DUART_IMR) = DUART_INTR_RXRDY;    // Unmask interrupts
-    MEM(DUART_OPR);                       // Start counter
-
-    // Setup DUART1
-    MEM(DUART1_IVR) = DUART1_BASE_REGISTER; // Set interrupt base register
-    MEM(DUART1_ACR) = 0xF0;                 // Set timer mode X/16
-    MEM(DUART1_CUR) = 0x80;                 // Counter upper byte, (3.6864MHz / 2 / 16 / 0x900) = 50 Hz
-    MEM(DUART1_CLR) = 0x00;                 // Counter lower byte
-    MEM(DUART1_IMR) = DUART_INTR_COUNTER;   // Unmask interrupts
-    MEM(DUART1_OPR);
+    MEM(DUART_IVR) = 65;                                    // Set interrupt base register
+    MEM(DUART_IMR) = DUART_INTR_RXRDY; // Unmask interrupts
 
     printf("Starting kernel...%X\r\n", 0xC0FFEE);
 
@@ -64,7 +52,7 @@ int main()
 
         i++;
 
-        delay(100000);
+        delay(50000);
     }
 
     return 0;
