@@ -7,7 +7,8 @@
 
 #define INPUT_BUFFER_SIZE 32
 
-void handler_run();
+void handler_runram();
+void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
 void zero(uint32_t start, uint32_t end);
@@ -37,9 +38,13 @@ int main()
             uint32_t addr = strtoul(param1, 0, 16);
             handler_load(addr);
         }
-        else if (strncmp(buffer, "run", 3) == 0)
+        else if (strncmp(buffer, "runrom", 6) == 0)
         {
-            handler_run();
+            handler_runrom();
+        }
+        else if (strncmp(buffer, "run", 3) == 0 || strncmp(buffer, "runram", 6) == 0)
+        {
+            handler_runram();
         }
         else if (strncmp(buffer, "boot", 4) == 0)
         {
@@ -147,10 +152,16 @@ int main()
     return 0;
 }
 
-void handler_run()
+void handler_runram()
 {
     mputs("Jumping to 0x400\r\n");
     asm("jsr 0x400");
+}
+
+void handler_runrom()
+{
+    mputs("Jumping to 0x200000\r\n");
+    asm("jsr 0x200000");
 }
 
 void handler_load(uint32_t addr)
