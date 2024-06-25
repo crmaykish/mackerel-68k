@@ -11,9 +11,9 @@ Here's an outline of the major project goals:
 - [x] Build the simplest usable computer with a 68008 CPU, ROM, RAM, and a serial port
 - [x] Expand hardware to meet uClinux requirements - timer interrupt, more RAM
 - [x] Port uClinux in any form and boot it to an interactive shell
-- [] Design and manufacture a single-board PCB of the initial 68008 computer
-- [] Expand the initial design to use a 68020, add persistent storage, networking, possibly DRAM
-- [] Build a final revision using the 68030 - run full Linux, not just uClinux
+- [ ] Design and manufacture a single-board PCB of the initial 68008 computer
+- [ ] Expand the initial design to use a 68020, add persistent storage, networking, possibly DRAM
+- [ ] Build a final revision using the 68030 - run full Linux, not just uClinux
 
 ## Hardware
 
