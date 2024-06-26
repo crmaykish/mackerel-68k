@@ -1,0 +1,11 @@
+GAL16V8
+IACK
+
+NC AS A1 A2 A3 IACK NC NC NC GND
+NC NC NC NC NC NC NC IACK2 IACK1 VCC
+
+/IACK1 = /AS * /IACK * A1 * /A2 * /A3
+/IACK2 = /AS * /IACK * /A1 * A2 * /A3
+
+DESCRIPTION
+IACK decoder for I/O peripherals

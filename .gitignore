@@ -8,10 +8,6 @@
 *.fus
 *.pin
 *.jed
-hardware/decoder_v2/hardware.out
-hardware/decoder_v2/hardware.json
-hardware/decoder_v2/hardware.asc
-hardware/decoder_v2/.sconsign.dblite
 
 # For PCBs designed using KiCad: https://www.kicad.org/
 # Format documentation: https://kicad.org/help/file-formats/

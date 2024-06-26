@@ -1,0 +1,24 @@
+GAL16V8
+ADDR_INT
+
+BOOT AS IACK IRQ0 IRQ1 A16 A17 A18 A19 GND
+NC A20 A21 IPL0 IPL1 CSROM CSRAM CSIO NC VCC
+
+/CSRAM = /AS * BOOT * IACK
+
+/CSROM =  /BOOT * /AS * IACK
+        + BOOT * /AS * IACK * A21 * A20 * A19 * /A18
+
+/CSIO = /AS * BOOT * IACK * A21 * A20 * A19 * A18 * A17
+
+/IPL0 = /IRQ0 * IRQ1
+
+/IPL1 = IRQ0 * /IRQ1
+      + /IRQ0 * /IRQ1
+
+DESCRIPTION
+Address and interrupt decoder
+
+- RAM is selected for any valid address after BOOT (4096K)
+- ROM is mapped to 0x0000 at BOOT and 0x380000 any time after (256K)
+- I/O is mapped starting at 0x3E0000 (128K)
