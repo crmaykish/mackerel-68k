@@ -1,11 +1,28 @@
 GAL16V8
 IACK
 
-NC AS A1 A2 A3 IACK NC NC NC GND
-NC NC NC NC NC NC NC IACK2 IACK1 VCC
+NC AS A1 A2 A3 NC FC0 FC1 FC2 GND
+NC IACK7 IACK6 IACK5 IACK4 IACK3 IACK2 IACK1 IACK VCC
 
-/IACK1 = /AS * /IACK * A1 * /A2 * /A3
-/IACK2 = /AS * /IACK * /A1 * A2 * /A3
+/IACK = FC2 * FC1 * FC0
+
+/IACK1 = /AS * /IACK * /A3 * /A2 * A1
+/IACK2 = /AS * /IACK * /A3 * A2 * /A1
+/IACK3 = /AS * /IACK * /A3 * A2 * A1
+/IACK4 = /AS * /IACK * A3 * /A2 * /A1
+/IACK5 = /AS * /IACK * A3 * /A2 * A1
+/IACK6 = /AS * /IACK * A3 * A2 * /A1
+/IACK7 = /AS * /IACK * A3 * A2 * A1
 
 DESCRIPTION
-IACK decoder for I/O peripherals
+The 68008 CPU indicates it is servicing an interrupt by setting FC0-FC2 to high
+and putting the interrupt level (1-7) on the A1-A3 address lines
+
+Decode this IACK interrupt level back into individual IACK outputs for
+the various peripherals
+
+IACK1-IACK7 should each connect to an I/O device
+IACK is provided for passthrough/debugging
+
+Note: the manual indicates that A16-A19 should also be high during an IACK cycle,
+but adding this to the IACK decoding logic does not seem to be needed
