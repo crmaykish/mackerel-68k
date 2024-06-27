@@ -1,13 +1,14 @@
 GAL16V8
 ADDR_INT
 
-BOOT AS IACK IRQ1 IRQ2 IRQ3 A16 A17 A18 GND
+BOOT AS IACK IRQ1 IRQ2 IRQ3 IRQ4 A17 A18 GND
 A19 A20 A21 IPL0 IPL1 IPL2 CSROM CSRAM CSIO VCC
 
 /CSRAM = /AS * BOOT * IACK
 
-/CSROM =  /BOOT * /AS * IACK
+/CSROM = /BOOT * /AS * IACK
         + BOOT * /AS * IACK * A21 * A20 * A19 * /A18
+        + BOOT * /AS * IACK * A21 * A20 * A19 * A18 * /A17
 
 /CSIO = /AS * BOOT * IACK * A21 * A20 * A19 * A18 * A17
 
@@ -21,6 +22,8 @@ IPL2 = VCC
 DESCRIPTION
 Address and interrupt decoder
 
-- RAM is selected for any valid address after BOOT (4096K)
-- ROM is mapped to 0x0000 at BOOT and 0x380000 any time after (256K)
-- I/O is mapped starting at 0x3E0000 (128K)
+- RAM is selected for any valid address after BOOT (0x000000 - 0x400000, 4MB)
+- ROM is mapped to 0x0000 at BOOT and 0x380000 - 0x3E0000 any time after (384KB)
+- I/O is mapped starting at 0x3E0000 (128KB)
+
+TODO: Map IRQ3 and IRQ4 to the CPU interrupt pins

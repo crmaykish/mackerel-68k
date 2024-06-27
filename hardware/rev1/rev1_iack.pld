@@ -1,28 +1,38 @@
 GAL16V8
-IACK
+IACK_IO
 
-NC AS A1 A2 A3 NC FC0 FC1 FC2 GND
-NC IACK7 IACK6 IACK5 IACK4 IACK3 IACK2 IACK1 IACK VCC
-
-/IACK = FC2 * FC1 * FC0
+IACK AS A1 A2 A3 CSIO A14 A15 A16 GND
+NC IO0 IO1 IO2 IO3 IACK4 IACK3 IACK2 IACK1 VCC
 
 /IACK1 = /AS * /IACK * /A3 * /A2 * A1
 /IACK2 = /AS * /IACK * /A3 * A2 * /A1
 /IACK3 = /AS * /IACK * /A3 * A2 * A1
 /IACK4 = /AS * /IACK * A3 * /A2 * /A1
-/IACK5 = /AS * /IACK * A3 * /A2 * A1
-/IACK6 = /AS * /IACK * A3 * A2 * /A1
-/IACK7 = /AS * /IACK * A3 * A2 * A1
+
+/IO0 = /CSIO * /A16 * /A15 * /A14
+/IO1 = /CSIO * /A16 * /A15 * A14
+/IO2 = /CSIO * /A16 * A15 * /A14
+/IO3 = /CSIO * /A16 * A15 * A14
 
 DESCRIPTION
+This PLD handles chip-select and IACK signals for four possible peripherals. They
+are mapped at the following offsets from the base I/O address (0x3E0000)
+
+IO0: 0x0000
+IO1: 0x4000
+IO2: 0x8000
+IO3: 0xC000
+
 The 68008 CPU indicates it is servicing an interrupt by setting FC0-FC2 to high
 and putting the interrupt level (1-7) on the A1-A3 address lines
 
 Decode this IACK interrupt level back into individual IACK outputs for
 the various peripherals
 
-IACK1-IACK7 should each connect to an I/O device
-IACK is provided for passthrough/debugging
+IACK1-IACK4 should each connect to an I/O device
+
+Note: the IACK number refers to the interrupt level, not the IO device number. They
+are technically not linked.
 
 Note: the manual indicates that A16-A19 should also be high during an IACK cycle,
 but adding this to the IACK decoding logic does not seem to be needed
