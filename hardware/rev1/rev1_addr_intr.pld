@@ -1,29 +1,28 @@
 GAL16V8
 ADDR_INT
 
-BOOT AS IACK IRQ1 IRQ2 IRQ3 IRQ4 A17 A18 GND
-A19 A20 A21 IPL0 IPL1 IPL2 CSROM CSRAM CSIO VCC
+BOOT AS IACK IRQ1 A1 A2 A3 A17 A18 GND
+A19 A20 A21 IPL0 NC CSROM CSRAM CSDUART IACK1 VCC
 
-/CSRAM = /AS * BOOT * IACK
+/CSRAM =   /AS * BOOT * IACK * /A21
+         + /AS * BOOT * IACK * A21 * /A20
 
 /CSROM = /BOOT * /AS * IACK
-        + BOOT * /AS * IACK * A21 * A20 * A19 * /A18
-        + BOOT * /AS * IACK * A21 * A20 * A19 * A18 * /A17
+        + BOOT * /AS * IACK * A21 * A20 * /A19
 
-/CSIO = /AS * BOOT * IACK * A21 * A20 * A19 * A18 * A17
+/CSDUART = /AS * BOOT * IACK * A21 * A20 * A19 * /A18 * /A17
 
-/IPL0 = /IRQ1 * IRQ2
+/IACK1 = /AS * /IACK * /A3 * /A2 * A1
 
-/IPL1 = IRQ1 * /IRQ2
-      + /IRQ1 * /IRQ2
-
-IPL2 = VCC
+IPL0 = IRQ1
 
 DESCRIPTION
 Address and interrupt decoder
 
-- RAM is selected for any valid address after BOOT (0x000000 - 0x400000, 4MB)
-- ROM is mapped to 0x0000 at BOOT and 0x380000 - 0x3E0000 any time after (384KB)
-- I/O is mapped starting at 0x3E0000 (128KB)
+RAM is mapped to 0x000000 - 0x300000
+ROM is mapped to 0x300000 - 0x380000
+DUART is mapped to 0x380000 - 0x390000
 
-TODO: Map IRQ3 and IRQ4 to the CPU interrupt pins
+IRQ1 comes from the DUART and is passed through to IPL0 (IRQ level 1)
+
+IACK1 goes to the DUART and responds when IRQ level is 1

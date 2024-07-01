@@ -37,8 +37,8 @@ And my serial transfer tool is [here](https://github.com/crmaykish/ctt). This is
 
 ## Memory Map
 
-RAM (3.5MB): 0x000000 - 0x380000
+RAM (3MB): 0x000000 - 0x300000
 
-ROM (256 KB): 0x380000 - 0x3C0000 (mapped to 0x0000 temporarily at boot)
+ROM (512 KB): 0x300000 - 0x380000 (mapped to 0x0000 temporarily at boot)
 
-XR68C681 DUART: 0x3C0000 - 0x400000
+I/O (512 KB): 0x380000 - 0x400000
