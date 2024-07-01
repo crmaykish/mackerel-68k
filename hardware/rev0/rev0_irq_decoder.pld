@@ -4,13 +4,11 @@ IRQDEC
 NC IRQ1 IRQ2 NC NC NC NC NC NC GND
 NC NC NC NC NC NC IPL2 IPL1 IPL0 VCC
 
-/IPL0 = /IRQ1 * IRQ2
+IPL0 = IRQ1
 
-/IPL1 = IRQ1 * /IRQ2
-      + /IRQ1 * /IRQ2
+/IPL1 = VCC
 
 IPL2 = VCC
 
 DESCRIPTION
-Interrupt request priority decoder
-This is just a worse 74HC148
+Passthrough IRQ1 input to IPL0, (IRQ level 1)
