@@ -1,0 +1,24 @@
+GAL22V10
+IRQ
+
+IRQ1 IRQ2 IRQ3 IRQ4 IRQ5 IRQ6 IRQ7 IACK A1 A2 A3 GND
+AS IACK1 IACK2 IACK3 IACK4 IACK5 IACK6 IACK7 IPL0 IPL1 IPL2 VCC
+
+/IPL0 = /IRQ1 + /IRQ3 + /IRQ5 + /IRQ7
+/IPL1 = /IRQ2 + /IRQ3 + /IRQ6 + /IRQ7
+/IPL2 = /IRQ4 + /IRQ5 + /IRQ6 + /IRQ7
+
+/IACK1 = /AS * /A3 * /A2 * A1
+/IACK2 = /AS * /A3 * A2 * /A1
+/IACK3 = /AS * /A3 * A2 * A1
+/IACK4 = /AS * A3 * /A2 * /A1
+/IACK5 = /AS * A3 * /A2 * A1
+/IACK6 = /AS * A3 * A2 * /A1
+/IACK7 = /AS * A3 * A2 * A1
+
+DESCRIPTION
+Encode IRQ sources (1-7) to the processor's interrupt level (IPL0-IPL2)
+
+Decode address bits into IACK levels (1-7)
+
+This is basically a 74HC138 and a 74HC148 stuck together.
