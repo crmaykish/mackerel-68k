@@ -1,0 +1,26 @@
+GAL22V10
+REV1
+
+BOOT AS IACK IRQ1 A1 A2 A3 A17 A18 A19 A20 GND
+A21 RAM5 RAM4 RAM3 RAM2 RAM1 RAM0 IPL0 IACK1 CS1 CSROM VCC
+
+/CSROM = /BOOT * /AS * IACK
+        + BOOT * /AS * IACK * A21 * A20 * /A19
+
+/CS1 = /AS * BOOT * IACK * A21 * A20 * A19 * /A18 * /A17
+
+/IACK1 = /AS * /IACK * /A3 * /A2 * A1
+
+IPL0 = IRQ1
+
+/RAM0 = /AS * BOOT * IACK * /A21 * /A20 * /A19
+/RAM1 = /AS * BOOT * IACK * /A21 * /A20 * A19
+/RAM2 = /AS * BOOT * IACK * /A21 * A20 * /A19
+/RAM3 = /AS * BOOT * IACK * /A21 * A20 * A19
+/RAM4 = /AS * BOOT * IACK * A21 * /A20 * /A19
+/RAM5 = /AS * BOOT * IACK * A21 * /A20 * A19
+
+DESCRIPTION
+
+Combined glue logic for Mackerel Rev 1
+
