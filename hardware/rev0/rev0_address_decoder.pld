@@ -4,7 +4,7 @@ ADDRDEC
 NC BOOT AS IACK NC A16 A17 A18 A19 GND
 NC A20 A21 NC NC CSROM CSRAM CSIO DTACKCPU VCC
 
-/CSRAM = /AS * BOOT * IACK * /A21
+/CSRAM = /AS * BOOT * IACK
 
 /CSROM = /BOOT * /AS * IACK
         + BOOT * /AS * IACK * A21 * A20 * /A19
@@ -16,6 +16,6 @@ DTACKCPU = GND
 DESCRIPTION
 Address decoder for rev0 board
 
-RAM is mapped to 0x000000 - 0x200000 (2MB)
+RAM is mapped to 0x000000 - 0x300000 (3MB)
 ROM is mapped to 0x300000 - 0x380000 (512KB)
 I/O is mapped to 0x380000 - 0x400000 (512KB)
