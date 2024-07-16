@@ -23,23 +23,23 @@ void set_exception_handler(unsigned char exception_number, void (*exception_hand
 
 void duart_init(void)
 {
-    MEM(DUART_IMR) = 0x00;        // Mask all interrupts
-    MEM(DUART_MR1B) = 0b00010011; // No Rx RTS, No Parity, 8 bits per character
-    MEM(DUART_MR2B) = 0b00000111; // Channel mode normal, No Tx RTS, No CTS, stop bit length 1
-    MEM(DUART_ACR) = 0x80;        // Baudrate set 2
-    MEM(DUART_CRB) = 0x80;        // Set Rx extended bit
-    MEM(DUART_CRB) = 0xA0;        // Set Tx extended bit
-    MEM(DUART_CSRB) = 0x88;       // 115200 baud
-    MEM(DUART_CRB) = 0b0101;      // Enable Tx/Rx
+    MEM(DUART1_IMR) = 0x00;        // Mask all interrupts
+    MEM(DUART1_MR1B) = 0b00010011; // No Rx RTS, No Parity, 8 bits per character
+    MEM(DUART1_MR2B) = 0b00000111; // Channel mode normal, No Tx RTS, No CTS, stop bit length 1
+    MEM(DUART1_ACR) = 0x80;        // Baudrate set 2
+    MEM(DUART1_CRB) = 0x80;        // Set Rx extended bit
+    MEM(DUART1_CRB) = 0xA0;        // Set Tx extended bit
+    MEM(DUART1_CSRB) = 0x88;       // 115200 baud
+    MEM(DUART1_CRB) = 0b0101;      // Enable Tx/Rx
 }
 
 void duart_putc(char c)
 {
-    while ((MEM(DUART_SRB) & 0b00000100) == 0)
+    while ((MEM(DUART1_SRB) & 0b00000100) == 0)
     {
     }
 
-    MEM(DUART_TBB) = c;
+    MEM(DUART1_TBB) = c;
 
     if (c == 0x0A)
     {
@@ -49,11 +49,11 @@ void duart_putc(char c)
 
 char duart_getc(void)
 {
-    while ((MEM(DUART_SRB) & 0b00000001) == 0)
+    while ((MEM(DUART1_SRB) & 0b00000001) == 0)
     {
     }
 
-    return MEM(DUART_RBB);
+    return MEM(DUART1_RBB);
 }
 
 void duart_puts(const char *s)

@@ -31,13 +31,6 @@ void _start()
     // Disable interrupts
     set_interrupts(false);
 
-    // Initialize the vector table at the start of RAM
-    for (int i = 0; i < VECTOR_TABLE_SIZE; i += 4)
-    {
-        // All exceptions start off pointing to a known handler
-        set_exception_handler(i, &exception_unhandled);
-    }
-
     set_exception_handler(2, exception_bus_error);
     set_exception_handler(3, exception_addr_error);
     set_exception_handler(4, exception_illegal_inst);
