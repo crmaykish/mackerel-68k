@@ -20,7 +20,7 @@ typedef unsigned int uint32_t;
 
 // MC68681P DUART 1
 
-#define DUART1_BASE 0x3C0000
+#define DUART1_BASE 0x3F0000
 #define DUART1_MR1A (DUART1_BASE + 0x01)
 #define DUART1_MR2A (DUART1_BASE + 0x01)
 #define DUART1_SRA (DUART1_BASE + 0x03)
@@ -47,7 +47,7 @@ typedef unsigned int uint32_t;
 #define DUART1_OPR_RESET (DUART1_BASE + 0x1F)
 
 // MC68681P DUART 2
-#define DUART2_BASE 0x3C4000
+#define DUART2_BASE 0x3F4000
 #define DUART2_MR1A (DUART2_BASE + 0x01)
 #define DUART2_MR2A (DUART2_BASE + 0x01)
 #define DUART2_SRA (DUART2_BASE + 0x03)

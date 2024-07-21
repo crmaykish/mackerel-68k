@@ -92,8 +92,8 @@ void handler_runram()
 
 void handler_runrom()
 {
-    mputs("Jumping to 0x200000\r\n");
-    asm("jsr 0x200000");
+    mputs("Jumping to 0x300000\r\n");
+    asm("jsr 0x300000");
 }
 
 void handler_boot()
