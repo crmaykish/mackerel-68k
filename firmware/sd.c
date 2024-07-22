@@ -17,19 +17,26 @@ bool sd_init()
     uint8_t b;
     bool init_done = false;
 
+    if (!gpio_get(CD)) {
+        printf("No SD card detected.\n");
+        return false;
+    }
+    else {
+        printf("Found an SD card.\n");
+    }
+
+
     spi_init();
 
-    delay(1000);
+    // delay(100);
 
     printf("Setting up the SD card...\r\n");
 
     // Toggle the SPI clock 80 times with CS disabled
     for (i = 0; i < 80; i++)
     {
-        gpio_put(SCLK, true);
-        delay(100);
-        gpio_put(SCLK, false);
-        delay(100);
+        spi_clk(true);
+        spi_clk(false);
     }
 
     b = spi_transfer(SPI_EMPTY);
