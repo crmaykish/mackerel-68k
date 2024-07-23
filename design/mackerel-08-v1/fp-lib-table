@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "herring")(type "KiCad")(uri "/home/colin/Workspace/herring-6502/hardware/herring.pretty")(options "")(descr ""))
+)
