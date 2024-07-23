@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "mackerel.h"
+#include "sd.h"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -98,8 +99,44 @@ void handler_runrom()
 
 void handler_boot()
 {
-    mputs("Jumping to 0x302000\r\n");
-    asm("jsr 0x302000");
+    printf("Loading Linux from SD card...\n");
+
+    if (!sd_init())
+    {
+        return;
+    }
+
+    unsigned char *mem = (unsigned char *)0x400;
+
+    printf("Loading kernel into 0x%X...\n", (int)mem);
+
+    for (int block = 0; block < 2048; block++)
+    {
+        if (block % 10 == 0)
+        {
+            printf("%d/%d\n", block, 2048 - 1);
+        }
+        sd_read(block, mem);
+        mem += 512;
+    }
+
+    mem = (unsigned char *)0x300000;
+
+    printf("Loading ROM filesystem into 0x%X...\n", (int)mem);
+
+    for (int block = 2048; block < 2048 + 0x280; block++)
+    {
+        if (block % 10 == 0)
+        {
+            printf("%d/%d\n", block - 2048, 0x280 - 1);
+        }
+        sd_read(block, mem);
+        mem += 512;
+    }
+
+    printf("Done\n");
+
+    handler_runram();
 }
 
 void handler_load(uint32_t addr)

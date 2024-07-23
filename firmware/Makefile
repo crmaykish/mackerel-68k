@@ -16,7 +16,7 @@ BINS = bootloader.bin hello.bin kernel.bin
 all: $(BINS)
 
 %.o: %.c
-	$(CC) -mcpu=68000 -g -Wall -c $< -o $@
+	$(CC) -mcpu=68000 -g -Wall -c $< -o $@ -O3
 
 %.o: %.s
 	$(AS) -mcpu=68000 $< -o $@
@@ -24,7 +24,7 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o ch376s.o
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o 

@@ -2,7 +2,7 @@
 #include "spi.h"
 #include "mackerel.h"
 
-void gpio_put(uint8_t pin, bool val)
+static inline void gpio_put(uint8_t pin, bool val)
 {
     if (val)
     {
@@ -14,17 +14,11 @@ void gpio_put(uint8_t pin, bool val)
     }
 }
 
-bool gpio_get(uint8_t pin)
+static inline bool gpio_get(uint8_t pin)
 {
     unsigned char in = MEM(DUART1_IP);
     unsigned char shift = (1 << pin);
-
-    if (in & shift) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return (in & shift);
 }
 
 void spi_init()
@@ -37,10 +31,8 @@ void spi_init()
     gpio_put(LED, false);
 }
 
-void spi_clk(bool on){
+static inline void spi_clk(bool on){
     gpio_put(SCLK, on);
-    gpio_put(LED, on);
-    // delay(10);
 }
 
 uint8_t spi_transfer(uint8_t byte_to_send)
@@ -57,15 +49,7 @@ uint8_t spi_transfer(uint8_t byte_to_send)
 
     for (i = 7; i >= 0; i--)
     {
-        // Shift out a bit
-        if (byte_to_send & (1 << i))
-        {
-            gpio_put(MOSI, true);
-        }
-        else
-        {
-            gpio_put(MOSI, false);
-        }
+        gpio_put(MOSI, byte_to_send & (1 << i));
 
         // Clock high
         spi_clk(true);
@@ -84,4 +68,17 @@ uint8_t spi_transfer(uint8_t byte_to_send)
     gpio_put(CS, true);
 
     return byte_received;
+}
+
+void spi_loop_clk() {
+    // Toggle the SPI clock 80 times with CS disabled
+    for (int i = 0; i < 80; i++)
+    {
+        spi_clk(true);
+        spi_clk(false);
+    }
+}
+
+bool card_detect() {
+    return gpio_get(CD);
 }

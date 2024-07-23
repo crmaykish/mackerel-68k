@@ -18,16 +18,14 @@
 
 #define SPI_RETRY_LIMIT 10
 
-// GPIO control
-void gpio_put(uint8_t pin, bool val);
-bool gpio_get(uint8_t pin);
-
 // Set up the GPIO pins needed for SPI
 void spi_init();
 
-void spi_clk(bool on);
-
 // Send and receive a single byte over SPI
 uint8_t spi_transfer(uint8_t b);
+
+void spi_loop_clk();
+
+bool card_detect();
 
 #endif

@@ -17,7 +17,7 @@ bool sd_init()
     uint8_t b;
     bool init_done = false;
 
-    if (!gpio_get(CD)) {
+    if (!card_detect()) {
         printf("No SD card detected.\n");
         return false;
     }
@@ -25,19 +25,11 @@ bool sd_init()
         printf("Found an SD card.\n");
     }
 
-
     spi_init();
 
-    // delay(100);
+    delay(100);
 
-    printf("Setting up the SD card...\r\n");
-
-    // Toggle the SPI clock 80 times with CS disabled
-    for (i = 0; i < 80; i++)
-    {
-        spi_clk(true);
-        spi_clk(false);
-    }
+    spi_loop_clk();
 
     b = spi_transfer(SPI_EMPTY);
 
@@ -162,8 +154,6 @@ void sd_read(uint32_t block_num, uint8_t *block)
         result = sd_get_response();
     }
 
-    printf("Reading block: %d\r\n", block_num);
-
     for (i = 0; i < 512; i++)
     {
         block[i] = spi_transfer(SPI_EMPTY);
@@ -172,8 +162,6 @@ void sd_read(uint32_t block_num, uint8_t *block)
     // read the 16 bit CRC and ignore
     spi_transfer(SPI_EMPTY);
     spi_transfer(SPI_EMPTY);
-
-    printf("Block read complete: %d\r\n", block_num);
 }
 
 static uint8_t sd_get_response()
