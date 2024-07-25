@@ -1,0 +1,28 @@
+GAL22V10
+INTR_DEC
+
+FC0 FC1 FC2 AS IRQDUART IRQEXP NC NC NC A1 A2 GND
+A3 NC NC NC NAS IACKEXP IACKDUAR IPL2 IPL1 IPL0 IACK VCC
+
+NAS = /AS
+
+/IACK = FC0 * FC1 * FC2
+
+/IPL0 = /IRQDUART * IRQEXP
+/IPL1 = /IRQEXP
+IPL2 = VCC
+
+/IACKDUAR = /AS * FC0 * FC1 * FC2 * /A3 * /A2 * A1
+/IACKEXP = /AS * FC0 * FC1 * FC2 * /A3 * A2 * /A1
+
+DESCRIPTION
+Mackerel-08 v1 - Interrupt Logic
+
+NAS is an inverted /AS pin
+
+/IACK is active when FC pins are all high
+
+DUART interrupt is mapped to IRQ level 1
+EXP interrupt is mapped to IRQ level 2
+
+Return IACK signals match the input IRQ levels

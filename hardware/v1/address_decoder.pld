@@ -1,0 +1,32 @@
+GAL22V10
+ADDR_DEC
+
+BOOT AS IACK A13 A14 A15 A16 A17 A18 A19 A20 GND
+A21 EXP RAM6 RAM5 RAM4 RAM3 RAM2 RAM1 RAM0 ROM DUART VCC
+
+/RAM0 = BOOT * /AS * IACK * /A21 * /A20 * /A19
+/RAM1 = BOOT * /AS * IACK * /A21 * /A20 *  A19
+/RAM2 = BOOT * /AS * IACK * /A21 *  A20 * /A19
+/RAM3 = BOOT * /AS * IACK * /A21 *  A20 *  A19
+/RAM4 = BOOT * /AS * IACK *  A21 * /A20 * /A19
+/RAM5 = BOOT * /AS * IACK *  A21 * /A20 *  A19
+/RAM6 = BOOT * /AS * IACK *  A21 *  A20 * /A19
+
+DUART = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * /A13
+
+EXP = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * A13
+
+ROM = /BOOT * /AS * IACK
+     + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * /A14
+     + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 * /A15
+     + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 * /A16
+     + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 * /A17
+     + BOOT * /AS * IACK * A21 * A20 * A19 * /A18
+
+DESCRIPTION
+Mackerel-08 v1 - Address Decoder
+
+RAM0-6 is mapped 0x000000 - 0x380000 (3.5MB total) after BOOT
+ROM is mapped 0x380000 - 0x3FC000 (496/512 KB usable) (mapped to 0x000000 at BOOT)
+DUART is mapped 0x3FC000 - 0x3FE000 (8KB)
+EXP is mapped 0x3FE000 - 0x400000 (8KB)
