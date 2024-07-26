@@ -1834,12 +1834,6 @@
 		(uuid "7a4d3d3b-8e9a-49f2-be02-48c63d052607")
 	)
 	(junction
-		(at 30.48 125.73)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7e6c55c9-b41e-4810-a6b8-14d7564093ef")
-	)
-	(junction
 		(at 30.48 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1888,22 +1882,10 @@
 		(uuid "ae329c2b-2b97-4032-a8a9-cb5b87e68f27")
 	)
 	(junction
-		(at 30.48 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b1e388a7-141c-47bf-b801-e6784bc46348")
-	)
-	(junction
 		(at 22.86 69.85)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b7986cf7-c252-465f-82d5-b4f5dfee7bde")
-	)
-	(junction
-		(at 22.86 119.38)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b7a2af83-2026-4595-9d8f-734bdd7c535f")
 	)
 	(junction
 		(at 22.86 41.91)
@@ -1958,12 +1940,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f567b2e0-76f9-49a3-af45-d03485e4678a")
-	)
-	(junction
-		(at 22.86 25.4)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f5b5522b-1925-4d4b-a434-a6c9e1f4dbaf")
 	)
 	(no_connect
 		(at 96.52 53.34)
@@ -2099,17 +2075,7 @@
 	)
 	(wire
 		(pts
-			(xy 30.48 25.4) (xy 30.48 30.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2a1bacd6-768d-4645-bfe4-91dcd0c6cde0")
-	)
-	(wire
-		(pts
-			(xy 30.48 125.73) (xy 30.48 119.38)
+			(xy 30.48 119.38) (xy 30.48 125.73)
 		)
 		(stroke
 			(width 0)
@@ -2309,16 +2275,6 @@
 	)
 	(wire
 		(pts
-			(xy 22.86 119.38) (xy 22.86 125.73)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "66a9a7aa-9771-412b-b879-134a6a3f8a43")
-	)
-	(wire
-		(pts
 			(xy 71.12 127) (xy 71.12 129.54)
 		)
 		(stroke
@@ -2496,16 +2452,6 @@
 			(type default)
 		)
 		(uuid "aa80e1d3-36cc-4c15-b396-424eb7fb75c7")
-	)
-	(wire
-		(pts
-			(xy 30.48 135.89) (xy 30.48 125.73)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ab673a70-8ca7-4f1d-9b0f-1a1d86b347cd")
 	)
 	(wire
 		(pts
@@ -3423,7 +3369,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 30.48 135.89 0)
+		(at 30.48 125.73 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3432,7 +3378,7 @@
 		(fields_autoplaced yes)
 		(uuid "3c06f8d7-01e5-46cf-bcea-8ccec508a189")
 		(property "Reference" "#PWR073"
-			(at 30.48 142.24 0)
+			(at 30.48 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3441,7 +3387,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 30.48 141.224 0)
+			(at 30.48 131.064 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3449,7 +3395,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 30.48 135.89 0)
+			(at 30.48 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3458,7 +3404,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 30.48 135.89 0)
+			(at 30.48 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3467,7 +3413,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 30.48 135.89 0)
+			(at 30.48 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4048,74 +3994,6 @@
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
 					(reference "C18")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 26.67 25.4 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "745d93e9-5dd5-4f4d-b41e-13134f55f803")
-		(property "Reference" "C9"
-			(at 28.956 24.13 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "C"
-			(at 26.67 21.082 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm"
-			(at 30.48 24.4348 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 26.67 25.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 26.67 25.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c24f66b6-d19c-4acb-9faa-a645ab0d7bc9")
-		)
-		(pin "2"
-			(uuid "3b1f0932-c118-4251-b1f5-6017697715bb")
-		)
-		(instances
-			(project "mackerel-08-v1"
-				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -4858,74 +4736,6 @@
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
 					(reference "#PWR066")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 26.67 125.73 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b3c91d4a-9d07-48dc-9678-e5beef68275b")
-		(property "Reference" "C30"
-			(at 28.956 124.46 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "C"
-			(at 26.67 121.412 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm"
-			(at 30.48 124.7648 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 26.67 125.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 26.67 125.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4d5c5792-01c6-4b61-989f-4a8e5f9900e0")
-		)
-		(pin "2"
-			(uuid "751e7e60-36c9-4b92-bb36-167b69af0967")
-		)
-		(instances
-			(project "mackerel-08-v1"
-				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "C30")
 					(unit 1)
 				)
 			)
