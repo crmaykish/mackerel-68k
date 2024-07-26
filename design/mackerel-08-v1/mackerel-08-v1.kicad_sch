@@ -4924,17 +4924,6 @@
 		)
 		(uuid "60eea50e-6a46-4372-bb00-7d4ed91b1d9e")
 	)
-	(text "TODO: double check the pinout here"
-		(exclude_from_sim no)
-		(at 69.85 129.54 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "67f40db1-842d-4801-9b5f-1bc8e94156e3")
-	)
 	(text "BOOT Signal"
 		(exclude_from_sim no)
 		(at 87.63 186.69 0)
