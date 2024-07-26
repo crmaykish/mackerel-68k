@@ -4416,7 +4416,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal"
+		(property "Footprint" "Connector_RJ:RJ45_Bel_SI-60062-F"
 			(at 39.37 47.625 90)
 			(effects
 				(font
