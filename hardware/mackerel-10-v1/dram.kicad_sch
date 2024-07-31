@@ -1,0 +1,24 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "5d536a12-5b00-48f1-b6c4-76f9cd1f1068")
+	(paper "A4")
+	(title_block
+		(title "Mackerel-10 SBC v1")
+		(date "2024-07-30")
+		(rev "1.0a")
+		(company "Colin Maykish")
+	)
+	(lib_symbols)
+	(text "TODO: 30-pin SIMMs"
+		(exclude_from_sim no)
+		(at 139.446 89.662 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "edbc8e3c-dd22-48c1-9f61-f65710bbf3b6")
+	)
+)
