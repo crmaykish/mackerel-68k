@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "mackerel")(type "KiCad")(uri "/home/colin/Workspace/mackerel-68k/hardware/mackerel.pretty")(options "")(descr ""))
+)
