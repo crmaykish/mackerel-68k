@@ -12,11 +12,11 @@ A21 EXP RAM6 RAM5 RAM4 RAM3 RAM2 RAM1 RAM0 ROM DUART VCC
 /RAM5 = BOOT * /AS * IACK *  A21 * /A20 *  A19
 /RAM6 = BOOT * /AS * IACK *  A21 *  A20 * /A19
 
-DUART = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * /A13
+/DUART = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * /A13
 
-EXP = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * A13
+/EXP = BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * A14 * A13
 
-ROM = /BOOT * /AS * IACK
+/ROM = /BOOT * /AS * IACK
      + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 *  A15 * /A14
      + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 *  A16 * /A15
      + BOOT * /AS * IACK * A21 * A20 * A19 *  A18 *  A17 * /A16
