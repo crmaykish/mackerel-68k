@@ -11,6 +11,7 @@ void handler_runram();
 void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
+void memtest(int start, int end);
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
@@ -73,6 +74,15 @@ int main()
             uint8_t val = (uint8_t)strtoul(param2, 0, 16);
 
             MEM(addr) = val;
+        }
+        else if (strncmp(buffer, "memtest", 7) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t stop = strtoul(param2, 0, 16);
+            memtest(start, stop);
         }
         else
         {
@@ -254,4 +264,19 @@ void memdump(uint32_t address, uint32_t bytes)
     mputc('|');
     print_string_bin((char *)(address + i - 16), 16);
     mputc('|');
+}
+
+void memtest(int start, int end) {
+    printf("Starting memory test from 0x%X to 0x%X...\n", start, end);
+
+    for (int i = start; i < end; i++)
+    {
+        MEM(i) = 0xAB;
+
+        if (MEM(i) != 0xAB) {
+            printf("Memory error at: 0x%X\n", i);
+        }
+    }
+
+    printf("Memory test complete.\n");
 }

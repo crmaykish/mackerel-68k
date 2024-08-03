@@ -16,7 +16,7 @@ BINS = bootloader.bin hello.bin kernel.bin
 all: $(BINS)
 
 %.o: %.c
-	$(CC) -mcpu=68000 -g -Wall -c $< -o $@ -O3
+	$(CC) -mcpu=68000 -g -Wall -c $< -o $@ -O2
 
 %.o: %.s
 	$(AS) -mcpu=68000 $< -o $@
