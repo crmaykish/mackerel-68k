@@ -131,7 +131,10 @@ void handler_boot()
 
     for (int block = 1; block <= blocks; block++)
     {
-        printf("%d/%d\n", block, blocks);
+        if (block % 10 == 0) {
+            printf("%d/%d\n", block, blocks);
+        }
+        
         sd_read(block, mem);
         mem += 512;
     }
