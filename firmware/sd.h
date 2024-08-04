@@ -1,8 +1,11 @@
 #ifndef SD_H
 #define SD_H
 
-#include "mackerel.h"
 #include <stdbool.h>
+#include "mackerel.h"
+#include "spi.h"
+
+#define CS_SD CS0   // Use CS0 for the SD card
 
 // Setup the SD card interface
 // Return true on success, false on error

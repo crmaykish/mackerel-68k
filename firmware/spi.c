@@ -21,10 +21,10 @@ static inline bool gpio_get(uint8_t pin)
     return (in & shift);
 }
 
-void spi_init()
+void spi_init(uint8_t cs)
 {
     // Default state of the SPI pins
-    gpio_put(CS, true);
+    gpio_put(cs, true);
     gpio_put(MOSI, true);
     gpio_put(SCLK, false);
 
@@ -35,7 +35,7 @@ static inline void spi_clk(bool on){
     gpio_put(SCLK, on);
 }
 
-uint8_t spi_transfer(uint8_t byte_to_send)
+uint8_t spi_transfer(uint8_t cs, uint8_t byte_to_send)
 {
     uint8_t byte_received = 0;
     int i;
@@ -43,7 +43,7 @@ uint8_t spi_transfer(uint8_t byte_to_send)
     spi_clk(false);
 
     // Set chip select (active low)
-    gpio_put(CS, false);
+    gpio_put(cs, false);
 
     // delay(10);
 
@@ -65,7 +65,7 @@ uint8_t spi_transfer(uint8_t byte_to_send)
     }
 
     // disable SD card
-    gpio_put(CS, true);
+    gpio_put(cs, true);
 
     return byte_received;
 }
@@ -77,8 +77,4 @@ void spi_loop_clk() {
         spi_clk(true);
         spi_clk(false);
     }
-}
-
-bool card_detect() {
-    return gpio_get(CD);
 }

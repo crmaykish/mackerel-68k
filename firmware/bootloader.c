@@ -116,30 +116,22 @@ void handler_boot()
         return;
     }
 
+    unsigned char first[512];
     unsigned char *mem = (unsigned char *)0x400;
 
+    // Read the first block of the SD card to determine the Linux image size
+    sd_read(0, first);
+    uint32_t image_size = strtoul(first, 0, 10);
+    printf("Image size: %u\n", image_size);
+
+    // Read the rest of the SD card to load the Linux image into RAM
     printf("Loading kernel into 0x%X...\n", (int)mem);
 
-    for (int block = 0; block < 2048; block++)
+    uint32_t blocks = (image_size / 512) + 1;
+
+    for (int block = 1; block <= blocks; block++)
     {
-        if (block % 10 == 0)
-        {
-            printf("%d/%d\n", block, 2048 - 1);
-        }
-        sd_read(block, mem);
-        mem += 512;
-    }
-
-    mem = (unsigned char *)0x300000;
-
-    printf("Loading ROM filesystem into 0x%X...\n", (int)mem);
-
-    for (int block = 2048; block < 2048 + 0x280; block++)
-    {
-        if (block % 10 == 0)
-        {
-            printf("%d/%d\n", block - 2048, 0x280 - 1);
-        }
+        printf("%d/%d\n", block, blocks);
         sd_read(block, mem);
         mem += 512;
     }

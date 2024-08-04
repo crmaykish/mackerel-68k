@@ -17,21 +17,13 @@ bool sd_init()
     uint8_t b;
     bool init_done = false;
 
-    if (!card_detect()) {
-        printf("No SD card detected.\n");
-        return false;
-    }
-    else {
-        printf("Found an SD card.\n");
-    }
-
-    spi_init();
+    spi_init(CS_SD);
 
     delay(100);
 
     spi_loop_clk();
 
-    b = spi_transfer(SPI_EMPTY);
+    b = spi_transfer(CS_SD, SPI_EMPTY);
 
     if (b != SPI_EMPTY)
     {
@@ -58,10 +50,10 @@ bool sd_init()
     }
 
     // Read the rest of the response and discard
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
 
     // CMD58
     b = sd_command(CMD58);
@@ -73,10 +65,10 @@ bool sd_init()
     }
 
     // Read the rest of the response and discard
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
 
     i = 0;
 
@@ -120,7 +112,7 @@ uint8_t sd_command(uint8_t command[6])
 
     for (i = 0; i < 6; i++)
     {
-        spi_transfer(command[i]);
+        spi_transfer(CS_SD, command[i]);
     }
 
     return sd_get_response();
@@ -156,22 +148,22 @@ void sd_read(uint32_t block_num, uint8_t *block)
 
     for (i = 0; i < 512; i++)
     {
-        block[i] = spi_transfer(SPI_EMPTY);
+        block[i] = spi_transfer(CS_SD, SPI_EMPTY);
     }
 
     // read the 16 bit CRC and ignore
-    spi_transfer(SPI_EMPTY);
-    spi_transfer(SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
+    spi_transfer(CS_SD, SPI_EMPTY);
 }
 
 static uint8_t sd_get_response()
 {
-    uint8_t response = spi_transfer(SPI_EMPTY);
+    uint8_t response = spi_transfer(CS_SD, SPI_EMPTY);
     int count = 0;
 
     while (response == 0xFF && count < SPI_RETRY_LIMIT)
     {
-        response = spi_transfer(SPI_EMPTY);
+        response = spi_transfer(CS_SD, SPI_EMPTY);
         count++;
     }
 
