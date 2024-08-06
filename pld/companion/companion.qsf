@@ -37,7 +37,7 @@
 
 
 set_global_assignment -name FAMILY MAX7000S
-set_global_assignment -name DEVICE "EPM7064SLC84-7"
+set_global_assignment -name DEVICE "EPM7128SLC84-7"
 set_global_assignment -name TOP_LEVEL_ENTITY companion
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "21:03:05  AUGUST 05, 2024"
