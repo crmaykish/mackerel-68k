@@ -1,44 +1,69 @@
 # Mackerel 68k SBC
 
-See [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for more pictures, build logs, etc.
+Mackerel is a series of homebrew computers based on the Motorola 68000 series of processors. The first iteration uses the 8-bit variant, the MC68008. The goal of this project is to gradually work my way up the family tree, building systems based on the 68010, the 68020/30 and eventually the 68040, each time increasing the complexity of the hardware and improving the software support.
 
-![Mackerel-08 SBC v1](media/images/mackerel-08-sbc-v1-board-bringup.jpg)
+Mackerel-08 runs uClinux as will the 68010-based system. The long-term goal is to run a modern kernel with MMU support on the 68030 and 68040.
 
-The Mackerel 68k is my series of home-built computers based on the Motorola 68000 family. I am building it from the ground up in phases starting with the baby of the family, the 68008. As my understanding and experience with the system improves, I plan to add additional functionality and support for higher-end CPUs in the 68k line-up.
+See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for pictures, build logs, and more.
 
-Here's an outline of the major project goals:
+## Project Goals
+These are the high-level goals of the Mackerel project. Each of these items is a major milestone in the project. My plan is not to rush through these, but to spend enough time on each iteration to really understand the hardware design and the software support.
 
-- [x] Build the simplest usable computer with a 68008 CPU, ROM, RAM, and a serial port
-- [x] Expand hardware to meet uClinux requirements - timer interrupt, more RAM
-- [x] Port uClinux in any form and boot it to an interactive shell
-- [x] Design and manufacture a single-board PCB of the initial 68008 computer
-- [ ] Expand the initial design to use a 68020, add persistent storage, networking, possibly DRAM
-- [ ] Build a final revision using the 68030 - run full Linux, not just uClinux
+- [x] Build a proof-of-concept computer with a 68008, ROM, RAM, and a serial port
+- [x] Port uClinux 4.4
+- [x] Design a 68008-based SBC (Mackerel-08)
+- [ ] Expand Mackerel to use a 68010 - add DRAM, persistent storage (Mackerel-10)
+- [ ] Upgrade to the 68030, run full Linux with MMU support on the latest kernel (Mackerel-30)
+- [ ] Ultimate goal: 68040 at 40 MHz, 256MB+ DRAM, desktop Linux, ITX/mATX form factor, (Big Mack?)
 
 ## Hardware
 
-The hardware includes the CPU, 512KB of ROM (used by the bootloader), 3.5MB of RAM, and a XR68C681 DUART chip for timer and serial port.
+### Prototype
+The first few iterations of Mackerel started as protoboard cards connected to a passive backplane. Originally the 48-pin DIP package of the MC68008 was used, but this was quickly replaced with the 52-pin PLCC package for 4MB of address space. Once the hardware design was functional, PCB design for Mackerel-08 was started.
 
-Address decoding and assorted glue logic is done by a handful of ATF20V10C PLD chips.
+![Mackerel Rev 0](media/images/mackerel-08-rev0.jpg)
 
-Programs (including uClinux) can be compiled and copied into RAM over the serial port. The bootloader is responsible for this transaction and for starting the loaded programs.
+### Mackerel-08
+Based on the original prototype hardare, this SBC combines the 52-pin PLCC MC68008, a 512KB EEPROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage to the system.
 
-The first prototype was hand-wired on an 80-pin backplane. The first PCB revision has been manufactured.
+![Mackerel-08 SBC v1](media/images/mackerel-08-sbc-v1-board-bringup.jpg)
+
+Three 22V10 PLDs are used for address decoding, interrupt mapping, and DTACK generation respectively. An expansion header breaks out address, data, and control lines to allow additional peripherals to be connected directly to the processor bus.
+
+Although the CPU is rated to 10 MHz, Mackerel runs reliably with an overclock to 16 MHz.
+
+The address space is mapped as follows:
+RAM:    0x000000 - 0x37FFFF (up to 3.5 MB)
+ROM:    0x380000 - 0x3FBFFF (496/512 KB usable)
+DUART:  0x3FC000 - 0x3DFFFF (8KB)
+Exp:    0x3FE000 - 0x400000 (Expansion header, 8KB)
+
+Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first eight /AS cycles of the CPU after reset. This BOOT signal is used by the address decoder PLD to map the ROM to address 0x000000 long enough for the CPU to read the initial stack pointer and program counter vectors from ROM. RAM is mapped to 0x000000 after that.
+
+### Mackerel-10
+Mackerel-10 is the second phase of the project and the hardware is in development. It expands the design of Mackerel-08 with a full-size MC68010 CPU and 16-bit databus. Additionally, it dramatically increases the memory capacity with a DRAM controller implemented in a CPLD and up to 16 MB of 30-pin SIMM DRAM. Storage capabilities are expanded with an IDE header for a harddrive or CF card.
 
 ## Software
 
-Mackerel runs a small bootloader from ROM (see firmware directory in this repo) and [uClinux 2.0](https://github.com/crmaykish/mackerel-uclinux-20040218).
+### Bootloader and Bare-metal Programs
+Mackerel typically has a small bootloader program installed on the Flash ROM. This provides a small set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code into RAM.
+
+The bootloader can load program data coming in over the serial port (`load` command) or it can read data from an SD card (`boot` command). Either way, the program code gets loaded into RAM at address 0x400 and then the bootloader jumps to that address to start the program.
+
+### uClinux
+Mackerel supports two versions of uClinux. [Version 2.0](https://github.com/crmaykish/mackerel-uclinux-20040218) dates from 2004 and runs Linux kernel 2.0. This version is actually small enough when compiled to fit entirely in the 492KB of ROM in which case, there is no bootloader and Linux boots immediately on power-up. It can also be loaded into RAM by the bootloader like any other program.
+
+The newer port of uClinux 4.4 is [here](https://github.com/crmaykish/mackerel-uclinux-20160919). This version dates from 2016 and runs the much newer (and much larger) 4.4 Linux kernel. The image for this version does not fit in ROM and has to be loaded over serial or from the SD card.
+
+In both versions, the Linux system is fairly minimal. There is an interactive bash-style shell, a few basic programs, but no permanent storage or networking support (yet).
+
+### Compilers and Tools
+The bootloader and other bare-metal programs can be built with a standard m68k-elf cross-compiler. There is a script to build one from modern binutils and gcc in [the tools folder](tools/build_cross_compiler.sh).
+
+The toolchains to build uClinux are a bit more complicated. I have been working on building my own from scratch, but for now the precompiled toolchains that were built along with the uClinux releases are working well.
 
 The toolchain to build uClinux 2.0 is in this [Github repo](https://github.com/crmaykish/mackerel-m68k-elf-tools-2003). This runs fine for me on Debian 12, but requires enabling the i386 architecture and installing libc:i386 and libgcc:i386 since it's 32-bit toolchain.
 
-The newer port of uClinux 4.4 is [here](https://github.com/crmaykish/mackerel-uclinux-20160919). This port is compiling and running, but I have not implemented a serial driver, so the kernel gets as far as launching init and then the output stops.
+I've been using this [toolchain from Sourceforce](https://sourceforge.net/projects/uclinux/files/Tools/m68k-uclinux-20160822/m68k-uclinux-tools-20160822.tar.bz2/download) to build uClinux 4.4. This also runs with no issues on my modern Debian 12 installation.
 
-And my serial transfer tool is [here](https://github.com/crmaykish/ctt). This is used in combination with the bootloader to transfer data (usually program code) into RAM.
-
-## Memory Map
-
-RAM (3.5MB): 0x000000 - 0x380000
-
-ROM (512 KB): 0x380000 - 0x3FC000 (mapped to 0x0000 temporarily at boot)
-
-I/O (16 KB): 0x3FC000 - 0x400000 (DUART and expansion header)
+My serial transfer tool is [here](https://github.com/crmaykish/ctt). This is used in combination with the bootloader to transfer data (usually program code) into RAM.
