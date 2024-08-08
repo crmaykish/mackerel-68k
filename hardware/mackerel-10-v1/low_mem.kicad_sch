@@ -661,12 +661,12 @@
 				)
 			)
 		)
-		(symbol "Memory_RAM:AS6C4008-55PCN"
+		(symbol "Memory_RAM:KM62256CLP"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at -10.16 26.035 0)
+				(at -10.16 20.955 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -674,8 +674,8 @@
 					(justify left bottom)
 				)
 			)
-			(property "Value" "AS6C4008-55PCN"
-				(at 2.54 26.035 0)
+			(property "Value" "KM62256CLP"
+				(at 2.54 20.955 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -683,8 +683,8 @@
 					(justify left bottom)
 				)
 			)
-			(property "Footprint" "Package_DIP:DIP-32_W15.24mm"
-				(at 0 2.54 0)
+			(property "Footprint" "Package_DIP:DIP-28_W15.24mm"
+				(at 0 -2.54 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -692,8 +692,8 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.alliancememory.com/wp-content/uploads/pdf/AS6C4008.pdf"
-				(at 0 2.54 0)
+			(property "Datasheet" "https://www.futurlec.com/Datasheet/Memory/62256.pdf"
+				(at 0 -2.54 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -701,7 +701,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "512K x 8 Low Power CMOS RAM, DIP-32"
+			(property "Description" "32Kx8 bit Low Power CMOS Static RAM, 55/70ns, DIP-28"
 				(at 0 0 0)
 				(effects
 					(font
@@ -728,18 +728,18 @@
 					(hide yes)
 				)
 			)
-			(symbol "AS6C4008-55PCN_0_0"
+			(symbol "KM62256CLP_0_0"
 				(pin power_in line
-					(at 0 -27.94 90)
+					(at 0 -22.86 90)
 					(length 2.54)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "16"
+					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -748,7 +748,7 @@
 					)
 				)
 				(pin power_in line
-					(at 0 27.94 270)
+					(at 0 22.86 270)
 					(length 2.54)
 					(name "VCC"
 						(effects
@@ -757,7 +757,7 @@
 							)
 						)
 					)
-					(number "32"
+					(number "28"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -766,10 +766,10 @@
 					)
 				)
 			)
-			(symbol "AS6C4008-55PCN_0_1"
+			(symbol "KM62256CLP_0_1"
 				(rectangle
-					(start -10.16 25.4)
-					(end 10.16 -25.4)
+					(start -10.16 20.32)
+					(end 10.16 -20.32)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -779,11 +779,11 @@
 					)
 				)
 			)
-			(symbol "AS6C4008-55PCN_1_1"
+			(symbol "KM62256CLP_1_1"
 				(pin input line
-					(at -12.7 -22.86 0)
+					(at -12.7 -17.78 0)
 					(length 2.54)
-					(name "A18"
+					(name "A14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -801,7 +801,7 @@
 				(pin input line
 					(at -12.7 17.78 0)
 					(length 2.54)
-					(name "A2"
+					(name "A0"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -816,10 +816,10 @@
 						)
 					)
 				)
-				(pin input line
-					(at -12.7 20.32 0)
+				(pin tri_state line
+					(at 12.7 17.78 180)
 					(length 2.54)
-					(name "A1"
+					(name "Q0"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -834,10 +834,10 @@
 						)
 					)
 				)
-				(pin input line
-					(at -12.7 22.86 0)
+				(pin tri_state line
+					(at 12.7 15.24 180)
 					(length 2.54)
-					(name "A0"
+					(name "Q1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -853,9 +853,9 @@
 					)
 				)
 				(pin tri_state line
-					(at 12.7 22.86 180)
+					(at 12.7 12.7 180)
 					(length 2.54)
-					(name "DQ0"
+					(name "Q2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -871,27 +871,9 @@
 					)
 				)
 				(pin tri_state line
-					(at 12.7 20.32 180)
+					(at 12.7 10.16 180)
 					(length 2.54)
-					(name "DQ1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin tri_state line
-					(at 12.7 17.78 180)
-					(length 2.54)
-					(name "DQ2"
+					(name "Q3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -907,9 +889,27 @@
 					)
 				)
 				(pin tri_state line
-					(at 12.7 15.24 180)
+					(at 12.7 7.62 180)
 					(length 2.54)
-					(name "DQ3"
+					(name "Q4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin tri_state line
+					(at 12.7 5.08 180)
+					(length 2.54)
+					(name "Q5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -925,9 +925,9 @@
 					)
 				)
 				(pin tri_state line
-					(at 12.7 12.7 180)
+					(at 12.7 2.54 180)
 					(length 2.54)
-					(name "DQ4"
+					(name "Q6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -943,9 +943,9 @@
 					)
 				)
 				(pin tri_state line
-					(at 12.7 10.16 180)
+					(at 12.7 0 180)
 					(length 2.54)
-					(name "DQ5"
+					(name "Q7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -961,9 +961,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -17.78 0)
+					(at -12.7 -12.7 0)
 					(length 2.54)
-					(name "A16"
+					(name "A12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -978,10 +978,10 @@
 						)
 					)
 				)
-				(pin tri_state line
-					(at 12.7 7.62 180)
+				(pin input line
+					(at 12.7 -5.08 180)
 					(length 2.54)
-					(name "DQ6"
+					(name "~{CS}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -996,10 +996,10 @@
 						)
 					)
 				)
-				(pin tri_state line
-					(at 12.7 5.08 180)
+				(pin input line
+					(at -12.7 -7.62 0)
 					(length 2.54)
-					(name "DQ7"
+					(name "A10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1015,9 +1015,9 @@
 					)
 				)
 				(pin input line
-					(at 12.7 -2.54 180)
+					(at 12.7 -10.16 180)
 					(length 2.54)
-					(name "CE#"
+					(name "~{OE}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1033,9 +1033,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -2.54 0)
+					(at -12.7 -10.16 0)
 					(length 2.54)
-					(name "A10"
+					(name "A11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1051,9 +1051,9 @@
 					)
 				)
 				(pin input line
-					(at 12.7 -5.08 180)
+					(at -12.7 -5.08 0)
 					(length 2.54)
-					(name "OE#"
+					(name "A9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1069,9 +1069,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -5.08 0)
+					(at -12.7 -2.54 0)
 					(length 2.54)
-					(name "A11"
+					(name "A8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1087,9 +1087,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 0 0)
+					(at -12.7 -15.24 0)
 					(length 2.54)
-					(name "A9"
+					(name "A13"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1105,9 +1105,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 2.54 0)
+					(at 12.7 -12.7 180)
 					(length 2.54)
-					(name "A8"
+					(name "~{WE}"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1123,45 +1123,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -10.16 0)
+					(at -12.7 0 0)
 					(length 2.54)
-					(name "A13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "28"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at 12.7 -7.62 180)
-					(length 2.54)
-					(name "WE#"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "29"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -12.7 0)
-					(length 2.54)
-					(name "A14"
+					(name "A7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1177,45 +1141,9 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -20.32 0)
+					(at -12.7 2.54 0)
 					(length 2.54)
-					(name "A17"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "30"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -15.24 0)
-					(length 2.54)
-					(name "A15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "31"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -7.62 0)
-					(length 2.54)
-					(name "A12"
+					(name "A6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1233,7 +1161,7 @@
 				(pin input line
 					(at -12.7 5.08 0)
 					(length 2.54)
-					(name "A7"
+					(name "A5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1251,7 +1179,7 @@
 				(pin input line
 					(at -12.7 7.62 0)
 					(length 2.54)
-					(name "A6"
+					(name "A4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1269,7 +1197,7 @@
 				(pin input line
 					(at -12.7 10.16 0)
 					(length 2.54)
-					(name "A5"
+					(name "A3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1287,7 +1215,7 @@
 				(pin input line
 					(at -12.7 12.7 0)
 					(length 2.54)
-					(name "A4"
+					(name "A2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1305,7 +1233,7 @@
 				(pin input line
 					(at -12.7 15.24 0)
 					(length 2.54)
-					(name "A3"
+					(name "A1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1801,28 +1729,6 @@
 			)
 		)
 	)
-	(global_label "A16"
-		(shape input)
-		(at 120.65 162.56 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "11fabece-dd74-4b47-a305-83485bbdb1de")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.1572 162.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "A8"
 		(shape input)
 		(at 120.65 142.24 180)
@@ -2219,50 +2125,6 @@
 			)
 		)
 	)
-	(global_label "A18"
-		(shape input)
-		(at 41.91 167.64 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "3fcdd24d-2dfc-4485-8494-12a8da2eedaa")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.4172 167.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A16"
-		(shape input)
-		(at 41.91 162.56 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "44204b22-2665-4bb2-800a-b177d31fc77a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.4172 162.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "A16"
 		(shape input)
 		(at 39.37 69.85 180)
@@ -2562,28 +2424,6 @@
 		(uuid "5a2fe007-5306-41a1-ac3a-26b4bfa035f0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 34.0867 36.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A19"
-		(shape input)
-		(at 41.91 170.18 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "5b88ca9c-09af-44d8-ab58-30fff166b54e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.4172 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3055,28 +2895,6 @@
 			)
 		)
 	)
-	(global_label "A17"
-		(shape input)
-		(at 120.65 165.1 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "a123bbfa-3793-424f-8556-6aae45a1adac")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.1572 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "A5"
 		(shape input)
 		(at 41.91 134.62 180)
@@ -3271,28 +3089,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A19"
-		(shape input)
-		(at 120.65 170.18 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "bb536c7f-2977-4ba6-a1a8-7646cbb8c3f9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.1572 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -3535,28 +3331,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A17"
-		(shape input)
-		(at 41.91 165.1 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d84cfa08-dc5e-47e6-a727-7d21a8e10a5f")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 35.4172 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -3825,28 +3599,6 @@
 			)
 		)
 	)
-	(global_label "A18"
-		(shape input)
-		(at 120.65 167.64 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "f0520ee1-df32-466a-b4fc-538b3e5daaaf")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.1572 167.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "A13"
 		(shape input)
 		(at 118.11 62.23 180)
@@ -3945,7 +3697,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0b2dbfee-5be4-417a-98fa-4d1b25b9e264")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR015"
 			(at 109.22 86.36 0)
 			(effects
 				(font
@@ -3995,7 +3747,7 @@
 		(instances
 			(project ""
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR023")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -4011,7 +3763,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "30b07d4f-fdba-439d-9149-6a63992d5165")
-		(property "Reference" "#PWR09"
+		(property "Reference" "#PWR012"
 			(at 54.61 102.87 0)
 			(effects
 				(font
@@ -4061,7 +3813,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR09")
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -4069,7 +3821,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 133.35 175.26 0)
+		(at 133.35 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4077,8 +3829,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "310a6124-7d34-49a2-8e66-e2ef9fa03db3")
-		(property "Reference" "#PWR014"
-			(at 133.35 181.61 0)
+		(property "Reference" "#PWR019"
+			(at 133.35 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4087,7 +3839,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 133.35 180.34 0)
+			(at 133.35 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4095,7 +3847,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 133.35 175.26 0)
+			(at 133.35 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4104,7 +3856,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 175.26 0)
+			(at 133.35 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4113,7 +3865,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 133.35 175.26 0)
+			(at 133.35 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4127,7 +3879,155 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR014")
+					(reference "#PWR019")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Memory_RAM:KM62256CLP")
+		(at 133.35 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "33a55f4e-89d8-4cea-9984-834e5c0c0788")
+		(property "Reference" "U6"
+			(at 135.5441 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "KM62256CLP"
+			(at 135.5441 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DIP:DIP-28_W15.24mm"
+			(at 133.35 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.futurlec.com/Datasheet/Memory/62256.pdf"
+			(at 133.35 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "32Kx8 bit Low Power CMOS Static RAM, 55/70ns, DIP-28"
+			(at 133.35 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "20"
+			(uuid "8c7e6a90-70f9-4327-9ad3-f154717f7f33")
+		)
+		(pin "16"
+			(uuid "e505f9ef-f788-47b8-8262-4debe1b451f3")
+		)
+		(pin "4"
+			(uuid "4f770a82-0d3b-4e50-8269-ea9cbcd6e61e")
+		)
+		(pin "25"
+			(uuid "4ccf4e33-c4f7-49a1-ac41-33d14d5ff1c9")
+		)
+		(pin "6"
+			(uuid "118ee508-571d-4772-9e76-66f1a22158fd")
+		)
+		(pin "8"
+			(uuid "d19972b2-6d8b-4585-b527-2606cb4e8f31")
+		)
+		(pin "9"
+			(uuid "7c9d7f8e-849a-42b5-9217-47c40de53bc8")
+		)
+		(pin "18"
+			(uuid "86a195d4-d1f6-48e2-8334-d4361e994f46")
+		)
+		(pin "13"
+			(uuid "b5596bf3-48f5-409d-a96e-41bbd9fdc3f1")
+		)
+		(pin "3"
+			(uuid "d6b44ccb-98d2-42fe-93e4-5d63fbbd1655")
+		)
+		(pin "23"
+			(uuid "c8c42e1b-b275-43f3-b8d8-6c0866003e95")
+		)
+		(pin "24"
+			(uuid "6b951dc3-f26d-42b8-a887-6c20cab70c05")
+		)
+		(pin "27"
+			(uuid "67601bc1-4ab7-404b-810b-f993c20a016a")
+		)
+		(pin "7"
+			(uuid "3e1adda0-9007-4335-9d46-e57c0998ad56")
+		)
+		(pin "2"
+			(uuid "01504264-4acb-47a2-9bc4-a41b78db7fee")
+		)
+		(pin "11"
+			(uuid "54fd719e-8846-499b-bb88-e5c0701391e5")
+		)
+		(pin "12"
+			(uuid "a8c7b2bf-a5dc-4522-830c-5e7d47e7111f")
+		)
+		(pin "1"
+			(uuid "e09cbf44-caae-48e4-9bc7-8e660c193485")
+		)
+		(pin "14"
+			(uuid "ac47d99b-6ef9-4a9c-bb16-eabdbde87a93")
+		)
+		(pin "10"
+			(uuid "520b9d4f-7c95-45cc-a7a9-5ba1b6da3df0")
+		)
+		(pin "28"
+			(uuid "7d74a45f-83ad-47b2-9e8d-83e3cb29b593")
+		)
+		(pin "15"
+			(uuid "3ea3b5a4-55be-4ea6-ab15-ffac063e8adb")
+		)
+		(pin "21"
+			(uuid "3740bef0-198e-45c9-97f0-57dff2a7e427")
+		)
+		(pin "26"
+			(uuid "24d0d1c4-59dd-4162-b48b-b0fa83bae3a6")
+		)
+		(pin "17"
+			(uuid "76281fcb-d1ff-4ff1-b34f-5115ccd3d96d")
+		)
+		(pin "22"
+			(uuid "83145d52-fff1-460f-937e-14363a115b7c")
+		)
+		(pin "5"
+			(uuid "2b3f0120-e271-484a-8d14-757b39ea34cc")
+		)
+		(pin "19"
+			(uuid "3c81f2d1-33d2-444d-8a72-4fe6771d1f9a")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
+					(reference "U6")
 					(unit 1)
 				)
 			)
@@ -4135,7 +4035,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 54.61 175.26 0)
+		(at 54.61 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4143,8 +4043,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "56df8867-39a4-4bec-9aa7-adb35b57fc72")
-		(property "Reference" "#PWR05"
-			(at 54.61 181.61 0)
+		(property "Reference" "#PWR014"
+			(at 54.61 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4153,7 +4053,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 54.61 180.34 0)
+			(at 54.61 170.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4161,7 +4061,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 54.61 175.26 0)
+			(at 54.61 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4170,7 +4070,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 54.61 175.26 0)
+			(at 54.61 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4179,7 +4079,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 54.61 175.26 0)
+			(at 54.61 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4193,7 +4093,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR05")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -4209,7 +4109,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "708fafec-aa16-439a-993c-535a742343d8")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR018"
 			(at 133.35 123.19 0)
 			(effects
 				(font
@@ -4259,7 +4159,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR013")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -4435,7 +4335,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8fbc8145-e2a6-4d91-8f37-2f058b20424d")
-		(property "Reference" "#PWR04"
+		(property "Reference" "#PWR013"
 			(at 54.61 123.19 0)
 			(effects
 				(font
@@ -4485,7 +4385,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR04")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -4501,7 +4401,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "911f0eb6-b95d-405e-83f2-b04f3a02e6d2")
-		(property "Reference" "#PWR08"
+		(property "Reference" "#PWR011"
 			(at 54.61 29.21 0)
 			(effects
 				(font
@@ -4551,7 +4451,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR08")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -4718,6 +4618,154 @@
 		)
 	)
 	(symbol
+		(lib_id "Memory_RAM:KM62256CLP")
+		(at 54.61 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d5592986-6f74-4fb6-8867-a6576bb5ff36")
+		(property "Reference" "U4"
+			(at 56.8041 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "KM62256CLP"
+			(at 56.8041 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DIP:DIP-28_W15.24mm"
+			(at 54.61 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.futurlec.com/Datasheet/Memory/62256.pdf"
+			(at 54.61 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "32Kx8 bit Low Power CMOS Static RAM, 55/70ns, DIP-28"
+			(at 54.61 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "20"
+			(uuid "d044b54f-449c-4ebb-bdb2-2b69829f05dd")
+		)
+		(pin "16"
+			(uuid "690557f5-db95-4494-8d14-066d89667a2e")
+		)
+		(pin "4"
+			(uuid "d97c9ae2-5b3d-4d26-9892-4850efe7f4a7")
+		)
+		(pin "25"
+			(uuid "9699ab99-eec4-40a4-9eba-25fff7e6bf04")
+		)
+		(pin "6"
+			(uuid "e4dd6d23-d885-463a-a8c8-c070e75cd34b")
+		)
+		(pin "8"
+			(uuid "e12b42d9-669e-49c8-91f6-9c7d123fc067")
+		)
+		(pin "9"
+			(uuid "755aa4c6-4d99-4185-a5bf-76b3d52303bd")
+		)
+		(pin "18"
+			(uuid "096f4d16-9462-411c-ab0f-3dc11e272ef3")
+		)
+		(pin "13"
+			(uuid "6b214173-a695-4f58-94a4-cb78127bd527")
+		)
+		(pin "3"
+			(uuid "88e6c56e-774a-404b-9375-0530c249f279")
+		)
+		(pin "23"
+			(uuid "c572e11d-c4e4-4b5d-8a1a-ccadce6db832")
+		)
+		(pin "24"
+			(uuid "7f805a1d-e8cb-4734-8a4d-0b2eaa0aaef5")
+		)
+		(pin "27"
+			(uuid "82f8de80-8076-4f4c-9c16-4afaf9c71f11")
+		)
+		(pin "7"
+			(uuid "e6b18eae-fb40-446d-801c-66c975ec751e")
+		)
+		(pin "2"
+			(uuid "9e5db26d-5332-40f8-8b1f-b1f001e16a59")
+		)
+		(pin "11"
+			(uuid "ae533e76-639f-4870-9a2f-437b1fe5eff3")
+		)
+		(pin "12"
+			(uuid "641a5f32-98e4-4211-94e4-3a48781ace58")
+		)
+		(pin "1"
+			(uuid "2d4fc41e-0dfc-45e2-a37c-f9f50af9c5ba")
+		)
+		(pin "14"
+			(uuid "55789b8a-d047-42a0-b8bf-595ba2748a16")
+		)
+		(pin "10"
+			(uuid "635ca8aa-9dc7-4987-a54e-849e638410df")
+		)
+		(pin "28"
+			(uuid "22ecb016-c7b7-4f52-8f6d-92f18ca17640")
+		)
+		(pin "15"
+			(uuid "a2c65615-f2f1-4166-84df-e125ec6b2fd7")
+		)
+		(pin "21"
+			(uuid "66863931-16c7-4897-b26b-52a1dc8c2086")
+		)
+		(pin "26"
+			(uuid "212b65a4-99b2-4365-ba44-92d855fcc9e2")
+		)
+		(pin "17"
+			(uuid "d2c2e4aa-59af-43d8-b4ff-a0ebd68700f6")
+		)
+		(pin "22"
+			(uuid "a224e248-cb7b-49db-9881-c2eb5dc63210")
+		)
+		(pin "5"
+			(uuid "29cbc102-e947-4e57-88fc-80646860f7c0")
+		)
+		(pin "19"
+			(uuid "425d80a8-5d0a-4adc-88df-84c57ac506a7")
+		)
+		(instances
+			(project ""
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
+					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 133.35 96.52 0)
 		(unit 1)
@@ -4727,7 +4775,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d5a8672a-ec12-4da4-9db4-e0e43ba5bb5c")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR017"
 			(at 133.35 102.87 0)
 			(effects
 				(font
@@ -4777,167 +4825,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR018")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Memory_RAM:AS6C4008-55PCN")
-		(at 54.61 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d8427cf8-f644-498c-9233-b61b4b75b6c4")
-		(property "Reference" "U2"
-			(at 56.8041 116.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "AS6C4008-55PCN"
-			(at 56.8041 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_DIP:DIP-32_W15.24mm"
-			(at 54.61 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.alliancememory.com/wp-content/uploads/pdf/AS6C4008.pdf"
-			(at 54.61 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "512K x 8 Low Power CMOS RAM, DIP-32"
-			(at 54.61 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "29"
-			(uuid "8ea74500-20b8-4978-8272-c9f3dfcab8ce")
-		)
-		(pin "30"
-			(uuid "4eb49f37-6f1c-4fad-b496-90feb390007f")
-		)
-		(pin "2"
-			(uuid "ebee553e-282d-42b4-91ff-3939d0180f76")
-		)
-		(pin "12"
-			(uuid "a5542a7c-323d-4b00-a48d-d02ff758b325")
-		)
-		(pin "3"
-			(uuid "7305f84c-dd13-45d1-8177-0d43fa38aa85")
-		)
-		(pin "31"
-			(uuid "cd95cba5-d45f-42f1-aa4f-7820dec8c2d3")
-		)
-		(pin "21"
-			(uuid "8f08a252-5e62-4d4c-83ca-93dce30d4f7b")
-		)
-		(pin "14"
-			(uuid "884a165a-6c26-4bab-bfd9-9581295b8e3e")
-		)
-		(pin "32"
-			(uuid "dc845b1e-7767-4745-bcf4-4419b6f52428")
-		)
-		(pin "22"
-			(uuid "1de1b85d-32cf-4d13-a50a-6d16ce9e581b")
-		)
-		(pin "23"
-			(uuid "032f46a0-1abb-4338-acaa-67724b422dc6")
-		)
-		(pin "16"
-			(uuid "47d2c38a-d62a-4e6e-a7fc-2d3763160013")
-		)
-		(pin "15"
-			(uuid "5e8b79fe-9a6e-499a-9b34-f3a0aa0657df")
-		)
-		(pin "6"
-			(uuid "d9f00513-1ab9-4177-8171-d6ad68c1810d")
-		)
-		(pin "13"
-			(uuid "eafbd21f-4849-4dbc-a122-fe396f04de52")
-		)
-		(pin "17"
-			(uuid "af1a064d-b43b-44c5-9c62-2abaa8a93507")
-		)
-		(pin "19"
-			(uuid "bc4719ab-8010-4a29-8600-ecc4d94c3e87")
-		)
-		(pin "8"
-			(uuid "24122200-17db-4685-816b-4ebc184c14d2")
-		)
-		(pin "9"
-			(uuid "c4794c2c-3b82-417e-ae48-77f10d4dc117")
-		)
-		(pin "28"
-			(uuid "cd0a9092-2a38-4d42-812a-a6eb5a329dbd")
-		)
-		(pin "1"
-			(uuid "a8b3ba6d-1c4c-43fd-9fb1-d95caf0dbf5f")
-		)
-		(pin "20"
-			(uuid "19b3e544-854e-4174-9bcd-64f490f1f231")
-		)
-		(pin "5"
-			(uuid "41aca4d7-7f44-4b45-a6c5-041c93455058")
-		)
-		(pin "18"
-			(uuid "e53af336-7137-4b26-9167-e3a11e3a5227")
-		)
-		(pin "26"
-			(uuid "ca922f46-7418-49a3-bef9-a303852b9219")
-		)
-		(pin "24"
-			(uuid "ac019c19-166a-4523-97d9-2b2e36880859")
-		)
-		(pin "25"
-			(uuid "5cc3a0b2-59db-428b-8d69-83739d9cfb06")
-		)
-		(pin "7"
-			(uuid "96c7bb5d-3d00-4d5b-b675-9d50b41b4832")
-		)
-		(pin "10"
-			(uuid "284667c9-e9ad-4325-80ec-49180c24aaa3")
-		)
-		(pin "11"
-			(uuid "def49694-4ef0-4d7a-9aa9-9ad2111ed318")
-		)
-		(pin "27"
-			(uuid "50051c50-fb32-47bc-9011-eed26d35a9b6")
-		)
-		(pin "4"
-			(uuid "6eb55f2f-e8cc-4c14-83c6-d4580f265bb0")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "U2")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -4953,7 +4841,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ef527635-8c4b-4d2c-8865-8842bb28cd9a")
-		(property "Reference" "#PWR022"
+		(property "Reference" "#PWR010"
 			(at 30.48 86.36 0)
 			(effects
 				(font
@@ -5003,7 +4891,7 @@
 		(instances
 			(project ""
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR022")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -5019,7 +4907,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f52a7205-8ba6-4e80-849a-12f7eb664c4f")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR016"
 			(at 133.35 29.21 0)
 			(effects
 				(font
@@ -5069,167 +4957,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Memory_RAM:AS6C4008-55PCN")
-		(at 133.35 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "fc5bd2bd-152e-4466-b9a7-b527ae37bccd")
-		(property "Reference" "U4"
-			(at 135.5441 116.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "AS6C4008-55PCN"
-			(at 135.5441 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_DIP:DIP-32_W15.24mm"
-			(at 133.35 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.alliancememory.com/wp-content/uploads/pdf/AS6C4008.pdf"
-			(at 133.35 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "512K x 8 Low Power CMOS RAM, DIP-32"
-			(at 133.35 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "29"
-			(uuid "94f4250d-37da-4e6b-90b5-28c3dc7ce40b")
-		)
-		(pin "30"
-			(uuid "4619ca8b-81fd-4edf-ab78-675fe4aa37f2")
-		)
-		(pin "2"
-			(uuid "1656fe09-b877-424f-9394-69265c925270")
-		)
-		(pin "12"
-			(uuid "2112bef7-a81b-4e52-8482-2e630db4e796")
-		)
-		(pin "3"
-			(uuid "ec3af949-1a7a-4ec0-b84e-68edcdb7085c")
-		)
-		(pin "31"
-			(uuid "652f3f5f-3f80-4852-b1c0-dc828b688f4a")
-		)
-		(pin "21"
-			(uuid "748a9180-e074-4931-9397-c96d0ca2729d")
-		)
-		(pin "14"
-			(uuid "f497355d-b4bf-48b8-8c26-bfdab3b602dd")
-		)
-		(pin "32"
-			(uuid "dd0e6ffe-802d-4eb1-9938-5afa862bfcf6")
-		)
-		(pin "22"
-			(uuid "7244a874-b260-4903-888f-123993cd893c")
-		)
-		(pin "23"
-			(uuid "29ef94f0-47e4-4f1d-a4e4-aabcda6530fd")
-		)
-		(pin "16"
-			(uuid "4ee0fd88-579f-4639-8f9b-2ab0ac2bcef2")
-		)
-		(pin "15"
-			(uuid "bba696a7-3d67-40bd-879e-7e06cd485b4e")
-		)
-		(pin "6"
-			(uuid "49610c15-1a57-4c84-806b-7dfdab4367c2")
-		)
-		(pin "13"
-			(uuid "81759cb0-6cc4-41e2-9a76-404003483c52")
-		)
-		(pin "17"
-			(uuid "fdbecf8c-9d33-4c12-8ef3-bbcf6b238fdd")
-		)
-		(pin "19"
-			(uuid "9993af30-8d25-4c2a-bcf5-8f24188dfb9f")
-		)
-		(pin "8"
-			(uuid "21c504af-f37d-4892-b674-f0e401dcee94")
-		)
-		(pin "9"
-			(uuid "52286183-ccec-42af-8276-28c3cc508a27")
-		)
-		(pin "28"
-			(uuid "7f3ad961-3a28-4c14-bdfa-dabe8253c2f0")
-		)
-		(pin "1"
-			(uuid "194c2e4e-0142-4f59-95f4-50f6f8fbc9ec")
-		)
-		(pin "20"
-			(uuid "eaaac9ed-58ba-4719-94b2-1a85173bfacc")
-		)
-		(pin "5"
-			(uuid "7d03bbf2-0c7f-4a3c-8907-513162a8a7da")
-		)
-		(pin "18"
-			(uuid "d1fec9a3-691d-45aa-a538-037e3a44c22b")
-		)
-		(pin "26"
-			(uuid "4b3fff31-451b-4277-8ea3-d0fa55a43691")
-		)
-		(pin "24"
-			(uuid "2b422396-5b92-4adc-99ea-7d3aab65158a")
-		)
-		(pin "25"
-			(uuid "40ef6839-4192-406d-bf6e-fc89129e02b0")
-		)
-		(pin "7"
-			(uuid "2186359e-eb1b-4830-bfa0-8f0c3c6588a0")
-		)
-		(pin "10"
-			(uuid "98006469-e779-4d7a-8751-eabcc38ee4a7")
-		)
-		(pin "11"
-			(uuid "e3a83b6f-0b4f-46aa-a3ec-8c93238bf222")
-		)
-		(pin "27"
-			(uuid "6bb3c643-c979-4693-9cc0-1a0ce52c6308")
-		)
-		(pin "4"
-			(uuid "2cdcd91b-bbb3-4f79-be54-0d805bdebe96")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/0e75b76f-42c8-45b7-a876-8646d9e61d19"
-					(reference "U4")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
