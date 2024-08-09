@@ -6,8 +6,8 @@ export PREFIX="/home/$(whoami)/opt/cross"
 export TARGET=m68k-elf
 export PATH="$PREFIX/bin:$PATH"
 
-BINUTILS_VERSION="2.41"
-GCC_VERSION="14.2.0"
+BINUTILS_VERSION="2.38"
+GCC_VERSION="11.2.0"
 
 log_message() {
     echo ""
