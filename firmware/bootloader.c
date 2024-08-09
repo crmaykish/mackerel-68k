@@ -111,10 +111,17 @@ void handler_boot()
 {
     printf("Loading Linux from SD card...\n");
 
-    if (!sd_init())
-    {
-        return;
+    bool sd_ready = false;
+
+    for (int i=0;i < 3; i++) {
+        sd_ready = sd_init();
+
+        if (sd_ready)
+            break;
     }
+
+    if (!sd_ready)
+        return;
 
     unsigned char first[512];
     unsigned char *mem = (unsigned char *)0x400;
@@ -266,10 +273,22 @@ void memtest(int start, int end) {
 
     for (int i = start; i < end; i++)
     {
+        MEM(i) = 0x00;
+
+        if (MEM(i) != 0x00) {
+            printf("Memory error at: 0x%X, expected 0x00, actual 0x%X\n", i, MEM(i));
+        }
+
         MEM(i) = 0xAB;
 
         if (MEM(i) != 0xAB) {
-            printf("Memory error at: 0x%X\n", i);
+            printf("Memory error at: 0x%X, expected 0xAB, actual 0x%X\n", i, MEM(i));
+        }
+
+        MEM(i) = 0xFF;
+
+        if (MEM(i) != 0xFF) {
+            printf("Memory error at: 0x%X, expected 0xFF, actual 0x%X\n", i, MEM(i));
         }
     }
 
