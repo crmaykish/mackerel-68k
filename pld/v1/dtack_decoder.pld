@@ -5,17 +5,15 @@ NAS ROM DUART NC EXP DTKDUART DTKEXP IACKEXP IACKDUAR NC NC GND
 NC NC NC NC NC NC NC NC NC NC DTKCPU VCC
 
 /DTKCPU = /DUART * /DTKDUART
-        + /EXP * /DTKEXP
+        ; + /EXP * /DTKEXP
+        + /IACKDUAR * /DTKDUART
+        ; + /IACKEXP * /DTKEXP
         + DUART * EXP
 
 DESCRIPTION
-Mackerel-08 v1 - Interrupt Logic
+Mackerel-08 v1 - DTACK Logic
 
 When either the DUART or the expansion bus are selected, pass their DTACK signals to the CPU,
 otherwise, assert /DTACK all the time
 
-TODO: DTACK also needs to be asserted to end IACK cycles
-
-This should work, but is untested:
-    + /IACKEXP * /DTKEXP
-    + /IACKDUAR * /DTKDUART
+When either the DUART or expansion bus IACK signals are asserted, pass their DTACK signal to the CPU
