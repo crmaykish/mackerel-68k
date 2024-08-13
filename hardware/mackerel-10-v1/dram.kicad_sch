@@ -11,177 +11,6 @@
 		(company "Colin Maykish")
 	)
 	(lib_symbols
-		(symbol "Oscillator:CXO_DIP8"
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "X"
-				(at -5.08 6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "CXO_DIP8"
-				(at 1.27 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "Oscillator:Oscillator_DIP-8"
-				(at 11.43 -8.89 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "http://cdn-reichelt.de/documents/datenblatt/B400/OSZI.pdf"
-				(at -2.54 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Crystal Clock Oscillator, DIP8-style metal package"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "Crystal Clock Oscillator"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "Oscillator*DIP*8*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "CXO_DIP8_0_1"
-				(rectangle
-					(start -5.08 5.08)
-					(end 5.08 -5.08)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.905 -0.635) (xy -1.27 -0.635) (xy -1.27 0.635) (xy -0.635 0.635) (xy -0.635 -0.635) (xy 0 -0.635)
-						(xy 0 0.635) (xy 0.635 0.635) (xy 0.635 -0.635)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "CXO_DIP8_1_1"
-				(pin input line
-					(at -7.62 0 0)
-					(length 2.54)
-					(name "EN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 7.62 0 180)
-					(length 2.54)
-					(name "OUT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 7.62 270)
-					(length 2.54)
-					(name "Vcc"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "mackerel-68k-symbols:EPM7128SLC"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2749,6 +2578,16 @@
 		)
 		(uuid "97389fe7-82ef-405e-9ce9-58cc44d4e95e")
 	)
+	(text "TODO: DRAM needs a pretty fast clock for timing refreshes"
+		(exclude_from_sim no)
+		(at 103.378 116.332 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "2d250fc6-3b9e-4a94-b2e6-be2b773fe9e2")
+	)
 	(global_label "DRAM_A11"
 		(shape input)
 		(at 95.25 59.69 180)
@@ -4832,7 +4671,7 @@
 		)
 		(instances
 			(project ""
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR028")
 					(unit 1)
 				)
@@ -4849,7 +4688,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1de7ca2c-f3f9-4123-a7b0-68850604a98a")
-		(property "Reference" "U11"
+		(property "Reference" "U14"
 			(at 260.0041 25.4 0)
 			(effects
 				(font
@@ -4986,8 +4825,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "U11")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
+					(reference "U14")
 					(unit 1)
 				)
 			)
@@ -5003,7 +4842,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3f00f6b1-4f56-4fca-8f1f-582e6013cd01")
-		(property "Reference" "U8"
+		(property "Reference" "U11"
 			(at 110.1441 25.4 0)
 			(effects
 				(font
@@ -5140,8 +4979,8 @@
 		)
 		(instances
 			(project ""
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "U8")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
+					(reference "U11")
 					(unit 1)
 				)
 			)
@@ -5157,7 +4996,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "47451a00-4931-4673-be5c-e28ade4aab44")
-		(property "Reference" "U10"
+		(property "Reference" "U13"
 			(at 210.4741 25.4 0)
 			(effects
 				(font
@@ -5294,8 +5133,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "U10")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
+					(reference "U13")
 					(unit 1)
 				)
 			)
@@ -5311,7 +5150,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "592b81d6-4cb8-4820-916f-a5ee4caac7d8")
-		(property "Reference" "U15"
+		(property "Reference" "U10"
 			(at 54.2641 69.85 0)
 			(effects
 				(font
@@ -5610,8 +5449,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "U15")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
+					(reference "U10")
 					(unit 1)
 				)
 			)
@@ -5676,7 +5515,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR034")
 					(unit 1)
 				)
@@ -5693,7 +5532,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5f1add77-9586-4dc7-9d2a-368f7a494251")
-		(property "Reference" "U9"
+		(property "Reference" "U12"
 			(at 160.9441 25.4 0)
 			(effects
 				(font
@@ -5830,8 +5669,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "U9")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
+					(reference "U12")
 					(unit 1)
 				)
 			)
@@ -5896,7 +5735,7 @@
 		)
 		(instances
 			(project ""
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR029")
 					(unit 1)
 				)
@@ -5962,7 +5801,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR033")
 					(unit 1)
 				)
@@ -6028,7 +5867,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR030")
 					(unit 1)
 				)
@@ -6094,7 +5933,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR035")
 					(unit 1)
 				)
@@ -6160,81 +5999,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR032")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Oscillator:CXO_DIP8")
-		(at 92.71 132.08 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e817be48-7529-4607-b45c-79a3e6b72c2d")
-		(property "Reference" "X3"
-			(at 88.392 125.476 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "40 MHz"
-			(at 97.536 125.222 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Oscillator:Oscillator_DIP-8"
-			(at 104.14 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "http://cdn-reichelt.de/documents/datenblatt/B400/OSZI.pdf"
-			(at 90.17 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Crystal Clock Oscillator, DIP8-style metal package"
-			(at 92.71 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d3d36bfb-2fc4-48c1-b706-02b467f8fbc3")
-		)
-		(pin "5"
-			(uuid "45b98042-e7a7-4a8b-bec3-329c32929967")
-		)
-		(pin "4"
-			(uuid "7cba5d68-2cd0-4a87-be6a-c143dac4ab22")
-		)
-		(pin "8"
-			(uuid "1501860e-90e9-4f9c-9c1f-b5fd6f2d93b6")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
-					(reference "X3")
 					(unit 1)
 				)
 			)
@@ -6299,7 +6065,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/e50909a0-1d3b-4495-9c69-91b78e177b30"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/efa2f0c7-3118-45b7-910c-1c89ec337129"
 					(reference "#PWR031")
 					(unit 1)
 				)

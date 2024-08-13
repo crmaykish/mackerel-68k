@@ -1749,7 +1749,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a4469edc-40ed-4e6e-9fc2-af829a9bd645")
-		(property "Reference" "U14"
+		(property "Reference" "U17"
 			(at 79.6641 105.41 0)
 			(effects
 				(font
@@ -1856,8 +1856,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/6cfe947c-598f-42ef-bd23-ebbb23b4163c"
-					(reference "U14")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/dcd19c5f-c820-4282-b955-20c9a7c014f0"
+					(reference "U17")
 					(unit 1)
 				)
 			)
@@ -1873,7 +1873,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf4d78de-43ca-43af-a096-3b2c30f3567b")
-		(property "Reference" "U13"
+		(property "Reference" "U16"
 			(at 78.3941 48.26 0)
 			(effects
 				(font
@@ -1980,8 +1980,8 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/6cfe947c-598f-42ef-bd23-ebbb23b4163c"
-					(reference "U13")
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/dcd19c5f-c820-4282-b955-20c9a7c014f0"
+					(reference "U16")
 					(unit 1)
 				)
 			)
@@ -2162,7 +2162,7 @@
 		)
 		(instances
 			(project "mackerel-10-v1"
-				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/6cfe947c-598f-42ef-bd23-ebbb23b4163c"
+				(path "/7c8e571b-5869-4d61-a944-e89fb22aae6e/dcd19c5f-c820-4282-b955-20c9a7c014f0"
 					(reference "J7")
 					(unit 1)
 				)
