@@ -7069,7 +7069,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "067936e0-8044-4f81-abc8-1fe84e2b1335")
-		(property "Reference" "#PWR024"
+		(property "Reference" "#PWR027"
 			(at 133.35 104.14 0)
 			(effects
 				(font
@@ -7119,7 +7119,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR024")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -7135,7 +7135,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "12eee53b-920f-416e-9774-362909c363f3")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR025"
 			(at 133.35 27.94 0)
 			(effects
 				(font
@@ -7185,7 +7185,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR034")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -7201,7 +7201,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1ad57e39-5250-4504-97f8-81399c11c6ff")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR032"
 			(at 236.22 69.85 0)
 			(effects
 				(font
@@ -7251,7 +7251,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR023")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -7267,7 +7267,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "22dc3e63-8afb-4bd5-9437-3d02eda94bfd")
-		(property "Reference" "U8"
+		(property "Reference" "U10"
 			(at 135.5441 21.59 0)
 			(effects
 				(font
@@ -7411,7 +7411,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U8")
+					(reference "U10")
 					(unit 1)
 				)
 			)
@@ -7427,7 +7427,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "33442bf9-d983-4878-a749-6b72bb779169")
-		(property "Reference" "#PWR025"
+		(property "Reference" "#PWR021"
 			(at 88.9 27.94 0)
 			(effects
 				(font
@@ -7477,7 +7477,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR025")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -7493,7 +7493,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "369ab43f-1773-44cd-9185-7bd1a79b13e5")
-		(property "Reference" "U7"
+		(property "Reference" "U8"
 			(at 90.9194 21.59 0)
 			(effects
 				(font
@@ -7637,7 +7637,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U7")
+					(reference "U8")
 					(unit 1)
 				)
 			)
@@ -7718,7 +7718,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4d2b4e02-a429-4bc0-966a-b752495991ad")
-		(property "Reference" "#PWR028"
+		(property "Reference" "#PWR031"
 			(at 224.79 129.54 0)
 			(effects
 				(font
@@ -7768,7 +7768,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR028")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -7784,7 +7784,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "50176464-f80f-40d0-8e60-6b59ea80b189")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR020"
 			(at 44.45 165.1 0)
 			(effects
 				(font
@@ -7834,7 +7834,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR039")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -8010,7 +8010,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5805697f-add7-423e-988c-24203ac57393")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR028"
 			(at 133.35 165.1 0)
 			(effects
 				(font
@@ -8060,7 +8060,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR029")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -8076,7 +8076,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "61012a92-0326-40e9-aca7-09bc633c892e")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR017"
 			(at 44.45 27.94 0)
 			(effects
 				(font
@@ -8126,7 +8126,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR035")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -8142,7 +8142,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "84602510-02b8-48db-8e95-8d0045c78c43")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR019"
 			(at 44.45 104.14 0)
 			(effects
 				(font
@@ -8192,7 +8192,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR036")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -8208,7 +8208,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8ab0beeb-dc3a-47cf-ae1d-9f76e3cef981")
-		(property "Reference" "U11"
+		(property "Reference" "U9"
 			(at 91.0941 97.282 0)
 			(effects
 				(font
@@ -8352,7 +8352,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U11")
+					(reference "U9")
 					(unit 1)
 				)
 			)
@@ -8368,7 +8368,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9ce68d76-4757-44de-9ead-802b522d4974")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR026"
 			(at 133.35 88.9 0)
 			(effects
 				(font
@@ -8418,7 +8418,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR037")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -8434,7 +8434,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a0c54e3d-e958-4b8e-814f-f5c87160d6a8")
-		(property "Reference" "U10"
+		(property "Reference" "U7"
 			(at 46.6441 97.536 0)
 			(effects
 				(font
@@ -8578,7 +8578,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U10")
+					(reference "U7")
 					(unit 1)
 				)
 			)
@@ -8594,7 +8594,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a59c0c9d-f7ca-4767-aeb3-84011983a909")
-		(property "Reference" "U9"
+		(property "Reference" "U12"
 			(at 179.8194 21.59 0)
 			(effects
 				(font
@@ -8738,7 +8738,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U9")
+					(reference "U12")
 					(unit 1)
 				)
 			)
@@ -8754,7 +8754,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b1c0c371-1212-410c-b4bb-11639e787355")
-		(property "Reference" "#PWR026"
+		(property "Reference" "#PWR023"
 			(at 88.9 104.14 0)
 			(effects
 				(font
@@ -8804,7 +8804,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR026")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -8820,7 +8820,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b2d29168-b681-4e1e-bca6-c3a1cecbfff8")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR018"
 			(at 44.45 88.9 0)
 			(effects
 				(font
@@ -8870,7 +8870,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR038")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -8886,7 +8886,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b79781e6-904e-4a37-8870-5d65f4d103f1")
-		(property "Reference" "#PWR032"
+		(property "Reference" "#PWR030"
 			(at 177.8 88.9 0)
 			(effects
 				(font
@@ -8936,7 +8936,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR032")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -8952,7 +8952,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ce05a7cb-3fb4-4be9-9db8-f7b1af855a5d")
-		(property "Reference" "U12"
+		(property "Reference" "U11"
 			(at 135.5441 97.282 0)
 			(effects
 				(font
@@ -9096,7 +9096,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "U12")
+					(reference "U11")
 					(unit 1)
 				)
 			)
@@ -9112,7 +9112,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ce65ee40-74bb-417e-993c-4cdbb9ef511f")
-		(property "Reference" "#PWR030"
+		(property "Reference" "#PWR022"
 			(at 88.9 88.9 0)
 			(effects
 				(font
@@ -9162,7 +9162,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR030")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -9178,7 +9178,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f1a7f005-b16d-435a-b808-a5ab5b6b44ea")
-		(property "Reference" "#PWR031"
+		(property "Reference" "#PWR024"
 			(at 88.9 165.1 0)
 			(effects
 				(font
@@ -9228,7 +9228,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR031")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -9244,7 +9244,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f5f4b906-9485-4281-8f40-7d8a474dcd58")
-		(property "Reference" "#PWR027"
+		(property "Reference" "#PWR029"
 			(at 177.8 27.94 0)
 			(effects
 				(font
@@ -9294,7 +9294,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/5f34c349-ebaa-45fd-b23a-8893b29db344"
-					(reference "#PWR027")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)

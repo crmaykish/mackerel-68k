@@ -643,6 +643,10 @@
     [
       "7a389a7c-8317-4082-87da-094545447ed4",
       "Mackerel-08 Power & Reset"
+    ],
+    [
+      "76d6b920-2493-4dda-a5fc-a3f21ea7f545",
+      "Mackerel-08 Expansion"
     ]
   ],
   "text_variables": {}
