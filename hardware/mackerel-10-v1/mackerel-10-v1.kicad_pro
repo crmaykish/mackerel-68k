@@ -588,16 +588,8 @@
       "DUART"
     ],
     [
-      "efa2f0c7-3118-45b7-910c-1c89ec337129",
-      "DRAM"
-    ],
-    [
       "587adcf7-1013-49d8-acd9-ec5984a2fc8a",
       "Power and Reset"
-    ],
-    [
-      "dcd19c5f-c820-4282-b955-20c9a7c014f0",
-      "IDE"
     ]
   ],
   "text_variables": {}
