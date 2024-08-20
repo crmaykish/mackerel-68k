@@ -8479,7 +8479,7 @@
 		)
 	)
 	(sheet
-		(at 15.875 193.675)
+		(at 15.24 193.675)
 		(size 12.7 3.81)
 		(fields_autoplaced yes)
 		(stroke
@@ -8491,7 +8491,7 @@
 		)
 		(uuid "76d6b920-2493-4dda-a5fc-a3f21ea7f545")
 		(property "Sheetname" "Mackerel-08 Expansion"
-			(at 15.875 192.9634 0)
+			(at 15.24 192.9634 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8500,7 +8500,7 @@
 			)
 		)
 		(property "Sheetfile" "mackerel-08-expansion.kicad_sch"
-			(at 15.875 198.0696 0)
+			(at 15.24 198.0696 0)
 			(effects
 				(font
 					(size 1.27 1.27)
