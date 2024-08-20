@@ -2453,6 +2453,12 @@
 		(uuid "59d8a86c-9f62-4cb8-8e2c-cf62a1126b7b")
 	)
 	(junction
+		(at 100.33 86.36)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5a0bfc00-6794-4aca-849c-388d82f817bb")
+	)
+	(junction
 		(at 25.4 97.79)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2495,10 +2501,22 @@
 		(uuid "a32621db-4300-49f7-895a-eee6b25968e9")
 	)
 	(junction
+		(at 102.87 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b5e77827-0dbf-41a3-8bd3-e8bbd6a8679c")
+	)
+	(junction
 		(at 25.4 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b94f94f6-b2f5-4175-9296-2776157631b1")
+	)
+	(junction
+		(at 97.79 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bc22e348-3313-4680-814e-f2084c738b91")
 	)
 	(junction
 		(at 87.63 140.97)
@@ -2519,10 +2537,22 @@
 		(uuid "c457ddc2-80e2-40cd-89fa-198e68031bbb")
 	)
 	(junction
+		(at 100.33 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c5ffdd0f-059b-4c0a-a208-67e214e85f11")
+	)
+	(junction
 		(at 30.48 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cffb6419-a1d8-4fee-8cab-5ed34a8a79d7")
+	)
+	(junction
+		(at 102.87 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e15013a3-14d4-495b-aae4-790877e9b08d")
 	)
 	(junction
 		(at 30.48 90.17)
@@ -2642,6 +2672,16 @@
 	)
 	(wire
 		(pts
+			(xy 106.68 88.9) (xy 102.87 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a36f421-6f0e-4ec4-ae90-73cae7f09221")
+	)
+	(wire
+		(pts
 			(xy 87.63 173.99) (xy 77.47 173.99)
 		)
 		(stroke
@@ -2669,6 +2709,16 @@
 			(type default)
 		)
 		(uuid "165cf1ac-1d0a-466a-b8fe-c6749c9e8492")
+	)
+	(wire
+		(pts
+			(xy 102.87 82.55) (xy 102.87 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1712d4ed-97d5-4415-8164-4a2f9616c249")
 	)
 	(wire
 		(pts
@@ -2702,6 +2752,26 @@
 	)
 	(wire
 		(pts
+			(xy 100.33 82.55) (xy 100.33 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "21d9b49f-bc54-4c1a-a095-641c2d87c8e4")
+	)
+	(wire
+		(pts
+			(xy 105.41 58.42) (xy 105.41 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2233afec-6554-4720-a219-9a7908dec2ba")
+	)
+	(wire
+		(pts
 			(xy 87.63 173.99) (xy 87.63 176.53)
 		)
 		(stroke
@@ -2719,6 +2789,16 @@
 			(type default)
 		)
 		(uuid "23072af1-9955-403f-8b79-52ef5984034a")
+	)
+	(wire
+		(pts
+			(xy 74.93 72.39) (xy 92.71 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24b26919-53e2-48ab-8874-cc29853dd9e2")
 	)
 	(wire
 		(pts
@@ -2749,6 +2829,16 @@
 			(type default)
 		)
 		(uuid "29b2f3d7-9997-4455-b4c8-18f8f4c374d2")
+	)
+	(wire
+		(pts
+			(xy 100.33 86.36) (xy 74.93 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d008c99-b05c-4ae9-96b6-3ff265a1ca92")
 	)
 	(wire
 		(pts
@@ -2812,6 +2902,16 @@
 	)
 	(wire
 		(pts
+			(xy 97.79 82.55) (xy 97.79 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a5676cb-1e0b-4a28-8202-944aa22415cb")
+	)
+	(wire
+		(pts
 			(xy 152.4 113.03) (xy 133.35 113.03)
 		)
 		(stroke
@@ -2822,7 +2922,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 40.64) (xy 101.6 40.64)
+			(xy 105.41 40.64) (xy 101.6 40.64)
 		)
 		(stroke
 			(width 0)
@@ -2932,6 +3032,16 @@
 	)
 	(wire
 		(pts
+			(xy 97.79 74.93) (xy 100.33 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5884791c-a0e9-42f3-aa5a-0365561da9db")
+	)
+	(wire
+		(pts
 			(xy 63.5 106.68) (xy 60.96 106.68)
 		)
 		(stroke
@@ -3002,6 +3112,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 72.39) (xy 92.71 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81ae3f3e-ffad-4d6e-b095-7cc9e86c7fec")
+	)
+	(wire
+		(pts
 			(xy 217.17 20.32) (xy 217.17 29.21)
 		)
 		(stroke
@@ -3012,6 +3132,26 @@
 	)
 	(wire
 		(pts
+			(xy 106.68 86.36) (xy 100.33 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9885691c-68c8-40e0-a0aa-a8330f285085")
+	)
+	(wire
+		(pts
+			(xy 92.71 58.42) (xy 105.41 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "992f08e2-4152-4b19-b1f0-7d8550b9decd")
+	)
+	(wire
+		(pts
 			(xy 214.63 36.83) (xy 214.63 41.91)
 		)
 		(stroke
@@ -3019,6 +3159,16 @@
 			(type default)
 		)
 		(uuid "9bda848e-571e-4c3b-99c5-93b48acb59dd")
+	)
+	(wire
+		(pts
+			(xy 102.87 88.9) (xy 74.93 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e44cb71-e3d8-4711-a21e-15b970cd2f2a")
 	)
 	(wire
 		(pts
@@ -3042,16 +3192,6 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 72.39) (xy 106.68 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a01133ab-11ad-4cfd-aaf9-ebd710890757")
-	)
-	(wire
-		(pts
 			(xy 234.95 19.05) (xy 234.95 20.32)
 		)
 		(stroke
@@ -3069,6 +3209,26 @@
 			(type default)
 		)
 		(uuid "a1de53d4-69b4-4f26-9151-6afbca8e1887")
+	)
+	(wire
+		(pts
+			(xy 97.79 83.82) (xy 74.93 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a2435f4f-b08b-4c9f-84cf-c1ea2e57e8f9")
+	)
+	(wire
+		(pts
+			(xy 100.33 74.93) (xy 102.87 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a38eb350-4309-4dcc-ae1e-7b3dcd3dfcca")
 	)
 	(wire
 		(pts
@@ -3282,6 +3442,16 @@
 	)
 	(wire
 		(pts
+			(xy 106.68 83.82) (xy 97.79 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e178b146-8841-4479-ad7d-4c3af0ae477a")
+	)
+	(wire
+		(pts
 			(xy 45.72 95.25) (xy 27.94 95.25)
 		)
 		(stroke
@@ -3359,16 +3529,6 @@
 			(type default)
 		)
 		(uuid "f7c7e6a9-6871-49e1-a2a5-4a052764b565")
-	)
-	(wire
-		(pts
-			(xy 74.93 72.39) (xy 106.68 72.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f98b9751-6fd3-4cb0-ad72-8bd8b67042b5")
 	)
 	(wire
 		(pts
@@ -3541,7 +3701,7 @@
 	)
 	(global_label "{slash}IPL1"
 		(shape input)
-		(at 74.93 86.36 0)
+		(at 106.68 86.36 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3551,7 +3711,7 @@
 		)
 		(uuid "03ee43e9-7795-4d17-ac55-d16c77980d7d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 82.786 86.2806 0)
+			(at 114.536 86.2806 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3981,7 +4141,7 @@
 	)
 	(global_label "CLK_CPU"
 		(shape input)
-		(at 106.68 72.39 0)
+		(at 105.41 40.64 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3991,7 +4151,7 @@
 		)
 		(uuid "32af34b1-cee7-4d58-aed7-a439a4df7d84")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 118.0714 72.39 0)
+			(at 116.8014 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4509,7 +4669,7 @@
 	)
 	(global_label "{slash}IPL0"
 		(shape input)
-		(at 74.93 83.82 0)
+		(at 106.68 83.82 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4519,7 +4679,7 @@
 		)
 		(uuid "6bcb3518-64fd-41d3-bd13-61a8b2558766")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 82.786 83.7406 0)
+			(at 114.536 83.7406 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4641,7 +4801,7 @@
 	)
 	(global_label "{slash}IPL2"
 		(shape input)
-		(at 74.93 88.9 0)
+		(at 106.68 88.9 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4651,7 +4811,7 @@
 		)
 		(uuid "86f77501-2d0b-42c9-8f93-767095781429")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 82.786 88.8206 0)
+			(at 114.536 88.8206 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5767,7 +5927,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 29.718 78.74 90)
 			(effects
 				(font
@@ -5902,7 +6062,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 212.852 33.02 90)
 			(effects
 				(font
@@ -6514,7 +6674,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 27.178 78.74 90)
 			(effects
 				(font
@@ -6683,6 +6843,76 @@
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
 					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 100.33 78.74 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4f626a10-e9ad-4a4e-8199-e5837b52576a")
+		(property "Reference" "R6"
+			(at 100.33 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "R"
+			(at 99.06 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 102.108 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 100.33 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1d33d59c-63ff-496a-b3cb-d6a3746cf983")
+		)
+		(pin "2"
+			(uuid "92a6d016-473e-4663-b760-229948cd3369")
+		)
+		(instances
+			(project "mackerel-08-v1"
+				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -6935,7 +7165,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 32.258 78.74 90)
 			(effects
 				(font
@@ -6972,6 +7202,76 @@
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
 					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 102.87 78.74 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5e7e4c96-8283-4e7c-8e76-96fe12f16614")
+		(property "Reference" "R7"
+			(at 102.87 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "R"
+			(at 101.6 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 104.648 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 102.87 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 102.87 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b7896bdd-86d9-471d-ab67-8bd1ca8fab84")
+		)
+		(pin "2"
+			(uuid "dfcd09f7-46e9-42df-89ba-8703dd5c878a")
+		)
+		(instances
+			(project "mackerel-08-v1"
+				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -7071,7 +7371,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 34.798 78.74 90)
 			(effects
 				(font
@@ -7494,6 +7794,72 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
+		(at 102.87 74.93 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "af02f090-9323-4e7e-a5f5-21fc1a62e3fc")
+		(property "Reference" "#PWR08"
+			(at 102.87 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 102.87 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 102.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 102.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 102.87 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "91c948fc-a5a9-4a72-99b1-37fd4ec35f07")
+		)
+		(instances
+			(project ""
+				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
+					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
 		(at 156.21 21.59 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7586,7 +7952,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 125.222 116.84 90)
 			(effects
 				(font
@@ -7689,6 +8055,76 @@
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
 					(reference "#PWR07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 97.79 78.74 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "df10ba3f-866b-46bf-a726-9b2a7d3d743c")
+		(property "Reference" "R5"
+			(at 97.79 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "R"
+			(at 96.52 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 99.568 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 97.79 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 97.79 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1eb0f2df-e8ee-4b4a-ae4e-2cbf5dbbf64c")
+		)
+		(pin "2"
+			(uuid "511f1ffa-f39e-445a-8099-b7efa423230a")
+		)
+		(instances
+			(project "mackerel-08-v1"
+				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2"
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -7854,7 +8290,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 182.372 109.22 90)
 			(effects
 				(font
@@ -7924,7 +8360,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 215.392 33.02 90)
 			(effects
 				(font

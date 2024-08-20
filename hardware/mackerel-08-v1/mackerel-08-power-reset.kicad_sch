@@ -3736,6 +3736,16 @@
 		)
 		(uuid "dacf43c5-c75b-4b07-a5a0-3177993336ad")
 	)
+	(text "Extra Power Pins"
+		(exclude_from_sim no)
+		(at 138.43 120.904 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "ea1587b3-2456-4c71-ab52-63edfc5f7933")
+	)
 	(global_label "{slash}RESET"
 		(shape output)
 		(at 246.38 49.53 0)
@@ -3786,7 +3796,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 207.772 53.34 90)
 			(effects
 				(font
@@ -3926,7 +3936,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 195.072 55.88 90)
 			(effects
 				(font
@@ -4238,7 +4248,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "15d47220-b197-4946-b5f5-d3e75d8ad300")
-		(property "Reference" "#PWR072"
+		(property "Reference" "#PWR057"
 			(at 130.81 114.3 0)
 			(effects
 				(font
@@ -4288,7 +4298,7 @@
 		(instances
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR072")
+					(reference "#PWR057")
 					(unit 1)
 				)
 			)
@@ -4437,20 +4447,19 @@
 		(dnp no)
 		(uuid "1f9b0b97-42fe-4b38-ba31-5a9fc9965dde")
 		(property "Reference" "L1"
-			(at 134.62 51.054 90)
+			(at 134.366 54.356 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "L"
+		(property "Value" "100uH"
 			(at 134.62 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Inductor_THT:L_Radial_D10.0mm_P5.00mm_Fastron_07M"
@@ -4505,7 +4514,7 @@
 		(dnp no)
 		(uuid "341e6b4d-e441-4037-b9e8-4841e9fb2699")
 		(property "Reference" "D3"
-			(at 126.238 57.912 90)
+			(at 126.238 57.658 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4513,14 +4522,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "D_Schottky"
-			(at 133.35 58.1024 90)
+		(property "Value" "1N5822"
+			(at 122.936 59.944 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Diode_THT:D_DO-27_P15.24mm_Horizontal"
@@ -4593,7 +4601,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 69.342 115.57 90)
 			(effects
 				(font
@@ -4645,7 +4653,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3c06f8d7-01e5-46cf-bcea-8ccec508a189")
-		(property "Reference" "#PWR049"
+		(property "Reference" "#PWR051"
 			(at 30.48 132.08 0)
 			(effects
 				(font
@@ -4695,7 +4703,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR049")
+					(reference "#PWR051")
 					(unit 1)
 				)
 			)
@@ -5014,7 +5022,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 242.062 33.02 90)
 			(effects
 				(font
@@ -5066,7 +5074,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4a1b18dd-a4c6-42a1-b44b-c9447dee2587")
-		(property "Reference" "#PWR052"
+		(property "Reference" "#PWR054"
 			(at 91.44 52.07 0)
 			(effects
 				(font
@@ -5116,7 +5124,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR052")
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -5132,7 +5140,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4ace5125-bfc8-4881-b903-827d00941f76")
-		(property "Reference" "#PWR071"
+		(property "Reference" "#PWR056"
 			(at 118.11 106.68 0)
 			(effects
 				(font
@@ -5182,7 +5190,7 @@
 		(instances
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR071")
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)
@@ -5429,14 +5437,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C_Polarized"
-			(at 95.25 52.4509 0)
+		(property "Value" "1000uF"
+			(at 93.98 52.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
@@ -5765,7 +5772,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "828a7bf1-dfd1-4b14-a1c0-4db9a89a017b")
-		(property "Reference" "#PWR057"
+		(property "Reference" "#PWR063"
 			(at 243.84 33.02 0)
 			(effects
 				(font
@@ -5815,7 +5822,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR057")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
@@ -6035,7 +6042,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "93f78090-39ee-43cf-8eb1-91faa657878c")
-		(property "Reference" "#PWR073"
+		(property "Reference" "#PWR059"
 			(at 143.51 106.68 0)
 			(effects
 				(font
@@ -6085,7 +6092,7 @@
 		(instances
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR073")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -6169,7 +6176,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a4179b70-23aa-4d22-ac88-750ef9ee1384")
-		(property "Reference" "#PWR054"
+		(property "Reference" "#PWR058"
 			(at 138.43 52.07 0)
 			(effects
 				(font
@@ -6219,7 +6226,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR054")
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -6314,7 +6321,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a5aa4c4a-4c5d-49cd-be6c-3fee695f5ff3")
-		(property "Reference" "#PWR050"
+		(property "Reference" "#PWR052"
 			(at 71.12 115.57 0)
 			(effects
 				(font
@@ -6364,7 +6371,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR050")
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -6380,7 +6387,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a7c1aca1-d08a-4a2a-9db0-744801dbbfd0")
-		(property "Reference" "J4"
+		(property "Reference" "J5"
 			(at 78.74 41.91 0)
 			(effects
 				(font
@@ -6436,7 +6443,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "J4")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -6452,7 +6459,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a998efcb-9098-46e3-af5c-2bcfab30649a")
-		(property "Reference" "#PWR056"
+		(property "Reference" "#PWR062"
 			(at 228.6 80.01 0)
 			(effects
 				(font
@@ -6502,7 +6509,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR056")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
@@ -6582,7 +6589,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c10f84fb-de7d-4ceb-bb5c-6ab9e71b405c")
-		(property "Reference" "#PWR051"
+		(property "Reference" "#PWR053"
 			(at 71.12 133.35 0)
 			(effects
 				(font
@@ -6632,7 +6639,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR051")
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
@@ -6648,7 +6655,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c148d83b-78f4-40bf-b26f-fcc92998d9d5")
-		(property "Reference" "#PWR055"
+		(property "Reference" "#PWR061"
 			(at 228.6 40.64 0)
 			(effects
 				(font
@@ -6698,7 +6705,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR055")
+					(reference "#PWR061")
 					(unit 1)
 				)
 			)
@@ -6782,7 +6789,7 @@
 		(dnp no)
 		(uuid "cbeff0b6-ebaf-45b2-96a1-7d69244fba5c")
 		(property "Reference" "C19"
-			(at 141.986 57.15 0)
+			(at 139.192 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6790,14 +6797,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C_Polarized"
-			(at 142.24 57.5309 0)
+		(property "Value" "1000uF"
+			(at 141.478 57.404 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
@@ -7269,7 +7275,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f37475f8-2d0c-44b7-9a83-44b2fedc995a")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR050"
 			(at 22.86 29.21 0)
 			(effects
 				(font
@@ -7319,7 +7325,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR048")
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -7335,7 +7341,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f511fb99-e74b-496d-9eee-dd131e65ead4")
-		(property "Reference" "#PWR074"
+		(property "Reference" "#PWR060"
 			(at 156.21 114.3 0)
 			(effects
 				(font
@@ -7385,7 +7391,7 @@
 		(instances
 			(project ""
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR074")
+					(reference "#PWR060")
 					(unit 1)
 				)
 			)
@@ -7466,7 +7472,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fc67e026-cde5-4f12-9321-6ae5fa6c3e45")
-		(property "Reference" "#PWR053"
+		(property "Reference" "#PWR055"
 			(at 118.11 67.31 0)
 			(effects
 				(font
@@ -7516,7 +7522,7 @@
 		(instances
 			(project "mackerel-08-v1"
 				(path "/d8b1bce0-db11-4fa6-8e54-fcae9a8fcfc2/7a389a7c-8317-4082-87da-094545447ed4"
-					(reference "#PWR053")
+					(reference "#PWR055")
 					(unit 1)
 				)
 			)
