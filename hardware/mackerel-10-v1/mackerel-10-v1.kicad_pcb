@@ -7,6 +7,12 @@
 		(legacy_teardrops no)
 	)
 	(paper "USLetter")
+	(title_block
+		(title "Mackerel-10 SBC Proto")
+		(date "2024-08-22")
+		(rev "0.1")
+		(company "Colin Maykish")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(1 "In1.Cu" signal)
@@ -108,7 +114,7 @@
 			(layerselection 0x00010fc_ffffffff)
 			(plot_on_all_layers_selection 0x0000000_00000000)
 			(disableapertmacros no)
-			(usegerberextensions no)
+			(usegerberextensions yes)
 			(usegerberattributes yes)
 			(usegerberadvancedattributes yes)
 			(creategerberjobfile yes)
@@ -134,12 +140,12 @@
 			(plotfptext yes)
 			(plotinvisibletext no)
 			(sketchpadsonfab no)
-			(subtractmaskfromsilk no)
+			(subtractmaskfromsilk yes)
 			(outputformat 1)
 			(mirror no)
-			(drillshape 1)
+			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "")
+			(outputdirectory "/home/colin/Desktop/mack-10-proto/")
 		)
 	)
 	(net 0 "")
@@ -4892,7 +4898,7 @@
 		(descr "Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=5.08mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
 		(tags "Resistor Axial_DIN0204 series Axial Horizontal pin pitch 5.08mm 0.167W length 3.6mm diameter 1.6mm")
 		(property "Reference" "R13"
-			(at 7.04 0.6 180)
+			(at 6.84 0.5 180)
 			(layer "F.SilkS")
 			(uuid "0f107161-57e2-4d82-a2e4-6fbbad75bb2e")
 			(effects
@@ -19347,7 +19353,7 @@
 		(descr "Resistor, Axial_DIN0204 series, Axial, Horizontal, pin pitch=5.08mm, 0.167W, length*diameter=3.6*1.6mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
 		(tags "Resistor Axial_DIN0204 series Axial Horizontal pin pitch 5.08mm 0.167W length 3.6mm diameter 1.6mm")
 		(property "Reference" "R10"
-			(at -1.76 0.1 360)
+			(at -1.76 0.1 0)
 			(layer "F.SilkS")
 			(uuid "12195a8f-b59e-4bd9-8191-2dff2a2f604e")
 			(effects
