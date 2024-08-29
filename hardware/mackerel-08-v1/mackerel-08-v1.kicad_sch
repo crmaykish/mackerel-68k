@@ -6,8 +6,8 @@
 	(paper "A")
 	(title_block
 		(title "Mackerel-08 SBC v1")
-		(date "2024-06-22")
-		(rev "1.0a")
+		(date "2024-08-22")
+		(rev "1.1")
 		(company "Colin Maykish")
 		(comment 1 "github.com/crmaykish/mackerel-68k")
 	)
