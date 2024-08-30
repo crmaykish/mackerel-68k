@@ -33,5 +33,15 @@ hello.elf: $(COMMON_OBJS_RAM) hello.o
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 	$(CC) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
+
+mack10.elf: test.o vectors.o
+	$(CC) -mcpu=68000 -Wl,--build-id=none -T linker_rom_10.scr -nostartfiles $^ -o $@
+	
+upper: mack10.bin
+	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@
+
+lower: mack10.bin
+	$(OBJCOPY) --interleave=2 --byte=1 -I binary -O binary $< $@
+
 clean:
-	rm -f *.o *.elf *.bin
+	rm -f *.o *.elf *.bin upper lower mack10

@@ -3,24 +3,16 @@
 
 #include <stdbool.h>
 
-#define mputc(s) duart_putc(s)
-#define mputs(s) duart_puts(s)
-#define mgetc() duart_getc()
-
 // NOTE: Baselibc has no stdint header
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 
 // Memory
 
-// CH376S USB Module
-
-#define USB_DATA 0x3E8000    // TODO
-#define USB_COMMAND 0x3E8001 // TODO
-
 // MC68681P DUART 1
 
-#define DUART1_BASE 0x3FC000
+#define DUART1_BASE 0xC00000
+// #define DUART1_BASE 0x3FC000
 #define DUART1_MR1A (DUART1_BASE + 0x01)
 #define DUART1_MR2A (DUART1_BASE + 0x01)
 #define DUART1_SRA (DUART1_BASE + 0x03)

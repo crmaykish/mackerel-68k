@@ -7,7 +7,7 @@ size_t uart_write(FILE *instance, const char *bp, size_t n)
 {
 	for (size_t c = 0; c < n; c++)
 	{
-		mputc(bp[c]);
+		duart_putc(bp[c]);
 	}
 	return n;
 }

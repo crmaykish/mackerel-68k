@@ -4,9 +4,9 @@ extern int main();
 
 void panic(const char *err)
 {
-    mputs("\r\nPANIC: ");
-    mputs(err);
-    mputs("\r\n");
+    duart_puts("\r\nPANIC: ");
+    duart_puts(err);
+    duart_puts("\r\n");
 
     while(1) {}
 }

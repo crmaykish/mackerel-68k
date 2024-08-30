@@ -21,14 +21,14 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    mputs("\r\n### Mackerel-8 Bootloader ###\r\n###   crmaykish - 2024    ###\r\n");
+    duart_puts("\r\n### Mackerel-8 Bootloader ###\r\n###   crmaykish - 2024    ###\r\n");
 
     while (true)
     {
         // Present the command prompt and wait for input
-        mputs("> ");
+        duart_puts("> ");
         readline(buffer);
-        mputs("\r\n");
+        duart_puts("\r\n");
 
         if (strncmp(buffer, "load", 4) == 0)
         {
@@ -89,7 +89,7 @@ int main()
             command_not_found(buffer);
         }
 
-        mputs("\r\n");
+        duart_puts("\r\n");
     }
 
     return 0;
@@ -97,13 +97,13 @@ int main()
 
 void handler_runram()
 {
-    mputs("Jumping to 0x400\r\n");
+    duart_puts("Jumping to 0x400\r\n");
     asm("jsr 0x400");
 }
 
 void handler_runrom()
 {
-    mputs("Jumping to 0x300000\r\n");
+    duart_puts("Jumping to 0x300000\r\n");
     asm("jsr 0x300000");
 }
 
@@ -166,7 +166,7 @@ void handler_load(uint32_t addr)
 
     while (end_count != 3)
     {
-        in = mgetc();
+        in = duart_getc();
 
         MEM(addr + in_count) = in;
 
@@ -184,32 +184,32 @@ void handler_load(uint32_t addr)
 
     MEM(addr + in_count - 3) = 0;
 
-    mputs("Done!");
+    duart_puts("Done!");
 }
 
 void command_not_found(char *command_name)
 {
-    mputs("Command not found: ");
-    mputs(command_name);
+    duart_puts("Command not found: ");
+    duart_puts(command_name);
 }
 
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = mgetc();
+    uint8_t in = duart_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            mputc(in);
+            duart_putc(in);
 
             buffer[count] = in;
             count++;
         }
 
-        in = mgetc();
+        in = duart_getc();
     }
 
     buffer[count] = 0;
@@ -225,11 +225,11 @@ void print_string_bin(char *str, uint8_t max)
     {
         if (str[i] >= 32 && str[i] < 127)
         {
-            mputc(str[i]);
+            duart_putc(str[i]);
         }
         else
         {
-            mputc('.');
+            duart_putc('.');
         }
 
         i++;
@@ -259,13 +259,13 @@ void memdump(uint32_t address, uint32_t bytes)
         }
         else if (i % 8 == 0)
         {
-            mputc(' ');
+            duart_putc(' ');
         }
     }
 
-    mputc('|');
+    duart_putc('|');
     print_string_bin((char *)(address + i - 16), 16);
-    mputc('|');
+    duart_putc('|');
 }
 
 void memtest(int start, int end) {
