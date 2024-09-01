@@ -98,3 +98,12 @@ set_location_assignment PIN_36 -to ROM_LOWER
 set_location_assignment PIN_37 -to ROM_UPPER
 set_location_assignment PIN_35 -to RAM_UPPER
 set_location_assignment PIN_22 -to RAM_LOWER
+set_location_assignment PIN_46 -to GPIO[0]
+set_location_assignment PIN_54 -to GPIO[7]
+set_location_assignment PIN_52 -to GPIO[6]
+set_location_assignment PIN_51 -to GPIO[5]
+set_location_assignment PIN_50 -to GPIO[4]
+set_location_assignment PIN_49 -to GPIO[3]
+set_location_assignment PIN_48 -to GPIO[2]
+set_location_assignment PIN_45 -to GPIO[1]
+set_location_assignment PIN_17 -to RW

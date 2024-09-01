@@ -16,6 +16,8 @@ module system_controller(
 	
 	input AS, UDS, LDS,
 	
+	input RW,
+	
 	input FC0, FC1, FC2,
 	
 	output ROM_LOWER, ROM_UPPER,
@@ -23,7 +25,9 @@ module system_controller(
 	output DUART,
 	output EXP,
 	
-	output IACK_DUART
+	output IACK_DUART,
+	
+	output reg [7:0] GPIO
 	
 );
 
@@ -57,38 +61,44 @@ always @(posedge AS) begin
 end
 */
 
-reg clk_buf = 0;
+// Generate CPU clock from oscillator
+reg [2:0] clk_buf = 0;
+assign CLK_CPU = clk_buf[0];
+always @(posedge CLK) clk_buf <= clk_buf + 3'b1;
 
-always @(posedge CLK) clk_buf <= clk_buf + 1;
-
-assign CLK_CPU = clk_buf;
-
-
-
+// Handle memory addressable GPIO on CPLD
 always @(posedge CLK_CPU) begin
-	if (~RST) LED <= 0;
-	// LED at 0xF00000
-	if (ADDR_H[23] && ADDR_H[22] && ADDR_H[21] && ADDR_H[20]) begin
-		if (~AS) LED <= DATA[2:0];
-	end
+	if (~RST)
+		begin
+			LED <= 0;
+			GPIO <= 0;
+		end
+	else
+		// LED at 0xF00001
+		if (ADDR_H[23] && ADDR_H[22] && ADDR_H[21] && ADDR_H[20] && ~ADDR_L[1]) begin
+			if (~LDS && ~RW) LED <= DATA[2:0];
+		end
+		
+		// GPIO at 0xF00003
+		if (ADDR_H[23] && ADDR_H[22] && ADDR_H[21] && ADDR_H[20] && ADDR_L[1]) begin
+			if (~LDS && ~RW) GPIO <= DATA[7:0];
+		end
 end
 
-// ROM_EN at 0x000000
+// ROM enabled at 0x000000 - 0x100000
 wire ROM_EN = ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
-
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
-// RAM_EN at 0x800000
-wire RAM_EN = ADDR_H[23] && ~ADDR_H[22];
-
+// SRAM enabled at 0x800000 - 0x900000
+wire RAM_EN = ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
 assign RAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
 
 // DUART_EN when addr is > 0xC00000
-assign DUART = ~(~AS && ~LDS && ADDR_H[23] && ADDR_H[22]);
+//assign DUART = ~(~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21]);
 
-//assign DUART = 1;
+assign DUART = 1;
 
 endmodule

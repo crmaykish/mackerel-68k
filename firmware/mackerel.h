@@ -66,4 +66,8 @@ char duart_getc(void);
 // Timing
 void delay(int time);
 
+void set_leds(unsigned char val);
+
+void set_gpio(unsigned char val);
+
 #endif

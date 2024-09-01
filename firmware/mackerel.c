@@ -24,26 +24,24 @@ void set_exception_handler(unsigned char exception_number, void (*exception_hand
 void duart_init(void)
 {
     MEM(DUART1_IMR) = 0x00;        // Mask all interrupts
-    MEM(0xF00000) = 0x2;
     MEM(DUART1_MR1B) = 0b00010011; // No Rx RTS, No Parity, 8 bits per character
-    MEM(0xF00000) = 0x3;
     MEM(DUART1_MR2B) = 0b00000111; // Channel mode normal, No Tx RTS, No CTS, stop bit length 1
-    MEM(0xF00000) = 0x4;
     MEM(DUART1_ACR) = 0x80;        // Baudrate set 2
-    MEM(0xF00000) = 0x5;
     MEM(DUART1_CRB) = 0x80;        // Set Rx extended bit
-    MEM(0xF00000) = 0x6;
     MEM(DUART1_CRB) = 0xA0;        // Set Tx extended bit
-    MEM(0xF00000) = 0x7;
     MEM(DUART1_CSRB) = 0x88;       // 115200 baud
     MEM(DUART1_CRB) = 0b0101;      // Enable Tx/Rx
 }
 
 void duart_putc(char c)
 {
-    // while ((MEM(DUART1_SRB) & 0b00000100) == 0)
-    // {
-    // }
+    uint8_t srb = MEM(DUART1_SRB);
+
+    set_gpio(srb);
+
+    while ((srb & 0b00000100) == 0)
+    {
+    }
 
     MEM(DUART1_TBB) = c;
 
@@ -77,4 +75,14 @@ void delay(int time)
 {
     for (int delay = 0; delay < time; delay++)
         __asm__ __volatile__("");
+}
+
+void set_leds(unsigned char val)
+{
+    MEM(0xF00001) = val;
+}
+
+void set_gpio(unsigned char val)
+{
+    MEM(0xF00003) = val;
 }
