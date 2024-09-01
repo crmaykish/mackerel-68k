@@ -5,7 +5,7 @@
 #include "mackerel.h"
 #include "spi.h"
 
-#define CS_SD CS0   // Use CS0 for the SD card
+#define CS_SD CS2   // Use CS0 for the SD card
 
 // Setup the SD card interface
 // Return true on success, false on error
