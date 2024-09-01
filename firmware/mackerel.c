@@ -35,11 +35,7 @@ void duart_init(void)
 
 void duart_putc(char c)
 {
-    uint8_t srb = MEM(DUART1_SRB);
-
-    set_gpio(srb);
-
-    while ((srb & 0b00000100) == 0)
+    while ((MEM(DUART1_SRB) & 0b00000100) == 0)
     {
     }
 

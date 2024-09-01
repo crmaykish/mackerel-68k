@@ -7,16 +7,15 @@ int main()
 
     set_gpio(0x55);
 
-    // duart_init();
+    duart_init();
 
-    // not even getting through init?
+    set_gpio(0b11100000);
 
     while (1)
     {
-        // duart_putc('A');
+        duart_putc('B');
 
         set_leds(a);
-        // set_gpio(MEM(DUART1_SRB));
         a++;
     }
 
