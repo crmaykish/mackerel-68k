@@ -61,9 +61,9 @@ always @(posedge AS) begin
 end
 */
 
-// Generate CPU clock from oscillator
+// Generate CPU clock from source oscillator
 reg [2:0] clk_buf = 0;
-assign CLK_CPU = clk_buf[0];
+assign CLK_CPU = clk_buf[2];	// Divide source clock by 8 to get CPU clock
 always @(posedge CLK) clk_buf <= clk_buf + 3'b1;
 
 // Handle memory addressable GPIO on CPLD
