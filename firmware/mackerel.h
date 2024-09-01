@@ -7,12 +7,14 @@
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 
-// Memory
-
-// MC68681P DUART 1
-
+#ifdef MACKEREL_10
+#define LEDS 0xF00001
+#define GPIO 0xF00003
 #define DUART1_BASE 0xC00000
-// #define DUART1_BASE 0x3FC000
+#else
+#define DUART1_BASE 0x3FC000
+#endif
+
 #define DUART1_MR1A (DUART1_BASE + 0x01)
 #define DUART1_MR2A (DUART1_BASE + 0x01)
 #define DUART1_SRA (DUART1_BASE + 0x03)
@@ -40,7 +42,6 @@ typedef unsigned int uint32_t;
 #define DUART1_OPR (DUART1_BASE + 0x1D)
 #define DUART1_OPR_RESET (DUART1_BASE + 0x1F)
 
-
 // Interrupt bits
 #define DUART_INTR_COUNTER 0b0001000
 #define DUART_INTR_RXRDY 0b00100000
@@ -66,8 +67,10 @@ char duart_getc(void);
 // Timing
 void delay(int time);
 
+#ifdef MACKEREL_10
+// CPLD-based GPIO
 void set_leds(unsigned char val);
-
 void set_gpio(unsigned char val);
+#endif
 
 #endif
