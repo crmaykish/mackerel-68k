@@ -2,7 +2,7 @@
 
 Mackerel is a series of homebrew computers based on the Motorola 68000 series of processors. The first iteration uses the 8-bit variant, the MC68008. The goal of this project is to gradually work my way up the family tree, building systems based on the 68010, the 68020/30 and eventually the 68040, each time increasing the complexity of the hardware and improving the software support.
 
-Mackerel-08 runs uClinux as will the 68010-based system. The long-term goal is to run a modern kernel with MMU support on the 68030 and 68040.
+Mackerel-08 runs uClinux as will the Mackerel-10. The long-term goal is to run a modern kernel with MMU support on the 68030 and 68040.
 
 See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for pictures, build logs, and more.
 
@@ -24,34 +24,39 @@ The first few iterations of Mackerel started as protoboard cards connected to a 
 ![Mackerel Rev 0](media/images/mackerel-08-rev0.jpg)
 
 ### Mackerel-08
-Based on the original prototype hardare, this SBC combines the 52-pin PLCC MC68008, a 512KB EEPROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage to the system.
+Based on the original prototype hardare, this SBC combines the 52-pin PLCC MC68008, a 512KB Flash ROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage.
 
-![Mackerel-08 SBC v1](media/images/mackerel-08-sbc-v1-board-bringup.jpg)
+![Mackerel-08 SBC v1](media/images/mackerel-08-rev1.1.jpg)
 
-Three 22V10 PLDs are used for address decoding, interrupt mapping, and DTACK generation respectively. An expansion header breaks out address, data, and control lines to allow additional peripherals to be connected directly to the processor bus.
+Three 22V10 PLDs are used for address decoding, interrupt mapping, and DTACK generation. An expansion header breaks out address, data, and control lines to allow additional peripherals to be connected directly to the processor bus.
 
-Although the CPU is rated to 10 MHz, Mackerel runs reliably with an overclock to 16 MHz.
+Although the 68008 is only rated to 8/10 MHz, the CPU runs reliably overclocked to 16 MHz.
 
 The address space is mapped as follows:
-RAM:    0x000000 - 0x37FFFF (up to 3.5 MB)
-ROM:    0x380000 - 0x3FBFFF (496/512 KB usable)
-DUART:  0x3FC000 - 0x3DFFFF (8KB)
-Exp:    0x3FE000 - 0x400000 (Expansion header, 8KB)
+
+- RAM:    0x000000 - 0x37FFFF (up to 3.5 MB)
+- ROM:    0x380000 - 0x3FBFFF (496/512 KB usable)
+- DUART:  0x3FC000 - 0x3DFFFF (8KB)
+- Exp:    0x3FE000 - 0x400000 (Expansion header, 8KB)
 
 Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first eight /AS cycles of the CPU after reset. This BOOT signal is used by the address decoder PLD to map the ROM to address 0x000000 long enough for the CPU to read the initial stack pointer and program counter vectors from ROM. RAM is mapped to 0x000000 after that.
 
 ### Mackerel-10
 Mackerel-10 is the second phase of the project and the hardware is in development. It expands the design of Mackerel-08 with a full-size MC68010 CPU and 16-bit databus. Additionally, it dramatically increases the memory capacity with a DRAM controller implemented in a CPLD and up to 16 MB of 30-pin SIMM DRAM. Storage capabilities are expanded with an IDE header for a harddrive or CF card.
 
+The prototype PCB is just the base system without DRAM or IDE interfaces.
+
+![Mackerel-10 Prototype](media/images/mackerel-10-proto.jpg)
+
 ## Software
 
 ### Bootloader and Bare-metal Programs
-Mackerel typically has a small bootloader program installed on the Flash ROM. This provides a small set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code into RAM.
+Mackerel runs a small bootloader program installed on the Flash ROM. This provides a simple set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code into RAM.
 
 The bootloader can load program data coming in over the serial port (`load` command) or it can read data from an SD card (`boot` command). Either way, the program code gets loaded into RAM at address 0x400 and then the bootloader jumps to that address to start the program.
 
 ### uClinux
-Mackerel supports two versions of uClinux. [Version 2.0](https://github.com/crmaykish/mackerel-uclinux-20040218) dates from 2004 and runs Linux kernel 2.0. This version is actually small enough when compiled to fit entirely in the 492KB of ROM in which case, there is no bootloader and Linux boots immediately on power-up. It can also be loaded into RAM by the bootloader like any other program.
+Mackerel supports two versions of uClinux. [Version 2.0](https://github.com/crmaykish/mackerel-uclinux-20040218) dates from 2004 and runs Linux kernel 2.0. This version is actually small enough when compiled to fit entirely in a single 512KB ROM in which case, there is no bootloader and Linux boots immediately on power-up. It can also be loaded into RAM via serial by the bootloader like any other program.
 
 The newer port of uClinux 4.4 is [here](https://github.com/crmaykish/mackerel-uclinux-20160919). This version dates from 2016 and runs the much newer (and much larger) 4.4 Linux kernel. The image for this version does not fit in ROM and has to be loaded over serial or from the SD card.
 
