@@ -8,10 +8,14 @@ typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 
 #ifdef MACKEREL_10
+#define SYSTEM_NAME "Mackerel-10"
+
 #define LEDS 0xF00001
 #define GPIO 0xF00003
 #define DUART1_BASE 0xC00000
 #else
+#define SYSTEM_NAME "Mackerel-08"
+
 #define DUART1_BASE 0x3FC000
 #endif
 

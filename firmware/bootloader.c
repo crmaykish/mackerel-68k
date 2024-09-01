@@ -21,7 +21,7 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    duart_puts("\r\n### Mackerel-8 Bootloader ###\r\n###   crmaykish - 2024    ###\r\n");
+    printf("\r\n### %s Bootloader ###\r\n###   crmaykish - 2024    ###\r\n", SYSTEM_NAME);
 
     while (true)
     {
