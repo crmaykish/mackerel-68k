@@ -87,8 +87,8 @@ assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
 
 // DUART_EN when addr is > 0xC00000
-//assign DUART = ~(~AS && ADDR_H[23] && ADDR_H[22]);	// LDS?
+assign DUART = ~(~AS && ~LDS && ADDR_H[23] && ADDR_H[22]);
 
-assign DUART = 1;
+//assign DUART = 1;
 
 endmodule
