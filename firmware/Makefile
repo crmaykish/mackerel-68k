@@ -23,13 +23,13 @@ MACK10_BINS = bootloader.bin mack10.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
-BINS = $(addsuffix -upper.bin, $(basename $(MACK10_BINS))) $(addsuffix -lower.bin, $(basename $(MACK10_BINS)))
+BINS = $(MACK10_BINS) $(addsuffix -upper.bin, $(basename $(MACK10_BINS))) $(addsuffix -lower.bin, $(basename $(MACK10_BINS)))
 else
 # Mackerel-08
 BINS = $(MACK08_BINS)
 endif
 
-.SECONDARY: *.elf
+.SECONDARY: *.elf *.bin
 
 all: $(BINS)
 

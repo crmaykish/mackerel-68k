@@ -43,7 +43,6 @@ assign IPL1 = 1;
 assign IPL2 = 1;
 
 // Generate BOOT signal for first four bus cycles after reset
-/*
 reg BOOT = 1'b0;
 reg [2:0] bus_cycles = 0;
 
@@ -59,7 +58,6 @@ always @(posedge AS) begin
 		end
 	end
 end
-*/
 
 // Generate CPU clock from source oscillator
 reg [2:0] clk_buf = 0;
@@ -85,18 +83,18 @@ always @(posedge CLK_CPU) begin
 		end
 end
 
-// ROM enabled at 0x000000 - 0x100000
-wire ROM_EN = ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
+// ROM enabled at 0x800000 - 0x900000
+wire ROM_EN = ~BOOT || (ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
-// SRAM enabled at 0x800000 - 0x900000
-wire RAM_EN = ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
+// SRAM enabled at 0x000000 - 0x100000 (except at boot)
+wire RAM_EN = BOOT && ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
 assign RAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
 
 // DUART_EN when addr is > 0xC00000 - 0xD00000
-assign DUART = ~(~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
+assign DUART = ~(BOOT && ~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 
 endmodule
