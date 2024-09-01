@@ -9,24 +9,26 @@ ifeq ($(BOARD),mack10)
 # Mackerel-10
 CPPFLAGS = -DMACKEREL_10
 MEMORY_MAP_ROM = linker_rom_10.scr
+MEMORY_MAP_RAM = linker_ram_10.scr
+VECTORS = vectors_10.s
 else
 # Mackerel-08
 MEMORY_MAP_ROM = linker_rom.scr
 MEMORY_MAP_RAM = linker_ram.scr
+VECTORS = vectors_08.s
 endif
 
-COMMON_OBJS_ROM = vectors.o start.o glue.o mackerel.o
+COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o
 COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
-MACK08_BINS = bootloader.bin hello.bin kernel.bin
-MACK10_BINS = bootloader.bin mack10.bin
+BASE_BINS = bootloader.bin hello.bin kernel.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
-BINS = $(MACK10_BINS) $(addsuffix -upper.bin, $(basename $(MACK10_BINS))) $(addsuffix -lower.bin, $(basename $(MACK10_BINS)))
+BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
 else
 # Mackerel-08
-BINS = $(MACK08_BINS)
+BINS = $(BASE_BINS)
 endif
 
 .SECONDARY: *.elf *.bin
@@ -50,9 +52,6 @@ hello.elf: $(COMMON_OBJS_RAM) hello.o
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
-
-mack10.elf: test.o vectors.o mackerel.o
-	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 	
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@

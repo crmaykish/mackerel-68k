@@ -25,22 +25,30 @@ module system_controller(
 	output DUART,
 	output EXP,
 	
+	input IRQ_DUART,
+	
+	input DTACK_DUART,
+	
 	output IACK_DUART,
 	
 	output reg [7:0] GPIO
 	
 );
 
-assign IACK_DUART = 1;
 assign EXP = 1;
 
-assign DTACK = 0;
 assign BERR = 1;
 assign VPA = 1;
 
-assign IPL0 = 1;
+assign IPL0 = IRQ_DUART;
 assign IPL1 = 1;
 assign IPL2 = 1;
+
+wire IACK = ~(FC0 && FC1 && FC2);
+
+assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
+
+assign DTACK = ~((~DTACK_DUART && (~DUART || ~IACK_DUART)) || DUART);
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -84,17 +92,17 @@ always @(posedge CLK_CPU) begin
 end
 
 // ROM enabled at 0x800000 - 0x900000
-wire ROM_EN = ~BOOT || (ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
+wire ROM_EN = ~BOOT || (IACK && ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
 // SRAM enabled at 0x000000 - 0x100000 (except at boot)
-wire RAM_EN = BOOT && ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
+wire RAM_EN = BOOT && IACK && ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
 assign RAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
 
 // DUART_EN when addr is > 0xC00000 - 0xD00000
-assign DUART = ~(BOOT && ~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
+assign DUART = ~(BOOT && IACK && ~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 
 endmodule

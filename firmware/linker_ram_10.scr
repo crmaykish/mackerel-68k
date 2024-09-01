@@ -1,0 +1,11 @@
+MEMORY
+{
+	RAM(RWX) : ORIGIN = 0x400, LENGTH = 0x100000 - 0x400
+}
+
+SECTIONS
+{
+	.text 0x400 : { *(.text) } > RAM
+	.rodata : { *(.rodata) } > RAM
+	.bss : { *(.bss) } > RAM
+}
