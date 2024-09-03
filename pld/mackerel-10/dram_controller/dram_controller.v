@@ -14,7 +14,9 @@ module dram_controller(
 	output reg DTACK_DRAM = 1'b1
 );
 
-localparam REFRESH_CYCLE_CNT = 100;	// TODO: calculate this based on the clock rate and the DRAM timing requirements
+// Clock cycles between DRAM refreshes
+// TODO: confirm the timing requirements and double check this math
+localparam REFRESH_CYCLE_CNT = 300;	// ((15 microsecond refresh interval) / (1 / 40 MHz clock)) / 2 cycles per counter
 
 // DRAM controller states
 localparam IDLE 			= 3'd0;

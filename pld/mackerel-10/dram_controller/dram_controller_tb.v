@@ -40,7 +40,7 @@ initial begin
 
     // TODO: simulate write cycle
 
-    #100 $finish;
+    #1000 $finish;
 end
 
 dram_controller dram1(
