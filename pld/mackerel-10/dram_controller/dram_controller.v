@@ -3,14 +3,18 @@ module dram_controller(
 	input RST,
 	input AS,
 	input LDS, UDS,
+	input RW,
 	input [23:0] ADDR_IN,
 	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs, Use 11:0 for 4MB
 	output reg RAS = 1'b1,
 	output reg CAS_LOWER = 1'b1,
 	output reg CAS_UPPER = 1'b1,
+	output reg WE = 1'b1,
 	output OE,
 	output reg DTACK_DRAM = 1'b1
 );
+
+localparam REFRESH_CYCLE_CNT = 100;	// TODO: calculate this based on the clock rate and the DRAM timing requirements
 
 // DRAM controller states
 localparam IDLE 			= 3'd0;
@@ -52,19 +56,18 @@ always @(posedge CLK) begin
 		// DRAM state machine
 		case (state)
 			IDLE: begin
-				if (~CE) begin
-					// DRAM is selected by the CPU, start the access process
-					ADDR_OUT <= ADDR_IN[10:0];
-					state <= ROW_SELECT1;
-				end
-				
-				// TODO: Does the refresh check override the CE logic? move to else?
-
-				if (cycle_count > 20) begin
+				if (cycle_count > REFRESH_CYCLE_CNT) begin
 					// Time to run a refresh cycle
 					// Reset the counter and set state to NEEDS_REFRESH
 					cycle_count <= 12'b0;
 					state <= NEEDS_REFRESH;
+					WE <= 1'b1;
+				end
+				else if (~CE) begin
+					// DRAM is selected by the CPU, start the access process
+					ADDR_OUT <= ADDR_IN[10:0];
+					WE <= RW;
+					state <= ROW_SELECT1;
 				end
 			end
 			
@@ -101,6 +104,7 @@ always @(posedge CLK) begin
 					CAS_LOWER <= 1'b1;
 					CAS_UPPER <= 1'b1;
 					DTACK_DRAM <= 1'b1;
+					WE <= 1'b1;
 					ADDR_OUT <= 12'b0;	// TODO this might not be necessary
 					state <= IDLE;
 				end
