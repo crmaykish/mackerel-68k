@@ -2,10 +2,12 @@ module dram_controller(
 	input CLK,
 	input RST,
 	input AS,
+	input LDS, UDS,
 	input [23:0] ADDR_IN,
 	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs, Use 11:0 for 4MB
 	output reg RAS = 1'b1,
-	output reg CAS = 1'b1,
+	output reg CAS_LOWER = 1'b1,
+	output reg CAS_UPPER = 1'b1,
 	output OE,
 	output reg DTACK_DRAM = 1'b1
 );
@@ -40,7 +42,8 @@ always @(posedge CLK) begin
 		cycle_count <= 12'b0;
 		state <= IDLE;
 		RAS <= 1'b1;
-		CAS <= 1'b1;
+		CAS_LOWER <= 1'b1;
+		CAS_UPPER <= 1'b1;
 		DTACK_DRAM <= 1'b1;
 	end
 	else begin
@@ -79,7 +82,8 @@ always @(posedge CLK) begin
 
 			COL_SELECT1: begin
 				// Lower CAS to latch in the column address
-				CAS <= 1'b0;
+				CAS_LOWER <= LDS;
+				CAS_UPPER <= UDS;
 				state <= COL_SELECT2;
 			end
 
@@ -91,7 +95,11 @@ always @(posedge CLK) begin
 				if (AS) begin
 					// CPU memory cycle is complete, reset DRAM signals
 					RAS <= 1'b1;
-					CAS <= 1'b1;
+
+					// TODO: Does there need to be a delay between raising CAS and raising RAS?
+
+					CAS_LOWER <= 1'b1;
+					CAS_UPPER <= 1'b1;
 					DTACK_DRAM <= 1'b1;
 					ADDR_OUT <= 12'b0;	// TODO this might not be necessary
 					state <= IDLE;
@@ -100,7 +108,8 @@ always @(posedge CLK) begin
 
 			NEEDS_REFRESH: begin
 				// Lower CAS
-				CAS <= 1'b0;
+				CAS_LOWER <= 1'b0;
+				CAS_UPPER <= 1'b0;
 				state <= REFRESH;
 			end
 			
@@ -113,7 +122,8 @@ always @(posedge CLK) begin
 			REFRESH_DONE: begin
 				// Refresh cycle finished, bring RAS and CAS HIGH
 				RAS <= 1'b1;
-				CAS <= 1'b1;
+				CAS_LOWER <= 1'b1;
+				CAS_UPPER <= 1'b1;
 				state <= IDLE;
 			end
 		endcase

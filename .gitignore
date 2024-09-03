@@ -38,3 +38,5 @@ fp-info-cache
 # Exported BOM files
 *.xml
 *.csv
+pld/mackerel-10/dram_controller/dsn
+pld/mackerel-10/dram_controller/test.vcd
