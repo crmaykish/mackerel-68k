@@ -2,15 +2,17 @@ module dram_controller(
 	input CLK,
 	input RST,
 	input AS,
-	input LDS, UDS,
+	input LDS,
+	input UDS,
 	input RW,
-	input [23:0] ADDR_IN,
+	input CS,	// DRAM chip-select
+	input [23:1] ADDR_IN,
+
 	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs, Use 11:0 for 4MB
 	output reg RAS = 1'b1,
 	output reg CAS_LOWER = 1'b1,
 	output reg CAS_UPPER = 1'b1,
 	output reg WE = 1'b1,
-	output OE,
 	output reg DTACK_DRAM = 1'b1
 );
 
@@ -28,20 +30,8 @@ localparam NEEDS_REFRESH 	= 3'd5;
 localparam REFRESH			= 3'd6;
 localparam REFRESH_DONE		= 3'd7;
 
-// TODO: Address multplexing can probably happen asynchronously, so it's ready whenever
-// the DRAM is selected
-
-// TODO: set up correct refresh cycle time based on clock speed
-
-
-// DRAM chip-select, 8MB of address space, active LOW
-wire CE = ~(~AS && ADDR_IN >= 24'h100000 && ADDR_IN < 24'h900000);
-
 reg [11:0] cycle_count = 12'b0;
 reg [2:0] state = IDLE;
-
-// Tie output-enable to LOW
-assign OE = 1'b0;	// TODO: set this as part of the DRAM access process?
 
 always @(posedge CLK) begin
 	if (~RST) begin
@@ -58,6 +48,12 @@ always @(posedge CLK) begin
 		// DRAM state machine
 		case (state)
 			IDLE: begin
+				if (~CS) begin
+					// DRAM is selected by the CPU, start the access process
+					ADDR_OUT <= ADDR_IN[11:1];
+					WE <= RW;
+					state <= ROW_SELECT1;
+				end
 				if (cycle_count > REFRESH_CYCLE_CNT) begin
 					// Time to run a refresh cycle
 					// Reset the counter and set state to NEEDS_REFRESH
@@ -65,14 +61,8 @@ always @(posedge CLK) begin
 					state <= NEEDS_REFRESH;
 					WE <= 1'b1;
 				end
-				else if (~CE) begin
-					// DRAM is selected by the CPU, start the access process
-					ADDR_OUT <= ADDR_IN[10:0];
-					WE <= RW;
-					state <= ROW_SELECT1;
-				end
 			end
-			
+
 			ROW_SELECT1: begin
 				// Lower RAS to latch in the row address
 				RAS <= 1'b0;
@@ -81,7 +71,7 @@ always @(posedge CLK) begin
 
 			ROW_SELECT2: begin
 				// Set the DRAM address to the column address
-				ADDR_OUT <= ADDR_IN[21:11];
+				ADDR_OUT <= ADDR_IN[22:12];
 				state <= COL_SELECT1;
 			end
 
@@ -107,7 +97,7 @@ always @(posedge CLK) begin
 					CAS_UPPER <= 1'b1;
 					DTACK_DRAM <= 1'b1;
 					WE <= 1'b1;
-					ADDR_OUT <= 12'b0;	// TODO this might not be necessary
+					ADDR_OUT <= 11'b0;	// TODO this might not be necessary
 					state <= IDLE;
 				end
 			end
