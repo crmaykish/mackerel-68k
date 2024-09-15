@@ -122,19 +122,6 @@
 		(layer "Edge.Cuts")
 		(uuid "0f0a4f52-23bf-475d-8c6e-c25aa412b6a5")
 	)
-	(fp_text user "TODO: Outline and mounting hole positions"
-		(at -54 6 0)
-		(unlocked yes)
-		(layer "F.SilkS")
-		(uuid "d662f63c-5d0d-4b39-9db3-fc1ef2084555")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.1)
-			)
-			(justify left bottom)
-		)
-	)
 	(fp_text user "${REFERENCE}"
 		(at -38.5 -2 0)
 		(unlocked yes)
