@@ -12,7 +12,7 @@ typedef unsigned int uint32_t;
 
 #define LEDS 0xF00001
 #define GPIO 0xF00003
-#define DUART1_BASE 0xC00000
+#define DUART1_BASE 0xF80000
 #else
 #define SYSTEM_NAME "Mackerel-08"
 
