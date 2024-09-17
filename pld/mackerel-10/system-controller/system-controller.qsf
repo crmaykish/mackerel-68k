@@ -109,4 +109,3 @@ set_location_assignment PIN_45 -to GPIO[1]
 set_location_assignment PIN_17 -to RW
 set_location_assignment PIN_58 -to IRQ_DUART
 set_location_assignment PIN_60 -to DTACK_DUART
-set_location_assignment PIN_44 -to DTACK_EXP

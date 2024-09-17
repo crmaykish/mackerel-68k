@@ -22,20 +22,20 @@ module system_controller(
 	
 	output ROM_LOWER, ROM_UPPER,
 	output RAM_LOWER, RAM_UPPER,
-
-	output EXP,
-	// input IRQ_EXP,
-	input DTACK_EXP,
-	// input IACK_EXP,
-	
 	output DUART,
+	output EXP,
+	
 	input IRQ_DUART,
+	
 	input DTACK_DUART,
+	
 	output IACK_DUART,
 	
 	output reg [7:0] GPIO
+	
 );
 
+assign EXP = 1;
 
 assign BERR = 1;
 assign VPA = 1;
@@ -48,10 +48,7 @@ wire IACK = ~(FC0 && FC1 && FC2);
 
 assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 
-// TODO: confirm this logic
-wire DTACK0 = (~DTACK_DUART && (~DUART || ~IACK_DUART));
-wire DTACK1 = ~DTACK_EXP && ~EXP;
-assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
+assign DTACK = ~((~DTACK_DUART && (~DUART || ~IACK_DUART)) || DUART);
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -84,31 +81,28 @@ always @(posedge CLK_CPU) begin
 		end
 	else
 		// LED at 0xF00001
-		if (ADDR_H == 24'hF00000 && ~ADDR_L[1]) begin
+		if (ADDR_H[23] && ADDR_H[22] && ADDR_H[21] && ADDR_H[20] && ~ADDR_L[1]) begin
 			if (~LDS && ~RW) LED <= DATA[2:0];
 		end
 		
 		// GPIO at 0xF00003
-		if (ADDR_H == 24'hF00000 && ADDR_L[1]) begin
+		if (ADDR_H[23] && ADDR_H[22] && ADDR_H[21] && ADDR_H[20] && ADDR_L[1]) begin
 			if (~LDS && ~RW) GPIO <= DATA[7:0];
 		end
 end
 
-// ROM enabled at 0xE00000 - 0xEFFFFF
-wire ROM_EN = ~BOOT || (IACK && ADDR_H >= 24'hE00000 && ADDR_H < 24'hF00000);
+// ROM enabled at 0x800000 - 0x900000
+wire ROM_EN = ~BOOT || (IACK && ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
-// SRAM enabled at 0x000000 - 0x100000 (except at BOOT)
-wire RAM_EN = BOOT && IACK && ADDR_H < 24'h100000;
+// SRAM enabled at 0x000000 - 0x100000 (except at boot)
+wire RAM_EN = BOOT && IACK && ~ADDR_H[23] && ~ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20];
 assign RAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
-// DUART_EN at 0xF80000
-assign DUART = ~(BOOT && IACK && ~LDS && ADDR_H >= 24'hF80000);
 
-// EXP (DRAM) enabled at 0x100000 - 0x900000
-// TODO: gate with AS or let the DRAM controller do that?
-assign EXP = ~(BOOT && IACK && ADDR_H >= 24'h100000 && ADDR_H < 24'h900000);
+// DUART_EN when addr is > 0xC00000 - 0xD00000
+assign DUART = ~(BOOT && IACK && ~LDS && ADDR_H[23] && ADDR_H[22] && ~ADDR_H[21] && ~ADDR_H[20]);
 
 endmodule
