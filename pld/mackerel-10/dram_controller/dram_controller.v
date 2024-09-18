@@ -12,13 +12,15 @@ module dram_controller(
 	output reg RAS = 1'b1,
 	output reg CAS_LOWER = 1'b1,
 	output reg CAS_UPPER = 1'b1,
-	output reg WE = 1'b1,
-	output reg DTACK_DRAM = 1'b1
+	output WE,
+	output reg DTACK_DRAM = 1'b1,
+	
+	output [7:0] GPIO
 );
 
 // Clock cycles between DRAM refreshes
 // TODO: confirm the timing requirements and double check this math
-localparam REFRESH_CYCLE_CNT = 300;	// ((15 microsecond refresh interval) / (1 / 40 MHz clock)) / 2 cycles per counter
+localparam REFRESH_CYCLE_CNT = 150;
 
 // DRAM controller states
 localparam IDLE 			= 3'd0;
@@ -32,6 +34,13 @@ localparam REFRESH_DONE		= 3'd7;
 
 reg [11:0] cycle_count = 12'b0;
 reg [2:0] state = IDLE;
+
+
+assign GPIO[7] = CS;
+assign GPIO[6] = DTACK_DRAM;
+assign GPIO[5] = WE;
+
+assign WE = RW;
 
 always @(posedge CLK) begin
 	if (~RST) begin
@@ -51,7 +60,7 @@ always @(posedge CLK) begin
 				if (~CS) begin
 					// DRAM is selected by the CPU, start the access process
 					ADDR_OUT <= ADDR_IN[11:1];
-					WE <= RW;
+					//WE <= RW;
 					state <= ROW_SELECT1;
 				end
 				if (cycle_count > REFRESH_CYCLE_CNT) begin
@@ -59,7 +68,7 @@ always @(posedge CLK) begin
 					// Reset the counter and set state to NEEDS_REFRESH
 					cycle_count <= 12'b0;
 					state <= NEEDS_REFRESH;
-					WE <= 1'b1;
+					//WE <= 1'b1;
 				end
 			end
 
@@ -96,7 +105,7 @@ always @(posedge CLK) begin
 					CAS_LOWER <= 1'b1;
 					CAS_UPPER <= 1'b1;
 					DTACK_DRAM <= 1'b1;
-					WE <= 1'b1;
+					//WE <= 1'b1;
 					ADDR_OUT <= 11'b0;	// TODO this might not be necessary
 					state <= IDLE;
 				end

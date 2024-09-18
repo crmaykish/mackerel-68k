@@ -99,3 +99,11 @@ set_location_assignment PIN_54 -to RAS
 set_location_assignment PIN_76 -to RW
 set_location_assignment PIN_80 -to UDS
 set_location_assignment PIN_57 -to WE
+set_location_assignment PIN_22 -to GPIO[0]
+set_location_assignment PIN_24 -to GPIO[1]
+set_location_assignment PIN_25 -to GPIO[2]
+set_location_assignment PIN_27 -to GPIO[3]
+set_location_assignment PIN_28 -to GPIO[4]
+set_location_assignment PIN_29 -to GPIO[5]
+set_location_assignment PIN_30 -to GPIO[6]
+set_location_assignment PIN_31 -to GPIO[7]
