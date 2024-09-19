@@ -49,9 +49,11 @@ wire IACK = ~(FC0 && FC1 && FC2);
 assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 
 // TODO: confirm this DTACK logic
-wire DTACK0 = ~DTACK_DUART && (~DUART || ~IACK_DUART);
-wire DTACK1 = ~DTACK_EXP && ~EXP;
-assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
+//wire DTACK0 = ~DTACK_DUART && (~DUART || ~IACK_DUART);
+//wire DTACK1 = ~DTACK_EXP && ~EXP;
+//assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
+
+assign DTACK = (~EXP && DTACK_EXP);
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -82,7 +84,7 @@ always @(posedge CLK_CPU) begin
 			LED <= 0;
 			GPIO <= 0;
 		end
-	else
+/*	else
 		// LED at 0xF00001
 		if (ADDR_H[23] && ADDR_FULL == 24'hF00000) begin
 			if (~LDS && ~RW) LED <= DATA[2:0];
@@ -92,6 +94,7 @@ always @(posedge CLK_CPU) begin
 		if (ADDR_H[23] && ADDR_FULL == 24'hF00002) begin
 			if (~LDS && ~RW) GPIO <= DATA[7:0];
 		end
+*/
 end
 
 // ROM enabled at 0xE00000 - 0xF00000

@@ -103,8 +103,8 @@ void handler_runram()
 
 void handler_runrom()
 {
-    duart_puts("Jumping to 0x300000\r\n");
-    asm("jsr 0x300000");
+    duart_puts("Jumping to 0x100000\r\n");
+    asm("jsr 0x100000");
 }
 
 void handler_boot()

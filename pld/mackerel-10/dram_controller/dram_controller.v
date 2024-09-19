@@ -8,11 +8,11 @@ module dram_controller(
 	input CS,	// DRAM chip-select
 	input [23:1] ADDR_IN,
 
-	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs, Use 11:0 for 4MB
+	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs
 	output reg RAS = 1'b1,
 	output reg CAS_LOWER = 1'b1,
 	output reg CAS_UPPER = 1'b1,
-	output WE,
+	output reg WE,
 	output reg DTACK_DRAM = 1'b1,
 	
 	output [7:0] GPIO
@@ -40,7 +40,7 @@ assign GPIO[7] = CS;
 assign GPIO[6] = DTACK_DRAM;
 assign GPIO[5] = WE;
 
-assign WE = RW;
+//assign WE = RW;
 
 always @(posedge CLK) begin
 	if (~RST) begin
@@ -57,18 +57,18 @@ always @(posedge CLK) begin
 		// DRAM state machine
 		case (state)
 			IDLE: begin
-				if (~CS) begin
-					// DRAM is selected by the CPU, start the access process
-					ADDR_OUT <= ADDR_IN[11:1];
-					//WE <= RW;
-					state <= ROW_SELECT1;
-				end
 				if (cycle_count > REFRESH_CYCLE_CNT) begin
 					// Time to run a refresh cycle
 					// Reset the counter and set state to NEEDS_REFRESH
 					cycle_count <= 12'b0;
 					state <= NEEDS_REFRESH;
-					//WE <= 1'b1;
+					WE <= 1'b1;
+				end
+				else if (~CS && ~AS) begin
+					// DRAM is selected by the CPU, start the access process
+					ADDR_OUT <= ADDR_IN[11:1];
+					WE <= RW;
+					state <= ROW_SELECT1;
 				end
 			end
 
@@ -92,9 +92,6 @@ always @(posedge CLK) begin
 			end
 
 			COL_SELECT2: begin
-				// DRAM data is ready, lower DTACK
-				DTACK_DRAM <= 1'b0;
-
 				// Wait for AS to go HIGH
 				if (AS) begin
 					// CPU memory cycle is complete, reset DRAM signals
@@ -105,9 +102,13 @@ always @(posedge CLK) begin
 					CAS_LOWER <= 1'b1;
 					CAS_UPPER <= 1'b1;
 					DTACK_DRAM <= 1'b1;
-					//WE <= 1'b1;
-					ADDR_OUT <= 11'b0;	// TODO this might not be necessary
+					WE <= 1'b1;
+					//ADDR_OUT <= 11'b0;	// TODO this might not be necessary
 					state <= IDLE;
+				end
+				else begin
+					// DRAM data is ready, lower DTACK
+					DTACK_DRAM <= 1'b0;
 				end
 			end
 
