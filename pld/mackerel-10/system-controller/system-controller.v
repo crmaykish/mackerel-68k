@@ -31,8 +31,14 @@ module system_controller(
 	input DTACK_DUART,
 	output IACK_DUART,
 	
-	output reg [7:0] GPIO
+	output [7:0] GPIO
 );
+
+assign GPIO[2] = ~RW;	//R
+assign GPIO[3] = RW;		//W
+
+assign GPIO[0] = ~DRAM_EN;	// CSO
+assign GPIO[1] = 1'b1;	// CS1
 
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 9'b0, ADDR_L, 1'b0};
@@ -53,7 +59,9 @@ assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 //wire DTACK1 = ~DTACK_EXP && ~EXP;
 //assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
 
-assign DTACK = (~EXP && DTACK_EXP);
+//assign DTACK = (~EXP && DTACK_EXP);
+
+assign DTACK = 1'b0;
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -82,14 +90,14 @@ always @(posedge CLK_CPU) begin
 	if (~RST)
 		begin
 			LED <= 0;
-			GPIO <= 0;
+			//GPIO <= 0;
 		end
-/*	else
+	else
 		// LED at 0xF00001
 		if (ADDR_H[23] && ADDR_FULL == 24'hF00000) begin
 			if (~LDS && ~RW) LED <= DATA[2:0];
 		end
-		
+/*
 		// GPIO at 0xF00003
 		if (ADDR_H[23] && ADDR_FULL == 24'hF00002) begin
 			if (~LDS && ~RW) GPIO <= DATA[7:0];
