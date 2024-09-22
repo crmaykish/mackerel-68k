@@ -1,5 +1,6 @@
 #include "mackerel.h"
 #include <stdio.h>
+#include <string.h>
 
 #define IDE_BASE 0x100000
 #define IDE_DATA IDE_BASE + 0x00
@@ -66,8 +67,27 @@ int main()
     for (uint16_t i = 0; i < 256; i++)
     {
         // TODO: wait for a ready signal?
-        buf[i] = 
-        printf("%d: %X\r\n", i, byteswap(MEM16(IDE_DATA)));
+        buf[i] = byteswap(MEM16(IDE_DATA));
+        printf("%d: %X\r\n", i, buf[i]);
+    }
+
+    for (int i = 27; i <= 46; i++)
+    {
+        printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
+    }
+
+    printf("\r\n");
+
+    for (int i = 23; i <= 26; i++)
+    {
+        printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
+    }
+
+    printf("\r\n");
+
+    for (int i = 10; i <= 19; i++)
+    {
+        printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
     }
 
     return 0;
