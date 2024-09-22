@@ -5,6 +5,7 @@
 
 // NOTE: Baselibc has no stdint header
 typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 
 #ifdef MACKEREL_10
@@ -51,10 +52,12 @@ typedef unsigned int uint32_t;
 #define DUART_INTR_RXRDY 0b00100000
 
 // Get the value at a memory address
-#define MEM(address) (*(volatile unsigned char *)(address))
+#define MEM(address) (*(volatile uint8_t *)(address))
+
+#define MEM16(address) (*(volatile uint16_t *)(address))
 
 // Get the value starting at memory address as a uint
-#define MEM_UINT(address) (*(volatile uint32_t *)(address))
+#define MEM32(address) (*(volatile uint32_t *)(address))
 
 // Enable/disable CPU interrupts
 void set_interrupts(bool enabled);

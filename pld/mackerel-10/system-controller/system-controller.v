@@ -34,11 +34,13 @@ module system_controller(
 	output [7:0] GPIO
 );
 
-assign GPIO[2] = ~RW;	//R
-assign GPIO[3] = RW;		//W
+assign GPIO[2] = ~(RW && ~AS && ~LDS);	//R
+assign GPIO[3] = ~(~RW && ~AS && ~LDS);		//W
 
-assign GPIO[0] = ~DRAM_EN;	// CSO
+assign GPIO[0] = ~(BOOT && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h100F00);	// CSO
 assign GPIO[1] = 1'b1;	// CS1
+
+//assign GPIO[4] = IDE_RDY; input
 
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 9'b0, ADDR_L, 1'b0};
@@ -119,7 +121,7 @@ assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hC00000 && ADDR_FULL < 24'hD00000);
 
 // DRAM at 0x100000 - 0x900000
-wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
-assign EXP = ~DRAM_EN;
+//wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
+//assign EXP = ~DRAM_EN;
 
 endmodule
