@@ -16,7 +16,7 @@
 // IDE commands
 #define IDE_CMD_RESET 0x08
 #define IDE_CMD_READ_SECTOR 0x20
-// #define IDE_CMD_WRITE_SECTOR 0x30
+#define IDE_CMD_WRITE_SECTOR 0x30
 #define IDE_CMD_IDENTIFY 0xEC
 
 // Status register bits
