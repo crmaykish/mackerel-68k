@@ -1,0 +1,19 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "0a8f74be-008b-4256-a2d9-73a458311ea0")
+	(paper "A")
+	(title_block
+		(title "Mackerel-10 SBC v1")
+		(date "2024-09-23")
+		(rev "1.0a")
+		(company "Colin Maykish")
+	)
+	(lib_symbols)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
