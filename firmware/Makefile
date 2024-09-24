@@ -47,7 +47,7 @@ all: $(BINS)
 bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
-hello.elf: $(COMMON_OBJS_RAM) hello.o 
+hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
