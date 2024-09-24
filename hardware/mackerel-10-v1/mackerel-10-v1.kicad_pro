@@ -386,6 +386,34 @@
     [
       "0a8f74be-008b-4256-a2d9-73a458311ea0",
       "Root"
+    ],
+    [
+      "ffc18f07-5f09-466c-bd63-a2a9c38b4664",
+      "Glue CPLD"
+    ],
+    [
+      "94b238fa-f0c8-40a8-9ec2-3b22cf78cf25",
+      "Low Memory"
+    ],
+    [
+      "bdc88bee-444e-4208-8c2a-fd29d049da4a",
+      "DRAM"
+    ],
+    [
+      "159c02d4-7185-497f-a123-96b594aecd43",
+      "IDE"
+    ],
+    [
+      "a13f62d4-3d46-4322-adb3-03a373f47e08",
+      "DUART"
+    ],
+    [
+      "8aeb3dd0-e160-42fa-9696-775a77424698",
+      "Power and Reset"
+    ],
+    [
+      "eb382f11-e263-426f-affb-26cce29b45e2",
+      "Expansion"
     ]
   ],
   "text_variables": {}
