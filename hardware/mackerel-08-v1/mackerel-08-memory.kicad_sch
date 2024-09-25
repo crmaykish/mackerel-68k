@@ -5,7 +5,7 @@
 	(uuid "0812dea3-1020-42c6-a3c7-8ad426cd01da")
 	(paper "A")
 	(title_block
-		(title "Mackerel-08 SBC v1")
+		(title "Mackerel-08 SBC v1.1")
 		(date "2024-08-22")
 		(rev "1.1")
 		(company "Colin Maykish")

@@ -5,7 +5,7 @@
 	(uuid "134fb915-5c79-42d0-ba23-55b72dc18683")
 	(paper "A")
 	(title_block
-		(title "Mackerel-08 SBC v1")
+		(title "Mackerel-08 SBC v1.1")
 		(date "2024-08-22")
 		(rev "1.1")
 		(company "Colin Maykish")
@@ -4105,6 +4105,16 @@
 		)
 		(uuid "18cb7dcc-9190-42d0-ac97-c67741aec13b")
 	)
+	(text "Decoupling caps C1-C17 are all 0.1uF"
+		(exclude_from_sim no)
+		(at 56.134 77.978 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "1b0da4bf-e387-4149-931e-80f653df1621")
+	)
 	(text "Power In"
 		(exclude_from_sim no)
 		(at 110.49 72.39 0)
@@ -4166,7 +4176,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10k"
 			(at 211.328 54.6099 0)
 			(effects
 				(font
@@ -4306,7 +4316,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10k"
 			(at 198.628 57.1499 0)
 			(effects
 				(font
@@ -4374,7 +4384,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 98.552 90)
 			(effects
 				(font
@@ -4570,8 +4580,8 @@
 				)
 			)
 		)
-		(property "Value" "~"
-			(at 222.25 107.95 0)
+		(property "Value" "AP1084"
+			(at 222.25 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5029,7 +5039,7 @@
 		(dnp no)
 		(uuid "2792edd8-3910-4149-a410-5c8e0b018dcb")
 		(property "Reference" "C21"
-			(at 209.804 114.554 0)
+			(at 202.438 114.046 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5037,14 +5047,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C_Polarized"
-			(at 213.36 117.2209 0)
+		(property "Value" "10uF"
+			(at 201.676 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm"
@@ -5177,7 +5186,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k"
 			(at 73.66 116.8399 0)
 			(effects
 				(font
@@ -5311,7 +5320,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 49.022 90)
 			(effects
 				(font
@@ -5379,7 +5388,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 37.592 90)
 			(effects
 				(font
@@ -5513,7 +5522,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 93.472 90)
 			(effects
 				(font
@@ -5664,7 +5673,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "1k"
 			(at 245.618 34.2899 0)
 			(effects
 				(font
@@ -6222,7 +6231,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 65.532 90)
 			(effects
 				(font
@@ -6290,7 +6299,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 76.962 90)
 			(effects
 				(font
@@ -6360,7 +6369,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C_Polarized"
+		(property "Value" "10uF"
 			(at 213.868 46.1009 0)
 			(effects
 				(font
@@ -6428,7 +6437,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 54.102 90)
 			(effects
 				(font
@@ -6562,7 +6571,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 32.512 90)
 			(effects
 				(font
@@ -6630,7 +6639,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 109.982 90)
 			(effects
 				(font
@@ -6698,7 +6707,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 115.062 90)
 			(effects
 				(font
@@ -6832,7 +6841,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 42.672 90)
 			(effects
 				(font
@@ -7526,7 +7535,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 88.392 90)
 			(effects
 				(font
@@ -7587,7 +7596,7 @@
 		(dnp no)
 		(uuid "cb75ee51-1cb8-4e08-8393-7d68a296a4f0")
 		(property "Reference" "C22"
-			(at 235.458 114.554 0)
+			(at 237.998 114.554 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7595,14 +7604,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C_Polarized"
-			(at 238.76 117.2209 0)
+		(property "Value" "10uF"
+			(at 237.998 117.348 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm"
@@ -7733,7 +7741,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 70.612 90)
 			(effects
 				(font
@@ -7801,7 +7809,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 104.902 90)
 			(effects
 				(font
@@ -7935,7 +7943,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 60.452 90)
 			(effects
 				(font
@@ -8067,7 +8075,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 82.042 90)
 			(effects
 				(font
@@ -8545,7 +8553,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 26.67 26.162 90)
 			(effects
 				(font
