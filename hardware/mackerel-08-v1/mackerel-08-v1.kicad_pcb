@@ -6801,7 +6801,7 @@
 			(uuid "c4cf099e-78e2-45dd-b76c-4283f405e6c6")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.27 10.16 360)
+			(at 1.27 10.16 0)
 			(layer "F.Fab")
 			(uuid "b08ac755-e81e-4528-8312-39b579833678")
 			(effects
@@ -15350,7 +15350,7 @@
 		(descr "CP, Radial series, Radial, pin pitch=2.50mm, , diameter=5mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.50mm  diameter 5mm Electrolytic Capacitor")
 		(property "Reference" "C22"
-			(at 5.65 -1.2 360)
+			(at 5.65 -1.2 0)
 			(layer "F.SilkS")
 			(uuid "47e742e2-9b12-4361-a829-65114040d996")
 			(effects
@@ -15361,7 +15361,7 @@
 			)
 		)
 		(property "Value" "C_Polarized"
-			(at 1.25 3.75 360)
+			(at 1.25 3.75 0)
 			(layer "F.Fab")
 			(uuid "45e8a6ae-04de-457c-8ff8-53ef9083498a")
 			(effects
@@ -16669,7 +16669,7 @@
 			(uuid "304b8bf9-5fbd-4251-9f21-c20c7d78056b")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.25 0 360)
+			(at 1.25 0 0)
 			(layer "F.Fab")
 			(uuid "ef9dc9aa-0da8-41ce-b09d-7b4bf495bc6b")
 			(effects
@@ -24700,7 +24700,7 @@
 		(descr "CP, Radial series, Radial, pin pitch=2.50mm, , diameter=5mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.50mm  diameter 5mm Electrolytic Capacitor")
 		(property "Reference" "C21"
-			(at 5.7 -1.1 360)
+			(at 5.7 -1.1 0)
 			(layer "F.SilkS")
 			(uuid "1d7ed59c-98a3-42ac-b31f-0c5221c0d76a")
 			(effects
@@ -24711,7 +24711,7 @@
 			)
 		)
 		(property "Value" "C_Polarized"
-			(at 1.25 3.75 360)
+			(at 1.25 3.75 0)
 			(layer "F.Fab")
 			(uuid "100ee721-6f68-4dda-8e64-27cc5ce08cbd")
 			(effects
@@ -26019,7 +26019,7 @@
 			(uuid "32455ff4-fe75-4556-95ce-5420eb6f79ac")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.25 0 360)
+			(at 1.25 0 0)
 			(layer "F.Fab")
 			(uuid "ced5c806-06c0-470f-8662-dbd827648a03")
 			(effects
@@ -28208,7 +28208,7 @@
 		(descr "TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/")
 		(tags "DPAK TO-252 DPAK-3 TO-252-3 SOT-428")
 		(property "Reference" "U17"
-			(at 5.435 -2.22 360)
+			(at 5.435 -2.22 0)
 			(layer "F.SilkS")
 			(uuid "7871ebfe-dccc-4ff8-949e-7f8fa7bba845")
 			(effects

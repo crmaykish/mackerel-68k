@@ -37,7 +37,7 @@ module system_controller(
 assign GPIO[2] = ~(RW && ~AS && ~LDS);	//R
 assign GPIO[3] = ~(~RW && ~AS && ~LDS);		//W
 
-assign GPIO[0] = ~(BOOT && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h100F00);	// CSO
+assign GPIO[0] = ~(BOOT && ADDR_FULL >= 24'hA00000 && ADDR_FULL < 24'hA00F00);	// CSO
 assign GPIO[1] = 1'b1;	// CS1
 
 //assign GPIO[4] = IDE_RDY; input
@@ -61,9 +61,9 @@ assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 //wire DTACK1 = ~DTACK_EXP && ~EXP;
 //assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
 
-//assign DTACK = (~EXP && DTACK_EXP);
+assign DTACK = (~EXP && DTACK_EXP);
 
-assign DTACK = 1'b0;
+//assign DTACK = 1'b0;
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -121,7 +121,7 @@ assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hC00000 && ADDR_FULL < 24'hD00000);
 
 // DRAM at 0x100000 - 0x900000
-//wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
-//assign EXP = ~DRAM_EN;
+wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
+assign EXP = ~DRAM_EN;
 
 endmodule
