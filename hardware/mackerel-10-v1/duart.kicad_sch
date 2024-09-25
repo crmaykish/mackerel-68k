@@ -11,6 +11,477 @@
 		(company "Colin Maykish")
 	)
 	(lib_symbols
+		(symbol "Connector:DE9_Receptacle_MountingHoles"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 16.51 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "DE9_Receptacle_MountingHoles"
+				(at 0 14.605 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "9-pin female receptacle socket D-SUB connector, Mounting Hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector receptacle female D-SUB DB9"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "DSUB*Female*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "DE9_Receptacle_MountingHoles_0_1"
+				(circle
+					(center -1.778 -10.16)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -1.778 -5.08)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -1.778 0)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -1.778 5.08)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -1.778 10.16)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -10.16) (xy -2.54 -10.16)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -7.62) (xy 0.508 -7.62)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -5.08) (xy -2.54 -5.08)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -2.54) (xy 0.508 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 2.54) (xy 0.508 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 5.08) (xy -2.54 5.08)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 7.62) (xy 0.508 7.62)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 10.16) (xy -2.54 10.16)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 13.335) (xy -3.81 -13.335) (xy 3.81 -9.525) (xy 3.81 9.525) (xy -3.81 13.335)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center 1.27 -7.62)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 1.27 -2.54)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 1.27 2.54)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 1.27 7.62)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "DE9_Receptacle_MountingHoles_1_1"
+				(pin passive line
+					(at 0 -15.24 90)
+					(length 3.81)
+					(name "PAD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 10.16 0)
+					(length 3.81)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 5.08 0)
+					(length 3.81)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 -5.08 0)
+					(length 3.81)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 -10.16 0)
+					(length 3.81)
+					(name "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 7.62 0)
+					(length 3.81)
+					(name "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 2.54 0)
+					(length 3.81)
+					(name "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 -2.54 0)
+					(length 3.81)
+					(name "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 -7.62 0)
+					(length 3.81)
+					(name "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Connector_Generic:Conn_01x06"
 			(pin_names
 				(offset 1.016) hide)
@@ -514,6 +985,587 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Interface_UART:MAX3232"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -2.54 28.575 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right)
+				)
+			)
+			(property "Value" "MAX3232"
+				(at -2.54 26.67 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right)
+				)
+			)
+			(property "Footprint" ""
+				(at 1.27 -26.67 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "3.0V to 5.5V, Low-Power, up to 1Mbps, True RS-232 Transceivers Using Four 0.1μF External Capacitors"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "rs232 uart transceiver line-driver"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SOIC*P1.27mm* DIP*W7.62mm* TSSOP*4.4x5mm*P0.65mm*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MAX3232_0_0"
+				(text "LOGIC"
+					(at -11.43 -22.86 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(text "RS232"
+					(at 11.43 -22.86 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(symbol "MAX3232_0_1"
+				(rectangle
+					(start -15.24 -25.4)
+					(end 15.24 25.4)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -2.54 -17.78)
+					(radius 0.635)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -2.54 -12.7)
+					(radius 0.635)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -7.62) (xy -8.255 -7.62)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -2.54) (xy -8.255 -2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.175 -17.78) (xy -8.255 -17.78)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.175 -12.7) (xy -8.255 -12.7)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -7.62) (xy 6.35 -7.62)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 6.35 -2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 -17.78) (xy 6.35 -17.78)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 -12.7) (xy 6.35 -12.7)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -5.715) (xy -3.81 -9.525) (xy 0 -7.62) (xy -3.81 -5.715)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.81 -0.635) (xy -3.81 -4.445) (xy 0 -2.54) (xy -3.81 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 -15.875) (xy 1.905 -19.685) (xy -1.905 -17.78) (xy 1.905 -15.875)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 -10.795) (xy 1.905 -14.605) (xy -1.905 -12.7) (xy 1.905 -10.795)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0.635 -7.62)
+					(radius 0.635)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0.635 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MAX3232_1_1"
+				(pin passive line
+					(at -20.32 22.86 0)
+					(length 5.08)
+					(name "C1+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -20.32 -7.62 0)
+					(length 5.08)
+					(name "T2IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -20.32 -2.54 0)
+					(length 5.08)
+					(name "T1IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -20.32 -12.7 0)
+					(length 5.08)
+					(name "R1OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 20.32 -12.7 180)
+					(length 5.08)
+					(name "R1IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 20.32 -2.54 180)
+					(length 5.08)
+					(name "T1OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -30.48 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 30.48 270)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 20.32 10.16 180)
+					(length 5.08)
+					(name "VS+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -20.32 15.24 0)
+					(length 5.08)
+					(name "C1-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 20.32 22.86 180)
+					(length 5.08)
+					(name "C2+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 20.32 15.24 180)
+					(length 5.08)
+					(name "C2-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 20.32 2.54 180)
+					(length 5.08)
+					(name "VS-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 20.32 -7.62 180)
+					(length 5.08)
+					(name "T2OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 20.32 -17.78 180)
+					(length 5.08)
+					(name "R2IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -20.32 -17.78 0)
+					(length 5.08)
+					(name "R2OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1791,6 +2843,12 @@
 		(uuid "68bbcb22-1a6e-4e47-97b1-de3cc306c192")
 	)
 	(junction
+		(at 205.74 119.38)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ba161b36-c9bb-4315-b16c-bae1faea8f55")
+	)
+	(junction
 		(at 189.23 83.82)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1878,6 +2936,16 @@
 	)
 	(wire
 		(pts
+			(xy 213.36 119.38) (xy 205.74 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "186876db-97d3-41ec-9f1f-0e39b1d19d29")
+	)
+	(wire
+		(pts
 			(xy 189.23 88.9) (xy 189.23 91.44)
 		)
 		(stroke
@@ -1915,6 +2983,16 @@
 			(type default)
 		)
 		(uuid "6c1d279c-6e30-418f-b7ad-493b2ae9f965")
+	)
+	(wire
+		(pts
+			(xy 205.74 119.38) (xy 189.23 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "71e36072-5fdf-48ed-9624-9f6438eda779")
 	)
 	(wire
 		(pts
@@ -2005,6 +3083,16 @@
 			)
 		)
 		(uuid "355bb465-dffd-4b37-aa99-f1af749adb37")
+	)
+	(text "TODO: is this the right footprint/gender for serial?\n"
+		(exclude_from_sim no)
+		(at -87.884 71.882 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "96cd5c7c-2fe2-4f6a-84aa-917742ab4405")
 	)
 	(global_label "TXA"
 		(shape output)
@@ -2228,7 +3316,7 @@
 	)
 	(global_label "{slash}IRQ_DUART"
 		(shape output)
-		(at 189.23 119.38 0)
+		(at 213.36 119.38 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2238,7 +3326,7 @@
 		)
 		(uuid "6872be4d-57da-4ddc-824a-8f7c67a72be0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 203.6453 119.38 0)
+			(at 227.7753 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2588,7 +3676,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0b92ed89-4af2-4909-8fc6-ca5a6a85827e")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR057"
 			(at 195.58 97.79 0)
 			(effects
 				(font
@@ -2638,7 +3726,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR038")
+					(reference "#PWR057")
 					(unit 1)
 				)
 			)
@@ -2654,7 +3742,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "182f34af-97dc-4118-a179-e4403d50040c")
-		(property "Reference" "#PWR040"
+		(property "Reference" "#PWR060"
 			(at 214.63 77.47 0)
 			(effects
 				(font
@@ -2704,7 +3792,77 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR040")
+					(reference "#PWR060")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 205.74 115.57 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "285d7d0e-192f-47d4-947b-4aa66f9e61c3")
+		(property "Reference" "R19"
+			(at 205.74 116.84 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "R"
+			(at 203.2 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 207.518 115.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 205.74 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 205.74 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2419c5ca-8890-43de-a3fb-dd39e7bc0b89")
+		)
+		(pin "2"
+			(uuid "fe9950fd-ceaa-4f2d-a097-428eb3d4a1d7")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -2719,7 +3877,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "391f23e3-e55f-4b83-ac92-bcb87c2cb404")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR053"
 			(at 111.76 130.81 0)
 			(effects
 				(font
@@ -2769,7 +3927,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR034")
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
@@ -2784,7 +3942,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4100ab87-9818-4150-aca7-744eb29cb426")
-		(property "Reference" "#PWR030"
+		(property "Reference" "#PWR049"
 			(at 67.31 72.39 0)
 			(effects
 				(font
@@ -2834,7 +3992,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR030")
+					(reference "#PWR049")
 					(unit 1)
 				)
 			)
@@ -2849,7 +4007,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "46f14d0f-1c8b-4055-8a18-8dfad2542459")
-		(property "Reference" "#PWR033"
+		(property "Reference" "#PWR052"
 			(at 111.76 113.03 0)
 			(effects
 				(font
@@ -2899,7 +4057,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR033")
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -2915,7 +4073,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4f5b7009-c27f-4a5f-9581-2fc321f17744")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR054"
 			(at 144.78 105.41 0)
 			(effects
 				(font
@@ -2965,7 +4123,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR035")
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -3049,7 +4207,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "73ef8ff9-9638-44a8-b747-c53e0c0a97db")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR048"
 			(at 67.31 54.61 0)
 			(effects
 				(font
@@ -3099,7 +4257,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR029")
+					(reference "#PWR048")
 					(unit 1)
 				)
 			)
@@ -3115,7 +4273,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7dee051f-68ad-4b4c-a7c9-3b2f533b09ca")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR059"
 			(at 214.63 67.31 0)
 			(effects
 				(font
@@ -3165,7 +4323,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR039")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -3180,7 +4338,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7f48e55f-9af7-4a57-aa68-be7cc434d72c")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR055"
 			(at 177.8 62.23 0)
 			(effects
 				(font
@@ -3230,7 +4388,120 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR036")
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Interface_UART:MAX3232")
+		(at -34.29 120.65 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "81724f37-b6dd-42f2-8251-d073bbfa14d8")
+		(property "Reference" "U18"
+			(at -32.0959 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MAX3232"
+			(at -32.0959 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DIP:DIP-16_W7.62mm_Socket"
+			(at -33.02 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf"
+			(at -34.29 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "3.0V to 5.5V, Low-Power, up to 1Mbps, True RS-232 Transceivers Using Four 0.1μF External Capacitors"
+			(at -34.29 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4357f387-4ca3-4972-9595-6a8ca4329111")
+		)
+		(pin "9"
+			(uuid "0dbf6ef9-4c52-4d91-a99f-5030bbf31fbd")
+		)
+		(pin "11"
+			(uuid "5a6c085b-fb79-4297-ac01-cd4d438dc8af")
+		)
+		(pin "1"
+			(uuid "ed8799c4-66ab-490e-92c7-be4035cf8570")
+		)
+		(pin "3"
+			(uuid "03b365a7-0cc2-4dd2-8bd2-32d62bac5b0f")
+		)
+		(pin "10"
+			(uuid "14bef5bd-428b-4c68-96a5-9cd0ea3f91cd")
+		)
+		(pin "5"
+			(uuid "1ad450e7-a20d-44b6-a3e5-b305d57d2257")
+		)
+		(pin "6"
+			(uuid "5d789c60-d07f-4a3e-8b66-3bbb60631115")
+		)
+		(pin "4"
+			(uuid "56ff27dd-e079-4f94-9cee-fda1c0e2d11b")
+		)
+		(pin "7"
+			(uuid "e6f2b6bc-3863-4c64-8d85-a2fd2953e932")
+		)
+		(pin "16"
+			(uuid "3ec63d7f-009d-46ec-a14d-d5951026f651")
+		)
+		(pin "8"
+			(uuid "23bbd20a-5a4c-41dc-bf27-ed39fe672ce2")
+		)
+		(pin "12"
+			(uuid "33adff59-c1b5-4727-9632-ad6f357d5868")
+		)
+		(pin "13"
+			(uuid "c98adc83-47b8-4abe-83b6-f120bb745715")
+		)
+		(pin "15"
+			(uuid "c9ae17de-b246-4f02-ae7e-ebbd398df723")
+		)
+		(pin "14"
+			(uuid "4dccaae1-acfb-4ad5-9bf9-1be472aba27e")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "U18")
 					(unit 1)
 				)
 			)
@@ -3246,7 +4517,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9ae228b8-08ed-44cc-91dc-157fd10b0090")
-		(property "Reference" "J2"
+		(property "Reference" "J4"
 			(at 87.63 53.3399 0)
 			(effects
 				(font
@@ -3312,7 +4583,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "J2")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -3328,7 +4599,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ab25e7fb-9da9-4d62-840e-226a8e17a283")
-		(property "Reference" "#PWR031"
+		(property "Reference" "#PWR050"
 			(at 91.44 116.84 0)
 			(effects
 				(font
@@ -3378,7 +4649,101 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR031")
+					(reference "#PWR050")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:DE9_Receptacle_MountingHoles")
+		(at -97.79 35.56 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b60500ea-f1fd-474f-aed7-366d80df506c")
+		(property "Reference" "J12"
+			(at -91.44 34.2899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "DE9_Receptacle_MountingHoles"
+			(at -91.44 36.8299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Dsub:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm"
+			(at -97.79 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at -97.79 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "9-pin female receptacle socket D-SUB connector, Mounting Hole"
+			(at -97.79 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3590e86f-45c1-4ce6-a141-e9248030d8ab")
+		)
+		(pin "2"
+			(uuid "ad06cc6d-a14b-4b64-af4d-35b8c2678428")
+		)
+		(pin "0"
+			(uuid "885577c9-e47a-4eea-9bfd-94cee8d10260")
+		)
+		(pin "8"
+			(uuid "dda36d0c-1964-4b79-9faa-bf65752aa058")
+		)
+		(pin "9"
+			(uuid "51dd091f-1f01-4635-ace4-8b66a58d26ae")
+		)
+		(pin "7"
+			(uuid "57f6aeb7-1982-45b2-b4d4-373fe8c2dd94")
+		)
+		(pin "5"
+			(uuid "0290cf7c-bdea-4c62-af62-0f02eb1c623c")
+		)
+		(pin "4"
+			(uuid "f48a6291-02b5-45a1-a030-c14ec1480b9f")
+		)
+		(pin "6"
+			(uuid "e0ab6939-1167-463a-8e64-fb2d4efbec9b")
+		)
+		(pin "3"
+			(uuid "7dd86fa2-e43c-4103-b6f9-e38d873b585d")
+		)
+		(instances
+			(project ""
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "J12")
 					(unit 1)
 				)
 			)
@@ -3394,7 +4759,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bcf66119-42e4-44a6-a81f-76981af580b0")
-		(property "Reference" "J3"
+		(property "Reference" "J5"
 			(at 87.63 71.1199 0)
 			(effects
 				(font
@@ -3460,7 +4825,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "J3")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -3545,7 +4910,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cb06bcfc-ba12-44fe-b8f1-351e5fc1f6e1")
-		(property "Reference" "#PWR032"
+		(property "Reference" "#PWR051"
 			(at 91.44 127 0)
 			(effects
 				(font
@@ -3595,7 +4960,214 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR032")
+					(reference "#PWR051")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Interface_UART:MAX3232")
+		(at -34.29 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ec111d83-de81-4ba5-92e9-eefc89c0c2d6")
+		(property "Reference" "U17"
+			(at -32.0959 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MAX3232"
+			(at -32.0959 16.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DIP:DIP-16_W7.62mm_Socket"
+			(at -33.02 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheets.maximintegrated.com/en/ds/MAX3222-MAX3241.pdf"
+			(at -34.29 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "3.0V to 5.5V, Low-Power, up to 1Mbps, True RS-232 Transceivers Using Four 0.1μF External Capacitors"
+			(at -34.29 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "281cba4b-5dd2-4f57-ae1f-a4d795fc426d")
+		)
+		(pin "9"
+			(uuid "1b51c26e-70a3-426f-8482-1bd0d0134424")
+		)
+		(pin "11"
+			(uuid "07f488a0-a5f4-423b-83b8-800026dacc36")
+		)
+		(pin "1"
+			(uuid "3872b4d7-5c44-46e1-9e5f-e7516824d364")
+		)
+		(pin "3"
+			(uuid "acef4033-280b-45d7-8d09-bf8f1a57050f")
+		)
+		(pin "10"
+			(uuid "60588fe0-de8c-4083-a2b2-d40e88d4de3e")
+		)
+		(pin "5"
+			(uuid "a7b79385-756d-4a98-b6fc-ee8e6196d355")
+		)
+		(pin "6"
+			(uuid "f361bed7-d748-4bc2-bfab-72e9d78d2ca8")
+		)
+		(pin "4"
+			(uuid "b749c4f7-e736-4a5c-8940-589e7426e5f1")
+		)
+		(pin "7"
+			(uuid "e1e78a0d-f605-4ecc-9ce3-eb15cb9ddfda")
+		)
+		(pin "16"
+			(uuid "f09cd490-7891-427d-aaf6-a267fe94bad1")
+		)
+		(pin "8"
+			(uuid "7cfb479f-4c9c-40e2-b127-4faa5ca055ef")
+		)
+		(pin "12"
+			(uuid "cb0e4de8-32d0-461a-b58e-809eb3b33bc1")
+		)
+		(pin "13"
+			(uuid "c509aea4-e892-4e98-9d14-624b27921219")
+		)
+		(pin "15"
+			(uuid "4dddc6e4-264e-40c7-92d4-9d5948295839")
+		)
+		(pin "14"
+			(uuid "2547da63-7646-49b6-b1a2-4b545967146d")
+		)
+		(instances
+			(project ""
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "U17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:DE9_Receptacle_MountingHoles")
+		(at -97.79 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ed09641a-8879-4fc5-a16c-a4f91e67c0af")
+		(property "Reference" "J13"
+			(at -91.44 113.0299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "DE9_Receptacle_MountingHoles"
+			(at -91.44 115.5699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Dsub:DSUB-9_Female_Horizontal_P2.77x2.84mm_EdgePinOffset7.70mm_Housed_MountingHolesOffset9.12mm"
+			(at -97.79 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at -97.79 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "9-pin female receptacle socket D-SUB connector, Mounting Hole"
+			(at -97.79 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "66e8d066-7d66-4df0-9bf1-7089b8bdf4c0")
+		)
+		(pin "2"
+			(uuid "292a04ae-4bc7-4be4-a6a9-a3cd28176caf")
+		)
+		(pin "0"
+			(uuid "fdd403c8-f73a-46d1-b97d-6356ebd5d08d")
+		)
+		(pin "8"
+			(uuid "2fb7cbdb-c510-4db7-9f76-44c5e4b05c40")
+		)
+		(pin "9"
+			(uuid "af3a5f3e-6040-47ad-a049-3760557d045c")
+		)
+		(pin "7"
+			(uuid "78dcbfb5-f4b8-43ac-b2f9-883bf8d88fe7")
+		)
+		(pin "5"
+			(uuid "0d69f491-5eb2-4dee-9b8c-a81fe4199437")
+		)
+		(pin "4"
+			(uuid "9e44519b-046d-4afe-9ab0-744d8012e800")
+		)
+		(pin "6"
+			(uuid "b9d04ac0-30e5-4574-a962-58aa2ac682d3")
+		)
+		(pin "3"
+			(uuid "92ba6dfc-2f1a-4e66-9f18-e46a82261e13")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "J13")
 					(unit 1)
 				)
 			)
@@ -3610,7 +5182,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f2bba20a-68af-43c6-b293-4e68cf56fba9")
-		(property "Reference" "U7"
+		(property "Reference" "U14"
 			(at 181.356 59.69 0)
 			(effects
 				(font
@@ -3790,7 +5362,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "U7")
+					(reference "U14")
 					(unit 1)
 				)
 			)
@@ -3805,7 +5377,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f34dfbc4-29ab-461a-903c-24d974f78a5b")
-		(property "Reference" "R13"
+		(property "Reference" "R18"
 			(at 144.78 106.68 90)
 			(effects
 				(font
@@ -3824,7 +5396,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 146.558 105.41 90)
 			(effects
 				(font
@@ -3860,7 +5432,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "R13")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -3875,7 +5447,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f518a645-390f-4575-bb13-06fc20f63927")
-		(property "Reference" "X2"
+		(property "Reference" "X3"
 			(at 107.696 110.49 0)
 			(effects
 				(font
@@ -3933,7 +5505,73 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "X2")
+					(reference "X3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 205.74 111.76 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f8c6bbae-86e4-44d7-a68e-72a19a00d3f6")
+		(property "Reference" "#PWR058"
+			(at 205.74 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 205.74 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 205.74 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 205.74 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 205.74 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a3e10c48-45d8-4564-ae9e-5c78159ea9b6")
+		)
+		(instances
+			(project ""
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -3949,7 +5587,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fba3f8a1-5a3b-4b87-96d2-4cfcbc50b880")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR056"
 			(at 177.8 143.51 0)
 			(effects
 				(font
@@ -3999,7 +5637,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/a13f62d4-3d46-4322-adb3-03a373f47e08"
-					(reference "#PWR037")
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)

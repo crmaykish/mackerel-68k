@@ -487,6 +487,299 @@
 				)
 			)
 		)
+		(symbol "Connector:Screw_Terminal_01x04"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Screw_Terminal_01x04"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "screw terminal"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TerminalBlock*:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Screw_Terminal_01x04_1_1"
+				(rectangle
+					(start -1.27 3.81)
+					(end 1.27 -6.35)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center 0 -5.08)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 -2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 -4.7498) (xy 0.3302 -5.588)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 -2.2098) (xy 0.3302 -3.048)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 0.3302) (xy 0.3302 -0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 2.8702) (xy 0.3302 2.032)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -4.572) (xy 0.508 -5.4102)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 -2.032) (xy 0.508 -2.8702)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 0.508) (xy 0.508 -0.3302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 3.048) (xy 0.508 2.2098)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 2.54)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Connector_Generic:Conn_02x20_Odd_Even"
 			(pin_names
 				(offset 1.016) hide)
@@ -2272,6 +2565,12 @@
 		(uuid "aeb3c93c-b275-4039-a820-da238ada8aa6")
 	)
 	(junction
+		(at 229.87 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d53e4fdb-d42e-41bf-bd0c-7fab32871e3c")
+	)
+	(junction
 		(at 219.71 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2389,6 +2688,16 @@
 	)
 	(wire
 		(pts
+			(xy 229.87 93.98) (xy 196.85 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bc70997-f1d3-4fbc-a015-71849f9c8f35")
+	)
+	(wire
+		(pts
 			(xy 196.85 73.66) (xy 219.71 73.66)
 		)
 		(stroke
@@ -2486,6 +2795,16 @@
 			(type default)
 		)
 		(uuid "9ca62343-2c4b-4dc4-99d1-fa49e7e17a7e")
+	)
+	(wire
+		(pts
+			(xy 233.68 93.98) (xy 229.87 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c225eaa9-97ea-4b43-9f91-31ffad26717f")
 	)
 	(wire
 		(pts
@@ -3985,7 +4304,7 @@
 	)
 	(global_label "{slash}IDE_CS1"
 		(shape input)
-		(at 196.85 93.98 0)
+		(at 237.49 93.98 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3995,7 +4314,7 @@
 		)
 		(uuid "daef0f7e-f1ea-41c2-a563-fb26eb347c51")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 208.8461 93.98 0)
+			(at 249.4861 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4124,7 +4443,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "143cb359-c59a-44c5-8327-5beb364cc446")
-		(property "Reference" "D5"
+		(property "Reference" "D1"
 			(at 165.1 93.98 0)
 			(effects
 				(font
@@ -4141,7 +4460,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_THT:LED_D5.0mm"
 			(at 165.1 96.52 0)
 			(effects
 				(font
@@ -4177,7 +4496,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "D5")
+					(reference "D1")
 					(unit 1)
 				)
 			)
@@ -4193,7 +4512,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1af006e2-5524-4ac5-9a75-502026190cb3")
-		(property "Reference" "J6"
+		(property "Reference" "J3"
 			(at 190.5 41.91 0)
 			(effects
 				(font
@@ -4360,7 +4679,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "J6")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -4376,7 +4695,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "32187761-50dd-49b0-88ba-b1134fed66bf")
-		(property "Reference" "#PWR063"
+		(property "Reference" "#PWR044"
 			(at 153.67 100.33 0)
 			(effects
 				(font
@@ -4426,7 +4745,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR063")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -4566,7 +4885,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "41775412-66ef-4cb6-ac63-f897697360d7")
-		(property "Reference" "#PWR059"
+		(property "Reference" "#PWR040"
 			(at 68.58 81.28 0)
 			(effects
 				(font
@@ -4616,7 +4935,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR059")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -4631,7 +4950,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "56dc5252-91e7-42c7-a5be-17544c59daaa")
-		(property "Reference" "R38"
+		(property "Reference" "R15"
 			(at 142.748 93.98 90)
 			(effects
 				(font
@@ -4647,7 +4966,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 146.558 93.98 90)
 			(effects
 				(font
@@ -4683,7 +5002,219 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "R38")
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 229.87 86.36 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5905ebb7-ee9c-4a02-b113-c3a94530811c")
+		(property "Reference" "#PWR047"
+			(at 229.87 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 229.87 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 229.87 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 229.87 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 229.87 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1dd6faca-2d33-4f64-9b3c-15326810f8ac")
+		)
+		(instances
+			(project ""
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
+					(reference "#PWR047")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x04")
+		(at 140.97 133.35 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "71186125-07c7-4646-b0eb-9a9f775e32cf")
+		(property "Reference" "J14"
+			(at 143.51 133.3499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x04"
+			(at 143.51 135.8899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TerminalBlock:TerminalBlock_bornier-4_P5.08mm"
+			(at 140.97 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 140.97 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 140.97 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "98937dce-24cc-4ca9-aaae-54cfe16f6291")
+		)
+		(pin "4"
+			(uuid "67dcd203-7c4e-41e1-9447-d46aa87eaff4")
+		)
+		(pin "2"
+			(uuid "18380d92-9348-487a-8d74-594cb68b3ce9")
+		)
+		(pin "3"
+			(uuid "cc95dda8-8e02-4e5d-8cc4-9d999a049526")
+		)
+		(instances
+			(project ""
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
+					(reference "J14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 229.87 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7995c3ee-d2a2-4884-8dce-c7f723a89788")
+		(property "Reference" "R17"
+			(at 229.87 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "R"
+			(at 232.41 91.4399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 228.092 90.17 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 229.87 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 229.87 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a6b140af-e7c8-4299-81e9-e50c2e53a546")
+		)
+		(pin "1"
+			(uuid "6b5c1796-f69a-4e36-a588-d89ddaaf3429")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -4698,7 +5229,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7aaca1b1-a7b7-4aaf-8df4-25d96a9d344a")
-		(property "Reference" "R37"
+		(property "Reference" "R14"
 			(at 137.668 93.98 90)
 			(effects
 				(font
@@ -4714,7 +5245,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 141.478 93.98 90)
 			(effects
 				(font
@@ -4750,7 +5281,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "R37")
+					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -4766,7 +5297,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7da183d2-a233-4029-aa67-6bf307f31b54")
-		(property "Reference" "#PWR064"
+		(property "Reference" "#PWR045"
 			(at 170.18 77.47 0)
 			(effects
 				(font
@@ -4816,7 +5347,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR064")
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -4832,7 +5363,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9e3adacf-9a74-4f1a-98a6-e001e4c51e37")
-		(property "Reference" "#PWR058"
+		(property "Reference" "#PWR039"
 			(at 68.58 38.1 0)
 			(effects
 				(font
@@ -4882,7 +5413,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR058")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
@@ -4898,7 +5429,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b27017c5-c6dc-4723-97ee-10f0528508d5")
-		(property "Reference" "#PWR065"
+		(property "Reference" "#PWR046"
 			(at 219.71 107.95 0)
 			(effects
 				(font
@@ -4948,7 +5479,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR065")
+					(reference "#PWR046")
 					(unit 1)
 				)
 			)
@@ -4964,7 +5495,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bb5e2db8-c434-4aab-8992-abafdd8ee634")
-		(property "Reference" "#PWR060"
+		(property "Reference" "#PWR041"
 			(at 68.58 111.76 0)
 			(effects
 				(font
@@ -5014,7 +5545,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR060")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -5154,7 +5685,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cc5a00b4-90ba-45fc-a82f-871e3ca7ac90")
-		(property "Reference" "#PWR061"
+		(property "Reference" "#PWR042"
 			(at 68.58 154.94 0)
 			(effects
 				(font
@@ -5204,7 +5735,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR061")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -5220,7 +5751,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d03c26be-c704-474a-93bf-9f4377bfb48f")
-		(property "Reference" "#PWR062"
+		(property "Reference" "#PWR043"
 			(at 139.7 106.68 0)
 			(effects
 				(font
@@ -5270,7 +5801,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "#PWR062")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -5285,7 +5816,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f713883d-a200-4159-a082-8f46031bad86")
-		(property "Reference" "R39"
+		(property "Reference" "R16"
 			(at 157.48 94.488 90)
 			(effects
 				(font
@@ -5301,7 +5832,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 157.48 98.298 90)
 			(effects
 				(font
@@ -5337,7 +5868,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/159c02d4-7185-497f-a123-96b594aecd43"
-					(reference "R39")
+					(reference "R16")
 					(unit 1)
 				)
 			)
