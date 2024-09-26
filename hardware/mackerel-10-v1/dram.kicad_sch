@@ -3258,7 +3258,7 @@
 		(uuid "dfd30a38-d61a-48be-bc2c-5114b5520c1c")
 	)
 	(no_connect
-		(at 153.67 53.34)
+		(at 165.1 54.61)
 		(uuid "ee9ae586-b5c5-4874-83a8-e2b08992cabe")
 	)
 	(wire
@@ -3440,6 +3440,16 @@
 			(type default)
 		)
 		(uuid "66c2ae4f-4caa-4126-833e-8740b22b9477")
+	)
+	(wire
+		(pts
+			(xy 180.34 54.61) (xy 201.93 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "676854d4-c4f3-4a90-8eed-140e1d1f4a8e")
 	)
 	(wire
 		(pts
@@ -3771,16 +3781,6 @@
 		)
 		(uuid "fcde063f-9b93-45ae-b9cf-951bb145bc07")
 	)
-	(text "TODO: main clock to be buffered from from source clock"
-		(exclude_from_sim no)
-		(at 174.498 32.512 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "2b4972d4-3f72-4113-a3b9-2c2106532c2c")
-	)
 	(text "TODO: add some test points!"
 		(exclude_from_sim no)
 		(at 103.124 31.496 0)
@@ -3801,15 +3801,16 @@
 		)
 		(uuid "7c3eb048-316a-4367-884f-bc099557301f")
 	)
-	(text "TODO: Optional independent DRAM clock"
-		(exclude_from_sim no)
-		(at 173.99 36.83 0)
+	(label "CLK_DRAM"
+		(at 181.61 54.61 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
+			(justify left bottom)
 		)
-		(uuid "c1ab2f33-474f-4acc-964c-ed1dc2879a41")
+		(uuid "0776519b-9eb5-4b06-babd-c4b6be9fe318")
 	)
 	(global_label "{slash}AS"
 		(shape output)
@@ -4660,6 +4661,28 @@
 		(uuid "5fe5e22c-f46e-4b48-9088-37717bc86ec5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 23.0196 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CLK_SRC"
+		(shape input)
+		(at 201.93 46.99 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "60a8db80-cce5-41b4-b2c1-1f54a8e82bc8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 190.6596 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6078,7 +6101,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 161.29 60.96 0)
+		(at 172.72 62.23 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6087,7 +6110,7 @@
 		(fields_autoplaced yes)
 		(uuid "050be779-e5a7-4b0f-bc42-eb0e58f0c6be")
 		(property "Reference" "#PWR035"
-			(at 161.29 67.31 0)
+			(at 172.72 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6096,7 +6119,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 161.29 66.04 0)
+			(at 172.72 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6104,7 +6127,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 161.29 60.96 0)
+			(at 172.72 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6113,7 +6136,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 161.29 60.96 0)
+			(at 172.72 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6122,7 +6145,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 161.29 60.96 0)
+			(at 172.72 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6144,7 +6167,7 @@
 	)
 	(symbol
 		(lib_id "Oscillator:CXO_DIP14")
-		(at 161.29 53.34 0)
+		(at 172.72 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6152,7 +6175,7 @@
 		(dnp no)
 		(uuid "09d1eba3-9356-47d5-90d8-129168f0852e")
 		(property "Reference" "X2"
-			(at 157.734 46.736 0)
+			(at 169.164 48.006 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6160,7 +6183,7 @@
 			)
 		)
 		(property "Value" "50MHz"
-			(at 165.1 46.736 0)
+			(at 176.53 48.006 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6168,7 +6191,7 @@
 			)
 		)
 		(property "Footprint" "Oscillator:Oscillator_DIP-14"
-			(at 172.72 62.23 0)
+			(at 184.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6177,7 +6200,7 @@
 			)
 		)
 		(property "Datasheet" "http://cdn-reichelt.de/documents/datenblatt/B400/OSZI.pdf"
-			(at 158.75 53.34 0)
+			(at 170.18 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6186,7 +6209,7 @@
 			)
 		)
 		(property "Description" "Crystal Clock Oscillator, DIP14-style metal package"
-			(at 161.29 53.34 0)
+			(at 172.72 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6210,160 +6233,6 @@
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/bdc88bee-444e-4208-8c2a-fd29d049da4a"
 					(reference "X2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "mackerel-68k-symbols:SIMM30")
-		(at -24.13 46.99 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0aad965a-ed97-4f6f-875e-b602b36be070")
-		(property "Reference" "U7"
-			(at -21.9359 20.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "~"
-			(at -21.9359 22.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "mackerel:SIMM-30"
-			(at -18.796 22.606 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -18.796 22.606 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -18.796 22.606 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "29"
-			(uuid "a711e4a0-5216-42a1-b6f9-31cec18fee3f")
-		)
-		(pin "2"
-			(uuid "87135832-2f3b-4e89-a978-42dfa19167f5")
-		)
-		(pin "26"
-			(uuid "61da2ac0-bd6b-46b2-a2ec-5621a3d56aa4")
-		)
-		(pin "5"
-			(uuid "00b1dc24-f96a-4cd0-81b1-8f99b35901f4")
-		)
-		(pin "23"
-			(uuid "deadae4d-86cd-4b27-b929-6d706bae5393")
-		)
-		(pin "4"
-			(uuid "5f7ab63b-0185-4b64-8fd5-14bafba959f1")
-		)
-		(pin "1"
-			(uuid "e9efb01a-1766-478c-911d-7299e8c37309")
-		)
-		(pin "10"
-			(uuid "81d2ae37-39aa-4d4e-af1d-e5859d6ec763")
-		)
-		(pin "13"
-			(uuid "21749a9d-bdf0-4f5d-b6b5-fc8778b5851e")
-		)
-		(pin "11"
-			(uuid "cdfe00df-c28e-4c16-8173-64a850dfa5bd")
-		)
-		(pin "12"
-			(uuid "b4dca42e-3a3b-4737-aea9-d7aea8bdd230")
-		)
-		(pin "20"
-			(uuid "fcd28a9e-1d58-4976-8a16-a6696f307b4e")
-		)
-		(pin "3"
-			(uuid "472c362d-a06e-4b87-8497-6930098d47f7")
-		)
-		(pin "24"
-			(uuid "b5a084f9-a30a-4f09-9854-d16673bbe76f")
-		)
-		(pin "17"
-			(uuid "b704c1f5-483a-4b62-826c-b285dda6e04a")
-		)
-		(pin "6"
-			(uuid "13a4ef7f-3273-4dbb-bc5f-c038b0fa6b9d")
-		)
-		(pin "21"
-			(uuid "ef206896-bdae-45a4-a678-0de6f4ec5ee1")
-		)
-		(pin "22"
-			(uuid "4dac7851-7db1-4eda-b322-0a3e39576858")
-		)
-		(pin "27"
-			(uuid "4edb8775-a473-42fb-b783-ee9e050b6284")
-		)
-		(pin "9"
-			(uuid "5385075e-d25f-40a6-bf38-2bde9822c5c6")
-		)
-		(pin "30"
-			(uuid "0bedd010-72fa-4d02-a3b1-27864a393f8a")
-		)
-		(pin "28"
-			(uuid "7c04f0cf-2c19-49d0-b6d7-06d05b79130c")
-		)
-		(pin "7"
-			(uuid "4d2ab03a-f094-43aa-9d1e-2a8b8c8cc89e")
-		)
-		(pin "16"
-			(uuid "1479c96f-e83a-4b61-abdf-f1da9f4a22f5")
-		)
-		(pin "8"
-			(uuid "6b41d7df-ac6d-4b69-a5fc-270899887a63")
-		)
-		(pin "18"
-			(uuid "c06ecb64-9f20-4c51-96a1-402e77079379")
-		)
-		(pin "19"
-			(uuid "e3fddae1-7a1f-490b-9ed6-58b8fe9ec231")
-		)
-		(pin "14"
-			(uuid "3e8570b4-f0f7-4f6c-95b0-13289a4f4ba1")
-		)
-		(pin "15"
-			(uuid "f112642b-8cd0-471b-9412-08e07c887516")
-		)
-		(pin "25"
-			(uuid "2f534402-d165-420c-9dbc-4549ecec63a9")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/bdc88bee-444e-4208-8c2a-fd29d049da4a"
-					(reference "U7")
 					(unit 1)
 				)
 			)
@@ -7206,7 +7075,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 161.29 45.72 0)
+		(at 172.72 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7215,7 +7084,7 @@
 		(fields_autoplaced yes)
 		(uuid "7d53c6ae-04d2-4e0c-a3bb-e0a45a6efeb9")
 		(property "Reference" "#PWR034"
-			(at 161.29 49.53 0)
+			(at 172.72 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7224,7 +7093,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 161.29 40.64 0)
+			(at 172.72 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7232,7 +7101,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 161.29 45.72 0)
+			(at 172.72 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7241,7 +7110,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 161.29 45.72 0)
+			(at 172.72 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7250,7 +7119,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 161.29 45.72 0)
+			(at 172.72 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7687,160 +7556,6 @@
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/bdc88bee-444e-4208-8c2a-fd29d049da4a"
 					(reference "R11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "mackerel-68k-symbols:SIMM30")
-		(at -24.13 113.03 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b959029e-28b8-4dc4-841a-9cf754be9e63")
-		(property "Reference" "U8"
-			(at -21.9359 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "~"
-			(at -21.9359 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "mackerel:SIMM-30"
-			(at -18.796 88.646 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -18.796 88.646 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -18.796 88.646 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "29"
-			(uuid "24506351-2bfc-4d91-8cf2-8ba6579e5684")
-		)
-		(pin "2"
-			(uuid "bcc50d54-e255-42f2-8012-da091e8a32d7")
-		)
-		(pin "26"
-			(uuid "1b43f556-2ff3-4997-8450-388bae9368a1")
-		)
-		(pin "5"
-			(uuid "e0d81b5a-c8f7-4f91-9398-4c7e6e09840b")
-		)
-		(pin "23"
-			(uuid "37c4f674-1aa4-4fe6-8ddd-cd26ac724250")
-		)
-		(pin "4"
-			(uuid "2d977d98-48dd-49b1-9e64-88c363c8eba1")
-		)
-		(pin "1"
-			(uuid "a24c4a1b-f25e-4d05-9d47-5fc40fb38b79")
-		)
-		(pin "10"
-			(uuid "da940d91-f1d1-4129-a72a-1328893b4e65")
-		)
-		(pin "13"
-			(uuid "4ae52caa-2c1d-4846-8d44-8c06ca602fb2")
-		)
-		(pin "11"
-			(uuid "e91d24df-fe8f-4f29-b383-525ce5f2fd73")
-		)
-		(pin "12"
-			(uuid "0d0edb99-6f6c-4658-84c6-87443fa29287")
-		)
-		(pin "20"
-			(uuid "6cbc2395-8d06-4d8d-ae10-6d7b390c09dd")
-		)
-		(pin "3"
-			(uuid "4b81196a-d355-4ca7-aac6-46b185c82570")
-		)
-		(pin "24"
-			(uuid "18429f62-8760-42b9-ba81-310840b6d2e7")
-		)
-		(pin "17"
-			(uuid "8def0e25-c272-44e9-a57d-b2c37731b42a")
-		)
-		(pin "6"
-			(uuid "638b2324-a579-476f-b558-939e5de20e7b")
-		)
-		(pin "21"
-			(uuid "3ad474eb-76b2-4297-bf19-dae13f0b8e45")
-		)
-		(pin "22"
-			(uuid "9ba8a631-c023-4c0e-9b3f-ccf3b4bea74d")
-		)
-		(pin "27"
-			(uuid "2cb42392-175e-44ae-9f0a-26f4691b2c49")
-		)
-		(pin "9"
-			(uuid "edf16746-24fd-495b-b514-60e6b9d9e493")
-		)
-		(pin "30"
-			(uuid "17030808-352e-4047-b31b-e010fe0fb43a")
-		)
-		(pin "28"
-			(uuid "f23d6fb5-39a6-4077-a6a3-3454a328be18")
-		)
-		(pin "7"
-			(uuid "e324e3ac-b6c7-4c12-ad27-71aca200966d")
-		)
-		(pin "16"
-			(uuid "2666bb21-778a-4239-9df1-9b680d9aafe4")
-		)
-		(pin "8"
-			(uuid "1af948d8-381f-49bc-90f3-6f1fd5286395")
-		)
-		(pin "18"
-			(uuid "070f55f8-1de6-4844-a794-9eb786c94fdb")
-		)
-		(pin "19"
-			(uuid "306e3c25-a91d-45ea-b833-eb276c429114")
-		)
-		(pin "14"
-			(uuid "2c33cf50-916c-41a7-b4f2-653c8b88c5ee")
-		)
-		(pin "15"
-			(uuid "cad03f40-7b82-4039-a1b0-ca2d4d75c565")
-		)
-		(pin "25"
-			(uuid "42273e92-86c5-4a80-a3ab-5ead8fbf6099")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/bdc88bee-444e-4208-8c2a-fd29d049da4a"
-					(reference "U8")
 					(unit 1)
 				)
 			)

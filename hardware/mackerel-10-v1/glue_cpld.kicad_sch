@@ -3140,6 +3140,16 @@
 		)
 		(uuid "7e4856a9-062f-4d8f-8336-4dddad45f3e2")
 	)
+	(text "TODO: connect UART clock for accurate timing?"
+		(exclude_from_sim no)
+		(at 73.152 70.866 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "a8fddb23-bd3b-474b-9129-2a856db59c58")
+	)
 	(text "TODO: control lines for IDE, DRAM, and expansion"
 		(exclude_from_sim no)
 		(at 218.694 75.184 0)
@@ -3766,28 +3776,6 @@
 			)
 		)
 	)
-	(global_label "CLK_DRAM"
-		(shape output)
-		(at 175.26 130.81 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "74180445-b436-4fd3-8526-797a8a5dff32")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 187.8609 130.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "A3"
 		(shape input)
 		(at 113.03 115.57 180)
@@ -4202,28 +4190,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "CLK2"
-		(shape input)
-		(at 88.9 71.12 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "c0b38677-b590-4542-a99c-741355f3a8f8")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 81.1372 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
