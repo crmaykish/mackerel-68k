@@ -5023,6 +5023,28 @@
 			)
 		)
 	)
+	(global_label "{slash}CS_DRAM"
+		(shape input)
+		(at 201.93 119.38 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "206c4ac1-b107-4f74-b676-3fd47f6d737f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 189.0872 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "D1"
 		(shape bidirectional)
 		(at 58.42 33.02 0)
@@ -5212,28 +5234,6 @@
 		(uuid "33e02b9a-0514-4cd0-98da-8a6b3e597e36")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 64.996 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "{slash}CS_DRAM"
-		(shape input)
-		(at 180.34 129.54 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "342d4f57-1af7-4529-b05e-63d58d576ad6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 193.1828 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7003,28 +7003,6 @@
 			)
 		)
 	)
-	(global_label "{slash}DTACK_DRAM"
-		(shape output)
-		(at 180.34 127 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "a8d6e9c1-d045-4b04-8ea1-7d897d6dd79a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 196.5695 127 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "D2"
 		(shape bidirectional)
 		(at 120.65 29.21 0)
@@ -7214,6 +7192,28 @@
 		(uuid "bac9c13d-0828-4b57-b224-3b18c467a79b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 193.0786 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}DTACK_DRAM"
+		(shape output)
+		(at 201.93 121.92 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bbac8dbc-e4f2-4c99-afab-20dd608d14ba")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 185.7005 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
