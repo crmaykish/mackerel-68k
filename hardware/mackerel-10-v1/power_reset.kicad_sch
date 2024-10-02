@@ -2251,126 +2251,6 @@
 				)
 			)
 		)
-		(symbol "power:+3.3V"
-			(power)
-			(pin_numbers hide)
-			(pin_names
-				(offset 0) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "+3.3V"
-				(at 0 3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+3.3V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+3.3V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "power:+5V"
 			(power)
 			(pin_numbers hide)
@@ -2733,12 +2613,6 @@
 		(uuid "186feb8f-15e3-4bfe-bee7-f1f903543965")
 	)
 	(junction
-		(at 204.47 120.65)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1e146354-8ebc-4daf-b403-3e40c18876d8")
-	)
-	(junction
 		(at 143.51 118.11)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2805,12 +2679,6 @@
 		(uuid "7b1a9251-8cdf-4d0e-b3f0-91728b9ce9a9")
 	)
 	(junction
-		(at 191.77 115.57)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "896e4f62-7282-4c50-a4b5-bf8cf20e1c54")
-	)
-	(junction
 		(at 87.63 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2835,22 +2703,10 @@
 		(uuid "a2f89af2-b233-4c30-8dfb-930abb5c1b4c")
 	)
 	(junction
-		(at 191.77 118.11)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a7bcf083-7d79-41d5-a92a-84c133526949")
-	)
-	(junction
 		(at 93.98 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "aea1cb11-da4e-4512-bed8-74dfffc97089")
-	)
-	(junction
-		(at 204.47 118.11)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "cfb4a0d4-ef92-4bf5-bbe9-c5a0ad021bee")
 	)
 	(junction
 		(at 203.2 45.72)
@@ -2986,16 +2842,6 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 115.57) (xy 204.47 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2116e811-d1ff-413f-bb9e-0a685822ce5f")
-	)
-	(wire
-		(pts
 			(xy 203.2 74.93) (xy 203.2 77.47)
 		)
 		(stroke
@@ -3033,16 +2879,6 @@
 			(type default)
 		)
 		(uuid "30b4dfd9-63c0-49c6-a0f9-eb7d1c75ea2a")
-	)
-	(wire
-		(pts
-			(xy 204.47 118.11) (xy 204.47 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "33edb6e6-1a14-4e7d-a864-314019a2b937")
 	)
 	(wire
 		(pts
@@ -3093,16 +2929,6 @@
 			(type default)
 		)
 		(uuid "48512ba9-6272-460b-96d3-9523ab90f945")
-	)
-	(wire
-		(pts
-			(xy 191.77 115.57) (xy 191.77 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "48ba5d46-b396-411f-ad70-27803dcd93a9")
 	)
 	(wire
 		(pts
@@ -3426,16 +3252,6 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 118.11) (xy 191.77 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "de98d271-5627-463e-be67-07e59fd893c9")
-	)
-	(wire
-		(pts
 			(xy 181.61 118.11) (xy 181.61 120.65)
 		)
 		(stroke
@@ -3503,16 +3319,6 @@
 			)
 		)
 		(uuid "22ce14c0-df83-4ff5-9cdb-ffbdaaffbd25")
-	)
-	(text "TODO: 3.3v regulator"
-		(exclude_from_sim no)
-		(at 120.904 78.74 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "dc837827-e79e-436a-aab5-31b1b3d41674")
 	)
 	(global_label "{slash}RESET"
 		(shape output)
@@ -3878,72 +3684,6 @@
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
 					(reference "#PWR065")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3.3V")
-		(at 191.77 115.57 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "260da5e4-686c-4ee9-b490-031b93839c63")
-		(property "Reference" "#PWR071"
-			(at 191.77 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 191.77 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 191.77 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 191.77 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 191.77 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8f550979-cda8-4dc3-b432-6bce4aa383bf")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
-					(reference "#PWR071")
 					(unit 1)
 				)
 			)
@@ -4464,87 +4204,6 @@
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
 					(reference "#PWR072")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_02x03_Odd_Even")
-		(at 196.85 118.11 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4ca0e471-5335-4276-8c6a-8ed4138ce28d")
-		(property "Reference" "J9"
-			(at 198.12 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_02x03_Odd_Even"
-			(at 198.12 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical"
-			(at 196.85 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 196.85 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 196.85 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "df91c63a-5afa-4bee-b065-45d4e96d9531")
-		)
-		(pin "6"
-			(uuid "e94ba977-4780-40f8-8d9a-23ac5373fccd")
-		)
-		(pin "1"
-			(uuid "ca8e3b33-f073-46e8-a94d-fddb5846a910")
-		)
-		(pin "3"
-			(uuid "2b556fc1-a314-4b67-b153-cebce97cf609")
-		)
-		(pin "4"
-			(uuid "8ab34d02-3f1a-4388-93ac-1ef0b4c89956")
-		)
-		(pin "5"
-			(uuid "24bff40b-0535-4bbf-b31d-855672b3f298")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
-					(reference "J9")
 					(unit 1)
 				)
 			)
@@ -5757,72 +5416,6 @@
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
 					(reference "C22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 204.47 120.65 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b3e79a3d-1aaa-4459-85ce-0edfc0fc47af")
-		(property "Reference" "#PWR074"
-			(at 204.47 127 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 204.47 125.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 204.47 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 204.47 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 204.47 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "483c6fe7-5b43-40a3-825a-54b8151d2fe5")
-		)
-		(instances
-			(project "mackerel-10-v1"
-				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0/8aeb3dd0-e160-42fa-9696-775a77424698"
-					(reference "#PWR074")
 					(unit 1)
 				)
 			)

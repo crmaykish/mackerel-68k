@@ -4584,7 +4584,7 @@
 	)
 	(global_label "{slash}DTACK_DUART"
 		(shape input)
-		(at 147.32 137.16 0)
+		(at 147.32 142.24 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4594,7 +4594,7 @@
 		)
 		(uuid "b81f324f-6278-4f51-a44c-e92f9590ce0d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 164.3962 137.16 0)
+			(at 164.3962 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5024,7 +5024,7 @@
 	)
 	(global_label "{slash}DUART"
 		(shape output)
-		(at 147.32 142.24 0)
+		(at 147.32 137.16 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5034,7 +5034,7 @@
 		)
 		(uuid "f4e0799a-2134-40f3-8c05-846f16172625")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 157.5624 142.24 0)
+			(at 157.5624 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
