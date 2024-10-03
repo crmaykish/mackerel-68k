@@ -2008,6 +2008,16 @@
 		)
 		(uuid "dc71b86a-4966-4b52-8e94-96ae6a0cc697")
 	)
+	(text "TODO: expose GPIO"
+		(exclude_from_sim no)
+		(at 208.788 86.106 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "fbf1f1fc-45f7-44d9-a044-6e73bd688d1b")
+	)
 	(global_label "{slash}RTSA"
 		(shape input)
 		(at 63.5 33.02 180)
