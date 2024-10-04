@@ -3797,56 +3797,6 @@
 		)
 		(uuid "fa54460a-13e2-499f-a93b-98e52b041bfa")
 	)
-	(text "TODO: how many address pins are actually needed for decoding?"
-		(exclude_from_sim no)
-		(at 66.802 97.282 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "03219617-0348-4e37-9fe2-71150cab36d1")
-	)
-	(text "SPI and I2C expansion"
-		(exclude_from_sim no)
-		(at 227.076 159.004 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "15660874-ccfb-4726-af8d-d03b02044175")
-	)
-	(text "TODO: SPI and I2C headers\nTODO: enough room on CPLD for this logic?"
-		(exclude_from_sim no)
-		(at 221.488 102.108 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "2023f7be-7b9a-487c-b2f7-ae3a11bc91e9")
-	)
-	(text "TODO: probably don't need A4 - just A1-3 for IACK decode"
-		(exclude_from_sim no)
-		(at 65.786 107.188 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "7856a3bb-9599-4a29-b58b-4fe711fc71f6")
-	)
-	(text "TODO: GPIO with leftover pins"
-		(exclude_from_sim no)
-		(at 227.584 87.884 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "7e4856a9-062f-4d8f-8336-4dddad45f3e2")
-	)
 	(text "TODO: user LED"
 		(exclude_from_sim no)
 		(at 100.33 164.338 0)
@@ -3856,16 +3806,6 @@
 			)
 		)
 		(uuid "9834d23e-d2d4-4e19-8ca7-34c81f2fdf91")
-	)
-	(text "TODO: control lines for IDE, DRAM, and expansion"
-		(exclude_from_sim no)
-		(at 218.694 75.184 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "ceeee287-a392-4229-938c-76a798b949ab")
 	)
 	(global_label "CLK_ALT"
 		(shape input)
@@ -3913,7 +3853,7 @@
 	)
 	(global_label "{slash}IRQ_EXP"
 		(shape input)
-		(at 113.03 130.81 180)
+		(at 113.03 133.35 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3923,7 +3863,7 @@
 		)
 		(uuid "06c50ebd-b86e-4d27-8b34-9f37fb268c5a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 100.9129 130.81 0)
+			(at 100.9129 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3979,7 +3919,7 @@
 	)
 	(global_label "{slash}IACK_EXP"
 		(shape output)
-		(at 113.03 135.89 180)
+		(at 113.03 138.43 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3989,7 +3929,7 @@
 		)
 		(uuid "0dd65ad3-1a73-4759-958f-69c769fed778")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 99.8848 135.89 0)
+			(at 99.8848 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4265,7 +4205,7 @@
 	)
 	(global_label "{slash}EXP"
 		(shape output)
-		(at 113.03 133.35 180)
+		(at 113.03 130.81 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4275,7 +4215,7 @@
 		)
 		(uuid "2d58a0bf-9ca5-47b6-927f-36215a69fa25")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 105.0858 133.35 0)
+			(at 105.0858 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4485,7 +4425,7 @@
 	)
 	(global_label "{slash}DTACK_EXP"
 		(shape input)
-		(at 113.03 138.43 180)
+		(at 113.03 135.89 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4495,7 +4435,7 @@
 		)
 		(uuid "596afc3f-68fe-4fe7-959b-590a0f9e9433")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 98.252 138.43 0)
+			(at 98.252 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)

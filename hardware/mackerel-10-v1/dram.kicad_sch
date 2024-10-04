@@ -3594,8 +3594,24 @@
 		(uuid "2cb69e07-2e12-49a2-81dc-f530f478ea9f")
 	)
 	(no_connect
+		(at 201.93 132.08)
+		(uuid "3866cc60-f69d-4710-80cb-b29f1c4f7fe9")
+	)
+	(no_connect
+		(at 236.22 52.07)
+		(uuid "3f470bf7-8d30-4eeb-a81e-3a30f2f629d0")
+	)
+	(no_connect
 		(at 120.65 118.11)
 		(uuid "4a14cf9d-6269-4373-8079-b44f04519068")
+	)
+	(no_connect
+		(at 236.22 49.53)
+		(uuid "55c465d2-4f70-4d9d-a782-f202f142f03d")
+	)
+	(no_connect
+		(at 236.22 44.45)
+		(uuid "681c3768-3200-4db7-9564-1af3536ad692")
 	)
 	(no_connect
 		(at 58.42 124.46)
@@ -3606,8 +3622,24 @@
 		(uuid "6f6cdab0-b124-47a8-a975-4f5367984a09")
 	)
 	(no_connect
+		(at 201.93 124.46)
+		(uuid "7c9f400e-fd93-4ddd-bcfc-2e2638473ba9")
+	)
+	(no_connect
+		(at 201.93 129.54)
+		(uuid "7f89dec8-1b69-44a8-9d36-1dd4ecd45682")
+	)
+	(no_connect
+		(at 201.93 134.62)
+		(uuid "8460e86e-c62d-4f15-8928-8190d6194d78")
+	)
+	(no_connect
 		(at 120.65 46.99)
 		(uuid "a52f4089-0ac5-43ba-a95c-f182715c3e09")
+	)
+	(no_connect
+		(at 236.22 46.99)
+		(uuid "ba25cb09-4899-49fc-9a3c-428304c38e04")
 	)
 	(no_connect
 		(at 125.73 168.91)
@@ -3616,6 +3648,10 @@
 	(no_connect
 		(at 58.42 119.38)
 		(uuid "bfa4c8b6-24d8-4111-aa52-fc1eaa56bff9")
+	)
+	(no_connect
+		(at 236.22 54.61)
+		(uuid "da0defc7-f00c-47ce-98f3-f4cef5858ba0")
 	)
 	(no_connect
 		(at 113.03 171.45)
@@ -3628,6 +3664,10 @@
 	(no_connect
 		(at 120.65 49.53)
 		(uuid "e07099ee-48a8-4536-acb1-5f6c8fa9bca2")
+	)
+	(no_connect
+		(at 201.93 127)
+		(uuid "f1af8531-0734-42ed-ad67-dc391e1dd600")
 	)
 	(no_connect
 		(at 120.65 115.57)
@@ -4565,23 +4605,13 @@
 	)
 	(text "TODO: add some test points!"
 		(exclude_from_sim no)
-		(at 108.204 -28.194 0)
+		(at 150.876 78.232 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
 		(uuid "63139612-d11a-4f5f-8d42-f17f7dbc9113")
-	)
-	(text "TODO: add two more RAM sticks?"
-		(exclude_from_sim no)
-		(at 99.568 -11.938 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "7c3eb048-316a-4367-884f-bc099557301f")
 	)
 	(global_label "{slash}AS"
 		(shape output)
