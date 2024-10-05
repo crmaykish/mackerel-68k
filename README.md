@@ -44,7 +44,7 @@ Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first 
 ### Mackerel-10
 Mackerel-10 is the second phase of the project and the hardware is in development. It expands the design of Mackerel-08 with a full-size MC68010 CPU and 16-bit databus. Additionally, it dramatically increases the memory capacity with a DRAM controller implemented in a CPLD and up to 16 MB of 30-pin SIMM DRAM. Storage capabilities are expanded with an IDE header for a harddrive or CF card.
 
-![Mackerel-10 Prototype](media/images/mack-10-with-dram-controller.jpg)
+![Mackerel-10 Prototype](media/images/mack-10-v1-render.png)
 
 ## Software
 
