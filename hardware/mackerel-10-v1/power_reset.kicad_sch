@@ -3837,16 +3837,6 @@
 		)
 		(uuid "f91e6182-b0c5-4f32-953e-74dbf355c613")
 	)
-	(text "TODO: power switch?"
-		(exclude_from_sim no)
-		(at 39.624 78.994 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "22ce14c0-df83-4ff5-9cdb-ffbdaaffbd25")
-	)
 	(global_label "{slash}RESET"
 		(shape output)
 		(at 220.98 53.34 0)

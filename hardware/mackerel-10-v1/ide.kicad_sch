@@ -3531,16 +3531,6 @@
 		)
 		(uuid "64aaee60-73b7-48c0-b29d-a10d7cf7a591")
 	)
-	(text "TODO: confirm this pinout"
-		(exclude_from_sim no)
-		(at 191.77 32.258 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "9b711290-1c0b-492a-8246-79b3ae9a4c4c")
-	)
 	(text "Activity LED"
 		(exclude_from_sim no)
 		(at 161.036 99.568 0)
