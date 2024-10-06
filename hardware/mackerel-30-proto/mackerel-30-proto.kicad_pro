@@ -586,6 +586,10 @@
     [
       "d143ddc0-b4a1-490e-ae52-7a0ad9150902",
       "UART"
+    ],
+    [
+      "89853077-d9a7-463a-b48b-4d81b0ac6897",
+      "Power"
     ]
   ],
   "text_variables": {}
