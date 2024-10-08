@@ -590,6 +590,14 @@
     [
       "89853077-d9a7-463a-b48b-4d81b0ac6897",
       "Power"
+    ],
+    [
+      "3fdc0728-1bdc-4a5d-8a9c-c0fa18461501",
+      "DRAM"
+    ],
+    [
+      "a9f13681-faa6-4706-8ec9-421e908e3ee4",
+      "FPU"
     ]
   ],
   "text_variables": {}

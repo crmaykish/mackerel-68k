@@ -6849,6 +6849,16 @@
 		)
 		(uuid "f7244b55-1f8d-4dd7-97d1-166012c09a8e")
 	)
+	(text "TODO: A1-A3 (at least) for FC and interrupt decode"
+		(exclude_from_sim no)
+		(at 182.626 22.352 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "5095ee0b-c85b-4eec-adfb-198476036b18")
+	)
 	(global_label "{slash}IPL1"
 		(shape input)
 		(at 113.03 121.92 0)
@@ -6911,6 +6921,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}CS_SRAM"
+		(shape output)
+		(at 217.17 71.12 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "157ad8ce-4230-419a-a8e7-e604318bc5b5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 229.9523 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -7021,6 +7053,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}CS_DRAM"
+		(shape output)
+		(at 217.17 73.66 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1e502481-26e0-46a8-a523-1a56d3b9d595")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 230.0128 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -7258,6 +7312,28 @@
 		(uuid "437f502c-4561-4d2b-9509-d95980f33d40")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 124.686 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}CS_ROM"
+		(shape output)
+		(at 217.17 68.58 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "44d7ee46-174d-440f-9ef1-61a9e4f7ca66")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 228.9847 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7615,6 +7691,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}DRAM_DTACK"
+		(shape input)
+		(at 217.17 77.47 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6e0badaf-3fb8-439d-8bb8-ab53d962c82e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 233.3995 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -8818,7 +8916,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "053074cf-c9b8-4272-85ec-d8e7bfe7037e")
-		(property "Reference" "R4"
+		(property "Reference" "R1"
 			(at 238.76 140.97 90)
 			(effects
 				(font
@@ -8873,7 +8971,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "R4")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -8957,7 +9055,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f464ecc-1905-4ae5-b4ff-2d718ce12b57")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR09"
 			(at 261.62 170.18 0)
 			(effects
 				(font
@@ -9007,7 +9105,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "#PWR039")
+					(reference "#PWR09")
 					(unit 1)
 				)
 			)
@@ -9223,7 +9321,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2af0b815-0436-49e3-a17d-989b27ead595")
-		(property "Reference" "J5"
+		(property "Reference" "J1"
 			(at 254 138.43 0)
 			(effects
 				(font
@@ -9300,7 +9398,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "J5")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -10572,7 +10670,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "99543816-5d0b-434e-a78a-d737ce2241d4")
-		(property "Reference" "R6"
+		(property "Reference" "R3"
 			(at 243.84 140.97 90)
 			(effects
 				(font
@@ -10627,7 +10725,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "R6")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -10711,7 +10809,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "adde18bf-eddc-4e89-96ae-6127e53435bb")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR010"
 			(at 262.89 132.08 0)
 			(effects
 				(font
@@ -10761,7 +10859,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "#PWR038")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -10844,7 +10942,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ba7853d9-5ff6-4a9a-823d-9350bab6ce94")
-		(property "Reference" "R5"
+		(property "Reference" "R2"
 			(at 241.3 140.97 90)
 			(effects
 				(font
@@ -10899,7 +10997,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "R5")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -10914,7 +11012,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bbbbd8ec-967e-4493-8ad6-3b554cdb3b17")
-		(property "Reference" "R7"
+		(property "Reference" "R4"
 			(at 246.38 161.036 90)
 			(effects
 				(font
@@ -10969,7 +11067,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
-					(reference "R7")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -11799,6 +11897,44 @@
 		)
 	)
 	(sheet
+		(at 33.655 165.735)
+		(size 12.7 3.81)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "3fdc0728-1bdc-4a5d-8a9c-c0fa18461501")
+		(property "Sheetname" "DRAM"
+			(at 33.655 165.0234 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dram.kicad_sch"
+			(at 33.655 170.1296 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 57.15 196.85)
 		(size 12.7 3.81)
 		(fields_autoplaced yes)
@@ -11832,6 +11968,44 @@
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
 					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 29.21 152.4)
+		(size 12.7 3.81)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "a9f13681-faa6-4706-8ec9-421e908e3ee4")
+		(property "Sheetname" "FPU"
+			(at 29.21 151.6884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "fpu.kicad_sch"
+			(at 29.21 156.7946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a"
+					(page "6")
 				)
 			)
 		)
