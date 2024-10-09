@@ -4280,7 +4280,7 @@
 		)
 		(uuid "fec398c1-d158-4caa-b88b-fbdee7126455")
 	)
-	(text "NOTE: 27 address bits gives 128MB of addressable space"
+	(text "NOTE: 28 address bits gives 128MB of addressable space"
 		(exclude_from_sim no)
 		(at -32.766 83.82 0)
 		(effects
@@ -5086,6 +5086,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "A27"
+		(shape input)
+		(at 63.5 101.6 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6ceae7da-e0b9-4048-a4ea-e39cbc22f1d5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.9928 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
