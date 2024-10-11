@@ -598,6 +598,10 @@
     [
       "a9f13681-faa6-4706-8ec9-421e908e3ee4",
       "FPU"
+    ],
+    [
+      "b80ba0ac-a3c1-4262-b297-c092dfcb6fec",
+      "IDE"
     ]
   ],
   "text_variables": {}

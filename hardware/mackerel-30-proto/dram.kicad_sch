@@ -4280,9 +4280,9 @@
 		)
 		(uuid "fec398c1-d158-4caa-b88b-fbdee7126455")
 	)
-	(text "NOTE: 28 address bits gives 128MB of addressable space"
+	(text "NOTE: 28 address bits gives 256MB of addressable space"
 		(exclude_from_sim no)
-		(at -32.766 83.82 0)
+		(at 114.046 86.614 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4292,7 +4292,7 @@
 	)
 	(text "TODO: make sure SIMM pin 1 notch is on the correct side"
 		(exclude_from_sim no)
-		(at -35.052 105.918 0)
+		(at 111.76 108.712 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4300,25 +4300,15 @@
 		)
 		(uuid "54ced0aa-6051-4758-9080-5a65125a94ab")
 	)
-	(text "TODO: AS, DS, SIZ, CS pins, etc.\n"
+	(text "TODO: clock"
 		(exclude_from_sim no)
-		(at -16.764 93.218 0)
+		(at 136.652 38.862 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
-		(uuid "787fff65-561c-4407-b401-893fa8ea5d33")
-	)
-	(text "NOTE: KISS-68030 connects DRAM right to the data lines, probably fine"
-		(exclude_from_sim no)
-		(at -37.846 77.216 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "c7fca8c3-0252-4770-8ff8-0b03e3d08bb3")
+		(uuid "cdf8d189-4f3d-40d3-b2be-bc99c3cb52d6")
 	)
 	(global_label "{slash}CAS3"
 		(shape output)
@@ -4377,6 +4367,28 @@
 		(uuid "0b4000ed-bde7-457b-bc8e-bb66cecfb871")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 15.4374 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SIZ1"
+		(shape input)
+		(at 29.21 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0c124c38-588d-4d67-b1e2-201e32c96fdd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 21.9915 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4452,6 +4464,28 @@
 			)
 		)
 	)
+	(global_label "{slash}RESET"
+		(shape input)
+		(at 29.21 69.85 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "253d79a7-50e3-44a7-8c1a-5f4efa113878")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 19.1492 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "TCK_DRAM"
 		(shape input)
 		(at 29.21 57.15 180)
@@ -4474,9 +4508,9 @@
 			)
 		)
 	)
-	(global_label "{slash}DRAM_DTACK"
+	(global_label "{slash}DTACK_DRAM"
 		(shape output)
-		(at 24.13 66.04 180)
+		(at 29.21 74.93 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4486,7 +4520,29 @@
 		)
 		(uuid "27a4bee7-5e62-47fb-85cc-602fd764bc87")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 7.9005 66.04 0)
+			(at 12.9805 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "R{slash}W"
+		(shape input)
+		(at 29.21 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "29d38dfe-69c5-4027-a254-cee8200256cd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 22.1729 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4958,6 +5014,28 @@
 			)
 		)
 	)
+	(global_label "SIZ0"
+		(shape input)
+		(at 29.21 85.09 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5bd1de83-93ee-4add-9079-a5c4e4f31b2f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 21.9915 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "A17"
 		(shape input)
 		(at 63.5 76.2 0)
@@ -5332,6 +5410,28 @@
 			)
 		)
 	)
+	(global_label "{slash}DS"
+		(shape input)
+		(at 29.21 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7e1764d9-77bb-4bc4-85e8-2a456c89721e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 22.4148 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "A13"
 		(shape input)
 		(at 63.5 66.04 0)
@@ -5433,6 +5533,28 @@
 		(uuid "8966b486-3436-4a12-8aa1-157ce595b3c2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 166.1667 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}AS"
+		(shape input)
+		(at 29.21 77.47 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8ce906a6-26d6-444a-a2c2-d3bd2030e905")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 22.5962 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5928,7 +6050,7 @@
 	)
 	(global_label "{slash}CS_DRAM"
 		(shape input)
-		(at 24.13 68.58 180)
+		(at 29.21 72.39 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5938,7 +6060,7 @@
 		)
 		(uuid "b9dc00b1-d205-4bdf-8ef3-f2fd29cd8307")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 11.2872 68.58 0)
+			(at 16.3672 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7073,7 +7195,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f4eb6df-e9c1-4755-97d9-65ec3e1e3e16")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR049"
 			(at 69.85 196.85 0)
 			(effects
 				(font
@@ -7123,7 +7245,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR043")
+					(reference "#PWR049")
 					(unit 1)
 				)
 			)
@@ -7139,7 +7261,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3a904978-c0a1-4312-89b6-1d1111e1a31f")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR051"
 			(at 185.42 25.4 0)
 			(effects
 				(font
@@ -7189,7 +7311,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR045")
+					(reference "#PWR051")
 					(unit 1)
 				)
 			)
@@ -7204,7 +7326,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3c2bf8bf-6545-4f6c-857b-6f1a908c9b52")
-		(property "Reference" "R10"
+		(property "Reference" "R19"
 			(at 49.53 167.64 90)
 			(effects
 				(font
@@ -7259,7 +7381,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R10")
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -7275,7 +7397,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "42d72cd3-ffec-4179-ae77-6b019ba82082")
-		(property "Reference" "J6"
+		(property "Reference" "J8"
 			(at 62.23 165.1 0)
 			(effects
 				(font
@@ -7352,7 +7474,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "J6")
+					(reference "J8")
 					(unit 1)
 				)
 			)
@@ -7683,7 +7805,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4daff62e-f707-42ab-b3cc-c97a1e45eb11")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR048"
 			(at 54.61 139.7 0)
 			(effects
 				(font
@@ -7733,7 +7855,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR042")
+					(reference "#PWR048")
 					(unit 1)
 				)
 			)
@@ -7749,7 +7871,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "516daae2-7f07-4560-9edd-270da96d6b2a")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR050"
 			(at 71.12 158.75 0)
 			(effects
 				(font
@@ -7799,7 +7921,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR044")
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -7815,7 +7937,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "59d9568f-1021-4529-a095-247dcb70abf7")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR052"
 			(at 190.5 115.57 0)
 			(effects
 				(font
@@ -7865,7 +7987,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR046")
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -7880,7 +8002,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6b800952-4000-4010-a286-d78c07859137")
-		(property "Reference" "R11"
+		(property "Reference" "R20"
 			(at 52.07 167.64 90)
 			(effects
 				(font
@@ -7935,7 +8057,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R11")
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -7950,7 +8072,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7358bc0e-12fe-4c25-adfe-9f1c235e9c29")
-		(property "Reference" "R12"
+		(property "Reference" "R21"
 			(at 54.61 187.706 90)
 			(effects
 				(font
@@ -8005,7 +8127,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R12")
+					(reference "R21")
 					(unit 1)
 				)
 			)
@@ -8020,7 +8142,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7530560d-2984-4ceb-9a90-675aa6bb289f")
-		(property "Reference" "R9"
+		(property "Reference" "R18"
 			(at 46.99 167.64 90)
 			(effects
 				(font
@@ -8075,7 +8197,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R9")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -8091,7 +8213,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bee49dac-a352-47a7-ab6e-1f866c2f4309")
-		(property "Reference" "#PWR041"
+		(property "Reference" "#PWR047"
 			(at 35.56 26.67 0)
 			(effects
 				(font
@@ -8141,7 +8263,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR041")
+					(reference "#PWR047")
 					(unit 1)
 				)
 			)
