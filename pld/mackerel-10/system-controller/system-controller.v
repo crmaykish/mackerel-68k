@@ -72,14 +72,9 @@ assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 //wire DTACK1 = ~DTACK_EXP && ~EXP;
 //assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
 
-//assign DTACK = (~EXP && DTACK_EXP);
-
-assign DTACK = 1'b0;
+assign DTACK = (~DRAM && DTACK_DRAM);
 
 assign IACK_EXP = 1'b1;
-
-assign DRAM = 1'b1;
-
 assign EXP = 1'b1;
 
 
@@ -141,7 +136,7 @@ assign IDE_RD = ~(RW && ~AS && ~LDS);
 assign IDE_WR = ~(~RW && ~AS && ~LDS);
 
 // DRAM at 0x100000 - 0x900000
-//wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
-//assign EXP = ~DRAM_EN;
+wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
+assign DRAM = ~DRAM_EN;
 
 endmodule
