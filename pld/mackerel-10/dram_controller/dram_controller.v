@@ -1,5 +1,6 @@
 module dram_controller(
 	input CLK,
+	input CLK_ALT,
 	input RST,
 	input AS,
 	input LDS,
@@ -9,13 +10,15 @@ module dram_controller(
 	input [23:1] ADDR_IN,
 
 	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs
-	output reg RAS = 1'b1,
-	output reg CAS_LOWER = 1'b1,
-	output reg CAS_UPPER = 1'b1,
-	output reg WE,
-	output reg DTACK_DRAM = 1'b1,
-	
-	output [7:0] GPIO
+	output reg RASA = 1'b1,
+	output reg RASB = 1'b1,
+	output reg CASA0 = 1'b1,
+	output reg CASA1 = 1'b1,
+	output reg CASB0 = 1'b1,
+	output reg CASB1 = 1'b1,
+	output reg WRA,
+	output reg WRB,
+	output reg DTACK_DRAM = 1'b1
 );
 
 // Clock cycles between DRAM refreshes
@@ -35,20 +38,13 @@ localparam REFRESH_DONE		= 3'd7;
 reg [11:0] cycle_count = 12'b0;
 reg [2:0] state = IDLE;
 
-
-assign GPIO[7] = CS;
-assign GPIO[6] = DTACK_DRAM;
-assign GPIO[5] = WE;
-
-//assign WE = RW;
-
 always @(posedge CLK) begin
 	if (~RST) begin
 		cycle_count <= 12'b0;
 		state <= IDLE;
-		RAS <= 1'b1;
-		CAS_LOWER <= 1'b1;
-		CAS_UPPER <= 1'b1;
+		RASA <= 1'b1;
+		CASA0 <= 1'b1;
+		CASA1 <= 1'b1;
 		DTACK_DRAM <= 1'b1;
 	end
 	else begin
@@ -62,19 +58,19 @@ always @(posedge CLK) begin
 					// Reset the counter and set state to NEEDS_REFRESH
 					cycle_count <= 12'b0;
 					state <= NEEDS_REFRESH;
-					WE <= 1'b1;
+					WRA <= 1'b1;
 				end
 				else if (~CS && ~AS) begin
 					// DRAM is selected by the CPU, start the access process
 					ADDR_OUT <= ADDR_IN[11:1];
-					WE <= RW;
+					WRA <= RW;
 					state <= ROW_SELECT1;
 				end
 			end
 
 			ROW_SELECT1: begin
 				// Lower RAS to latch in the row address
-				RAS <= 1'b0;
+				RASA <= 1'b0;
 				state <= ROW_SELECT2;
 			end
 
@@ -86,8 +82,8 @@ always @(posedge CLK) begin
 
 			COL_SELECT1: begin
 				// Lower CAS to latch in the column address
-				CAS_LOWER <= LDS;
-				CAS_UPPER <= UDS;
+				CASA0 <= LDS;
+				CASA1 <= UDS;
 				state <= COL_SELECT2;
 			end
 
@@ -95,14 +91,14 @@ always @(posedge CLK) begin
 				// Wait for AS to go HIGH
 				if (AS) begin
 					// CPU memory cycle is complete, reset DRAM signals
-					RAS <= 1'b1;
+					RASA <= 1'b1;
 
 					// TODO: Does there need to be a delay between raising CAS and raising RAS?
 
-					CAS_LOWER <= 1'b1;
-					CAS_UPPER <= 1'b1;
+					CASA0 <= 1'b1;
+					CASA1 <= 1'b1;
 					DTACK_DRAM <= 1'b1;
-					WE <= 1'b1;
+					WRA <= 1'b1;
 					//ADDR_OUT <= 11'b0;	// TODO this might not be necessary
 					state <= IDLE;
 				end
@@ -114,22 +110,22 @@ always @(posedge CLK) begin
 
 			NEEDS_REFRESH: begin
 				// Lower CAS
-				CAS_LOWER <= 1'b0;
-				CAS_UPPER <= 1'b0;
+				CASA0 <= 1'b0;
+				CASA1 <= 1'b0;
 				state <= REFRESH;
 			end
 			
 			REFRESH: begin
 				// Lower RAS
-				RAS <= 1'b0;
+				RASA <= 1'b0;
 				state <= REFRESH_DONE;
 			end
 
 			REFRESH_DONE: begin
 				// Refresh cycle finished, bring RAS and CAS HIGH
-				RAS <= 1'b1;
-				CAS_LOWER <= 1'b1;
-				CAS_UPPER <= 1'b1;
+				RASA <= 1'b1;
+				CASA0 <= 1'b1;
+				CASA1 <= 1'b1;
 				state <= IDLE;
 			end
 		endcase

@@ -63,9 +63,9 @@ dram_controller dram1(
     .RW(rw),
     .ADDR_IN(address),
     .ADDR_OUT(addr_out),
-    .RAS(ras),
-    .CAS_LOWER(cas0),
-    .CAS_UPPER(ca1),
+    .RASA(ras),
+    .CASA0(cas0),
+    .CASA1(cas1),
     .DTACK_DRAM(dtack)
 );
 
