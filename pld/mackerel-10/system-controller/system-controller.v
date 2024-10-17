@@ -42,16 +42,8 @@ module system_controller(
 	output IDE_WR,
 	output IDE_BUF,
 	
-	output reg [3:0] GPIO
+	output [3:0] GPIO
 );
-
-//assign GPIO[2] = ~(RW && ~AS && ~LDS);	//R
-//assign GPIO[3] = ~(~RW && ~AS && ~LDS);		//W
-
-//assign GPIO[0] = ~(BOOT && ADDR_FULL >= 24'hA00000 && ADDR_FULL < 24'hA00F00);	// CSO
-//assign GPIO[1] = 1'b1;	// CS1
-
-//assign GPIO[4] = IDE_RDY; input
 
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
@@ -77,6 +69,7 @@ assign DTACK = (~DRAM && DTACK_DRAM);
 assign IACK_EXP = 1'b1;
 assign EXP = 1'b1;
 
+assign GPIO[2:0] = 3'b0;
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -130,10 +123,11 @@ assign SRAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
 // IDE at 0xFFC000
-assign IDE_CS = ~(BOOT && ADDR_FULL >= 24'hFFC000); ///LDS?
-assign IDE_BUF = ~(BOOT && ADDR_FULL >= 24'hFFC000);
-assign IDE_RD = ~(RW && ~AS && ~LDS);
-assign IDE_WR = ~(~RW && ~AS && ~LDS);
+assign IDE_CS = ~(BOOT && ADDR_FULL >= 24'hFFC000);
+assign IDE_BUF = IDE_CS;
+assign IDE_RD = ~(RW && ~AS && ~UDS);
+assign IDE_WR = ~(~RW && ~AS && ~UDS);
+assign GPIO[3] = ~RW;	// IDE buffer DIR pin (bodge)
 
 // DRAM at 0x100000 - 0x900000
 wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000;

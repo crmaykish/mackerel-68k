@@ -41,7 +41,7 @@ int main()
     for (int i = 0; i < 256; i++)
     {
         IDE_wait_for_data_ready();
-        MEM16(IDE_DATA) = byteswap(0xABCD);
+        MEM16(IDE_DATA) = 0xBEEF;
         // printf("%d: %04X\r\n", i, buf[i]);
     }
 

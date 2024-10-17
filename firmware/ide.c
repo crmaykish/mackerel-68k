@@ -2,11 +2,6 @@
 #include "mackerel.h"
 #include <stdio.h>
 
-uint16_t byteswap(uint16_t a)
-{
-    return ((a & 0x00FF) << 8) | ((a & 0xFF00) >> 8);
-}
-
 void IDE_wait_for_device_ready()
 {
     while ((MEM(IDE_STATUS) & IDE_SR_DRDY) == 0)
@@ -26,7 +21,7 @@ void IDE_read_sector(uint16_t *buf)
     for (uint16_t i = 0; i < 256; i++)
     {
         // IDE_wait_for_data_ready();   // needed at higher speeds?
-        buf[i] = byteswap(MEM16(IDE_DATA));
+        buf[i] = MEM16(IDE_DATA);
     }
 }
 

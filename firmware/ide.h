@@ -6,12 +6,12 @@
 // IDE mem-mapped registers
 #define IDE_BASE 0xFFC000
 #define IDE_DATA IDE_BASE + 0x00
-// #define IDE_ERROR IDE_BASE + 0x03
-// #define IDE_FEATURE IDE_BASE + 0x03
-#define IDE_SECTOR_COUNT IDE_BASE + 0x05
-#define IDE_SECTOR_START IDE_BASE + 0x07
-#define IDE_STATUS IDE_BASE + 0x0F
-#define IDE_COMMAND IDE_BASE + 0x0F
+// #define IDE_ERROR IDE_BASE + 0x02
+// #define IDE_FEATURE IDE_BASE + 0x02
+#define IDE_SECTOR_COUNT IDE_BASE + 0x04
+#define IDE_SECTOR_START IDE_BASE + 0x06
+#define IDE_STATUS IDE_BASE + 0x0E
+#define IDE_COMMAND IDE_BASE + 0x0E
 
 // IDE commands
 #define IDE_CMD_RESET 0x08
