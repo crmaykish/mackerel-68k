@@ -90,7 +90,7 @@ end
 
 // Generate CPU clock from source oscillator
 reg [2:0] clk_buf = 0;
-assign CLK_CPU = clk_buf[1];	// Divide 40MHz source clock by 4 to get CPU clock
+assign CLK_CPU = clk_buf[0];	// Divide source clock by 2 to get CPU clock
 always @(posedge CLK) clk_buf <= clk_buf + 1'b1;
 
 // Handle memory addressable GPIO on CPLD

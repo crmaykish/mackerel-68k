@@ -42,14 +42,7 @@ reg [2:0] state = IDLE;
 
 assign ADDR_OUT_11 = 1'b0;
 
-// Generate DRAM clock from source oscillator
-reg [1:0] clock_counter = 2'b0;
-wire CLK_DRAM = clock_counter[0];	// DRAM controller runs at 1/2 oscillator frequency
 always @(posedge CLK) begin
-	clock_counter <= clock_counter + 1'b1;
-end
-
-always @(posedge CLK_DRAM) begin
 	if (~RST) begin
 		cycle_count <= 12'b0;
 		state <= IDLE;
