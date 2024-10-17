@@ -26,7 +26,7 @@ module dram_controller(
 localparam REFRESH_CYCLE_CNT = 150;
 
 // DRAM controller states
-localparam IDLE 			= 3'd0;
+localparam IDLE 				= 3'd0;
 localparam ROW_SELECT1		= 3'd1;
 localparam ROW_SELECT2		= 3'd2;
 localparam COL_SELECT1		= 3'd3;
@@ -52,6 +52,9 @@ always @(posedge CLK_DRAM) begin
 		RASA <= 1'b1;
 		CASA0 <= 1'b1;
 		CASA1 <= 1'b1;
+		RASB <= 1'b1;
+		CASB0 <= 1'b1;
+		CASB1 <= 1'b1;
 		DTACK_DRAM <= 1'b1;
 	end
 	else begin
@@ -66,18 +69,25 @@ always @(posedge CLK_DRAM) begin
 					cycle_count <= 12'b0;
 					state <= NEEDS_REFRESH;
 					WRA <= 1'b1;
+					WRB <= 1'b1;
 				end
 				else if (~CS && ~AS) begin
 					// DRAM is selected by the CPU, start the access process
 					ADDR_OUT <= ADDR_IN[11:1];
-					WRA <= RW;
+					
+					if (~ADDR_IN[23]) WRA <= RW;
+					else WRB <= RW;
+					
 					state <= ROW_SELECT1;
 				end
 			end
 
 			ROW_SELECT1: begin
 				// Lower RAS to latch in the row address
-				RASA <= 1'b0;
+				
+				if (~ADDR_IN[23]) RASA <= 1'b0;
+				else RASB <= 1'b0;
+				
 				state <= ROW_SELECT2;
 			end
 
@@ -89,8 +99,16 @@ always @(posedge CLK_DRAM) begin
 
 			COL_SELECT1: begin
 				// Lower CAS to latch in the column address
-				CASA0 <= LDS;
-				CASA1 <= UDS;
+				
+				if (~ADDR_IN[23]) begin
+					CASA0 <= LDS;
+					CASA1 <= UDS;
+				end
+				else begin
+					CASB0 <= LDS;
+					CASB1 <= UDS;
+				end
+				
 				state <= COL_SELECT2;
 			end
 
@@ -99,11 +117,14 @@ always @(posedge CLK_DRAM) begin
 				if (AS) begin
 					// CPU memory cycle is complete, reset DRAM signals
 					RASA <= 1'b1;
+					RASB <= 1'b1;
 
 					// TODO: Does there need to be a delay between raising CAS and raising RAS?
 
 					CASA0 <= 1'b1;
 					CASA1 <= 1'b1;
+					CASB0 <= 1'b1;
+					CASB1 <= 1'b1;
 					DTACK_DRAM <= 1'b1;
 					WRA <= 1'b1;
 					//ADDR_OUT <= 11'b0;	// TODO this might not be necessary
@@ -119,12 +140,15 @@ always @(posedge CLK_DRAM) begin
 				// Lower CAS
 				CASA0 <= 1'b0;
 				CASA1 <= 1'b0;
+				CASB0 <= 1'b0;
+				CASB1 <= 1'b0;
 				state <= REFRESH;
 			end
 			
 			REFRESH: begin
 				// Lower RAS
 				RASA <= 1'b0;
+				RASB <= 1'b0;
 				state <= REFRESH_DONE;
 			end
 
@@ -133,6 +157,9 @@ always @(posedge CLK_DRAM) begin
 				RASA <= 1'b1;
 				CASA0 <= 1'b1;
 				CASA1 <= 1'b1;
+				RASB <= 1'b1;
+				CASB0 <= 1'b1;
+				CASB1 <= 1'b1;
 				state <= IDLE;
 			end
 		endcase

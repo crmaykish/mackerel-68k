@@ -116,8 +116,8 @@ always @(posedge CLK_CPU) begin
 end
 */
 
-// ROM enabled at 0xE00000 - 0xF00000
-wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000);
+// ROM at 0xF00000 (0x000000 at boot)
+wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF8000);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
@@ -126,17 +126,17 @@ wire RAM_EN = BOOT && IACK && ADDR_FULL < 24'h100000;
 assign SRAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign SRAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 
-// DUART_EN when addr is > 0xC00000 - 0xD00000
-assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hC00000 && ADDR_FULL < 24'hD00000);
+// DUART_EN at 0xFF8000
+assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
-// IDE at 0xA00000
-assign IDE_CS = ~(BOOT && ADDR_FULL >= 24'hA00000 && ADDR_FULL < 24'hA00F00); ///LDS?
-assign IDE_BUF = ~(BOOT && ADDR_FULL >= 24'hA00000 && ADDR_FULL < 24'hA00F00);
+// IDE at 0xFFC000
+assign IDE_CS = ~(BOOT && ADDR_FULL >= 24'hFFC000); ///LDS?
+assign IDE_BUF = ~(BOOT && ADDR_FULL >= 24'hFFC000);
 assign IDE_RD = ~(RW && ~AS && ~LDS);
 assign IDE_WR = ~(~RW && ~AS && ~LDS);
 
 // DRAM at 0x100000 - 0x900000
-wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
+wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000;
 assign DRAM = ~DRAM_EN;
 
 endmodule
