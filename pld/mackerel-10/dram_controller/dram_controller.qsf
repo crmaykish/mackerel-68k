@@ -105,3 +105,4 @@ set_location_assignment PIN_77 -to RASB
 set_location_assignment PIN_76 -to RST
 set_location_assignment PIN_80 -to WRA
 set_location_assignment PIN_81 -to WRB
+set_location_assignment PIN_79 -to ADDR_OUT_11

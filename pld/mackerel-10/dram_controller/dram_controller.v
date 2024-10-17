@@ -9,6 +9,8 @@ module dram_controller(
 	input CS,	// DRAM chip-select
 	input [23:1] ADDR_IN,
 
+	output ADDR_OUT_11,
+	
 	output reg [10:0] ADDR_OUT = 11'b0,	// Note: this implies 4MB SIMMs
 	output reg RASA = 1'b1,
 	output reg RASB = 1'b1,
@@ -37,6 +39,8 @@ localparam REFRESH_DONE		= 3'd7;
 
 reg [11:0] cycle_count = 12'b0;
 reg [2:0] state = IDLE;
+
+assign ADDR_OUT_11 = 1'b0;
 
 // Generate DRAM clock from source oscillator
 reg [1:0] clock_counter = 2'b0;
