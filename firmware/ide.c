@@ -27,7 +27,7 @@ void IDE_wait_for_data_ready()
 
 void IDE_read_sector(uint16_t *buf, uint32_t lba)
 {
-    // NOTE: IDE sector count starts at 1
+    // NOTE: IDE sector count starts at 1 (not true in LBA mode?)
 
     // NOTE: limited to 24 bit LBA addressing (~8GB)
 
