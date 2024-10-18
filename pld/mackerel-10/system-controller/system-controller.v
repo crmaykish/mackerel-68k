@@ -59,12 +59,12 @@ wire IACK = ~(FC0 && FC1 && FC2);
 
 assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
 
-// TODO: confirm this DTACK logic
-//wire DTACK0 = ~DTACK_DUART && (~DUART || ~IACK_DUART);
-//wire DTACK1 = ~DTACK_EXP && ~EXP;
-//assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
-
-assign DTACK = (~DRAM && DTACK_DRAM);
+// DTACK from DUART
+wire DTACK0 = ((~DUART || ~IACK_DUART) && DTACK_DUART);
+// DTACK from DRAM
+wire DTACK1 = (~DRAM && DTACK_DRAM);
+// DTACK to CPU
+assign DTACK = DTACK0 || DTACK1;
 
 assign IACK_EXP = 1'b1;
 assign EXP = 1'b1;
@@ -115,22 +115,24 @@ assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
 // SRAM enabled at 0x000000 - 0x100000 (except at boot)
+/*
 wire RAM_EN = BOOT && IACK && ADDR_FULL < 24'h100000;
 assign SRAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign SRAM_UPPER = ~(~AS && ~UDS && RAM_EN);
+*/
 
 // DUART_EN at 0xFF8000
 assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
 // IDE at 0xFFC000
-assign IDE_CS = ~(BOOT && ADDR_FULL >= 24'hFFC000);
+assign IDE_CS = ~(BOOT && IACK && ADDR_FULL >= 24'hFFC000);
 assign IDE_BUF = IDE_CS;
 assign IDE_RD = ~(RW && ~AS && ~UDS);
 assign IDE_WR = ~(~RW && ~AS && ~UDS);
 assign GPIO[3] = ~RW;	// IDE buffer DIR pin (bodge)
 
-// DRAM at 0x100000 - 0x900000
-wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000;
+// DRAM at 0x000000 - 0xF00000
+wire DRAM_EN = BOOT && IACK && ADDR_FULL < 24'hF00000;
 assign DRAM = ~DRAM_EN;
 
 endmodule
