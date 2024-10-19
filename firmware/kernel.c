@@ -22,7 +22,7 @@ void __attribute__((interrupt)) duart1_isr()
 
 void __attribute__((interrupt)) timer_isr()
 {
-    duart_putc('x'); 
+    duart_putc('.');
 }
 
 int main()
@@ -31,12 +31,11 @@ int main()
 
     printf("Starting Mackerel kernel...\n");
 
-    // Map an exception handler for the periodic timer interrupt
-    set_exception_handler(65, &duart1_isr);
-    // set_exception_handler(66, &duart2_isr);
+    set_exception_handler(EXCEPTION_AUTOVECTOR + IRQ_NUM_TIMER, &timer_isr);
+    set_exception_handler(EXCEPTION_USER + IRQ_NUM_DUART, &duart1_isr);
 
     // Setup DUART 1
-    MEM(DUART1_IVR) = 65; // Set interrupt base register
+    MEM(DUART1_IVR) = EXCEPTION_USER + IRQ_NUM_DUART; // Set interrupt base register
 
     // Setup DUART 1 timer as 5 Hz interrupt
     MEM(DUART1_ACR) = 0xF0;       // Set timer mode X/16
@@ -46,8 +45,6 @@ int main()
     MEM(DUART1_OPR);              // Start counter
 
     MEM(DUART1_IMR) = DUART_INTR_RXRDY; // Unmask interrupts
-
-    set_exception_handler(28, &timer_isr);
 
     printf("Starting kernel...%X\r\n", 0xC0FFEE);
 

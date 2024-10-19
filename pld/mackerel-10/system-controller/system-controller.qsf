@@ -49,7 +49,6 @@ set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 15
 set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR "-1"
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name VERILOG_FILE "system-controller.v"
 set_global_assignment -name MAX7000_DEVICE_IO_STANDARD TTL
 
 set_location_assignment PIN_83 -to CLK
@@ -113,3 +112,7 @@ set_location_assignment PIN_33 -to IDE_INT
 set_location_assignment PIN_36 -to IDE_RD
 set_location_assignment PIN_35 -to IDE_RDY
 set_location_assignment PIN_37 -to IDE_WR
+set_global_assignment -name VERILOG_FILE clock_gen.v
+set_global_assignment -name VERILOG_FILE boot_signal.v
+set_global_assignment -name VERILOG_FILE "system-controller.v"
+set_global_assignment -name VERILOG_FILE irq_encoder.v

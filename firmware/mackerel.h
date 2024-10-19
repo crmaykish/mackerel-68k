@@ -8,6 +8,12 @@ typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 
+#define EXCEPTION_AUTOVECTOR 24
+#define EXCEPTION_USER 64
+
+#define IRQ_NUM_DUART 5
+#define IRQ_NUM_TIMER 6
+
 #ifdef MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
 

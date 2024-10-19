@@ -2,10 +2,11 @@ module system_controller(
 	input CLK,
 	input RST,
 	
+	// TODO: update all the names to include _n if active low
+
 	output CLK_CPU,
 	
-	output reg IPL0,
-	output IPL1,IPL2,
+	output IPL0, IPL1, IPL2,
 	
 	output BERR, DTACK,
 	
@@ -16,9 +17,7 @@ module system_controller(
 	input [23:14] ADDR_H,
 	input [3:1] ADDR_L,
 	
-	input AS, UDS, LDS,
-	
-	input RW,
+	input AS, UDS, LDS, RW,
 	
 	input FC0, FC1, FC2,
 	
@@ -48,28 +47,19 @@ module system_controller(
 	output [3:0] GPIO
 );
 
+// Unused signals
+assign BERR = 1;
+assign IACK_EXP = 1'b1;
+assign EXP = 1'b1;
+assign GPIO[1:0] = 2'b0;
+
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
 
-assign BERR = 1;
-//assign VPA = 1;
-
-//assign IPL0 = IRQ_DUART || ~IPL2;
-//assign IPL1 = 1;
-
-//assign IPL2 = 1;
-
-
-
-// IPL0 is timer
-// IPL1 is DUART
-assign IPL1 = IRQ_DUART || ~IPL0;
-//IPL2 is IDE
-assign IPL2 = ~IDE_INT;
-
+// CPU is responding to an interrupt request
 wire IACK = ~(FC0 && FC1 && FC2);
 
-assign IACK_DUART = ~(~IACK && ~AS && ADDR_L[3:1] == 3'd2);
+assign IACK_DUART = ~(~IACK && ~AS && ADDR_L[3:1] == 3'd5);
 
 // DTACK from DUART
 wire DTACK0 = ((~DUART || ~IACK_DUART) && DTACK_DUART);
@@ -78,44 +68,37 @@ wire DTACK1 = (~DRAM && DTACK_DRAM);
 // DTACK to CPU
 assign DTACK = DTACK0 || DTACK1 || ~VPA;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
-//assign IACK_EXP = 1'b1;
-//assign EXP = 1'b1;
 
-// DEBUG
-assign EXP = IPL2;
-assign IACK_EXP = IPL0;
-
-assign GPIO[1:0] = 2'b0;
-
-// Generate BOOT signal for first four bus cycles after reset
-reg BOOT = 1'b0;
-reg [2:0] bus_cycles = 0;
-
-always @(posedge AS) begin
-	if (~RST) begin 
-		bus_cycles = 0;
-		BOOT <= 1'b0;
-	end
-	else begin
-		if (~BOOT) begin
-			bus_cycles <= bus_cycles + 3'b1;
-			if (bus_cycles == 4'd4) BOOT <= 1'b1;
-		end
-	end
-end
+// BOOT signal generation
+wire BOOT;
+boot_signal bs1(RST, AS, BOOT);
 
 // Generate CPU clock from source oscillator
-reg [1:0] clk_buf = 0;
-assign CLK_CPU = clk_buf[0];	// Divide source clock by 2 to get CPU clock
-always @(posedge CLK) clk_buf <= clk_buf + 1'b1;
+clock_gen cg1(CLK, CLK_CPU);
+
+// Encode interrupt sources to the CPU's IPL pins
+irq_encoder ie1(
+	.irq1(0),
+	.irq2(0),
+	.irq3(0),
+	.irq4(0),
+	.irq5(~IRQ_DUART),
+	.irq6(IRQ_TIMER),
+	.irq7(0),
+	.ipl0_n(IPL0),
+	.ipl1_n(IPL1),
+	.ipl2_n(IPL2)
+);
 
 // Generate a periodic timer interrupt (100 Hz)
+reg IRQ_TIMER = 0;
+
 reg[17:0] timer_buf = 0;
 always @(posedge CLK_CPU) begin
 	timer_buf <= timer_buf + 1'b1;
 	
-	if (timer_buf == 18'd200000) begin
-		IPL0 <= 1'b0;
+	if (timer_buf == 18'd100000) begin
+		IRQ_TIMER <= 1;
 		timer_buf <= 18'b0;
 	end
 	
@@ -124,28 +107,16 @@ always @(posedge CLK_CPU) begin
 	// autovector the non-DUART interrupts
 	if (~IACK && IACK_DUART && ~AS) begin
 		VPA <= 1'b0;
-		IPL0 <= 1'b1;
+		IRQ_TIMER <= 0;
 	end
 	else VPA <= 1'b1;
 end
 
-// Handle memory addressable GPIO on CPLD
-/*
-always @(posedge CLK_CPU) begin
-	if (~RST)
-		begin
-			GPIO <= 0;
-		end
-	else
-		// GPIO at 0xF00003
-		if (ADDR_FULL == 24'hF00002) begin
-			if (~LDS && ~RW) GPIO <= DATA[3:0];
-		end
+//================================//
+// Address Decoding
+//================================//
 
-end
-*/
-
-// ROM at 0xF00000 (0x000000 at boot)
+// ROM at 0xF00000 (0x000000 on BOOT)
 wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4000);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
@@ -157,10 +128,10 @@ assign SRAM_LOWER = ~(~AS && ~LDS && RAM_EN);
 assign SRAM_UPPER = ~(~AS && ~UDS && RAM_EN);
 */
 
-// DUART_EN at 0xFF8000
+// DUART at 0xFF8000
 assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
-// IDE at 0xFFC000
+// IDE at 0xFF4000 and 0xFFC000
 assign IDE_CS = ~(BOOT && IACK && ADDR_FULL >= 24'hFFC000);
 assign GPIO[2] = ~(BOOT && IACK && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);	// IDE CS1 pin (bodge)
 assign IDE_BUF = ~(~IDE_CS || ~GPIO[2]);
