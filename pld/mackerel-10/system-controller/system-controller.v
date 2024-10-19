@@ -4,8 +4,8 @@ module system_controller(
 	
 	output CLK_CPU,
 	
-	output IPL0, IPL1,
-	output reg IPL2,
+	output reg IPL0,
+	output IPL1,IPL2,
 	
 	output BERR, DTACK,
 	
@@ -54,13 +54,22 @@ wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
 assign BERR = 1;
 //assign VPA = 1;
 
-assign IPL0 = IRQ_DUART || ~IPL2;
-assign IPL1 = 1;
+//assign IPL0 = IRQ_DUART || ~IPL2;
+//assign IPL1 = 1;
+
 //assign IPL2 = 1;
+
+
+
+// IPL0 is timer
+// IPL1 is DUART
+assign IPL1 = IRQ_DUART || ~IPL0;
+//IPL2 is IDE
+assign IPL2 = ~IDE_INT;
 
 wire IACK = ~(FC0 && FC1 && FC2);
 
-assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
+assign IACK_DUART = ~(~IACK && ~AS && ADDR_L[3:1] == 3'd2);
 
 // DTACK from DUART
 wire DTACK0 = ((~DUART || ~IACK_DUART) && DTACK_DUART);
@@ -69,10 +78,14 @@ wire DTACK1 = (~DRAM && DTACK_DRAM);
 // DTACK to CPU
 assign DTACK = DTACK0 || DTACK1 || ~VPA;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
-assign IACK_EXP = 1'b1;
-assign EXP = 1'b1;
+//assign IACK_EXP = 1'b1;
+//assign EXP = 1'b1;
 
-assign GPIO[2:0] = 3'b0;
+// DEBUG
+assign EXP = IPL2;
+assign IACK_EXP = IPL0;
+
+assign GPIO[1:0] = 2'b0;
 
 // Generate BOOT signal for first four bus cycles after reset
 reg BOOT = 1'b0;
@@ -102,14 +115,16 @@ always @(posedge CLK_CPU) begin
 	timer_buf <= timer_buf + 1'b1;
 	
 	if (timer_buf == 18'd200000) begin
-		IPL2 <= 1'b0;
+		IPL0 <= 1'b0;
 		timer_buf <= 18'b0;
 	end
 	
-	// autovector the timer interrupt
+	// TODO: does VPA go LOW as soon as the IRQ goes low?
+	
+	// autovector the non-DUART interrupts
 	if (~IACK && IACK_DUART && ~AS) begin
 		VPA <= 1'b0;
-		IPL2 <= 1'b1;
+		IPL0 <= 1'b1;
 	end
 	else VPA <= 1'b1;
 end
@@ -131,7 +146,7 @@ end
 */
 
 // ROM at 0xF00000 (0x000000 at boot)
-wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF8000);
+wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4000);
 assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
 assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
 
@@ -147,7 +162,8 @@ assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 
 
 // IDE at 0xFFC000
 assign IDE_CS = ~(BOOT && IACK && ADDR_FULL >= 24'hFFC000);
-assign IDE_BUF = IDE_CS;
+assign GPIO[2] = ~(BOOT && IACK && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);	// IDE CS1 pin (bodge)
+assign IDE_BUF = ~(~IDE_CS || ~GPIO[2]);
 assign IDE_RD = ~(RW && ~AS && ~UDS);
 assign IDE_WR = ~(~RW && ~AS && ~UDS);
 assign GPIO[3] = ~RW;	// IDE buffer DIR pin (bodge)

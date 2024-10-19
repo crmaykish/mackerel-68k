@@ -20,6 +20,11 @@ void __attribute__((interrupt)) duart1_isr()
     }
 }
 
+void __attribute__((interrupt)) timer_isr()
+{
+    duart_putc('x'); 
+}
+
 int main()
 {
     uint32_t i = 0;
@@ -40,7 +45,9 @@ int main()
     MEM(DUART1_CLR) = 0x00;       // Counter lower byte
     MEM(DUART1_OPR);              // Start counter
 
-    MEM(DUART1_IMR) = DUART_INTR_RXRDY | DUART_INTR_COUNTER; // Unmask interrupts
+    MEM(DUART1_IMR) = DUART_INTR_RXRDY; // Unmask interrupts
+
+    set_exception_handler(28, &timer_isr);
 
     printf("Starting kernel...%X\r\n", 0xC0FFEE);
 
