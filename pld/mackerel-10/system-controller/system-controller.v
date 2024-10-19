@@ -4,9 +4,12 @@ module system_controller(
 	
 	output CLK_CPU,
 	
-	output IPL0, IPL1, IPL2,
+	output IPL0, IPL1,
+	output reg IPL2,
 	
-	output BERR, DTACK, VPA,
+	output BERR, DTACK,
+	
+	output reg VPA,
 	
 	input [7:0] DATA,
 	
@@ -49,11 +52,11 @@ module system_controller(
 wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
 
 assign BERR = 1;
-assign VPA = 1;
+//assign VPA = 1;
 
-assign IPL0 = IRQ_DUART;
+assign IPL0 = IRQ_DUART || ~IPL2;
 assign IPL1 = 1;
-assign IPL2 = 1;
+//assign IPL2 = 1;
 
 wire IACK = ~(FC0 && FC1 && FC2);
 
@@ -64,7 +67,7 @@ wire DTACK0 = ((~DUART || ~IACK_DUART) && DTACK_DUART);
 // DTACK from DRAM
 wire DTACK1 = (~DRAM && DTACK_DRAM);
 // DTACK to CPU
-assign DTACK = DTACK0 || DTACK1;
+assign DTACK = DTACK0 || DTACK1 || ~VPA;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
 assign IACK_EXP = 1'b1;
 assign EXP = 1'b1;
@@ -89,9 +92,27 @@ always @(posedge AS) begin
 end
 
 // Generate CPU clock from source oscillator
-reg [2:0] clk_buf = 0;
+reg [1:0] clk_buf = 0;
 assign CLK_CPU = clk_buf[0];	// Divide source clock by 2 to get CPU clock
 always @(posedge CLK) clk_buf <= clk_buf + 1'b1;
+
+// Generate a periodic timer interrupt (100 Hz)
+reg[17:0] timer_buf = 0;
+always @(posedge CLK_CPU) begin
+	timer_buf <= timer_buf + 1'b1;
+	
+	if (timer_buf == 18'd200000) begin
+		IPL2 <= 1'b0;
+		timer_buf <= 18'b0;
+	end
+	
+	// autovector the timer interrupt
+	if (~IACK && IACK_DUART && ~AS) begin
+		VPA <= 1'b0;
+		IPL2 <= 1'b1;
+	end
+	else VPA <= 1'b1;
+end
 
 // Handle memory addressable GPIO on CPLD
 /*
