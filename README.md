@@ -11,10 +11,10 @@ These are the high-level goals of the Mackerel project. Each of these items is a
 
 - [x] Build a proof-of-concept computer with a 68008, ROM, RAM, and a serial port
 - [x] Port uClinux 4.4
-- [x] Design a 68008-based SBC (Mackerel-08)
-- [ ] Expand Mackerel to use a 68010 - add DRAM, persistent storage (Mackerel-10)
-- [ ] Upgrade to the 68030, run full Linux with MMU support on the latest kernel (Mackerel-30)
-- [ ] Ultimate goal: 68040 at 40 MHz, 256MB+ DRAM, desktop Linux, ITX/mATX form factor, (Big Mack?)
+- [x] Mackerel-08: Design a 68008-based SBC
+- [x] Mackerel-10: Upgrade CPU to 68010, add DRAM, IDE storage
+- [ ] Mackerel-30: 68030 CPU at 25+ MHz, 64MB 72-pin DRAM, ethernet, Linux kernel v6 with MMU support
+- [ ] Big Mack: 68040/68060 at 40+ MHz, 256MB DRAM, VGA video
 
 ## Hardware
 
@@ -37,14 +37,20 @@ The address space is mapped as follows:
 - RAM:    0x000000 - 0x37FFFF (up to 3.5 MB)
 - ROM:    0x380000 - 0x3FBFFF (496/512 KB usable)
 - DUART:  0x3FC000 - 0x3DFFFF (8KB)
-- Exp:    0x3FE000 - 0x400000 (Expansion header, 8KB)
+- Exp:    0x3FE000 - 0x3FFFFF (Expansion header, 8KB)
 
 Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first eight /AS cycles of the CPU after reset. This BOOT signal is used by the address decoder PLD to map the ROM to address 0x000000 long enough for the CPU to read the initial stack pointer and program counter vectors from ROM. RAM is mapped to 0x000000 after that.
 
 ### Mackerel-10
-Mackerel-10 is the second phase of the project and the hardware is in development. It expands the design of Mackerel-08 with a full-size MC68010 CPU and 16-bit databus. Additionally, it dramatically increases the memory capacity with a DRAM controller implemented in a CPLD and up to 16 MB of 30-pin SIMM DRAM. Storage capabilities are expanded with an IDE header for a harddrive or CF card.
+Mackerel-10 is the second SBC in the project. It expands on the design of Mackerel-08 with a MC68010 CPU (or equivalent), the same XR68C681 DUART, 1MB of Flash ROM, 1MB of SRAM, up to 16 MB of DRAM, and an IDE drive interface. Two CPLDs act as the glue logic and DRAM controller for the board. The SRAM is optional and the address space can be filled almost entirely with DRAM.
 
-![Mackerel-10 Prototype](media/images/mack-10-v1-render.png)
+The memory map looks like this:
+
+- DRAM:     0x000000 - 0xEFFFFF (15MB)
+- ROM:      0xF00000 - 0xFF4000 (not quite 1MB)
+- I/O:      0xF40000 - 0xFFFFFF
+
+![Mackerel-10 v1](media/images/mackerel-10-v1-with-drive.jpg)
 
 ## Software
 
