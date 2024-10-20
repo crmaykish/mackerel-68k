@@ -5,21 +5,21 @@
 
 void __attribute__((interrupt)) timer_isr()
 {
-    // duart_putc('.'); 
+    // duart_putc('.');
 }
 
 void __attribute__((interrupt)) ide_isr()
 {
     uint8_t status = MEM(IDE_STATUS);
-    duart_putc('_'); 
+    printf("\r\n_IDE_INT_\r\n");
 }
 
 int main()
 {
     uint16_t buf[256] = {0};
 
-    set_exception_handler(25, timer_isr);
-    set_exception_handler(28, ide_isr);
+    set_exception_handler(EXCEPTION_AUTOVECTOR + IRQ_NUM_TIMER, timer_isr);
+    set_exception_handler(EXCEPTION_AUTOVECTOR + IRQ_NUM_IDE, ide_isr);
 
     set_interrupts(true);
 

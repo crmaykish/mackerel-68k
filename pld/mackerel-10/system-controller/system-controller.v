@@ -49,8 +49,8 @@ module system_controller(
 
 // Unused signals
 assign BERR = 1;
-assign IACK_EXP = 1'b1;
-assign EXP = 1'b1;
+//assign IACK_EXP = 1;
+//assign EXP = 1'b1;
 assign GPIO[1:0] = 2'b0;
 
 // Reconstruct the full address bus
@@ -80,7 +80,7 @@ clock_gen cg1(CLK, CLK_CPU);
 irq_encoder ie1(
 	.irq1(0),
 	.irq2(0),
-	.irq3(0),
+	.irq3(IDE_INT),
 	.irq4(0),
 	.irq5(~IRQ_DUART),
 	.irq6(IRQ_TIMER),
@@ -90,14 +90,20 @@ irq_encoder ie1(
 	.ipl2_n(IPL2)
 );
 
-// Generate a periodic timer interrupt (100 Hz)
+
+// DEBUG
+assign EXP = IDE_INT;
+assign IACK_EXP = IRQ_TIMER;
+
+
+// Generate a periodic timer interrupt (50 Hz)
 reg IRQ_TIMER = 0;
 
 reg[17:0] timer_buf = 0;
 always @(posedge CLK_CPU) begin
 	timer_buf <= timer_buf + 1'b1;
 	
-	if (timer_buf == 18'd100000) begin
+	if (timer_buf == 18'd200000) begin
 		IRQ_TIMER <= 1;
 		timer_buf <= 18'b0;
 	end
