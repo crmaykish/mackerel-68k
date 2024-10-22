@@ -1,7 +1,9 @@
 module system_controller(
 	input CLK,
-	input RST_n,
+	output reg RST_n = 1'b0,
 	
+	input RST_SW,
+
 	output CLK_CPU,
 	
 	output IPL0_n, IPL1_n, IPL2_n,
@@ -42,14 +44,25 @@ module system_controller(
 	output IDE_WR_n,
 	output IDE_BUF_n,
 	
-	output [3:0] GPIO
+	output [3:2] GPIO
 );
+
+// Source oscillator frequency
+localparam OSC_FREQ_HZ = 50000000;
+// CPU frequency (1/2 the source oscillator)
+localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
+// Frequency of the periodic timer interrupt
+localparam TIMER_FREQ_HZ = 50;
+// CPU cycles between timer interrupts
+localparam TIMER_DELAY_CYCLES = CPU_FREQ_HZ / TIMER_FREQ_HZ;
+
+// CPU cycles to hold reset low (100ms)
+localparam RESET_DELAY_CYCLES = CPU_FREQ_HZ / 10;
 
 // Unused signals
 assign BERR_n = 1;
 assign IACK_EXP_n = 1;
 assign CS_EXP_n = 1'b1;
-assign GPIO[1:0] = 2'b0;
 
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
@@ -65,7 +78,6 @@ wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
 // DTACK to CPU
 assign DTACK_n = DTACK0 || DTACK1 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
-
 
 // BOOT signal generation
 wire BOOT;
@@ -88,20 +100,28 @@ irq_encoder ie1(
 	.ipl2_n(IPL2_n)
 );
 
-
-// Generate a periodic timer interrupt (50 Hz)
+reg[23:0] clock_cycles = 0;
 reg IRQ_TIMER = 0;
 
-reg[17:0] timer_buf = 0;
 always @(posedge CLK_CPU) begin
-	timer_buf <= timer_buf + 1'b1;
+	clock_cycles <= clock_cycles + 1'b1;
 	
-	if (timer_buf == 18'd200000) begin
-		IRQ_TIMER <= 1;
-		timer_buf <= 18'b0;
+	// When reset switch is pressed, pull RST_n LOW
+	if (~RST_SW) begin
+		RST_n <= 1'b0;
+		clock_cycles <= 24'b0;
 	end
 	
-	// autovector the non-DUART interrupts
+	// After the reset delay, pull RST_n HIGH again
+	if (~RST_n && clock_cycles == RESET_DELAY_CYCLES) RST_n <= 1'b1;
+	
+	// Generate a periodic interrupt timer (25 MHz CPU => 50 Hz timer)
+	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
+		IRQ_TIMER <= 1;
+		clock_cycles <= 24'b0;
+	end
+	
+	// Autovector the non-DUART interrupts
 	if (~IACK_n && IACK_DUART_n && ~AS_n) begin
 		VPA_n <= 1'b0;
 		IRQ_TIMER <= 0;
