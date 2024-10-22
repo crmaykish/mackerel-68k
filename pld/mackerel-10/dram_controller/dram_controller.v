@@ -25,20 +25,22 @@ module dram_controller(
 
 // Clock cycles between DRAM refreshes
 // TODO: confirm the timing requirements and double check this math
-localparam REFRESH_CYCLE_CNT = 150;
+localparam REFRESH_CYCLE_CNT = 780;
 
 // DRAM controller states
-localparam IDLE 				= 3'd0;
-localparam ROW_SELECT1		= 3'd1;
-localparam ROW_SELECT2		= 3'd2;
-localparam COL_SELECT1		= 3'd3;
-localparam COL_SELECT2		= 3'd4;
-localparam NEEDS_REFRESH 	= 3'd5;
-localparam REFRESH			= 3'd6;
-localparam REFRESH_DONE		= 3'd7;
+localparam IDLE 				= 4'd0;
+localparam ROW_SELECT1		= 4'd1;
+localparam ROW_SELECT2		= 4'd2;
+localparam COL_SELECT1		= 4'd3;
+localparam COL_SELECT2		= 4'd4;
+localparam REFRESH1 			= 4'd5;
+localparam REFRESH2			= 4'd6;
+localparam REFRESH3			= 4'd7;
+localparam REFRESH4			= 4'd8;
+localparam PRECHARGE			= 4'd9;
 
 reg [11:0] cycle_count = 12'b0;
-reg [2:0] state = IDLE;
+reg [3:0] state = IDLE;
 
 assign ADDR_OUT_11 = 1'b0;
 
@@ -62,9 +64,9 @@ always @(posedge CLK) begin
 			IDLE: begin
 				if (cycle_count > REFRESH_CYCLE_CNT) begin
 					// Time to run a refresh cycle
-					// Reset the counter and set state to NEEDS_REFRESH
+					// Reset the counter and set state to REFRESH1
 					cycle_count <= 12'b0;
-					state <= NEEDS_REFRESH;
+					state <= REFRESH1;
 					WRA <= 1'b1;
 					WRB <= 1'b1;
 				end
@@ -116,16 +118,14 @@ always @(posedge CLK) begin
 					RASA <= 1'b1;
 					RASB <= 1'b1;
 
-					// TODO: Does there need to be a delay between raising CAS and raising RAS?
-
 					CASA0 <= 1'b1;
 					CASA1 <= 1'b1;
 					CASB0 <= 1'b1;
 					CASB1 <= 1'b1;
 					DTACK_DRAM <= 1'b1;
 					WRA <= 1'b1;
-					//ADDR_OUT <= 11'b0;	// TODO this might not be necessary
-					state <= IDLE;
+					WRB <= 1'b1;
+					state <= PRECHARGE;
 				end
 				else begin
 					// DRAM data is ready, lower DTACK
@@ -133,24 +133,40 @@ always @(posedge CLK) begin
 				end
 			end
 
-			NEEDS_REFRESH: begin
+			REFRESH1: begin
 				// Lower CAS
 				CASA0 <= 1'b0;
 				CASA1 <= 1'b0;
 				CASB0 <= 1'b0;
 				CASB1 <= 1'b0;
-				state <= REFRESH;
+				state <= REFRESH2;
 			end
 			
-			REFRESH: begin
+			REFRESH2: begin
 				// Lower RAS
 				RASA <= 1'b0;
 				RASB <= 1'b0;
-				state <= REFRESH_DONE;
+				state <= REFRESH3;
 			end
 
-			REFRESH_DONE: begin
-				// Refresh cycle finished, bring RAS and CAS HIGH
+			REFRESH3: begin
+				// Raise RAS
+				RASA <= 1'b1;
+				RASB <= 1'b1;
+				state <= REFRESH4;
+			end
+			
+			REFRESH4: begin
+				// Raise CAS
+				CASA0 <= 1'b1;
+				CASA1 <= 1'b1;
+				CASB0 <= 1'b1;
+				CASB1 <= 1'b1;
+				state <= PRECHARGE;
+			end
+			
+			PRECHARGE: begin
+				// DRAM cycle finished, bring RAS and CAS HIGH
 				RASA <= 1'b1;
 				CASA0 <= 1'b1;
 				CASA1 <= 1'b1;
