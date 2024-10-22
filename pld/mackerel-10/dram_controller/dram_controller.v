@@ -62,6 +62,7 @@ always @(posedge CLK_ALT) begin
 	else begin
 		cycle_count <= cycle_count + 12'b1;
 		
+		// Double-flop the CPU clock domain inputs
 		CS1 <= CS;
 		AS1 <= AS;
 		

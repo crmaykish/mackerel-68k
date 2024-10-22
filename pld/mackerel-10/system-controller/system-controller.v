@@ -48,9 +48,9 @@ module system_controller(
 );
 
 // Source oscillator frequency
-localparam OSC_FREQ_HZ = 50000000;
-// CPU frequency (1/2 the source oscillator)
-localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
+localparam OSC_FREQ_HZ = 20000000;
+// CPU frequency (same as the source oscillator)
+localparam CPU_FREQ_HZ = OSC_FREQ_HZ;
 // Frequency of the periodic timer interrupt
 localparam TIMER_FREQ_HZ = 50;
 // CPU cycles between timer interrupts
