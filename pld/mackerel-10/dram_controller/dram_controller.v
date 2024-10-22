@@ -44,7 +44,10 @@ reg [3:0] state = IDLE;
 
 assign ADDR_OUT_11 = 1'b0;
 
-always @(posedge CLK) begin
+reg CS1 = 1;
+reg AS1 = 1;
+
+always @(posedge CLK_ALT) begin
 	if (~RST) begin
 		cycle_count <= 12'b0;
 		state <= IDLE;
@@ -59,6 +62,9 @@ always @(posedge CLK) begin
 	else begin
 		cycle_count <= cycle_count + 12'b1;
 		
+		CS1 <= CS;
+		AS1 <= AS;
+		
 		// DRAM state machine
 		case (state)
 			IDLE: begin
@@ -70,7 +76,7 @@ always @(posedge CLK) begin
 					WRA <= 1'b1;
 					WRB <= 1'b1;
 				end
-				else if (~CS && ~AS) begin
+				else if (~CS1 && ~AS1) begin
 					// DRAM is selected by the CPU, start the access process
 					ADDR_OUT <= ADDR_IN[11:1];
 					
