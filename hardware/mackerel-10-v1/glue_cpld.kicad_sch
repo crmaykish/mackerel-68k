@@ -4835,6 +4835,28 @@
 			)
 		)
 	)
+	(global_label "{slash}IDE_CS1"
+		(shape input)
+		(at 166.37 49.53 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a5b375d1-2722-4c83-a21e-f9fbfbe94df7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 178.3661 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "D6"
 		(shape bidirectional)
 		(at 147.32 104.14 0)
@@ -4968,7 +4990,7 @@
 		)
 	)
 	(global_label "IDE_INT"
-		(shape output)
+		(shape input)
 		(at 147.32 48.26 0)
 		(fields_autoplaced yes)
 		(effects
