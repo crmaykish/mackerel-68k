@@ -76,8 +76,10 @@ assign IACK_DUART_n = ~(~IACK_n && ~AS_n && ADDR_L[3:1] == 3'd5);
 wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
 // DTACK from DRAM
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
+// DTACK from IDE
+wire DTACK2 = ((~CS_IDE0_n || ~GPIO[2]) && ~IDE_RDY);
 // DTACK to CPU
-assign DTACK_n = DTACK0 || DTACK1 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
+assign DTACK_n = DTACK0 || DTACK1 || DTACK2 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
 // BOOT signal generation
 wire BOOT;

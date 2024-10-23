@@ -40,3 +40,5 @@ fp-info-cache
 
 pld/mackerel-10/dram_controller/dsn
 pld/mackerel-10/dram_controller/test.vcd
+
+*.lck
