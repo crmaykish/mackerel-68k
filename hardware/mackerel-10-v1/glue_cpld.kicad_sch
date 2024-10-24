@@ -4815,7 +4815,7 @@
 	)
 	(global_label "{slash}IDE_CS1"
 		(shape input)
-		(at 166.37 49.53 0)
+		(at 147.32 81.28 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4825,7 +4825,7 @@
 		)
 		(uuid "a5b375d1-2722-4c83-a21e-f9fbfbe94df7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 178.3661 49.53 0)
+			(at 159.3161 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
