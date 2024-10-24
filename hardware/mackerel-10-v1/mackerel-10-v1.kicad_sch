@@ -1725,6 +1725,18 @@
 		(uuid "5a1b2bfb-68ec-4f6c-8e04-4204dfc89b81")
 	)
 	(junction
+		(at 44.45 59.69)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6e0d95b9-4fd1-44a0-95fa-82ebe2af32dc")
+	)
+	(junction
+		(at 41.91 39.37)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "832b927b-af30-47e7-b80f-dcbbc864ba57")
+	)
+	(junction
 		(at 92.71 41.91)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1743,6 +1755,12 @@
 		(uuid "af408230-d5d0-4265-a3aa-5858ac526f30")
 	)
 	(junction
+		(at 46.99 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b18fe3eb-8c7f-4d42-87f6-f34990b80a74")
+	)
+	(junction
 		(at 149.86 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1759,6 +1777,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c3c3c295-2b22-42a3-9c6c-5f28cccc2abb")
+	)
+	(junction
+		(at 49.53 54.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dbcb174d-5152-4976-b243-5330740959dd")
 	)
 	(junction
 		(at 95.25 163.83)
@@ -1808,7 +1832,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 54.61) (xy 52.07 54.61)
+			(xy 35.56 54.61) (xy 49.53 54.61)
 		)
 		(stroke
 			(width 0)
@@ -1848,13 +1872,43 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 46.99) (xy 49.53 57.15)
+			(xy 49.53 46.99) (xy 49.53 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "2758135a-a252-4e72-945f-7cc69e354c86")
+	)
+	(wire
+		(pts
+			(xy 44.45 59.69) (xy 46.99 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bf37607-91d2-467d-bdd5-22ee7189f06b")
+	)
+	(wire
+		(pts
+			(xy 39.37 39.37) (xy 41.91 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3446edb7-2dae-45b6-b79d-65092f1209d2")
+	)
+	(wire
+		(pts
+			(xy 49.53 54.61) (xy 52.07 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "370e3a83-3745-4b74-8b10-ca9f9f58ea35")
 	)
 	(wire
 		(pts
@@ -1898,7 +1952,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 59.69) (xy 46.99 59.69)
+			(xy 35.56 59.69) (xy 44.45 59.69)
 		)
 		(stroke
 			(width 0)
@@ -1918,7 +1972,7 @@
 	)
 	(wire
 		(pts
-			(xy 44.45 46.99) (xy 44.45 64.77)
+			(xy 44.45 46.99) (xy 44.45 59.69)
 		)
 		(stroke
 			(width 0)
@@ -1928,7 +1982,7 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 46.99) (xy 46.99 59.69)
+			(xy 46.99 46.99) (xy 46.99 57.15)
 		)
 		(stroke
 			(width 0)
@@ -1955,6 +2009,16 @@
 			(type default)
 		)
 		(uuid "9ae804b3-1980-49a8-83ef-ed9d9ca11611")
+	)
+	(wire
+		(pts
+			(xy 46.99 57.15) (xy 46.99 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a17b7542-3ae0-427d-8638-7403c5b95eba")
 	)
 	(wire
 		(pts
@@ -1988,6 +2052,16 @@
 	)
 	(wire
 		(pts
+			(xy 49.53 54.61) (xy 49.53 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b3c18bce-636a-4e16-b025-6af0d599f59f")
+	)
+	(wire
+		(pts
 			(xy 44.45 39.37) (xy 46.99 39.37)
 		)
 		(stroke
@@ -1998,7 +2072,27 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 57.15) (xy 49.53 57.15)
+			(xy 46.99 57.15) (xy 49.53 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b50808b8-9e4a-4de4-81b7-ac3f78ebfcc0")
+	)
+	(wire
+		(pts
+			(xy 44.45 59.69) (xy 44.45 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2ea519e-619a-4f3d-84a5-6ee71dec5723")
+	)
+	(wire
+		(pts
+			(xy 35.56 57.15) (xy 46.99 57.15)
 		)
 		(stroke
 			(width 0)
@@ -2045,6 +2139,26 @@
 			(type default)
 		)
 		(uuid "ed5ad47c-0bbc-45c6-a64e-56c9bf306dfc")
+	)
+	(wire
+		(pts
+			(xy 67.31 118.11) (xy 39.37 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efa434b0-ef4f-43ea-83b9-cb21265961cd")
+	)
+	(wire
+		(pts
+			(xy 39.37 118.11) (xy 39.37 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc611583-ff69-4319-b765-b887f4cab2b9")
 	)
 	(global_label "A8"
 		(shape output)
@@ -2246,7 +2360,7 @@
 	)
 	(global_label "{slash}IPL1"
 		(shape input)
-		(at 38.1 57.15 180)
+		(at 35.56 57.15 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2256,7 +2370,7 @@
 		)
 		(uuid "3a427b4e-c55a-4d38-a999-1c06198df647")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 29.6719 57.15 0)
+			(at 27.1319 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2290,7 +2404,7 @@
 	)
 	(global_label "{slash}IPL2"
 		(shape input)
-		(at 38.1 59.69 180)
+		(at 35.56 59.69 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2300,7 +2414,7 @@
 		)
 		(uuid "3c5d23a2-c3a3-4bca-9448-e93429392816")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 29.6719 59.69 0)
+			(at 27.1319 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2350,28 +2464,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "{slash}BERR"
-		(shape input)
-		(at 67.31 118.11 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "4b8b9e87-9bd7-4df7-bc80-c148bf380f18")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 58.0353 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -2950,7 +3042,7 @@
 	)
 	(global_label "{slash}IPL0"
 		(shape input)
-		(at 38.1 54.61 180)
+		(at 35.56 54.61 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2960,7 +3052,7 @@
 		)
 		(uuid "cc3345b8-afc0-4b42-a0f0-f947e71dd60c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 29.6719 54.61 0)
+			(at 27.1319 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3310,7 +3402,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3d2c9761-6cab-430d-b580-46f64bb941ce")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR03"
 			(at 142.24 34.29 0)
 			(effects
 				(font
@@ -3360,7 +3452,7 @@
 		(instances
 			(project ""
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "#PWR034")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -3375,7 +3467,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "47a161a9-de18-4baa-838c-a87fcbbe773e")
-		(property "Reference" "R1"
+		(property "Reference" "R2"
 			(at 41.91 44.45 90)
 			(effects
 				(font
@@ -3430,7 +3522,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "R1")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -3446,7 +3538,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4ea52a9d-7ec5-4c6c-8710-fc9efb470fd6")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR04"
 			(at 149.86 49.53 0)
 			(effects
 				(font
@@ -3496,7 +3588,7 @@
 		(instances
 			(project ""
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "#PWR035")
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
@@ -3511,7 +3603,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "71e71da6-ad70-4697-8a5c-7e923707b512")
-		(property "Reference" "R2"
+		(property "Reference" "R3"
 			(at 44.45 44.45 90)
 			(effects
 				(font
@@ -3566,7 +3658,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "R2")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -3581,7 +3673,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bcf3841a-8c01-4085-9528-bb312cab068b")
-		(property "Reference" "R3"
+		(property "Reference" "R4"
 			(at 46.99 44.45 90)
 			(effects
 				(font
@@ -3636,7 +3728,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "R3")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -3974,7 +4066,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d165d41b-c5bf-44c7-9b71-0725f3345898")
-		(property "Reference" "C17"
+		(property "Reference" "C2"
 			(at 146.05 35.56 90)
 			(effects
 				(font
@@ -4026,7 +4118,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "C17")
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -4041,7 +4133,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "eb24b5bd-6bc2-42da-be3e-401d3bb7d081")
-		(property "Reference" "R5"
+		(property "Reference" "R6"
 			(at 52.07 44.45 90)
 			(effects
 				(font
@@ -4096,7 +4188,77 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "R5")
+					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 39.37 43.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ecdc0eb4-b3f1-4219-81d7-cbd5f40b8be8")
+		(property "Reference" "R1"
+			(at 39.37 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "R"
+			(at 41.91 44.4499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 37.592 43.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 39.37 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 39.37 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "d9dae9f2-8089-489e-8be1-070c6fb6c9f7")
+		)
+		(pin "1"
+			(uuid "917b159a-b6cb-4728-a514-9cb24938ab12")
+		)
+		(instances
+			(project "mackerel-10-v1"
+				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -4111,7 +4273,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fa7cef27-e428-426d-8c7c-bd809897c050")
-		(property "Reference" "R4"
+		(property "Reference" "R5"
 			(at 49.53 44.45 90)
 			(effects
 				(font
@@ -4166,7 +4328,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "R4")
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -4182,7 +4344,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fb0e1402-3103-4e8c-a478-d3b2f400561d")
-		(property "Reference" "C16"
+		(property "Reference" "C1"
 			(at 146.05 22.86 90)
 			(effects
 				(font
@@ -4234,7 +4396,7 @@
 		(instances
 			(project "mackerel-10-v1"
 				(path "/0a8f74be-008b-4256-a2d9-73a458311ea0"
-					(reference "C16")
+					(reference "C1")
 					(unit 1)
 				)
 			)
