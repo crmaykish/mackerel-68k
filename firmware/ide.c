@@ -2,9 +2,13 @@
 #include "mackerel.h"
 #include <stdio.h>
 
-uint16_t byteswap(uint16_t a)
+void read_sector(uint16_t *buf)
 {
-    return ((a & 0x00FF) << 8) | ((a & 0xFF00) >> 8);
+    for (uint16_t i = 0; i < 256; i++)
+    {
+        // IDE_wait_for_data_ready();   // needed at higher speeds?
+        buf[i] = MEM16(IDE_DATA);
+    }
 }
 
 void IDE_wait_for_device_ready()
@@ -21,13 +25,25 @@ void IDE_wait_for_data_ready()
     }
 }
 
-void IDE_read_sector(uint16_t *buf)
+void IDE_read_sector(uint16_t *buf, uint32_t lba)
 {
-    for (uint16_t i = 0; i < 256; i++)
-    {
-        // IDE_wait_for_data_ready();   // needed at higher speeds?
-        buf[i] = byteswap(MEM16(IDE_DATA));
-    }
+    // NOTE: IDE sector count starts at 1 (not true in LBA mode?)
+
+    // NOTE: limited to 24 bit LBA addressing (~8GB)
+
+    // Select master drive
+    MEM(IDE_DRIVE_SEL) = 0xE0;
+
+    MEM(IDE_SECTOR_COUNT) = 1;
+
+    MEM(IDE_SECTOR_START) = (uint8_t)(lba & 0xFF);
+    MEM(IDE_LBA_MID) = (uint8_t)((lba >> 8) & 0xFF);
+    MEM(IDE_LBA_HIGH) = (uint8_t)((lba >> 16) & 0xFF);
+    
+    // Send the read sector command
+    MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
+    IDE_wait_for_data_ready();
+    read_sector(buf);
 }
 
 void IDE_device_info(uint16_t *buf)
@@ -35,7 +51,7 @@ void IDE_device_info(uint16_t *buf)
     printf("Reading IDE device info...\r\n");
     MEM(IDE_COMMAND) = IDE_CMD_IDENTIFY;
     IDE_wait_for_data_ready();
-    IDE_read_sector(buf);
+    read_sector(buf);
 
     // Model
     for (int i = 27; i <= 46; i++)

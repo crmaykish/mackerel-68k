@@ -4,6 +4,7 @@
 #include <string.h>
 #include "mackerel.h"
 #include "sd.h"
+#include "ide.h"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -11,6 +12,7 @@ void handler_runram();
 void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
+void handler_ide();
 void memtest(int start, int end);
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
@@ -40,6 +42,13 @@ int main()
         else if (strncmp(buffer, "boot", 4) == 0)
         {
             handler_boot();
+        }
+        else if (strncmp(buffer, "ide", 3) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            uint32_t sectors = strtoul(param1, 0, 16);
+            handler_ide(sectors);
         }
         else if (strncmp(buffer, "runrom", 6) == 0)
         {
@@ -113,7 +122,8 @@ void handler_boot()
 
     bool sd_ready = false;
 
-    for (int i=0;i < 3; i++) {
+    for (int i = 0; i < 3; i++)
+    {
         sd_ready = sd_init();
 
         if (sd_ready)
@@ -138,15 +148,34 @@ void handler_boot()
 
     for (int block = 1; block <= blocks; block++)
     {
-        if (block % 10 == 0) {
+        if (block % 10 == 0)
+        {
             printf("%d/%d\n", block, blocks);
         }
-        
+
         sd_read(block, mem);
         mem += 512;
     }
 
     printf("Done\n");
+
+    handler_runram();
+}
+
+void handler_ide(uint32_t sectors)
+{
+    uint16_t *mem = (unsigned char *)0x400;
+
+    // Read the rest of the IDE drive to load the Linux image into RAM
+    printf("Loading kernel into 0x%X...\n", (int)mem);
+
+    uint32_t blocks = sectors;
+
+    for (int block = 1; block <= blocks; block++)
+    {
+        IDE_read_sector(mem, block);
+        mem += 256;
+    }
 
     handler_runram();
 }
@@ -268,26 +297,30 @@ void memdump(uint32_t address, uint32_t bytes)
     duart_putc('|');
 }
 
-void memtest(int start, int end) {
+void memtest(int start, int end)
+{
     printf("Starting memory test from 0x%X to 0x%X...\n", start, end);
 
     for (int i = start; i < end; i++)
     {
         MEM(i) = 0x00;
 
-        if (MEM(i) != 0x00) {
+        if (MEM(i) != 0x00)
+        {
             printf("Memory error at: 0x%X, expected 0x00, actual 0x%X\n", i, MEM(i));
         }
 
         MEM(i) = 0xAB;
 
-        if (MEM(i) != 0xAB) {
+        if (MEM(i) != 0xAB)
+        {
             printf("Memory error at: 0x%X, expected 0xAB, actual 0x%X\n", i, MEM(i));
         }
 
         MEM(i) = 0xFF;
 
-        if (MEM(i) != 0xFF) {
+        if (MEM(i) != 0xFF)
+        {
             printf("Memory error at: 0x%X, expected 0xFF, actual 0x%X\n", i, MEM(i));
         }
     }

@@ -3,9 +3,25 @@
 #include <stdio.h>
 #include <string.h>
 
+void __attribute__((interrupt)) timer_isr()
+{
+    // duart_putc('.');
+}
+
+void __attribute__((interrupt)) ide_isr()
+{
+    uint8_t status = MEM(IDE_STATUS);
+    printf("\r\n_IDE_INT_\r\n");
+}
+
 int main()
 {
     uint16_t buf[256] = {0};
+
+    set_exception_handler(EXCEPTION_AUTOVECTOR + IRQ_NUM_TIMER, timer_isr);
+    set_exception_handler(EXCEPTION_AUTOVECTOR + IRQ_NUM_IDE, ide_isr);
+
+    set_interrupts(true);
 
     printf("IDE Demo\r\n");
 
@@ -18,47 +34,15 @@ int main()
     IDE_device_info(buf);
 
     printf("read sector 1\r\n");
-
-    MEM(IDE_SECTOR_START) = 0x01; // IDE sector count starts at 1
-    MEM(IDE_SECTOR_COUNT) = 1;
-    MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
-    IDE_wait_for_data_ready();
-
-    IDE_read_sector(buf);
+    IDE_read_sector(buf, 1);
 
     for (int i = 0; i < 256; i++)
     {
         printf("%d: %04X\r\n", i, buf[i]);
     }
 
-    printf("write sector 2\r\n");
-
-    MEM(IDE_SECTOR_START) = 0x02;
-    MEM(IDE_SECTOR_COUNT) = 1;
-    MEM(IDE_COMMAND) = IDE_CMD_WRITE_SECTOR;
-    IDE_wait_for_data_ready();
-
-    for (int i = 0; i < 256; i++)
-    {
-        IDE_wait_for_data_ready();
-        MEM16(IDE_DATA) = byteswap(0xABCD);
-        // printf("%d: %04X\r\n", i, buf[i]);
-    }
-
-    // Wait while IDE is busy
-    while (MEM(IDE_STATUS) & IDE_SR_BSY)
-    {
-        // duart_putc('.');
-    }
-
     printf("read sector 2\r\n");
-
-    MEM(IDE_SECTOR_START) = 0x02; // sector count starts at 1
-    MEM(IDE_SECTOR_COUNT) = 1;
-    MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
-    IDE_wait_for_data_ready();
-
-    IDE_read_sector(buf);
+    IDE_read_sector(buf, 2);
 
     for (int i = 0; i < 256; i++)
     {

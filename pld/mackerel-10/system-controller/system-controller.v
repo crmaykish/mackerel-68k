@@ -1,127 +1,164 @@
 module system_controller(
 	input CLK,
-	input RST,
+	output reg RST_n = 1'b0,
 	
+	input RST_SW,
+
 	output CLK_CPU,
-	output reg [2:0] LED,
 	
-	output IPL0, IPL1, IPL2,
+	output IPL0_n, IPL1_n, IPL2_n,
 	
-	output BERR, DTACK, VPA,
+	output BERR_n, DTACK_n,
+	
+	output reg VPA_n,
 	
 	input [7:0] DATA,
 	
 	input [23:14] ADDR_H,
-	input [4:1] ADDR_L,
+	input [3:1] ADDR_L,
 	
-	input AS, UDS, LDS,
-	
-	input RW,
+	input AS_n, UDS_n, LDS_n, RW,
 	
 	input FC0, FC1, FC2,
 	
-	output ROM_LOWER, ROM_UPPER,
-	output RAM_LOWER, RAM_UPPER,
+	output CS_ROM0_n, CS_ROM1_n,
+	output CS_SRAM0_n, CS_SRAM1_n,
 	
-	output EXP,
-	input DTACK_EXP,
+	output CS_EXP_n,
+	input IRQ_EXP_n,
+	input DTACK_EXP_n,
+	output IACK_EXP_n,
 	
-	output DUART,
-	input IRQ_DUART,
-	input DTACK_DUART,
-	output IACK_DUART,
+	output CS_DUART_n,
+	input IRQ_DUART_n,
+	input DTACK_DUART_n,
+	output IACK_DUART_n,
 	
-	output [7:0] GPIO
+	output CS_DRAM_n,
+	input DTACK_DRAM_n,
+	
+	input IDE_INT,
+	output CS_IDE0_n,
+	input IDE_RDY,
+	output IDE_RD_n,
+	output IDE_WR_n,
+	output IDE_BUF_n,
+	
+	output [3:2] GPIO
 );
 
-assign GPIO[2] = ~(RW && ~AS && ~LDS);	//R
-assign GPIO[3] = ~(~RW && ~AS && ~LDS);		//W
+// Source oscillator frequency
+localparam OSC_FREQ_HZ = 40000000;
+// CPU frequency (half the oscillator frequency)
+localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
+// Frequency of the periodic timer interrupt
+localparam TIMER_FREQ_HZ = 50;
+// CPU cycles between timer interrupts
+localparam TIMER_DELAY_CYCLES = CPU_FREQ_HZ / TIMER_FREQ_HZ;
 
-assign GPIO[0] = ~(BOOT && ADDR_FULL >= 24'hA00000 && ADDR_FULL < 24'hA00F00);	// CSO
-assign GPIO[1] = 1'b1;	// CS1
+// CPU cycles to hold reset low (100ms)
+localparam RESET_DELAY_CYCLES = CPU_FREQ_HZ / 10;
 
-//assign GPIO[4] = IDE_RDY; input
+// Unused signals
+assign BERR_n = 1;
+assign IACK_EXP_n = 1;
+assign CS_EXP_n = 1'b1;
 
 // Reconstruct the full address bus
-wire [24:0] ADDR_FULL = {ADDR_H, 9'b0, ADDR_L, 1'b0};
+wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
 
-assign BERR = 1;
-assign VPA = 1;
+// CPU is responding to an interrupt request
+wire IACK_n = ~(FC0 && FC1 && FC2);
 
-assign IPL0 = IRQ_DUART;
-assign IPL1 = 1;
-assign IPL2 = 1;
+assign IACK_DUART_n = ~(~IACK_n && ~AS_n && ADDR_L[3:1] == 3'd5);
 
-wire IACK = ~(FC0 && FC1 && FC2);
+// DTACK from DUART
+wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
+// DTACK from DRAM
+wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
+// DTACK from IDE
+wire DTACK2 = ((~CS_IDE0_n || ~GPIO[2]) && ~IDE_RDY);
+// DTACK to CPU
+assign DTACK_n = DTACK0 || DTACK1 || DTACK2 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
-assign IACK_DUART = ~(~IACK && ~AS && ~ADDR_L[3] && ~ADDR_L[2] && ADDR_L[1]);
-
-// TODO: confirm this DTACK logic
-//wire DTACK0 = ~DTACK_DUART && (~DUART || ~IACK_DUART);
-//wire DTACK1 = ~DTACK_EXP && ~EXP;
-//assign DTACK = ~(DTACK0 || DTACK1 || (DUART && EXP));
-
-assign DTACK = (~EXP && DTACK_EXP);
-
-//assign DTACK = 1'b0;
-
-// Generate BOOT signal for first four bus cycles after reset
-reg BOOT = 1'b0;
-reg [2:0] bus_cycles = 0;
-
-always @(posedge AS) begin
-	if (~RST) begin 
-		bus_cycles = 0;
-		BOOT <= 1'b0;
-	end
-	else begin
-		if (~BOOT) begin
-			bus_cycles <= bus_cycles + 4'b1;
-			if (bus_cycles == 4'd4) BOOT <= 1'b1;
-		end
-	end
-end
+// BOOT signal generation
+wire BOOT;
+boot_signal bs1(RST_n, AS_n, BOOT);
 
 // Generate CPU clock from source oscillator
-reg [2:0] clk_buf = 0;
-assign CLK_CPU = clk_buf[0];	// Divide source clock by 2 to get CPU clock
-always @(posedge CLK) clk_buf <= clk_buf + 3'b1;
+clock_gen cg1(CLK, CLK_CPU);
 
-// Handle memory addressable GPIO on CPLD
+// Encode interrupt sources to the CPU's IPL pins
+irq_encoder ie1(
+	.irq1(0),
+	.irq2(0),
+	.irq3(IDE_INT),
+	.irq4(0),
+	.irq5(~IRQ_DUART_n),
+	.irq6(IRQ_TIMER),
+	.irq7(0),
+	.ipl0_n(IPL0_n),
+	.ipl1_n(IPL1_n),
+	.ipl2_n(IPL2_n)
+);
+
+reg[23:0] clock_cycles = 0;
+reg IRQ_TIMER = 0;
+
 always @(posedge CLK_CPU) begin
-	if (~RST)
-		begin
-			LED <= 0;
-			//GPIO <= 0;
-		end
-	else
-		// LED at 0xF00001
-		if (ADDR_H[23] && ADDR_FULL == 24'hF00000) begin
-			if (~LDS && ~RW) LED <= DATA[2:0];
-		end
-/*
-		// GPIO at 0xF00003
-		if (ADDR_H[23] && ADDR_FULL == 24'hF00002) begin
-			if (~LDS && ~RW) GPIO <= DATA[7:0];
-		end
-*/
+	clock_cycles <= clock_cycles + 1'b1;
+	
+	// When reset switch is pressed, pull RST_n LOW
+	if (~RST_SW) begin
+		RST_n <= 1'b0;
+		clock_cycles <= 24'b0;
+	end
+	
+	// After the reset delay, pull RST_n HIGH again
+	if (~RST_n && clock_cycles == RESET_DELAY_CYCLES) RST_n <= 1'b1;
+	
+	// Generate a periodic interrupt timer (25 MHz CPU => 50 Hz timer)
+	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
+		IRQ_TIMER <= 1;
+		clock_cycles <= 24'b0;
+	end
+	
+	// Autovector the non-DUART interrupts
+	if (~IACK_n && IACK_DUART_n && ~AS_n) begin
+		VPA_n <= 1'b0;
+		IRQ_TIMER <= 0;
+	end
+	else VPA_n <= 1'b1;
 end
 
-// ROM enabled at 0xE00000 - 0xF00000
-wire ROM_EN = ~BOOT || (IACK && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000);
-assign ROM_LOWER = ~(~AS && ~LDS && ROM_EN);
-assign ROM_UPPER = ~(~AS && ~UDS && ROM_EN);
+//================================//
+// Address Decoding
+//================================//
+
+// ROM at 0xF00000 (0x000000 on BOOT)
+wire ROM_EN = ~BOOT || (IACK_n && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4000);
+assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
+assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
 // SRAM enabled at 0x000000 - 0x100000 (except at boot)
+/*
 wire RAM_EN = BOOT && IACK && ADDR_FULL < 24'h100000;
-assign RAM_LOWER = ~(~AS && ~LDS && RAM_EN);
-assign RAM_UPPER = ~(~AS && ~UDS && RAM_EN);
+assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
+assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
+*/
 
-// DUART_EN when addr is > 0xC00000 - 0xD00000
-assign DUART = ~(BOOT && IACK && ~LDS && ADDR_FULL >= 24'hC00000 && ADDR_FULL < 24'hD00000);
+// DUART at 0xFF8000
+assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
-// DRAM at 0x100000 - 0x900000
-wire DRAM_EN = BOOT && IACK && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'h900000;
-assign EXP = ~DRAM_EN;
+// IDE at 0xFF4000 and 0xFFC000
+assign CS_IDE0_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFFC000);
+assign GPIO[2] = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);	// IDE CS1 pin (bodge)
+assign IDE_BUF_n = ~(~CS_IDE0_n || ~GPIO[2]);
+assign IDE_RD_n = ~(RW && ~AS_n && ~UDS_n);
+assign IDE_WR_n = ~(~RW && ~AS_n && ~UDS_n);
+assign GPIO[3] = ~RW;	// IDE buffer DIR pin (bodge)
+
+// DRAM at 0x000000 - 0xF00000
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hF00000);
 
 endmodule

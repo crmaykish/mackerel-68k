@@ -44,7 +44,7 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
