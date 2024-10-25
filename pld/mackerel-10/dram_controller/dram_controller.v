@@ -1,6 +1,5 @@
 module dram_controller(
 	input CLK,
-	input CLK_ALT,
 	input RST,
 	input AS,
 	input LDS,
@@ -23,33 +22,50 @@ module dram_controller(
 	output reg DTACK_DRAM = 1'b1
 );
 
-// Clock cycles between DRAM refreshes
-// TODO: confirm the timing requirements and double check this math
-localparam REFRESH_CYCLE_CNT = 780;
+// Assuming 32ms total refresh time at 20 MHz clock
+localparam REFRESH_CYCLE_CNT = 312;
 
 // DRAM controller states
 localparam IDLE 				= 4'd0;
-localparam ROW_SELECT1		= 4'd1;
-localparam ROW_SELECT2		= 4'd2;
-localparam COL_SELECT1		= 4'd3;
-localparam COL_SELECT2		= 4'd4;
-localparam REFRESH1 			= 4'd5;
-localparam REFRESH2			= 4'd6;
-localparam REFRESH3			= 4'd7;
-localparam REFRESH4			= 4'd8;
-localparam PRECHARGE			= 4'd9;
+localparam RW1					= 4'd1;
+localparam RW2					= 4'd2;
+localparam RW3					= 4'd3;
+localparam RW4					= 4'd4;
+localparam RW5					= 4'd5;
+localparam REFRESH1 			= 4'd6;
+localparam REFRESH2				= 4'd7;
+localparam REFRESH3				= 4'd8;
+localparam REFRESH4				= 4'd9;
+localparam PRECHARGE			= 4'd10;
 
-reg [11:0] cycle_count = 12'b0;
 reg [3:0] state = IDLE;
 
-assign ADDR_OUT_11 = 1'b0;
+assign ADDR_OUT_11 = 1'b0;	// A11 is not used on 4MB SIMMs
 
-reg CS1 = 1;
-reg AS1 = 1;
+wire BANK_A = ~ADDR_IN[23];	// Bank A is the bottom 8 MB of DRAM, Bank B the top 8 MB
 
-always @(posedge CLK_ALT) begin
+// ==== Periodic refresh generator
+reg refresh_request = 1'b0;
+reg refresh_ack = 1'b0;
+reg [8:0] cycle_count = 9'b0;
+
+always @(posedge CLK) begin
+	if (~RST) cycle_count <= 9'b0;
+	else begin
+		cycle_count <= cycle_count + 9'b1;
+
+		if (cycle_count == REFRESH_CYCLE_CNT) begin
+			refresh_request <= 1'b1;
+			cycle_count <= 9'b0;
+		end
+		
+		if (refresh_ack) refresh_request <= 1'b0;
+	end
+end
+
+// ==== DRAM controller state machine
+always @(posedge CLK) begin
 	if (~RST) begin
-		cycle_count <= 12'b0;
 		state <= IDLE;
 		RASA <= 1'b1;
 		CASA0 <= 1'b1;
@@ -57,56 +73,50 @@ always @(posedge CLK_ALT) begin
 		RASB <= 1'b1;
 		CASB0 <= 1'b1;
 		CASB1 <= 1'b1;
+		WRA <= 1'b1;
+		WRB <= 1'b1;
 		DTACK_DRAM <= 1'b1;
 	end
 	else begin
-		cycle_count <= cycle_count + 12'b1;
-		
-		// Double-flop the CPU clock domain inputs
-		CS1 <= CS;
-		AS1 <= AS;
-		
-		// DRAM state machine
 		case (state)
 			IDLE: begin
-				if (cycle_count > REFRESH_CYCLE_CNT) begin
-					// Time to run a refresh cycle
-					// Reset the counter and set state to REFRESH1
-					cycle_count <= 12'b0;
+				if (refresh_request) begin
+					// Start CAS-before-RAS refresh cycle
 					state <= REFRESH1;
-					WRA <= 1'b1;
-					WRB <= 1'b1;
 				end
-				else if (~CS1 && ~AS1) begin
-					// DRAM is selected by the CPU, start the access process
-					ADDR_OUT <= ADDR_IN[11:1];
-					
-					if (~ADDR_IN[23]) WRA <= RW;
-					else WRB <= RW;
-					
-					state <= ROW_SELECT1;
+				else if (~CS && ~AS) begin
+					// DRAM selected, start normal R/W cycle
+					state <= RW1;
 				end
 			end
 
-			ROW_SELECT1: begin
-				// Lower RAS to latch in the row address
-				
-				if (~ADDR_IN[23]) RASA <= 1'b0;
+			RW1: begin
+				// Mux in the address
+				ADDR_OUT <= ADDR_IN[11:1];
+				state <= RW2;
+			end
+
+			RW2: begin
+				// Row address is valid, lower RAS
+				if (BANK_A) RASA <= 1'b0;
 				else RASB <= 1'b0;
-				
-				state <= ROW_SELECT2;
+				state <= RW3;
 			end
 
-			ROW_SELECT2: begin
-				// Set the DRAM address to the column address
+			RW3: begin
+				// Mux in the column address
 				ADDR_OUT <= ADDR_IN[22:12];
-				state <= COL_SELECT1;
+
+				// Set the WE line
+				if (BANK_A) WRA <= RW;
+				else WRB <= RW;
+
+				state <= RW4;
 			end
 
-			COL_SELECT1: begin
-				// Lower CAS to latch in the column address
-				
-				if (~ADDR_IN[23]) begin
+			RW4: begin
+				// Column address is valid, lower CAS
+				if (BANK_A) begin
 					CASA0 <= LDS;
 					CASA1 <= UDS;
 				end
@@ -114,38 +124,28 @@ always @(posedge CLK_ALT) begin
 					CASB0 <= LDS;
 					CASB1 <= UDS;
 				end
-				
-				state <= COL_SELECT2;
+				state <= RW5;
 			end
 
-			COL_SELECT2: begin
-				// Wait for AS to go HIGH
-				if (AS) begin
-					// CPU memory cycle is complete, reset DRAM signals
-					RASA <= 1'b1;
-					RASB <= 1'b1;
+			RW5: begin
+				// Data is valid, lower DTACK
+				DTACK_DRAM <= 1'b0;
 
-					CASA0 <= 1'b1;
-					CASA1 <= 1'b1;
-					CASB0 <= 1'b1;
-					CASB1 <= 1'b1;
-					DTACK_DRAM <= 1'b1;
-					WRA <= 1'b1;
-					WRB <= 1'b1;
-					state <= PRECHARGE;
-				end
-				else begin
-					// DRAM data is ready, lower DTACK
-					DTACK_DRAM <= 1'b0;
-				end
+				// When AS returns high, the bus cycle is complete
+				if (AS) state <= PRECHARGE;
 			end
 
 			REFRESH1: begin
+				// Acknowledge the refresh request
+				refresh_ack <= 1'b1;
+
 				// Lower CAS
 				CASA0 <= 1'b0;
 				CASA1 <= 1'b0;
 				CASB0 <= 1'b0;
 				CASB1 <= 1'b0;
+				WRA <= 1'b1;
+				WRB <= 1'b1;
 				state <= REFRESH2;
 			end
 			
@@ -157,29 +157,32 @@ always @(posedge CLK_ALT) begin
 			end
 
 			REFRESH3: begin
-				// Raise RAS
-				RASA <= 1'b1;
-				RASB <= 1'b1;
-				state <= REFRESH4;
-			end
-			
-			REFRESH4: begin
 				// Raise CAS
 				CASA0 <= 1'b1;
 				CASA1 <= 1'b1;
 				CASB0 <= 1'b1;
 				CASB1 <= 1'b1;
+				state <= REFRESH4;
+			end
+			
+			REFRESH4: begin
+				// Raise RAS
+				RASA <= 1'b1;
+				RASB <= 1'b1;
 				state <= PRECHARGE;
 			end
 			
 			PRECHARGE: begin
 				// DRAM cycle finished, bring RAS and CAS HIGH
+				DTACK_DRAM <= 1'b1;
 				RASA <= 1'b1;
 				CASA0 <= 1'b1;
 				CASA1 <= 1'b1;
 				RASB <= 1'b1;
 				CASB0 <= 1'b1;
 				CASB1 <= 1'b1;
+				ADDR_OUT <= 11'b0;
+				refresh_ack <= 1'b0;
 				state <= IDLE;
 			end
 		endcase
