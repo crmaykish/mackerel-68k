@@ -1,5 +1,6 @@
 module dram_controller(
 	input CLK,
+	input CLK_ALT,
 	input RST,
 	input AS,
 	input LDS,
@@ -22,8 +23,8 @@ module dram_controller(
 	output reg DTACK_DRAM = 1'b1
 );
 
-// Assuming 32ms total refresh time at 20 MHz clock
-localparam REFRESH_CYCLE_CNT = 312;
+// Assuming 32ms total refresh time at 50 MHz clock
+localparam REFRESH_CYCLE_CNT = 781;
 
 // DRAM controller states
 localparam IDLE 				= 4'd0;
@@ -49,7 +50,7 @@ reg refresh_request = 1'b0;
 reg refresh_ack = 1'b0;
 reg [8:0] cycle_count = 9'b0;
 
-always @(posedge CLK) begin
+always @(posedge CLK_ALT) begin
 	if (~RST) cycle_count <= 9'b0;
 	else begin
 		cycle_count <= cycle_count + 9'b1;
@@ -63,8 +64,26 @@ always @(posedge CLK) begin
 	end
 end
 
+// ==== Double-flop inputs from CPU clock domain into DRAM clock domain
+
+// Note: it's also possible to run the CPU and the DRAM controller
+// on the same oscillator with the DRAM running at 1x, 2x, or 4x the
+// frequency of the CPU
+
+reg AS1 = 1;
+reg CS1 = 1;
+reg AS2 = 1;
+reg CS2 = 1;
+
+always @(posedge CLK_ALT) begin
+	AS1 <= AS;
+	CS1 <= CS;
+	AS2 <= AS1;
+	CS2 <= CS1;
+end
+
 // ==== DRAM controller state machine
-always @(posedge CLK) begin
+always @(posedge CLK_ALT) begin
 	if (~RST) begin
 		state <= IDLE;
 		RASA <= 1'b1;
@@ -84,7 +103,7 @@ always @(posedge CLK) begin
 					// Start CAS-before-RAS refresh cycle
 					state <= REFRESH1;
 				end
-				else if (~CS && ~AS) begin
+				else if (~CS2 && ~AS2) begin
 					// DRAM selected, start normal R/W cycle
 					state <= RW1;
 				end
@@ -173,6 +192,9 @@ always @(posedge CLK) begin
 			end
 			
 			PRECHARGE: begin
+				// Reset the refresh acknowledge to allow the next refresh cycle
+				refresh_ack <= 1'b0;
+
 				// DRAM cycle finished, bring RAS and CAS HIGH
 				DTACK_DRAM <= 1'b1;
 				RASA <= 1'b1;
@@ -182,7 +204,6 @@ always @(posedge CLK) begin
 				CASB0 <= 1'b1;
 				CASB1 <= 1'b1;
 				ADDR_OUT <= 11'b0;
-				refresh_ack <= 1'b0;
 				state <= IDLE;
 			end
 		endcase
