@@ -48,16 +48,16 @@ wire BANK_A = ~ADDR_IN[23];	// Bank A is the bottom 8 MB of DRAM, Bank B the top
 // ==== Periodic refresh generator
 reg refresh_request = 1'b0;
 reg refresh_ack = 1'b0;
-reg [8:0] cycle_count = 9'b0;
+reg [11:0] cycle_count = 12'b0;
 
 always @(posedge CLK_ALT) begin
-	if (~RST) cycle_count <= 9'b0;
+	if (~RST) cycle_count <= 12'b0;
 	else begin
-		cycle_count <= cycle_count + 9'b1;
+		cycle_count <= cycle_count + 12'b1;
 
 		if (cycle_count == REFRESH_CYCLE_CNT) begin
 			refresh_request <= 1'b1;
-			cycle_count <= 9'b0;
+			cycle_count <= 12'b0;
 		end
 		
 		if (refresh_ack) refresh_request <= 1'b0;
