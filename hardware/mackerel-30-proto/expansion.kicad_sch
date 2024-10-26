@@ -1,0 +1,14 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "7354b19d-e6ad-466a-af75-d74faeabdb15")
+	(paper "A")
+	(title_block
+		(title "Mackerel-30 Proto")
+		(date "2024-10-05")
+		(rev "1.0")
+		(company "Colin Maykish")
+	)
+	(lib_symbols)
+)

@@ -3602,7 +3602,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "774b2cec-8061-4e36-9ff9-d9b30be0bf14")
-		(property "Reference" "R17"
+		(property "Reference" "R18"
 			(at 59.69 105.4099 0)
 			(effects
 				(font
@@ -3656,7 +3656,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/89853077-d9a7-463a-b48b-4d81b0ac6897"
-					(reference "R17")
+					(reference "R18")
 					(unit 1)
 				)
 			)

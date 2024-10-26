@@ -3443,7 +3443,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1ff3fec3-3bc9-4504-b8e5-db477e91c278")
-		(property "Reference" "R14"
+		(property "Reference" "R15"
 			(at 48.768 89.408 90)
 			(effects
 				(font
@@ -3497,7 +3497,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "R14")
+					(reference "R15")
 					(unit 1)
 				)
 			)

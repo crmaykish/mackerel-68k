@@ -503,6 +503,177 @@
 				)
 			)
 		)
+		(symbol "Oscillator:CXO_DIP14"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "X"
+				(at -5.08 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "CXO_DIP14"
+				(at 1.27 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Oscillator:Oscillator_DIP-14"
+				(at 11.43 -8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://cdn-reichelt.de/documents/datenblatt/B400/OSZI.pdf"
+				(at -2.54 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Crystal Clock Oscillator, DIP14-style metal package"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Crystal Clock Oscillator"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Oscillator*DIP*14*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "CXO_DIP14_0_1"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.905 -0.635) (xy -1.27 -0.635) (xy -1.27 0.635) (xy -0.635 0.635) (xy -0.635 -0.635) (xy 0 -0.635)
+						(xy 0 0.635) (xy 0.635 0.635) (xy 0.635 -0.635)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "CXO_DIP14_1_1"
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "Vcc"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "mackerel-68k-symbols:EPM7128SLC"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3821,6 +3992,10 @@
 		(uuid "1974adc2-4ef0-4a5d-87c3-b18523b99bcf")
 	)
 	(no_connect
+		(at 101.6 41.91)
+		(uuid "5f63d333-4510-4f14-ba9d-5add070dfa7e")
+	)
+	(no_connect
 		(at 55.88 179.07)
 		(uuid "6a283a73-7df6-4040-9de4-5fe35965c172")
 	)
@@ -4300,16 +4475,6 @@
 		)
 		(uuid "54ced0aa-6051-4758-9080-5a65125a94ab")
 	)
-	(text "TODO: clock"
-		(exclude_from_sim no)
-		(at 136.652 38.862 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "cdf8d189-4f3d-40d3-b2be-bc99c3cb52d6")
-	)
 	(global_label "{slash}CAS3"
 		(shape output)
 		(at 63.5 124.46 0)
@@ -4328,6 +4493,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CLK_CPU"
+		(shape input)
+		(at 29.21 43.18 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "081fd134-bd91-497f-a30e-61d4ec43e559")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 17.8186 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4411,6 +4598,28 @@
 		(uuid "11201bfa-e7c1-4208-a805-3a737aef9b81")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 166.1667 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CLK_DRAM"
+		(shape input)
+		(at 29.21 35.56 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1a3a5946-59cf-43b1-a9f9-abbb5bca4ca0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 16.6091 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5982,6 +6191,28 @@
 			)
 		)
 	)
+	(global_label "CLK_DRAM"
+		(shape output)
+		(at 116.84 41.91 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a6383830-dcaf-49a8-ae71-436a6a8779e1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 129.4409 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "A14"
 		(shape input)
 		(at 63.5 68.58 0)
@@ -7195,7 +7426,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f4eb6df-e9c1-4755-97d9-65ec3e1e3e16")
-		(property "Reference" "#PWR049"
+		(property "Reference" "#PWR043"
 			(at 69.85 196.85 0)
 			(effects
 				(font
@@ -7245,7 +7476,73 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR049")
+					(reference "#PWR043")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 109.22 49.53 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3a2d3cf9-4988-4ec6-b71f-da4330fed5d1")
+		(property "Reference" "#PWR046"
+			(at 109.22 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 109.22 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 109.22 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c110b08-0a2c-4749-b892-f29315e33469")
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
+					(reference "#PWR046")
 					(unit 1)
 				)
 			)
@@ -7261,7 +7558,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3a904978-c0a1-4312-89b6-1d1111e1a31f")
-		(property "Reference" "#PWR051"
+		(property "Reference" "#PWR047"
 			(at 185.42 25.4 0)
 			(effects
 				(font
@@ -7311,7 +7608,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR051")
+					(reference "#PWR047")
 					(unit 1)
 				)
 			)
@@ -7326,7 +7623,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3c2bf8bf-6545-4f6c-857b-6f1a908c9b52")
-		(property "Reference" "R19"
+		(property "Reference" "R20"
 			(at 49.53 167.64 90)
 			(effects
 				(font
@@ -7381,7 +7678,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R19")
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -7397,7 +7694,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "42d72cd3-ffec-4179-ae77-6b019ba82082")
-		(property "Reference" "J8"
+		(property "Reference" "J5"
 			(at 62.23 165.1 0)
 			(effects
 				(font
@@ -7474,7 +7771,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "J8")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -7805,7 +8102,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4daff62e-f707-42ab-b3cc-c97a1e45eb11")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR042"
 			(at 54.61 139.7 0)
 			(effects
 				(font
@@ -7855,7 +8152,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR048")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -7871,7 +8168,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "516daae2-7f07-4560-9edd-270da96d6b2a")
-		(property "Reference" "#PWR050"
+		(property "Reference" "#PWR044"
 			(at 71.12 158.75 0)
 			(effects
 				(font
@@ -7921,7 +8218,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR050")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -7937,7 +8234,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "59d9568f-1021-4529-a095-247dcb70abf7")
-		(property "Reference" "#PWR052"
+		(property "Reference" "#PWR048"
 			(at 190.5 115.57 0)
 			(effects
 				(font
@@ -7987,7 +8284,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR052")
+					(reference "#PWR048")
 					(unit 1)
 				)
 			)
@@ -8002,7 +8299,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6b800952-4000-4010-a286-d78c07859137")
-		(property "Reference" "R20"
+		(property "Reference" "R21"
 			(at 52.07 167.64 90)
 			(effects
 				(font
@@ -8057,7 +8354,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R20")
+					(reference "R21")
 					(unit 1)
 				)
 			)
@@ -8072,7 +8369,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7358bc0e-12fe-4c25-adfe-9f1c235e9c29")
-		(property "Reference" "R21"
+		(property "Reference" "R22"
 			(at 54.61 187.706 90)
 			(effects
 				(font
@@ -8127,7 +8424,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R21")
+					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -8142,7 +8439,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7530560d-2984-4ceb-9a90-675aa6bb289f")
-		(property "Reference" "R18"
+		(property "Reference" "R19"
 			(at 46.99 167.64 90)
 			(effects
 				(font
@@ -8197,7 +8494,147 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R18")
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 109.22 34.29 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7d22dcf8-ae5d-4390-9761-878423ba2594")
+		(property "Reference" "#PWR045"
+			(at 109.22 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 109.22 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 109.22 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c94d89b-7072-41a5-a5a3-a4d28223eca5")
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
+					(reference "#PWR045")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Oscillator:CXO_DIP14")
+		(at 109.22 41.91 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bd63708f-a86a-4c4b-b884-358adf23ce99")
+		(property "Reference" "X3"
+			(at 121.92 35.5914 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "CXO_DIP14"
+			(at 121.92 38.1314 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Oscillator:Oscillator_DIP-14"
+			(at 120.65 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://cdn-reichelt.de/documents/datenblatt/B400/OSZI.pdf"
+			(at 106.68 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Crystal Clock Oscillator, DIP14-style metal package"
+			(at 109.22 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "8"
+			(uuid "1c09b0f9-0585-4203-baa0-7bc870aae0e5")
+		)
+		(pin "14"
+			(uuid "328079e6-1fc3-4342-9d83-6c5fcaf25ff9")
+		)
+		(pin "7"
+			(uuid "737148b9-c104-45ec-876e-22c75145a662")
+		)
+		(pin "1"
+			(uuid "111339fd-5b56-4ee1-996d-f35308fb0a2b")
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
+					(reference "X3")
 					(unit 1)
 				)
 			)
@@ -8213,7 +8650,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bee49dac-a352-47a7-ab6e-1f866c2f4309")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR041"
 			(at 35.56 26.67 0)
 			(effects
 				(font
@@ -8263,7 +8700,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR047")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
