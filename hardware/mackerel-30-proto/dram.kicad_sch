@@ -7146,7 +7146,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "04b22ff2-677b-48d3-9f9e-608ab383eef1")
-		(property "Reference" "U9"
+		(property "Reference" "U10"
 			(at 193.294 22.606 0)
 			(effects
 				(font
@@ -7410,7 +7410,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "U9")
+					(reference "U10")
 					(unit 1)
 				)
 			)
@@ -7426,7 +7426,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f4eb6df-e9c1-4755-97d9-65ec3e1e3e16")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR064"
 			(at 69.85 196.85 0)
 			(effects
 				(font
@@ -7476,7 +7476,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR043")
+					(reference "#PWR064")
 					(unit 1)
 				)
 			)
@@ -7492,7 +7492,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3a2d3cf9-4988-4ec6-b71f-da4330fed5d1")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR067"
 			(at 109.22 55.88 0)
 			(effects
 				(font
@@ -7542,7 +7542,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR046")
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -7558,7 +7558,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3a904978-c0a1-4312-89b6-1d1111e1a31f")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR068"
 			(at 185.42 25.4 0)
 			(effects
 				(font
@@ -7608,7 +7608,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR047")
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
@@ -7623,7 +7623,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3c2bf8bf-6545-4f6c-857b-6f1a908c9b52")
-		(property "Reference" "R20"
+		(property "Reference" "R23"
 			(at 49.53 167.64 90)
 			(effects
 				(font
@@ -7642,7 +7642,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 47.752 166.37 90)
 			(effects
 				(font
@@ -7678,7 +7678,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R20")
+					(reference "R23")
 					(unit 1)
 				)
 			)
@@ -7694,7 +7694,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "42d72cd3-ffec-4179-ae77-6b019ba82082")
-		(property "Reference" "J5"
+		(property "Reference" "J11"
 			(at 62.23 165.1 0)
 			(effects
 				(font
@@ -7771,7 +7771,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "J5")
+					(reference "J11")
 					(unit 1)
 				)
 			)
@@ -7786,7 +7786,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4c2819cd-0832-409b-9723-412a75df8d62")
-		(property "Reference" "U8"
+		(property "Reference" "U9"
 			(at 57.658 24.13 0)
 			(effects
 				(font
@@ -8086,7 +8086,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "U8")
+					(reference "U9")
 					(unit 1)
 				)
 			)
@@ -8102,7 +8102,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4daff62e-f707-42ab-b3cc-c97a1e45eb11")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR063"
 			(at 54.61 139.7 0)
 			(effects
 				(font
@@ -8152,7 +8152,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR042")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
@@ -8168,7 +8168,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "516daae2-7f07-4560-9edd-270da96d6b2a")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR065"
 			(at 71.12 158.75 0)
 			(effects
 				(font
@@ -8218,7 +8218,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR044")
+					(reference "#PWR065")
 					(unit 1)
 				)
 			)
@@ -8234,7 +8234,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "59d9568f-1021-4529-a095-247dcb70abf7")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR069"
 			(at 190.5 115.57 0)
 			(effects
 				(font
@@ -8284,7 +8284,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR048")
+					(reference "#PWR069")
 					(unit 1)
 				)
 			)
@@ -8299,7 +8299,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6b800952-4000-4010-a286-d78c07859137")
-		(property "Reference" "R21"
+		(property "Reference" "R24"
 			(at 52.07 167.64 90)
 			(effects
 				(font
@@ -8318,7 +8318,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 50.292 166.37 90)
 			(effects
 				(font
@@ -8354,7 +8354,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R21")
+					(reference "R24")
 					(unit 1)
 				)
 			)
@@ -8369,7 +8369,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7358bc0e-12fe-4c25-adfe-9f1c235e9c29")
-		(property "Reference" "R22"
+		(property "Reference" "R25"
 			(at 54.61 187.706 90)
 			(effects
 				(font
@@ -8388,7 +8388,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 52.832 186.69 90)
 			(effects
 				(font
@@ -8424,7 +8424,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R22")
+					(reference "R25")
 					(unit 1)
 				)
 			)
@@ -8439,7 +8439,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7530560d-2984-4ceb-9a90-675aa6bb289f")
-		(property "Reference" "R19"
+		(property "Reference" "R22"
 			(at 46.99 167.64 90)
 			(effects
 				(font
@@ -8458,7 +8458,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 45.212 166.37 90)
 			(effects
 				(font
@@ -8494,7 +8494,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "R19")
+					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -8510,7 +8510,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7d22dcf8-ae5d-4390-9761-878423ba2594")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR066"
 			(at 109.22 38.1 0)
 			(effects
 				(font
@@ -8560,7 +8560,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR045")
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
@@ -8650,7 +8650,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bee49dac-a352-47a7-ab6e-1f866c2f4309")
-		(property "Reference" "#PWR041"
+		(property "Reference" "#PWR062"
 			(at 35.56 26.67 0)
 			(effects
 				(font
@@ -8700,7 +8700,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/3fdc0728-1bdc-4a5d-8a9c-c0fa18461501"
-					(reference "#PWR041")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
