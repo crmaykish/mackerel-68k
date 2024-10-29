@@ -5811,7 +5811,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 48.26 90)
 			(effects
 				(font
@@ -5879,7 +5879,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 36.83 160.0199 0)
 			(effects
 				(font
@@ -6015,7 +6015,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 149.86 90)
 			(effects
 				(font
@@ -6531,7 +6531,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 39.37 160.0199 0)
 			(effects
 				(font
@@ -6740,7 +6740,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 73.66 90)
 			(effects
 				(font
@@ -6808,7 +6808,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 35.56 90)
 			(effects
 				(font
@@ -6876,7 +6876,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 91.44 130.81 0)
 			(effects
 				(font
@@ -7027,7 +7027,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 41.91 160.0199 0)
 			(effects
 				(font
@@ -7097,7 +7097,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 137.16 90)
 			(effects
 				(font
@@ -7363,7 +7363,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 124.46 90)
 			(effects
 				(font
@@ -7629,7 +7629,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 111.76 90)
 			(effects
 				(font
@@ -7697,7 +7697,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 45.72 181.6099 0)
 			(effects
 				(font
@@ -7767,7 +7767,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 99.06 90)
 			(effects
 				(font
@@ -7834,7 +7834,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 60.96 90)
 			(effects
 				(font
@@ -8034,7 +8034,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 236.22 86.36 90)
 			(effects
 				(font

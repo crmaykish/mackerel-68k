@@ -3398,7 +3398,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 44.45 44.4499 0)
 			(effects
 				(font
@@ -3534,7 +3534,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 46.99 44.4499 0)
 			(effects
 				(font
@@ -3604,7 +3604,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 49.53 44.4499 0)
 			(effects
 				(font
@@ -3996,7 +3996,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 146.05 38.1 90)
 			(effects
 				(font
@@ -4064,7 +4064,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 54.61 44.4499 0)
 			(effects
 				(font
@@ -4134,7 +4134,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 41.91 44.4499 0)
 			(effects
 				(font
@@ -4204,7 +4204,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 52.07 44.4499 0)
 			(effects
 				(font
@@ -4274,7 +4274,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 146.05 25.4 90)
 			(effects
 				(font
