@@ -4,7 +4,7 @@
 	(generator_version "8.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 48 -4.5 0)
+		(at 48.25 7 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "85a5d93c-b506-4a9a-a022-fad22394679a")
@@ -67,64 +67,117 @@
 		)
 	)
 	(attr through_hole)
-	(fp_rect
-		(start -10.033 -1.905)
+	(fp_line
+		(start -10.25 8.75)
+		(end -10.25 8.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "cc5a2393-ff05-4122-81e5-d5779d261c44")
+	)
+	(fp_line
+		(start -10.25 13.5)
+		(end -10.25 13.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "1259044e-c37b-41eb-ae81-75d649b5d70d")
+	)
+	(fp_line
+		(start -10.033 -8.259)
+		(end -2.003 -8.259)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "506260e1-0adc-43ed-9775-1926c67e0d54")
+	)
+	(fp_line
+		(start -10.033 5.461)
+		(end -10.033 -8.259)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "4efd4ed2-f726-4d9c-9806-bf0987fdfef4")
+	)
+	(fp_line
+		(start -10.033 5.461)
 		(end 105.537 5.461)
 		(stroke
 			(width 0.1)
 			(type default)
 		)
-		(fill none)
 		(layer "F.SilkS")
-		(uuid "d1633b35-8561-4eff-9727-3809d073e172")
+		(uuid "6ba19179-43b6-4379-9efc-47d843b7695d")
 	)
-	(fp_circle
-		(center -8.255 1.27)
-		(end -7.44 1.27)
+	(fp_line
+		(start -2.003 -8.259)
+		(end -2.003 -1.959)
 		(stroke
-			(width 0.05)
+			(width 0.1)
 			(type default)
 		)
-		(fill none)
-		(layer "Edge.Cuts")
-		(uuid "02290960-3c50-45e9-8316-434f74fe84f6")
-	)
-	(fp_circle
-		(center 47.63 1.27)
-		(end 48.445 1.27)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(fill none)
-		(layer "Edge.Cuts")
-		(uuid "11311379-1753-435a-9963-325a536f35bf")
-	)
-	(fp_circle
-		(center 103.505 1.27)
-		(end 104.73 1.27)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(fill none)
-		(layer "Edge.Cuts")
-		(uuid "d02f1c94-7ad9-4e87-aef2-a5ba7a983a1b")
-	)
-	(fp_text user "TODO: angled sockets"
-		(at 33.75 7.5 0)
-		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "02001be1-3c1d-4862-a196-72e08d742582")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.1)
-			)
-			(justify left bottom)
-		)
+		(uuid "ab15cc7a-70ac-40e0-9274-8dcd8c98f50a")
 	)
-	(fp_text user "TODO: confirm the mounting hole placement"
+	(fp_line
+		(start 97.507 -8.259)
+		(end 97.507 -1.959)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "c72dd3da-df7f-41c0-a9cf-5c491fb30da1")
+	)
+	(fp_line
+		(start 97.507 -1.959)
+		(end -2.003 -1.959)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "c83a9b9e-b615-4652-8ce3-37132c557bba")
+	)
+	(fp_line
+		(start 105.5 -7.25)
+		(end 105.5 -7.25)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "bd7a1f74-09fd-4433-8bd5-259467269ec7")
+	)
+	(fp_line
+		(start 105.537 -8.259)
+		(end 97.507 -8.259)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "f331ff69-e5ef-4dcb-b4e3-f2307a9559a0")
+	)
+	(fp_line
+		(start 105.537 5.461)
+		(end 105.537 -8.259)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "27289c0b-5951-4ebc-9ca9-2773c7c74c38")
+	)
+	(fp_text user "TODO: Fix middle mounting hole"
 		(at 33.5 5 0)
 		(unlocked yes)
 		(layer "F.SilkS")
@@ -724,5 +777,29 @@
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "77dc6a05-37fc-471c-bbed-f95bf80c5685")
+	)
+	(pad "73" thru_hole circle
+		(at -8.255 1.27)
+		(size 2 2)
+		(drill 1.63)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "66ec6aa2-4f60-44b5-8483-44496039cf0b")
+	)
+	(pad "74" thru_hole circle
+		(at 103.505 1.27)
+		(size 3 3)
+		(drill 2.45)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "11a49a83-8674-470e-b446-ce997e4ec647")
+	)
+	(pad "75" thru_hole circle
+		(at 47.63 1.27)
+		(size 3 3)
+		(drill 2.45)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "a6d37fca-f4d9-4a6b-bd85-7ed6e80f3dd2")
 	)
 )
