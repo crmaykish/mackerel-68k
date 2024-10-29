@@ -8030,7 +8030,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 80.01 90)
 			(effects
 				(font
@@ -8098,7 +8098,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 92.71 90)
 			(effects
 				(font
@@ -8232,7 +8232,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 110.49 160.0199 0)
 			(effects
 				(font
@@ -8301,7 +8301,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 67.31 90)
 			(effects
 				(font
@@ -9039,7 +9039,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 80.01 90)
 			(effects
 				(font
@@ -9107,7 +9107,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 105.41 160.0199 0)
 			(effects
 				(font
@@ -9177,7 +9177,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 118.11 90)
 			(effects
 				(font
@@ -9245,7 +9245,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 130.81 90)
 			(effects
 				(font
@@ -9472,7 +9472,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 54.61 90)
 			(effects
 				(font
@@ -9540,7 +9540,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 92.71 90)
 			(effects
 				(font
@@ -10159,7 +10159,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 67.31 90)
 			(effects
 				(font
@@ -10359,7 +10359,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 41.91 90)
 			(effects
 				(font
@@ -10647,7 +10647,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 107.95 160.0199 0)
 			(effects
 				(font
@@ -10717,7 +10717,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 130.81 90)
 			(effects
 				(font
@@ -10785,7 +10785,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 54.61 90)
 			(effects
 				(font
@@ -10853,7 +10853,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 105.41 90)
 			(effects
 				(font
@@ -10987,7 +10987,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 114.3 181.6099 0)
 			(effects
 				(font
@@ -11545,7 +11545,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 118.11 90)
 			(effects
 				(font
@@ -11679,7 +11679,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 254 105.41 90)
 			(effects
 				(font
@@ -11813,7 +11813,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 229.87 41.91 90)
 			(effects
 				(font

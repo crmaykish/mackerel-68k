@@ -4063,7 +4063,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 203.2 116.84 0)
 			(effects
 				(font
@@ -4133,7 +4133,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 213.36 24.13 90)
 			(effects
 				(font
@@ -4996,7 +4996,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 213.36 36.83 90)
 			(effects
 				(font
@@ -5671,7 +5671,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 142.24 106.68 0)
 			(effects
 				(font
