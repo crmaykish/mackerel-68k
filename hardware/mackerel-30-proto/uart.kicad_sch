@@ -4269,7 +4269,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "213eecb4-1261-45fe-b514-c70ce2aca47f")
-		(property "Reference" "R16"
+		(property "Reference" "R15"
 			(at 106.68 107.95 90)
 			(effects
 				(font
@@ -4288,7 +4288,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 108.458 106.68 90)
 			(effects
 				(font
@@ -4324,7 +4324,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/d143ddc0-b4a1-490e-ae52-7a0ad9150902"
-					(reference "R16")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -4535,7 +4535,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "630b9448-5484-4969-9cbd-8b292faf1669")
-		(property "Reference" "R17"
+		(property "Reference" "R16"
 			(at 167.64 118.11 90)
 			(effects
 				(font
@@ -4554,7 +4554,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 169.418 116.84 90)
 			(effects
 				(font
@@ -4590,7 +4590,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/d143ddc0-b4a1-490e-ae52-7a0ad9150902"
-					(reference "R17")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -5084,7 +5084,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
+		(property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm"
 			(at 240.03 39.6748 0)
 			(effects
 				(font
@@ -5537,7 +5537,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
+		(property "Footprint" "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm"
 			(at 240.03 44.7548 0)
 			(effects
 				(font
