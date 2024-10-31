@@ -3302,7 +3302,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-32_W15.24mm"
+		(property "Footprint" "Package_DIP:DIP-32_W15.24mm_Socket"
 			(at 182.88 67.31 0)
 			(effects
 				(font

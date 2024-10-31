@@ -2157,164 +2157,6 @@
 				)
 			)
 		)
-		(symbol "Device:C_Polarized"
-			(pin_numbers hide)
-			(pin_names
-				(offset 0.254)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "C"
-				(at 0.635 2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "C_Polarized"
-				(at 0.635 -2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" ""
-				(at 0.9652 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Polarized capacitor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "cap capacitor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "CP_*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "C_Polarized_0_1"
-				(rectangle
-					(start -2.286 0.508)
-					(end 2.286 1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.778 2.286) (xy -0.762 2.286)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 2.794) (xy -1.27 1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 2.286 -0.508)
-					(end -2.286 -1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-			)
-			(symbol "C_Polarized_1_1"
-				(pin passive line
-					(at 0 3.81 270)
-					(length 2.794)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 2.794)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Device:C_Polarized_US"
 			(pin_numbers hide)
 			(pin_names
@@ -4915,7 +4757,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "091a8f25-45bb-4b0d-9f83-460468ed2d5b")
-		(property "Reference" "#PWR086"
+		(property "Reference" "#PWR084"
 			(at 175.26 151.13 0)
 			(effects
 				(font
@@ -4965,7 +4807,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR086")
+					(reference "#PWR084")
 					(unit 1)
 				)
 			)
@@ -5113,7 +4955,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f7250a4-f1a8-469a-8dc1-b454d056c82d")
-		(property "Reference" "#PWR089"
+		(property "Reference" "#PWR087"
 			(at 232.41 109.22 0)
 			(effects
 				(font
@@ -5163,142 +5005,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR089")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 158.75 154.94 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "270b260b-772d-4d64-918a-a0288e8dcdbe")
-		(property "Reference" "#PWR084"
-			(at 158.75 161.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 158.75 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 158.75 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 158.75 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 158.75 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d5ef4e90-963b-423f-93a7-bbf86c8bc998")
-		)
-		(instances
-			(project "mackerel-30-proto"
-				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR084")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 158.75 151.13 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2a59ea8a-0e5d-46bf-8a2a-322de351a53a")
-		(property "Reference" "C37"
-			(at 159.512 148.59 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1000uF"
-			(at 161.29 151.384 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
-			(at 159.7152 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 158.75 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Polarized capacitor"
-			(at 158.75 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fd5c9167-747b-444e-8cd6-e99c32918546")
-		)
-		(pin "2"
-			(uuid "5b6807d2-a5ab-43c5-9d93-175d945fcc0d")
-		)
-		(instances
-			(project "mackerel-30-proto"
-				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "C37")
+					(reference "#PWR087")
 					(unit 1)
 				)
 			)
@@ -5429,72 +5136,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+12V")
-		(at 158.75 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "472fb471-4f8b-451b-aeae-e732aa2f3986")
-		(property "Reference" "#PWR083"
-			(at 158.75 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+12V"
-			(at 158.75 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 158.75 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 158.75 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 158.75 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "518f210c-1f61-4034-96da-69947ec6e48a")
-		)
-		(instances
-			(project "mackerel-30-proto"
-				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR083")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 170.18 97.79 90)
 		(unit 1)
@@ -5571,7 +5212,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "54678a29-2959-460f-97c5-13c6ba1e3f1a")
-		(property "Reference" "C38"
+		(property "Reference" "C37"
 			(at 179.07 149.2249 0)
 			(effects
 				(font
@@ -5625,7 +5266,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "C38")
+					(reference "C37")
 					(unit 1)
 				)
 			)
@@ -5641,7 +5282,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5a296eea-cef4-4c4f-ab5c-a0b37edef7b2")
-		(property "Reference" "#PWR088"
+		(property "Reference" "#PWR086"
 			(at 182.88 78.74 0)
 			(effects
 				(font
@@ -5691,7 +5332,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR088")
+					(reference "#PWR086")
 					(unit 1)
 				)
 			)
@@ -6096,7 +5737,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "80b4cbf2-7f08-45d9-bbdd-c9dc064cd52b")
-		(property "Reference" "#PWR085"
+		(property "Reference" "#PWR083"
 			(at 166.37 101.6 0)
 			(effects
 				(font
@@ -6146,7 +5787,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR085")
+					(reference "#PWR083")
 					(unit 1)
 				)
 			)
@@ -6162,7 +5803,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "81d4845f-9a4f-466c-8c1f-c6fbe0fbff38")
-		(property "Reference" "#PWR087"
+		(property "Reference" "#PWR085"
 			(at 175.26 161.29 0)
 			(effects
 				(font
@@ -6212,7 +5853,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/b80ba0ac-a3c1-4262-b297-c092dfcb6fec"
-					(reference "#PWR087")
+					(reference "#PWR085")
 					(unit 1)
 				)
 			)
