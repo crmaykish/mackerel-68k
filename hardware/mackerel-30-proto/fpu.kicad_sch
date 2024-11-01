@@ -147,6 +147,127 @@
 				)
 			)
 		)
+		(symbol "Device:R"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "mackerel-68k-symbols:MC68882"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1686,6 +1807,12 @@
 		(uuid "3252c0e5-5662-4ba7-be33-5a4cd513aefd")
 	)
 	(junction
+		(at 57.15 49.53)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "384e7c8d-0783-42b8-9e81-3a0bef0c5fc9")
+	)
+	(junction
 		(at 100.33 48.26)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1770,12 +1897,6 @@
 		(uuid "a2fe526e-fa37-4856-b063-0d7aca2bf244")
 	)
 	(junction
-		(at 60.96 57.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b169b07d-df95-4d20-88f6-0f17c7565334")
-	)
-	(junction
 		(at 87.63 140.97)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1843,16 +1964,6 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 57.15) (xy 72.39 57.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "07c76164-845d-48ed-a0fb-09e26d900771")
-	)
-	(wire
-		(pts
 			(xy 102.87 140.97) (xy 105.41 140.97)
 		)
 		(stroke
@@ -1913,6 +2024,16 @@
 	)
 	(wire
 		(pts
+			(xy 57.15 49.53) (xy 60.96 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "381a7407-13eb-4e2f-b5b6-9f50d7c15dd1")
+	)
+	(wire
+		(pts
 			(xy 72.39 140.97) (xy 80.01 140.97)
 		)
 		(stroke
@@ -1920,6 +2041,26 @@
 			(type default)
 		)
 		(uuid "388280c6-94a2-478a-971e-cc8198d1ae5f")
+	)
+	(wire
+		(pts
+			(xy 60.96 57.15) (xy 72.39 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b42d445-2841-4cb5-8a3d-db4a0e009067")
+	)
+	(wire
+		(pts
+			(xy 57.15 83.82) (xy 57.15 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4efb5a8a-61e5-4a4b-bc42-ea58c9145e79")
 	)
 	(wire
 		(pts
@@ -1943,17 +2084,17 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 83.82) (xy 60.96 83.82)
+			(xy 57.15 83.82) (xy 72.39 83.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "55b45a4c-7698-46e1-b898-268cff09ab83")
+		(uuid "58c41ebd-efdb-4397-ae6f-08af1305e8b2")
 	)
 	(wire
 		(pts
-			(xy 60.96 54.61) (xy 60.96 57.15)
+			(xy 57.15 46.99) (xy 57.15 49.53)
 		)
 		(stroke
 			(width 0)
@@ -1990,16 +2131,6 @@
 			(type default)
 		)
 		(uuid "78a0435d-e755-43c4-90e1-bca157c605d8")
-	)
-	(wire
-		(pts
-			(xy 60.96 83.82) (xy 60.96 57.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7f60831a-2c0d-4ab7-a128-2bba3b0cf8d0")
 	)
 	(wire
 		(pts
@@ -2211,9 +2342,9 @@
 		)
 		(uuid "f771e697-e8b7-4f24-8e34-b4c88010867e")
 	)
-	(text "A0 and SIZE to VCC indicates 32-bit bus"
+	(text "A0 and SIZE HIGH indicates 32-bit data bus"
 		(exclude_from_sim no)
-		(at 36.576 59.182 0)
+		(at 48.768 36.576 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3191,7 +3322,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 60.96 54.61 0)
+		(at 57.15 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3200,7 +3331,7 @@
 		(fields_autoplaced yes)
 		(uuid "16ed1fcc-d4f8-447f-963c-3e6df4a27b9b")
 		(property "Reference" "#PWR068"
-			(at 60.96 58.42 0)
+			(at 57.15 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3209,7 +3340,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 60.96 49.53 0)
+			(at 57.15 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3217,7 +3348,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 60.96 54.61 0)
+			(at 57.15 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3226,7 +3357,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 60.96 54.61 0)
+			(at 57.15 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3235,7 +3366,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 60.96 54.61 0)
+			(at 57.15 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3318,6 +3449,76 @@
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/a9f13681-faa6-4706-8ec9-421e908e3ee4"
 					(reference "C29")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 60.96 53.34 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "266567d5-c580-4bf5-8d1d-85cdbc7e4976")
+		(property "Reference" "R27"
+			(at 60.96 55.372 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4k7"
+			(at 60.96 55.118 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 59.182 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 60.96 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "486ddeb0-e472-4c9e-8c74-247db7b297f2")
+		)
+		(pin "1"
+			(uuid "d93ed14f-fcbf-4154-bec3-7645c6a43dd5")
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/a9f13681-faa6-4706-8ec9-421e908e3ee4"
+					(reference "R27")
 					(unit 1)
 				)
 			)
@@ -3851,6 +4052,76 @@
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/a9f13681-faa6-4706-8ec9-421e908e3ee4"
 					(reference "C32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 57.15 53.34 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7349cdc5-44e2-4c2f-a3ab-c9119e4d1d0d")
+		(property "Reference" "R26"
+			(at 57.15 55.372 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4k7"
+			(at 57.15 55.118 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+			(at 55.372 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 57.15 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 57.15 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "fcd4ed56-7805-4fb7-b792-a99a47c88b4b")
+		)
+		(pin "1"
+			(uuid "261a1082-b699-4b9f-8c0e-dbbf0ae509c6")
+		)
+		(instances
+			(project "mackerel-30-proto"
+				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/a9f13681-faa6-4706-8ec9-421e908e3ee4"
+					(reference "R26")
 					(unit 1)
 				)
 			)
