@@ -3218,7 +3218,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "04cb400f-4197-4123-8947-6024d49201f7")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR019"
 			(at 29.21 38.1 0)
 			(effects
 				(font
@@ -3268,7 +3268,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR017")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -3513,7 +3513,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2c68c700-832d-4bd6-abb1-009981ea51f3")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR022"
 			(at 82.55 43.18 0)
 			(effects
 				(font
@@ -3563,7 +3563,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR020")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -3579,7 +3579,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "50c4cfe0-9de6-4798-97f4-093eb857d82d")
-		(property "Reference" "#PWR022"
+		(property "Reference" "#PWR024"
 			(at 182.88 45.72 0)
 			(effects
 				(font
@@ -3629,7 +3629,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR022")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -3645,7 +3645,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "612430ba-8897-4854-9808-1461a9ced0e4")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR020"
 			(at 36.83 50.8 0)
 			(effects
 				(font
@@ -3695,7 +3695,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR018")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -3710,7 +3710,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6e6af9c5-3193-4d99-b3f9-8fd1ef56a78a")
-		(property "Reference" "C20"
+		(property "Reference" "C21"
 			(at 35.306 43.18 90)
 			(effects
 				(font
@@ -3763,7 +3763,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "C20")
+					(reference "C21")
 					(unit 1)
 				)
 			)
@@ -3779,7 +3779,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "767e194e-7aae-4981-b387-e4d6405c5606")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR025"
 			(at 182.88 106.68 0)
 			(effects
 				(font
@@ -3829,7 +3829,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR023")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -3844,7 +3844,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ca088749-fdd0-4f69-9cf9-e8fb3bf01236")
-		(property "Reference" "C19"
+		(property "Reference" "C20"
 			(at 35.306 38.1 90)
 			(effects
 				(font
@@ -3897,7 +3897,7 @@
 		(instances
 			(project "mackerel-30-proto"
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "C19")
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -4073,7 +4073,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e9828ba5-0331-4a0c-9e26-6f69eb54c3ad")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR023"
 			(at 82.55 121.92 0)
 			(effects
 				(font
@@ -4123,7 +4123,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR021")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -4139,7 +4139,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ff61617d-11b2-4803-9c33-66592ff22b35")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR021"
 			(at 50.8 87.63 0)
 			(effects
 				(font
@@ -4189,7 +4189,7 @@
 		(instances
 			(project ""
 				(path "/9307474f-ec99-494d-b4c9-fbd0b10ce86a/2233f134-711f-41c0-bcb6-ed6edb8cdb44"
-					(reference "#PWR019")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
