@@ -12410,7 +12410,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -30.48 0)
 				(length 2.54) hide
 				(name "NC"
@@ -12878,7 +12878,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -33.02 0)
 				(length 2.54) hide
 				(name "NC"
@@ -12896,7 +12896,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -35.56 0)
 				(length 2.54) hide
 				(name "NC"
@@ -12914,7 +12914,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -38.1 0)
 				(length 2.54) hide
 				(name "NC"
@@ -12932,7 +12932,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -40.64 0)
 				(length 2.54) hide
 				(name "NC"
@@ -13094,7 +13094,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -43.18 0)
 				(length 2.54) hide
 				(name "NC"
@@ -13130,7 +13130,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -45.72 0)
 				(length 2.54) hide
 				(name "NC"
@@ -13490,7 +13490,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -48.26 0)
 				(length 2.54) hide
 				(name "NC"
@@ -13598,7 +13598,7 @@
 					)
 				)
 			)
-			(pin input line
+			(pin no_connect line
 				(at -17.78 -50.8 0)
 				(length 2.54) hide
 				(name "NC"

@@ -4,6 +4,12 @@
 	(generator_version "8.0")
 	(uuid "73e34e89-4543-4769-9ce3-401930bd7416")
 	(paper "A")
+	(title_block
+		(title "Mackerel-30")
+		(date "2024-11-09")
+		(rev "0.1")
+		(company "Colin Maykish")
+	)
 	(lib_symbols
 		(symbol "Device:C"
 			(pin_numbers hide)
