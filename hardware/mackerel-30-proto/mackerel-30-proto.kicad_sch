@@ -7414,36 +7414,6 @@
 		)
 		(uuid "f7244b55-1f8d-4dd7-97d1-166012c09a8e")
 	)
-	(text "TODO: maybe better to put the GPIO and other peripherals on a daughter card"
-		(exclude_from_sim no)
-		(at 274.574 95.25 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "6437ae95-519a-4819-9089-f1429aa91143")
-	)
-	(text "TODO: no expansion CS"
-		(exclude_from_sim no)
-		(at 151.892 67.056 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "9d2b3853-076a-4d18-8182-46340587281b")
-	)
-	(text "TODO: could get away with a lot fewer address pins here\nJust make sure the DRAM controller has all the signals it needs\nto decode its own address range (AS, DS, IACK, SIZ? etc.)"
-		(exclude_from_sim no)
-		(at 268.986 73.914 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "a5d5cd88-1ec0-4157-ab76-f2d981c1b730")
-	)
 	(global_label "A2"
 		(shape input)
 		(at 212.09 52.07 0)
@@ -7550,6 +7520,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}DSACK1_DRAM"
+		(shape input)
+		(at 212.09 130.81 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "05029058-f32d-451d-a3ae-79a41ab18274")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 229.7709 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -8324,6 +8316,28 @@
 			)
 		)
 	)
+	(global_label "DTACK_EXP"
+		(shape input)
+		(at 177.8 91.44 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "40f72bcd-c0ee-44d8-bb58-af8018d2c1ac")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 164.3525 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "{slash}CS_ROM"
 		(shape output)
 		(at 177.8 127 180)
@@ -8852,6 +8866,28 @@
 			)
 		)
 	)
+	(global_label "IRQ_EXP"
+		(shape input)
+		(at 177.8 93.98 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "68f9c1bf-4243-46d3-9d31-c4b3a50232b0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 167.0134 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "FC2"
 		(shape output)
 		(at 113.03 138.43 0)
@@ -8918,7 +8954,7 @@
 			)
 		)
 	)
-	(global_label "{slash}DTACK_DRAM"
+	(global_label "{slash}DSACK0_DRAM"
 		(shape input)
 		(at 212.09 115.57 0)
 		(fields_autoplaced yes)
@@ -8930,7 +8966,7 @@
 		)
 		(uuid "6e0badaf-3fb8-439d-8bb8-ab53d962c82e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 228.3195 115.57 0)
+			(at 229.7709 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9842,6 +9878,28 @@
 			)
 		)
 	)
+	(global_label "IACK_EXP"
+		(shape output)
+		(at 177.8 99.06 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b6df3bd1-cd7f-43c5-b539-fb1f45db5b32")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 165.9853 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "D29"
 		(shape bidirectional)
 		(at 113.03 110.49 0)
@@ -9987,6 +10045,28 @@
 		(uuid "c4aebfe3-f1a8-4e37-99cb-65f01f417024")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 50.5967 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "CS_EXP"
+		(shape output)
+		(at 177.8 88.9 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cae2c52d-50c6-4e32-8dbd-a29ba9d63e7d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 167.7392 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)

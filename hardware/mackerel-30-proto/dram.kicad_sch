@@ -5310,7 +5310,7 @@
 			)
 		)
 	)
-	(global_label "{slash}DTACK_DRAM"
+	(global_label "{slash}DSACK0_DRAM"
 		(shape output)
 		(at 29.21 80.01 180)
 		(fields_autoplaced yes)
@@ -5322,7 +5322,7 @@
 		)
 		(uuid "27a4bee7-5e62-47fb-85cc-602fd764bc87")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 12.9805 80.01 0)
+			(at 11.5291 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5878,6 +5878,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "{slash}DSACK1_DRAM"
+		(shape output)
+		(at 29.21 77.47 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "60317a45-f6c9-4c62-9fd0-c5d3dc46113f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 11.5291 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
