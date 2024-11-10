@@ -5,9 +5,9 @@
 	(uuid "6d13641d-41f2-4484-81ba-b3ae5bbb4bca")
 	(paper "A")
 	(title_block
-		(title "Mackerel-10 SBC v1.1")
-		(date "2024-10-27")
-		(rev "1.1a")
+		(title "Mackerel-10")
+		(date "2024-11-09")
+		(rev "1.2")
 		(company "Colin Maykish")
 	)
 	(lib_symbols
