@@ -177,19 +177,6 @@
 		(layer "F.SilkS")
 		(uuid "27289c0b-5951-4ebc-9ca9-2773c7c74c38")
 	)
-	(fp_text user "TODO: Fix middle mounting hole"
-		(at 33.5 5 0)
-		(unlocked yes)
-		(layer "F.SilkS")
-		(uuid "8932a1a6-d0df-4ef6-8584-8785f7a86e97")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.1)
-			)
-			(justify left bottom)
-		)
-	)
 	(fp_text user "${REFERENCE}"
 		(at 48 5 0)
 		(unlocked yes)

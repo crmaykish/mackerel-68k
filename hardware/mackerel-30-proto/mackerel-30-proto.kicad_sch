@@ -11162,7 +11162,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 241.3 140.9699 0)
 			(effects
 				(font
@@ -13804,7 +13804,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 246.38 140.9699 0)
 			(effects
 				(font
@@ -14427,7 +14427,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 243.84 140.9699 0)
 			(effects
 				(font
@@ -14497,7 +14497,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 248.92 161.2899 0)
 			(effects
 				(font

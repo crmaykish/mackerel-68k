@@ -5152,7 +5152,7 @@
 				)
 			)
 		)
-		(property "Value" "470"
+		(property "Value" "1k"
 			(at 170.18 97.79 90)
 			(effects
 				(font
@@ -5877,7 +5877,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 146.05 35.56 90)
 			(effects
 				(font
@@ -6536,7 +6536,7 @@
 				)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "0.1uF"
 			(at 146.05 48.26 90)
 			(effects
 				(font

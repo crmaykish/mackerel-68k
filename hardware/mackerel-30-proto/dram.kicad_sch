@@ -5102,16 +5102,6 @@
 		)
 		(uuid "4b45dd34-0482-4008-997f-17af1aea3019")
 	)
-	(text "TODO: make sure SIMM pin 1 notch is on the correct side"
-		(exclude_from_sim no)
-		(at 119.126 102.616 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "54ced0aa-6051-4758-9080-5a65125a94ab")
-	)
 	(global_label "{slash}CAS3"
 		(shape output)
 		(at 69.85 86.36 0)
@@ -8425,7 +8415,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 52.07 167.6399 0)
 			(effects
 				(font
@@ -9509,7 +9499,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 54.61 167.6399 0)
 			(effects
 				(font
@@ -9645,7 +9635,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 57.15 187.9599 0)
 			(effects
 				(font
@@ -9715,7 +9705,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "4k7"
 			(at 49.53 167.6399 0)
 			(effects
 				(font
