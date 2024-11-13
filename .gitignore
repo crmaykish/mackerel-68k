@@ -1,13 +1,11 @@
 # C/ASM
 *.o
-*.bin
 *.elf
 
 # GAL
 *.chp
 *.fus
 *.pin
-*.jed
 
 # For PCBs designed using KiCad: https://www.kicad.org/
 # Format documentation: https://kicad.org/help/file-formats/

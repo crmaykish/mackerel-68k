@@ -6,6 +6,8 @@
 #include "sd.h"
 #include "ide.h"
 
+#define VERSION 0.1
+
 #define INPUT_BUFFER_SIZE 32
 
 void handler_runram();
@@ -23,7 +25,7 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    printf("\r\n### %s Bootloader ###\r\n###   crmaykish - 2024    ###\r\n", SYSTEM_NAME);
+    printf("\r\n### %s Bootloader v%s ###\r\n###   crmaykish - 2024    ###\r\n", SYSTEM_NAME, VERSION);
 
     while (true)
     {
