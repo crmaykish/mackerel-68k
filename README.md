@@ -6,6 +6,10 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 
 ![Mackerel-10 with IDE Driver](media/images/mackerel-10-v1-with-drive.jpg)
 
+## Docs
+
+[Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
+
 ## Chapters
 
 Each of the following systems represents a chapter in the project. In total, four SBCs will be designed and built. Note: each chapter includes the hardware peripherals of the previous one. Only new requirements are listed for each board.
