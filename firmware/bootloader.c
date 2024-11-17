@@ -6,7 +6,7 @@
 #include "sd.h"
 #include "ide.h"
 
-#define VERSION "0.1.1"
+#define VERSION "0.1.2"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -238,6 +238,17 @@ uint8_t readline(char *buffer)
 
             buffer[count] = in;
             count++;
+        }
+        else if (0x08)
+        {
+            // Backspace
+            if (count > 0)
+            {
+                duart_puts("\e[1D"); // Move cursor to the left
+                duart_putc(' ');     // Clear last character
+                duart_puts("\e[1D"); // Move cursor to the left again
+                count--;             // Move input buffer index back
+            }
         }
 
         in = duart_getc();
