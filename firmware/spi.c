@@ -2,37 +2,18 @@
 #include "spi.h"
 #include "mackerel.h"
 
-static inline void gpio_put(uint8_t pin, bool val)
-{
-    if (val)
-    {
-        MEM(DUART1_OPR_RESET) = (1 << pin);
-    }
-    else
-    {
-        MEM(DUART1_OPR) = (1 << pin);
-    }
-}
-
-static inline bool gpio_get(uint8_t pin)
-{
-    unsigned char in = MEM(DUART1_IP);
-    unsigned char shift = (1 << pin);
-    return (in & shift);
-}
+#define GPIO_ON(pin) MEM(DUART1_OPR_RESET) = (1 << pin)
+#define GPIO_OFF(pin) MEM(DUART1_OPR) = (1 << pin);
+#define MISO_GET() (MEM(DUART1_IP) & (1 << MISO))
 
 void spi_init(uint8_t cs)
 {
     // Default state of the SPI pins
-    gpio_put(cs, true);
-    gpio_put(MOSI, true);
-    gpio_put(SCLK, false);
+    GPIO_ON(cs);
+    GPIO_ON(MOSI);
+    GPIO_OFF(SCLK);
 
-    gpio_put(LED, false);
-}
-
-static inline void spi_clk(bool on){
-    gpio_put(SCLK, on);
+    GPIO_OFF(LED);
 }
 
 uint8_t spi_transfer(uint8_t cs, uint8_t byte_to_send)
@@ -40,41 +21,47 @@ uint8_t spi_transfer(uint8_t cs, uint8_t byte_to_send)
     uint8_t byte_received = 0;
     int i;
 
-    spi_clk(false);
+    GPIO_OFF(SCLK);
 
     // Set chip select (active low)
-    gpio_put(cs, false);
-
-    // delay(10);
+    GPIO_OFF(cs);
 
     for (i = 7; i >= 0; i--)
     {
-        gpio_put(MOSI, byte_to_send & (1 << i));
+        if (byte_to_send & (1 << i))
+        {
+            GPIO_ON(MOSI);
+        }
+        else
+        {
+            GPIO_OFF(MOSI);
+        }
 
         // Clock high
-        spi_clk(true);
+        GPIO_ON(SCLK);
 
         // Shift in a bit
-        if (gpio_get(MISO))
+        if (MISO_GET())
         {
             byte_received |= (1 << i);
         }
 
         // Clock low
-        spi_clk(false);
+        GPIO_OFF(SCLK);
     }
 
     // disable SD card
-    gpio_put(cs, true);
+    GPIO_ON(cs);
 
     return byte_received;
 }
 
-void spi_loop_clk() {
+void spi_loop_clk()
+{
     // Toggle the SPI clock 80 times with CS disabled
     for (int i = 0; i < 80; i++)
     {
-        spi_clk(true);
-        spi_clk(false);
+        GPIO_ON(SCLK);
+        GPIO_OFF(SCLK);
     }
 }
