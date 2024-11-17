@@ -1,4 +1,4 @@
-# Compiling The Bootloader and Bare Metal Programs
+# Compiling The Bootloader and GAL Logic
 
 This document describes building the bootloader and other bare metal programs from source. This process requires a Linux PC, preferably Debian or Ubuntu or one of its derivatives. This will also work in a virtual machine and should work in WSL, but I have not verified this.
 
@@ -18,3 +18,6 @@ The bootloader is compiled to run from ROM. Other bare-metal programs run from R
 
 To compile a new programs, add an entry in the Makefile.
 
+## Building GAL Logic
+
+On Mackerel-08, three 22V10 GAL chips provide the glue logic for the system. The logic equations for these are defined in the [PLD directory](../pld/mackerel-08/). Compiling them into JED files requires the [galasm tool](https://github.com/daveho/GALasm). There's a `Makefile` in the PLD directory to build all of these JEDs, just run `make`.

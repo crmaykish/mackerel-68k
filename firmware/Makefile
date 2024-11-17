@@ -21,7 +21,7 @@ endif
 COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o
 COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
-BASE_BINS = bootloader.bin hello.bin kernel.bin
+BASE_BINS = bootloader.bin hello.bin kernel.bin sd_demo.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
@@ -36,7 +36,7 @@ endif
 all: $(BINS)
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) -mcpu=68000 -g -Wall -c $< -o $@ -O
+	$(CC) $(CPPFLAGS) -mcpu=68000 -g -Wall -c $< -o $@ -O2
 
 %.o: %.s
 	$(AS) -mcpu=68000 $< -o $@
@@ -52,7 +52,10 @@ hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
-	
+
+sd_demo.elf: $(COMMON_OBJS_RAM) sd_demo.o sd.o spi.o
+	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@
 
