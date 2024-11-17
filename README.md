@@ -8,7 +8,8 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 
 ## Docs
 
-[Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
+1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
+2. [Compiling The Bootloader and Bare Metal Code](docs/compiling-bootloader.md)
 
 ## Chapters
 
