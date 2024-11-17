@@ -6,7 +6,7 @@
 #include "sd.h"
 #include "ide.h"
 
-#define VERSION "0.1"
+#define VERSION "0.1.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -25,7 +25,7 @@ char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    printf("\r\n### %s Bootloader v%s ###\r\n###   crmaykish - 2024    ###\r\n", SYSTEM_NAME, VERSION);
+    printf("\r\n### %s Bootloader v%s ###\r\n###       crmaykish - 2024        ###\r\n", SYSTEM_NAME, VERSION);
 
     while (true)
     {
@@ -215,7 +215,7 @@ void handler_load(uint32_t addr)
 
     MEM(addr + in_count - 3) = 0;
 
-    duart_puts("Done!");
+    printf("Done! Transferred %d bytes.\r\n", in_count - 3);
 }
 
 void command_not_found(char *command_name)
