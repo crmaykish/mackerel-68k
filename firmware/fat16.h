@@ -58,6 +58,10 @@ void fat16_read_boot_sector(uint32_t starting_sector, fat16_boot_sector_t *buffe
 
 void fat16_print_boot_sector_info(fat16_boot_sector_t *buffer);
 
-int fat16_list_files(fat16_boot_sector_t *boot_sector);
+int fat16_list_files(fat16_boot_sector_t *boot_sector, fat16_dir_entry_t files_list[]);
+
+void fat16_get_file_name(fat16_dir_entry_t *dir_entry, char *filename);
+
+int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster, uint8_t *buffer, uint32_t buffer_size);
 
 #endif

@@ -70,7 +70,7 @@ void fat16_print_boot_sector_info(fat16_boot_sector_t *buffer)
     printf("Total sectors (large): %u\n", buffer->total_sectors_32);
 }
 
-int fat16_list_files(fat16_boot_sector_t *boot_sector)
+int fat16_list_files(fat16_boot_sector_t *boot_sector, fat16_dir_entry_t files_list[])
 {
     if (read_sector == NULL)
     {
@@ -112,23 +112,94 @@ int fat16_list_files(fat16_boot_sector_t *boot_sector)
             continue;
         }
 
-        // Copy the valid file info to the output list
-        // memcpy(files_list[valid_files], entry, sizeof(fat16_dir_entry_t));
-
-        char filename[13];
-        memset(filename, ' ', sizeof(filename));
-
-        // Copy the name part (8 characters) and extension part (3 characters)
-        strncpy(filename, (char *)entry->filename, 8);
-        filename[8] = '.'; // Place dot between name and extension
-        strncpy(filename + 9, (char *)entry->extension, 3);
-        filename[12] = 0; // Null-terminate the string
-
+        memcpy(&files_list[valid_files], entry, 32);
         valid_files++;
-
-        // Print the file name and file size
-        printf("%s, %u cluster: %u\n", filename, entry->file_size, entry->first_cluster_low);
     }
 
     return valid_files;
+}
+
+void fat16_get_file_name(fat16_dir_entry_t *dir_entry, char *filename)
+{
+    if (dir_entry == NULL)
+    {
+        return;
+    }
+
+    if (filename == NULL)
+    {
+        return;
+    }
+
+    memset(filename, ' ', 13);
+
+    // Copy the name
+    strncpy(filename, (char *)dir_entry->filename, 8);
+    // Add a dot between the name and extension
+    filename[8] = '.';
+    // Copy the extension
+    strncpy(filename + 9, (char *)dir_entry->extension, 3);
+
+    filename[12] = 0; // Null-terminate the string
+}
+
+// Function to get the next cluster from the FAT
+uint16_t get_fat_entry(fat16_boot_sector_t *boot_sector, uint16_t cluster)
+{
+    // The FAT16 entry for a cluster is at cluster * 2 (since each entry is 2 bytes)
+    uint32_t fat_offset = cluster * 2; // Offset of the entry in the FAT table (in bytes)
+
+    // Calculate the FAT sector (add hidden sectors + reserved sectors + the offset)
+    uint32_t fat_sector = boot_sector->hidden_sectors + boot_sector->reserved_sectors + (fat_offset / boot_sector->bytes_per_sector);
+
+    uint32_t fat_entry_offset = fat_offset % boot_sector->bytes_per_sector; // Offset within the sector
+
+    uint8_t fat_buffer[boot_sector->bytes_per_sector]; // Buffer to hold one FAT sector
+    read_sector(fat_sector, fat_buffer);
+
+    // The entry is 2 bytes long, so read the next 2 bytes for the cluster chain
+    uint16_t next_cluster = (fat_buffer[fat_entry_offset] | (fat_buffer[fat_entry_offset + 1] << 8)) & 0xFFFF;
+
+    return next_cluster;
+}
+
+int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster, uint8_t *buffer, uint32_t buffer_size)
+{
+    uint32_t buffer_index = 0;
+    uint16_t current_cluster = starting_cluster;
+
+    // Calculate the first sector of the cluster
+    uint32_t sector_size = boot_sector->bytes_per_sector;
+    uint32_t sectors_per_cluster = boot_sector->sectors_per_cluster;
+
+    while (current_cluster != 0xFFFF && buffer_index < buffer_size)
+    {
+        // printf("current cluster: %u\r\n", current_cluster);
+
+        duart_putc('.');
+
+        // TODO: where is this magic 32 coming from?
+        uint32_t first_sector_of_cluster = 32 + 2048 + (current_cluster - 2) * sectors_per_cluster + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
+
+        // Read the sectors of the current cluster into the buffer
+        for (uint32_t sector_offset = 0; sector_offset < sectors_per_cluster && buffer_index < buffer_size; sector_offset++)
+        {
+            uint32_t sector = first_sector_of_cluster + sector_offset;
+            uint8_t sector_buffer[sector_size];
+
+            // Read the sector into the buffer
+            // printf("file sector %u\r\n", sector);
+            read_sector(sector, sector_buffer);
+
+            // Copy the sector data into the main buffer
+            uint32_t bytes_to_copy = (buffer_size - buffer_index < sector_size) ? (buffer_size - buffer_index) : sector_size;
+            memcpy(buffer + buffer_index, sector_buffer, bytes_to_copy);
+            buffer_index += bytes_to_copy;
+        }
+
+        // Get the next cluster from the FAT
+        current_cluster = get_fat_entry(boot_sector, current_cluster);
+    }
+
+    return buffer_index; // Returns the number of bytes read
 }
