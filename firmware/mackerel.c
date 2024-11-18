@@ -101,12 +101,10 @@ void memdump(uint32_t address, uint32_t bytes)
         {
             term_set_color(TERM_FG_GREY);
         }
-        else
-        {
-            term_set_color(TERM_RESET);
-        }
 
         printf("%02X ", b);
+
+        term_set_color(TERM_RESET);
 
         i++;
 
