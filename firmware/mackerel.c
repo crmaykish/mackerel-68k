@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "mackerel.h"
+#include "term.h"
 
 void set_interrupts(bool enabled)
 {
@@ -95,6 +96,16 @@ void memdump(uint32_t address, uint32_t bytes)
     while (i < bytes)
     {
         b = MEM(address + i);
+
+        if (b == 0)
+        {
+            term_set_color(TERM_FG_GREY);
+        }
+        else
+        {
+            term_set_color(TERM_RESET);
+        }
+
         printf("%02X ", b);
 
         i++;

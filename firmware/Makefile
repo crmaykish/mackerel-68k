@@ -18,8 +18,8 @@ MEMORY_MAP_RAM = linker_ram.scr
 VECTORS = vectors_08.s
 endif
 
-COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o
-COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
+COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o term.o
+COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o term.o
 
 BASE_BINS = bootloader.bin hello.bin kernel.bin fatfs_demo.bin
 
