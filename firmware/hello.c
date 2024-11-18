@@ -11,7 +11,7 @@ void __attribute__((interrupt)) timer_isr()
 void __attribute__((interrupt)) ide_isr()
 {
     uint8_t status = MEM(IDE_STATUS);
-    printf("\r\n_IDE_INT_\r\n");
+    printf("\r\nIDE_INT: %u\r\n", status);
 }
 
 int main()

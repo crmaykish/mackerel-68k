@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "sd.h"
 #include "spi.h"
 
@@ -11,7 +12,7 @@ static uint8_t CMD17[6] = {0x40 + 17, 0x00, 0x00, 0x00, 0x00, 0x01};
 
 static uint8_t sd_get_response();
 
-bool sd_init()
+bool sd_reset()
 {
     int i;
     uint8_t b;
@@ -106,6 +107,21 @@ bool sd_init()
     return init_done;
 }
 
+bool sd_init()
+{
+    bool sd_ready = false;
+
+    for (int i = 0; i < 5; i++)
+    {
+        sd_ready = sd_reset();
+
+        if (sd_ready)
+            break;
+    }
+
+    return sd_ready;
+}
+
 uint8_t sd_command(uint8_t command[6])
 {
     int i;
@@ -122,7 +138,8 @@ void sd_read(uint32_t block_num, uint8_t *block)
 {
     int i;
     uint8_t result;
-    uint8_t command[6] = {0x40 + 17, 0, 0, 0, 0, 0x01};
+    uint8_t command[6];
+    memcpy(command, CMD17, 6);
 
     if (!block)
     {

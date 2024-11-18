@@ -78,6 +78,12 @@ void duart_putc(char c);
 void duart_puts(const char *s);
 char duart_getc(void);
 
+// Utils
+void memdump(uint32_t address, uint32_t bytes);
+
+uint16_t bswap16(uint16_t value);
+uint32_t bswap32(uint32_t value);
+
 // Timing
 void delay(int time);
 

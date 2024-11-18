@@ -21,7 +21,7 @@ endif
 COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o
 COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o
 
-BASE_BINS = bootloader.bin hello.bin kernel.bin
+BASE_BINS = bootloader.bin hello.bin kernel.bin fatfs_demo.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
@@ -48,6 +48,9 @@ bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
+	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+
+fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o
 	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
