@@ -1,6 +1,6 @@
+#include <stdio.h>
 #include "mackerel.h"
-
-#define ENABLE_XR68C681
+#include "term.h"
 
 void set_interrupts(bool enabled)
 {
@@ -65,6 +65,78 @@ void duart_puts(const char *s)
         duart_putc(s[i]);
         i++;
     }
+}
+
+void print_string_bin(char *str, uint8_t max)
+{
+    uint8_t i = 0;
+
+    while (i < max)
+    {
+        if (str[i] >= 32 && str[i] < 127)
+        {
+            duart_putc(str[i]);
+        }
+        else
+        {
+            duart_putc('.');
+        }
+
+        i++;
+    }
+}
+
+void memdump(uint32_t address, uint32_t bytes)
+{
+    uint32_t i = 0;
+    uint32_t b = 0;
+
+    printf("%08X  ", address);
+
+    while (i < bytes)
+    {
+        b = MEM(address + i);
+
+        if (b == 0)
+        {
+            term_set_color(TERM_FG_GREY);
+        }
+
+        printf("%02X ", b);
+
+        term_set_color(TERM_RESET);
+
+        i++;
+
+        if (i % 16 == 0 && i < bytes)
+        {
+            printf(" |");
+            print_string_bin((char *)(address + i - 16), 16);
+
+            printf("|\r\n%08X  ", address + i);
+        }
+        else if (i % 8 == 0)
+        {
+            duart_putc(' ');
+        }
+    }
+
+    duart_putc('|');
+    print_string_bin((char *)(address + i - 16), 16);
+    duart_putc('|');
+}
+
+uint16_t bswap16(uint16_t value)
+{
+    return (value >> 8) | (value << 8);
+}
+
+uint32_t bswap32(uint32_t value)
+{
+    return ((value >> 24) & 0xFF) |
+           ((value >> 8) & 0xFF00) |
+           ((value << 8) & 0xFF0000) |
+           ((value << 24) & 0xFF000000);
 }
 
 void delay(int time)
