@@ -77,7 +77,8 @@ wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
 // DTACK from DRAM
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
 // DTACK from IDE
-wire DTACK2 = ((~CS_IDE0_n || ~CS_IDE1_n) && ~IDE_RDY);
+//wire DTACK2 = ((~CS_IDE0_n || ~CS_IDE1_n) && ~IDE_RDY);
+wire DTACK2 = 1'b0;
 // DTACK to CPU
 assign DTACK_n = DTACK0 || DTACK1 || DTACK2 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
@@ -132,14 +133,12 @@ assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
 assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
 // SRAM enabled at 0x000000 - 0x100000 (except at boot)
-/*
-wire RAM_EN = BOOT && IACK && ADDR_FULL < 24'h100000;
+wire RAM_EN = BOOT && IACK_n && ADDR_FULL < 24'h100000;
 assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
 assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
-*/
 
-assign CS_SRAM0_n = 1'b1;
-assign CS_SRAM1_n = 1'b1;
+//assign CS_SRAM0_n = 1'b1;
+//assign CS_SRAM1_n = 1'b1;
 
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
@@ -147,11 +146,11 @@ assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADD
 // IDE at 0xFF4000 and 0xFFC000
 assign CS_IDE0_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFFC000);
 assign CS_IDE1_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);
-assign IDE_BUF_n = ~(~CS_IDE0_n || ~GPIO[2]);
+assign IDE_BUF_n = ~(~CS_IDE0_n || ~CS_IDE1_n);
 assign IDE_RD_n = ~(RW && ~AS_n && ~UDS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~UDS_n);
 
-// DRAM at 0x000000 - 0xF00000
-assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hF00000);
+// DRAM at 0x100000 - 0xF00000
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000);
 
 endmodule
