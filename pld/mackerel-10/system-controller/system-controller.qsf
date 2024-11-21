@@ -88,7 +88,6 @@ set_global_assignment -name VERILOG_FILE "system-controller.v"
 set_global_assignment -name VERILOG_FILE irq_encoder.v
 set_location_assignment PIN_4 -to RST_n
 set_location_assignment PIN_63 -to AS_n
-set_location_assignment PIN_50 -to BERR_n
 set_location_assignment PIN_51 -to DTACK_n
 set_location_assignment PIN_46 -to IPL0_n
 set_location_assignment PIN_45 -to IPL1_n
@@ -114,4 +113,6 @@ set_location_assignment PIN_39 -to IDE_BUF_n
 set_location_assignment PIN_34 -to CS_IDE0_n
 set_location_assignment PIN_36 -to IDE_RD_n
 set_location_assignment PIN_37 -to IDE_WR_n
-set_location_assignment PIN_22 -to RST_SW
+set_location_assignment PIN_50 -to CS_IDE1_n
+set_location_assignment PIN_22 -to GPIO[0]
+set_location_assignment PIN_24 -to GPIO[1]

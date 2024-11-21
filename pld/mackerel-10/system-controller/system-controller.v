@@ -1,14 +1,12 @@
 module system_controller(
 	input CLK,
-	output reg RST_n = 1'b0,
-	
-	input RST_SW,
+	input RST_n,
 
 	output CLK_CPU,
 	
 	output IPL0_n, IPL1_n, IPL2_n,
 	
-	output BERR_n, DTACK_n,
+	output DTACK_n,
 	
 	output reg VPA_n,
 	
@@ -39,16 +37,17 @@ module system_controller(
 	
 	input IDE_INT,
 	output CS_IDE0_n,
+	output CS_IDE1_n,
 	input IDE_RDY,
 	output IDE_RD_n,
 	output IDE_WR_n,
 	output IDE_BUF_n,
 	
-	output [3:2] GPIO
+	output [3:0] GPIO
 );
 
 // Source oscillator frequency
-localparam OSC_FREQ_HZ = 40000000;
+localparam OSC_FREQ_HZ = 20000000;
 // CPU frequency (half the oscillator frequency)
 localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
 // Frequency of the periodic timer interrupt
@@ -60,9 +59,10 @@ localparam TIMER_DELAY_CYCLES = CPU_FREQ_HZ / TIMER_FREQ_HZ;
 localparam RESET_DELAY_CYCLES = CPU_FREQ_HZ / 10;
 
 // Unused signals
-assign BERR_n = 1;
 assign IACK_EXP_n = 1;
 assign CS_EXP_n = 1'b1;
+
+assign GPIO = 4'b0;
 
 // Reconstruct the full address bus
 wire [24:0] ADDR_FULL = {ADDR_H, 10'b0, ADDR_L, 1'b0};
@@ -77,7 +77,7 @@ wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
 // DTACK from DRAM
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
 // DTACK from IDE
-wire DTACK2 = ((~CS_IDE0_n || ~GPIO[2]) && ~IDE_RDY);
+wire DTACK2 = ((~CS_IDE0_n || ~CS_IDE1_n) && ~IDE_RDY);
 // DTACK to CPU
 assign DTACK_n = DTACK0 || DTACK1 || DTACK2 || ~VPA_n;	// NOTE: DTACK and VPA cannot be LOW at the same time
 
@@ -107,15 +107,6 @@ reg IRQ_TIMER = 0;
 
 always @(posedge CLK_CPU) begin
 	clock_cycles <= clock_cycles + 1'b1;
-	
-	// When reset switch is pressed, pull RST_n LOW
-	if (~RST_SW) begin
-		RST_n <= 1'b0;
-		clock_cycles <= 24'b0;
-	end
-	
-	// After the reset delay, pull RST_n HIGH again
-	if (~RST_n && clock_cycles == RESET_DELAY_CYCLES) RST_n <= 1'b1;
 	
 	// Generate a periodic interrupt timer (25 MHz CPU => 50 Hz timer)
 	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
@@ -147,16 +138,18 @@ assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
 assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 */
 
+assign CS_SRAM0_n = 1'b1;
+assign CS_SRAM1_n = 1'b1;
+
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
 
 // IDE at 0xFF4000 and 0xFFC000
 assign CS_IDE0_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFFC000);
-assign GPIO[2] = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);	// IDE CS1 pin (bodge)
+assign CS_IDE1_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24'hFF8000);
 assign IDE_BUF_n = ~(~CS_IDE0_n || ~GPIO[2]);
 assign IDE_RD_n = ~(RW && ~AS_n && ~UDS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~UDS_n);
-assign GPIO[3] = ~RW;	// IDE buffer DIR pin (bodge)
 
 // DRAM at 0x000000 - 0xF00000
 assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hF00000);
