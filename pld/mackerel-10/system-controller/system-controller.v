@@ -47,16 +47,13 @@ module system_controller(
 );
 
 // Source oscillator frequency
-localparam OSC_FREQ_HZ = 40000000;
+localparam OSC_FREQ_HZ = 24000000;
 // CPU frequency (half the oscillator frequency)
 localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
 // Frequency of the periodic timer interrupt
 localparam TIMER_FREQ_HZ = 50;
 // CPU cycles between timer interrupts
 localparam TIMER_DELAY_CYCLES = CPU_FREQ_HZ / TIMER_FREQ_HZ;
-
-// CPU cycles to hold reset low (100ms)
-localparam RESET_DELAY_CYCLES = CPU_FREQ_HZ / 10;
 
 // Unused signals
 assign IACK_EXP_n = 1;
@@ -109,7 +106,7 @@ reg IRQ_TIMER = 0;
 always @(posedge CLK_CPU) begin
 	clock_cycles <= clock_cycles + 1'b1;
 	
-	// Generate a periodic interrupt timer (25 MHz CPU => 50 Hz timer)
+	// Generate a periodic interrupt timer
 	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
 		IRQ_TIMER <= 1;
 		clock_cycles <= 24'b0;
@@ -127,18 +124,18 @@ end
 // Address Decoding
 //================================//
 
-// ROM at 0xF00000 (0x000000 on BOOT)
+// ROM at 0xF00000 - 0xFF4000 (0x000000 on BOOT)
 wire ROM_EN = ~BOOT || (IACK_n && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4000);
 assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
 assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
-// SRAM enabled at 0x000000 - 0x100000 (except at boot)
-wire RAM_EN = BOOT && IACK_n && ADDR_FULL < 24'h100000;
+// SRAM enabled at 0xE00000 - 0xF00000 (1 MB)
+wire RAM_EN = BOOT && IACK_n && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000;
 assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
 assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 
-//assign CS_SRAM0_n = 1'b1;
-//assign CS_SRAM1_n = 1'b1;
+// DRAM at 0x000000 - 0xE00000 (14 MB)
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hE00000);
 
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
@@ -149,8 +146,5 @@ assign CS_IDE1_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'hFF4000 && ADDR_FULL < 24
 assign IDE_BUF_n = ~(~CS_IDE0_n || ~CS_IDE1_n);
 assign IDE_RD_n = ~(RW && ~AS_n && ~UDS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~UDS_n);
-
-// DRAM at 0x100000 - 0xF00000
-assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000);
 
 endmodule
