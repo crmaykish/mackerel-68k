@@ -36,18 +36,12 @@ int main()
     printf("read sector 1\r\n");
     IDE_read_sector(buf, 1);
 
-    for (int i = 0; i < 256; i++)
-    {
-        printf("%d: %04X\r\n", i, buf[i]);
-    }
+    memdump(buf, 512);
 
     printf("read sector 2\r\n");
     IDE_read_sector(buf, 2);
 
-    for (int i = 0; i < 256; i++)
-    {
-        printf("%d: %04X\r\n", i, buf[i]);
-    }
+    memdump(buf, 512);
 
     printf("Done\r\n");
 
