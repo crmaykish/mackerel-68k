@@ -15,15 +15,16 @@ typedef unsigned int uint32_t;
 #define IRQ_NUM_DUART 5
 #define IRQ_NUM_TIMER 6
 
-#ifdef MACKEREL_10
+#ifdef MACKEREL_30
+#define SYSTEM_NAME "Mackerel-30"
+#define DUART1_BASE 0xC0000000
+#elif MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
-
 #define LEDS 0xF00001
 #define GPIO 0xF00003
 #define DUART1_BASE 0xFF8000
 #else
 #define SYSTEM_NAME "Mackerel-08"
-
 #define DUART1_BASE 0x3FC000
 #endif
 

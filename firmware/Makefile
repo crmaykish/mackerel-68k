@@ -4,8 +4,15 @@ LD = ~/opt/cross/bin/m68k-elf-ld
 OBJCOPY = ~/opt/cross/bin/m68k-elf-objcopy
 
 BOARD = mack08
+CPU = 68000
 
-ifeq ($(BOARD),mack10)
+ifeq ($(BOARD),mack30)
+CPPFLAGS = -DMACKEREL_30
+MEMORY_MAP_ROM = linker_rom_30.scr
+MEMORY_MAP_RAM = linker_ram_30.scr
+VECTORS = vectors_30.s
+CPU = 68030
+else ifeq ($(BOARD),mack10)
 # Mackerel-10
 CPPFLAGS = -DMACKEREL_10
 MEMORY_MAP_ROM = linker_rom_10.scr
@@ -27,7 +34,7 @@ ifeq ($(BOARD),mack10)
 # Mackerel-10
 BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
 else
-# Mackerel-08
+# Mackerel-08 / Mackerel-30
 BINS = $(BASE_BINS)
 endif
 
@@ -36,25 +43,25 @@ endif
 all: $(BINS)
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) -mcpu=68000 -g -Wall -c $< -o $@ -O
+	$(CC) $(CPPFLAGS) -mcpu=$(CPU) -g -Wall -c $< -o $@ -O
 
 %.o: %.s
-	$(AS) -mcpu=68000 $< -o $@
+	$(AS) -mcpu=$(CPU) $< -o $@
 
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
 bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o
-	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
+	$(CC) $(CPPFLAGS) -mcpu=$(CPU) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
-	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CPPFLAGS) -mcpu=$(CPU) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o
-	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CPPFLAGS) -mcpu=$(CPU) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
-	$(CC) $(CPPFLAGS) -mcpu=68000 -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CPPFLAGS) -mcpu=$(CPU) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 	
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@

@@ -85,3 +85,8 @@ set_location_assignment PIN_60 -to RW
 set_location_assignment PIN_58 -to SIZ0
 set_location_assignment PIN_57 -to SIZ1
 set_location_assignment PIN_52 -to STERM_n
+set_location_assignment PIN_5 -to P5
+set_location_assignment PIN_6 -to P6
+set_location_assignment PIN_8 -to P8
+set_location_assignment PIN_9 -to P9
+set_location_assignment PIN_10 -to P10
