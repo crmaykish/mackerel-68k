@@ -36,12 +36,12 @@ int main()
     printf("read sector 1\r\n");
     IDE_read_sector(buf, 1);
 
-    memdump(buf, 512);
+    memdump((uint32_t)buf, 512);
 
     printf("read sector 2\r\n");
     IDE_read_sector(buf, 2);
 
-    memdump(buf, 512);
+    memdump((uint32_t)buf, 512);
 
     printf("Done\r\n");
 

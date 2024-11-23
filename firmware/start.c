@@ -8,7 +8,9 @@ void panic(const char *err)
     duart_puts(err);
     duart_puts("\r\n");
 
-    while(1) {}
+    while (1)
+    {
+    }
 }
 
 void __attribute((interrupt)) exception_unhandled() { panic("Unhandled exception"); }
@@ -31,6 +33,12 @@ void _start()
     // Disable interrupts
     set_interrupts(false);
 
+#ifdef MACKEREL_30
+    set_vbr(VBR);
+#endif
+
+    set_exception_handler(0, 0);
+    set_exception_handler(1, 0);
     set_exception_handler(2, exception_bus_error);
     set_exception_handler(3, exception_addr_error);
     set_exception_handler(4, exception_illegal_inst);
@@ -61,7 +69,6 @@ void _start()
     }
 
     // Setup the hardware peripherals
-    // mfp_init();
     duart_init();
 
     // Call main
