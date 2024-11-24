@@ -94,7 +94,9 @@ void set_leds(unsigned char val);
 void set_gpio(unsigned char val);
 #endif
 
+#ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val);
 unsigned int get_vbr();
+#endif
 
 #endif

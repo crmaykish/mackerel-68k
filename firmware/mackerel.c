@@ -157,6 +157,7 @@ void set_gpio(unsigned char val)
 }
 #endif
 
+#ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val)
 {
     asm volatile("movec	%0,%%vbr"
@@ -171,3 +172,5 @@ unsigned int get_vbr()
         : "=d"(vbr_value));
     return vbr_value;
 }
+
+#endif

@@ -25,11 +25,16 @@ module system_controller(
 	output CS_DUART_n,
 	output IACK_DUART_n,
 	
+	input IRQ_DUART_n,
+	input DTACK_DUART_n,
+	
 	output P5, P6, P8, P9, P10
 );
 
 // Reconstruct the full address bus value from components
 //wire [31:0] ADDR = {AH, 8'b0, AM, 12'b0, AL};
+
+wire IACK_n = ~(FC == 3'b111);
 
 assign DSACK0_n = 1'b0;	// All memory cycles are 8-bit
 assign DSACK1_n = 1'b1;
@@ -38,21 +43,36 @@ assign AVEC_n = 1'b1;
 assign CIIN_n = 1'b1;
 assign STERM_n = 1'b1;
 
+assign P5 = AS_n;
+assign P6 = IACK_DUART_n;
+assign P8 = IRQ_DUART_n;
+
 wire BOOT;
 boot_signal bs(RST_n, AS_n, BOOT);
 
-assign IPL_n = 3'b111;
+irq_encoder ie1(
+	.irq1(0),
+	.irq2(0),
+	.irq3(0),
+	.irq4(0),
+	.irq5(~IRQ_DUART_n),
+	.irq6(0),
+	.irq7(0),
+	.ipl0_n(IPL_n[0]),
+	.ipl1_n(IPL_n[1]),
+	.ipl2_n(IPL_n[2])
+);
 
-assign IACK_DUART_n = 1'b1;
+assign IACK_DUART_n = ~(~IACK_n && AM[19] && AM[18] && AM[17] && AM[16]);
 
 // ROM at 0x0000 for first two memory cycles, 0x80000000 after that
-wire ROM_EN = ~BOOT || (AH[31] && ~AH[30]);
+wire ROM_EN = ~BOOT || (IACK_n && AH[31] && ~AH[30]);
 assign CS_ROM_n = ~(~AS_n && ~DS_n && ROM_EN);
 
 // RAM at 0x0000 after first two memory cycles
-assign CS_SRAM_n = ~(BOOT && ~AS_n && ~DS_n && ~AH[31] && ~AH[30]);
+assign CS_SRAM_n = ~(IACK_n && BOOT && ~AS_n && ~DS_n && ~AH[31] && ~AH[30]);
 
 // DUART at 0xC0000000
-assign CS_DUART_n = ~(BOOT && ~AS_n && ~DS_n && AH[31] && AH[30]);
+assign CS_DUART_n = ~(IACK_n && BOOT && ~AS_n && ~DS_n && AH[31] && AH[30]);
 
 endmodule

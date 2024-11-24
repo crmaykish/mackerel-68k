@@ -89,5 +89,8 @@ set_location_assignment PIN_6 -to P6
 set_location_assignment PIN_8 -to P8
 set_location_assignment PIN_9 -to P9
 set_location_assignment PIN_10 -to P10
+set_global_assignment -name VERILOG_FILE irq_encoder.v
 set_global_assignment -name VERILOG_FILE boot_signal.v
 set_global_assignment -name VERILOG_FILE system_controller.v
+set_location_assignment PIN_21 -to IRQ_DUART_n
+set_location_assignment PIN_20 -to DTACK_DUART_n
