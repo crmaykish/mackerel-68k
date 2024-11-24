@@ -47,7 +47,7 @@ module system_controller(
 );
 
 // Source oscillator frequency
-localparam OSC_FREQ_HZ = 24000000;
+localparam OSC_FREQ_HZ = 20000000;
 // CPU frequency (half the oscillator frequency)
 localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
 // Frequency of the periodic timer interrupt
@@ -70,7 +70,8 @@ wire IACK_n = ~(FC0 && FC1 && FC2);
 assign IACK_DUART_n = ~(~IACK_n && ~AS_n && ADDR_L[3:1] == 3'd5);
 
 // DTACK from DUART
-wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
+//wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
+wire DTACK0 = 1'b0;	// DUART DTACK is always low anyway?
 // DTACK from DRAM
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
 // DTACK from IDE
@@ -106,8 +107,10 @@ reg IRQ_TIMER = 0;
 always @(posedge CLK_CPU) begin
 	clock_cycles <= clock_cycles + 1'b1;
 	
-	// Generate a periodic interrupt timer
-	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
+	if (~RST_n) begin
+		clock_cycles <= 24'b0;
+	end
+	else if (clock_cycles == TIMER_DELAY_CYCLES) begin
 		IRQ_TIMER <= 1;
 		clock_cycles <= 24'b0;
 	end
@@ -129,13 +132,13 @@ wire ROM_EN = ~BOOT || (IACK_n && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4
 assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
 assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
-// SRAM enabled at 0xE00000 - 0xF00000 (1 MB)
-wire RAM_EN = BOOT && IACK_n && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000;
+// SRAM enabled at 0x0000 - 0x100000 (1 MB)
+wire RAM_EN = BOOT && IACK_n && ADDR_FULL < 24'h100000;
 assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
 assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 
-// DRAM at 0x000000 - 0xE00000 (14 MB)
-assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hE00000);
+// DRAM at 0x100000 - 0xF00000 (14 MB)
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000);
 
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
