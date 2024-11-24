@@ -132,13 +132,13 @@ wire ROM_EN = ~BOOT || (IACK_n && ADDR_FULL >= 24'hF00000 && ADDR_FULL < 24'hFF4
 assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
 assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
-// SRAM enabled at 0x0000 - 0x100000 (1 MB)
-wire RAM_EN = BOOT && IACK_n && ADDR_FULL < 24'h100000;
+// SRAM enabled at 0xE00000 - 0xF00000 (1 MB)
+wire RAM_EN = BOOT && IACK_n && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000;
 assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
 assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 
-// DRAM at 0x100000 - 0xF00000 (14 MB)
-assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL >= 24'h100000 && ADDR_FULL < 24'hF00000);
+// DRAM at 0x000000 - 0xE00000 (14 MB)
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hE00000);
 
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
