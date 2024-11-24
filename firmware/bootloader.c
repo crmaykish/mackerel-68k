@@ -108,13 +108,8 @@ int main()
 
 void handler_runram()
 {
-#ifdef MACKEREL_30
-    duart_puts("Jumping to 0x80000400\r\n");
-    asm("jsr 0x80000400");
-#else
     duart_puts("Jumping to 0x400\r\n");
     asm("jsr 0x400");
-#endif
 }
 
 void handler_runrom()
@@ -185,11 +180,7 @@ void handler_load(uint32_t addr)
 
     if (addr == 0)
     {
-#ifdef MACKEREL_30
-        addr = 0x80000400;
-#else
         addr = 0x400;
-#endif
     }
 
     printf("Loading from serial into 0x%X...\r\n", addr);

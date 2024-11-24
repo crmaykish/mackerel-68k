@@ -18,17 +18,14 @@ typedef unsigned int uint32_t;
 #ifdef MACKEREL_30
 #define SYSTEM_NAME "Mackerel-30"
 #define DUART1_BASE 0xC0000000
-#define VBR 0x80000000
 #elif MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
 #define LEDS 0xF00001
 #define GPIO 0xF00003
 #define DUART1_BASE 0xFF8000
-#define VBR 0x0000
 #else
 #define SYSTEM_NAME "Mackerel-08"
 #define DUART1_BASE 0x3FC000
-#define VBR 0x0000
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)
@@ -97,9 +94,7 @@ void set_leds(unsigned char val);
 void set_gpio(unsigned char val);
 #endif
 
-#ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val);
 unsigned int get_vbr();
-#endif
 
 #endif

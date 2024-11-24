@@ -33,10 +33,6 @@ void _start()
     // Disable interrupts
     set_interrupts(false);
 
-#ifdef MACKEREL_30
-    set_vbr(VBR);
-#endif
-
     set_exception_handler(0, 0);
     set_exception_handler(1, 0);
     set_exception_handler(2, exception_bus_error);

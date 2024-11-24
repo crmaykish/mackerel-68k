@@ -18,7 +18,7 @@ void set_interrupts(bool enabled)
 
 void set_exception_handler(unsigned char exception_number, void (*exception_handler)())
 {
-    MEM32(VBR + (exception_number * 4)) = (uint32_t)exception_handler;
+    MEM32(exception_number * 4) = (uint32_t)exception_handler;
 }
 
 void duart_init(void)
@@ -157,7 +157,6 @@ void set_gpio(unsigned char val)
 }
 #endif
 
-#ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val)
 {
     asm volatile("movec	%0,%%vbr"
@@ -172,4 +171,3 @@ unsigned int get_vbr()
         : "=d"(vbr_value));
     return vbr_value;
 }
-#endif
