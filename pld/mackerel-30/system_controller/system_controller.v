@@ -22,11 +22,23 @@ module system_controller(
 	
 	output CS_ROM_n,
 	output CS_SRAM_n,
+	
+	output CS_FPU_n,
+	input DSACK0_FPU_n,
+	input DSACK1_FPU_n,
+	
 	output CS_DUART_n,
 	output IACK_DUART_n,
-	
 	input IRQ_DUART_n,
 	input DTACK_DUART_n,
+	
+	output IDE_BUF_n,
+	output IDE_CS0_n,
+	output IDE_CS1_n,
+	output IDE_WR_n,
+	output IDE_RD_n,
+	input IDE_RDY,
+	input IDE_INT,
 	
 	output P5, P6, P8, P9, P10
 );
@@ -43,6 +55,11 @@ assign BERR_n = 1'b1;
 assign AVEC_n = 1'b1;
 assign CIIN_n = 1'b1;
 assign STERM_n = 1'b1;
+
+assign CS_FPU_n = 1'b1;
+
+assign IDE_BUF_n = 1'b1;
+
 
 assign P5 = AS_n;
 assign P6 = IACK_DUART_n;
