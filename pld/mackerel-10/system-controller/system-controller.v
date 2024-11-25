@@ -47,7 +47,7 @@ module system_controller(
 );
 
 // Source oscillator frequency
-localparam OSC_FREQ_HZ = 24000000;
+localparam OSC_FREQ_HZ = 20000000;
 // CPU frequency (half the oscillator frequency)
 localparam CPU_FREQ_HZ = OSC_FREQ_HZ / 2;
 // Frequency of the periodic timer interrupt
@@ -70,7 +70,8 @@ wire IACK_n = ~(FC0 && FC1 && FC2);
 assign IACK_DUART_n = ~(~IACK_n && ~AS_n && ADDR_L[3:1] == 3'd5);
 
 // DTACK from DUART
-wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
+//wire DTACK0 = ((~CS_DUART_n || ~IACK_DUART_n) && DTACK_DUART_n);
+wire DTACK0 = 1'b0;	// DUART DTACK is always low anyway?
 // DTACK from DRAM
 wire DTACK1 = (~CS_DRAM_n && DTACK_DRAM_n);
 // DTACK from IDE
@@ -106,8 +107,10 @@ reg IRQ_TIMER = 0;
 always @(posedge CLK_CPU) begin
 	clock_cycles <= clock_cycles + 1'b1;
 	
-	// Generate a periodic interrupt timer
-	if (RST_n && clock_cycles == TIMER_DELAY_CYCLES) begin
+	if (~RST_n) begin
+		clock_cycles <= 24'b0;
+	end
+	else if (clock_cycles == TIMER_DELAY_CYCLES) begin
 		IRQ_TIMER <= 1;
 		clock_cycles <= 24'b0;
 	end
