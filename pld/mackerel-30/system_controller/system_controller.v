@@ -34,7 +34,8 @@ module system_controller(
 // Reconstruct the full address bus value from components
 //wire [31:0] ADDR = {AH, 8'b0, AM, 12'b0, AL};
 
-wire IACK_n = ~(FC == 3'b111);
+// TODO: might have to break up IACK and CPU space for coprocessor logic
+wire IACK_n = ~(FC == 3'b111 && AM[19:16] == 4'b1111);
 
 assign DSACK0_n = 1'b0;	// All memory cycles are 8-bit
 assign DSACK1_n = 1'b1;
@@ -63,7 +64,7 @@ irq_encoder ie1(
 	.ipl2_n(IPL_n[2])
 );
 
-assign IACK_DUART_n = ~(~IACK_n && AM[19] && AM[18] && AM[17] && AM[16]);
+assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
 
 // ROM at 0x0000 for first two memory cycles, 0x80000000 after that
 wire ROM_EN = ~BOOT || (IACK_n && AH[31] && ~AH[30]);

@@ -11,7 +11,7 @@ CPPFLAGS = -DMACKEREL_30
 MEMORY_MAP_ROM = linker_rom_30.scr
 MEMORY_MAP_RAM = linker_ram_30.scr
 VECTORS = vectors_30.s
-CPU = 68030
+CPU = 68010
 else ifeq ($(BOARD),mack10)
 # Mackerel-10
 CPPFLAGS = -DMACKEREL_10
