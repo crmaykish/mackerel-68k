@@ -76,7 +76,7 @@ Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first 
 
 ### Mackerel-10
 
-![Mackerel-10 v1](media/images/mackerel-10-v1_cropped.jpg)
+![Mackerel-10 v1](media/images/mackerel-10-v1.2.jpg)
 
 Mackerel-10 is the second SBC in the project. It expands on the design of Mackerel-08 with a MC68010 CPU (or equivalent), the same XR68C681 DUART, 1MB of Flash ROM, 1MB of SRAM, up to 16 MB of DRAM, and an IDE drive interface. Two CPLDs act as the glue logic and DRAM controller for the board. The SRAM is optional and the address space can be filled almost entirely with DRAM.
 
