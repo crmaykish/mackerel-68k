@@ -1,0 +1,110 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 16:56:52  November 25, 2024
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		dram_controller_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY MAX7000S
+set_global_assignment -name DEVICE "EPM7128SLC84-15"
+set_global_assignment -name TOP_LEVEL_ENTITY dram_controller
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:56:52  NOVEMBER 25, 2024"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 84
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 15
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR "-1"
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name VERILOG_FILE dram_controller.v
+set_global_assignment -name MAX7000_DEVICE_IO_STANDARD TTL
+set_location_assignment PIN_21 -to ADDR[27]
+set_location_assignment PIN_22 -to ADDR[26]
+set_location_assignment PIN_24 -to ADDR[25]
+set_location_assignment PIN_25 -to ADDR[24]
+set_location_assignment PIN_28 -to ADDR[23]
+set_location_assignment PIN_27 -to ADDR[22]
+set_location_assignment PIN_31 -to ADDR[21]
+set_location_assignment PIN_30 -to ADDR[20]
+set_location_assignment PIN_34 -to ADDR[19]
+set_location_assignment PIN_29 -to ADDR[18]
+set_location_assignment PIN_37 -to ADDR[17]
+set_location_assignment PIN_33 -to ADDR[16]
+set_location_assignment PIN_40 -to ADDR[15]
+set_location_assignment PIN_36 -to ADDR[14]
+set_location_assignment PIN_44 -to ADDR[13]
+set_location_assignment PIN_39 -to ADDR[12]
+set_location_assignment PIN_35 -to ADDR[11]
+set_location_assignment PIN_45 -to ADDR[10]
+set_location_assignment PIN_48 -to ADDR[9]
+set_location_assignment PIN_41 -to ADDR[8]
+set_location_assignment PIN_46 -to ADDR[7]
+set_location_assignment PIN_55 -to ADDR[6]
+set_location_assignment PIN_49 -to ADDR[5]
+set_location_assignment PIN_50 -to ADDR[4]
+set_location_assignment PIN_51 -to ADDR[3]
+set_location_assignment PIN_52 -to ADDR[2]
+set_location_assignment PIN_20 -to ADDR[1]
+set_location_assignment PIN_18 -to ADDR[0]
+set_location_assignment PIN_69 -to ADDR_DRAM[11]
+set_location_assignment PIN_73 -to ADDR_DRAM[10]
+set_location_assignment PIN_67 -to ADDR_DRAM[9]
+set_location_assignment PIN_68 -to ADDR_DRAM[8]
+set_location_assignment PIN_70 -to ADDR_DRAM[7]
+set_location_assignment PIN_74 -to ADDR_DRAM[6]
+set_location_assignment PIN_76 -to ADDR_DRAM[5]
+set_location_assignment PIN_75 -to ADDR_DRAM[4]
+set_location_assignment PIN_77 -to ADDR_DRAM[3]
+set_location_assignment PIN_80 -to ADDR_DRAM[2]
+set_location_assignment PIN_79 -to ADDR_DRAM[1]
+set_location_assignment PIN_81 -to ADDR_DRAM[0]
+set_location_assignment PIN_17 -to AS_n
+set_location_assignment PIN_63 -to CAS0_n
+set_location_assignment PIN_58 -to CAS1_n
+set_location_assignment PIN_61 -to CAS2_n
+set_location_assignment PIN_60 -to CAS3_n
+set_location_assignment PIN_83 -to CLK
+set_location_assignment PIN_2 -to CLK_CPU
+set_location_assignment PIN_10 -to CS_n
+set_location_assignment PIN_54 -to DRAM_WR_n
+set_location_assignment PIN_16 -to DS_n
+set_location_assignment PIN_57 -to RAS0_n
+set_location_assignment PIN_64 -to RAS1_n
+set_location_assignment PIN_56 -to RAS2_n
+set_location_assignment PIN_65 -to RAS3_n
+set_location_assignment PIN_4 -to RST_n
+set_location_assignment PIN_11 -to RW
+set_location_assignment PIN_12 -to SIZ0
+set_location_assignment PIN_15 -to SIZ1
