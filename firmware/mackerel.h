@@ -23,10 +23,11 @@ typedef unsigned int uint32_t;
 #define SYSTEM_NAME "Mackerel-10"
 #define DUART1_BASE 0xFF8000
 #define IDE_BASE 0xFFC000
-#else
+#elif MACKEREL_08
 #define SYSTEM_NAME "Mackerel-08"
 #define DUART1_BASE 0x3FC000
-#define IDE_BASE 0xFFFFFF   // Unsupported
+// IDE is not supported on Mackerel-08
+#define IDE_BASE 0xFFFFFF
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)
@@ -88,12 +89,6 @@ uint32_t bswap32(uint32_t value);
 
 // Timing
 void delay(int time);
-
-#ifdef MACKEREL_10
-// CPLD-based GPIO
-void set_leds(unsigned char val);
-void set_gpio(unsigned char val);
-#endif
 
 #ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val);

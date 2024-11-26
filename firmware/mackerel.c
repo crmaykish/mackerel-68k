@@ -145,18 +145,6 @@ void delay(int time)
         __asm__ __volatile__("");
 }
 
-#ifdef MACKEREL_10
-void set_leds(unsigned char val)
-{
-    MEM(LEDS) = val;
-}
-
-void set_gpio(unsigned char val)
-{
-    MEM(GPIO) = val;
-}
-#endif
-
 #ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val)
 {
