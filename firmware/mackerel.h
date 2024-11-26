@@ -17,15 +17,16 @@ typedef unsigned int uint32_t;
 
 #ifdef MACKEREL_30
 #define SYSTEM_NAME "Mackerel-30"
-#define DUART1_BASE 0xC0000000
+#define DUART1_BASE 0xF0000000
+#define IDE_BASE 0xF0010000
 #elif MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
-#define LEDS 0xF00001
-#define GPIO 0xF00003
 #define DUART1_BASE 0xFF8000
+#define IDE_BASE 0xFFC000
 #else
 #define SYSTEM_NAME "Mackerel-08"
 #define DUART1_BASE 0x3FC000
+#define IDE_BASE 0xFFFFFF   // Unsupported
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)

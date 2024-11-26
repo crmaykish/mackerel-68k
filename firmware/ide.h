@@ -4,7 +4,6 @@
 #include "mackerel.h"
 
 // IDE mem-mapped registers
-#define IDE_BASE 0xFFC000
 #define IDE_DATA IDE_BASE + 0x00
 // #define IDE_ERROR IDE_BASE + 0x02
 #define IDE_FEATURE IDE_BASE + 0x02
