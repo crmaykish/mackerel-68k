@@ -8,7 +8,7 @@ module system_controller(
 
 	output DSACK0_n, DSACK1_n,
 	output BERR_n,
-	output AVEC_n,
+	output reg AVEC_n = 1'b1,
 	output CIIN_n,
 	output STERM_n,
 
@@ -51,7 +51,6 @@ wire CPU_SPACE = (FC == 3'b111);
 wire IACK_n = ~(CPU_SPACE && ~AS_n && AM[19:16] == 4'b1111);
 
 assign BERR_n = 1'b1;
-assign AVEC_n = 1'b1;
 assign CIIN_n = 1'b1;
 assign STERM_n = 1'b1;
 
@@ -65,7 +64,7 @@ boot_signal bs(RST_n, AS_n, BOOT);
 irq_encoder ie1(
 	.irq1(0),
 	.irq2(0),
-	.irq3(0),
+	.irq3(IDE_INT),
 	.irq4(0),
 	.irq5(~IRQ_DUART_n),
 	.irq6(0),
@@ -74,6 +73,13 @@ irq_encoder ie1(
 	.ipl1_n(IPL_n[1]),
 	.ipl2_n(IPL_n[2])
 );
+
+// Autovector the non-DUART interrupts
+always @(posedge CLK) begin
+	// Autovector the non-DUART interrupts
+	if (~IACK_n && IACK_DUART_n && ~AS_n) AVEC_n <= 1'b0;
+	else AVEC_n <= 1'b1;
+end
 
 // DUART IACK is mapped to IRQ level 5
 assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
