@@ -103,7 +103,17 @@ assign CS_FPU_n = 1'b1;
 
 // === DSACK GENERATION === //
 
-assign DSACK0_n = 1'b0;
-assign DSACK1_n = 1'b1;
+// wire [1:0] CYCLE_WIDTH = {SIZ1, SIZ0};
+// wire CYCLE_WIDTH_8 = (CYCLE_WIDTH == 2'b01);
+// wire CYCLE_WIDTH_16 = (CYCLE_WIDTH == 2'b01);
+// wire CYCLE_WIDTH_24 = (CYCLE_WIDTH == 2'b11);
+// wire CYCLE_WIDTH_32 = (CYCLE_WIDTH == 2'b00);
+
+// NOTE: This logic is incomplete, does it need to consider SIZ0 and SIZ1 to generate the DSACK signals?
+
+wire IDE16 = ~AS_n && (~IDE_CS0_n || ~IDE_CS1_n);
+
+assign DSACK0_n = ~(~AS_n && ~IDE16);
+assign DSACK1_n = ~(IDE16);
 
 endmodule
