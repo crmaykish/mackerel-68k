@@ -16,7 +16,7 @@ uint16_t reverse_lowest_8_bits(uint16_t num)
     return (num & 0xFF00) | reversed_low_bits;
 }
 
-void read_sector(uint16_t *buf)
+void read_sector_internal(uint16_t *buf)
 {
     for (uint16_t i = 0; i < 256; i++)
     {
@@ -62,7 +62,7 @@ void IDE_read_sector(uint16_t *buf, uint32_t lba)
     // Send the read sector command
     MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
     IDE_wait_for_data_ready();
-    read_sector(buf);
+    read_sector_internal(buf);
 }
 
 void IDE_device_info(uint16_t *buf)
@@ -70,7 +70,7 @@ void IDE_device_info(uint16_t *buf)
     printf("Reading IDE device info...\r\n");
     MEM(IDE_COMMAND) = IDE_CMD_IDENTIFY;
     IDE_wait_for_data_ready();
-    read_sector(buf);
+    read_sector_internal(buf);
 
     // Model
     for (int i = 27; i <= 46; i++)
@@ -95,4 +95,10 @@ void IDE_device_info(uint16_t *buf)
     }
 
     printf("\r\n");
+}
+
+void IDE_reset()
+{
+    MEM(IDE_COMMAND) = IDE_CMD_RESET;
+    IDE_wait_for_device_ready();
 }

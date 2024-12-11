@@ -40,4 +40,6 @@ void IDE_read_sector(uint16_t *buf, uint32_t lba);
 
 void IDE_device_info(uint16_t *buf);
 
+void IDE_reset();
+
 #endif

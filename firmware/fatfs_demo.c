@@ -2,8 +2,22 @@
 #include <stdio.h>
 #include <string.h>
 #include "mackerel.h"
-#include "sd.h"
 #include "fat16.h"
+
+#ifdef MACKEREL_08
+#include "sd.h"
+#else
+#include "ide.h"
+#endif
+
+void block_read(uint32_t block_num, uint8_t *block)
+{
+#ifdef MACKEREL_08
+    sd_read(block_num, block);
+#else
+    IDE_read_sector((uint16_t *)block, block_num);
+#endif
+}
 
 int main()
 {
@@ -13,13 +27,21 @@ int main()
 
     printf("FAT Filesystem Demo\r\n");
 
+#ifdef MACKEREL_08
+    // Setup SD card
     if (!sd_init())
     {
         return 1;
     }
+#else
+    // Reset and IDE interface
+    uint16_t buf[256];
+    IDE_reset();
+    IDE_device_info(buf);
+#endif
 
     // Initialize FAT16 library with the SD card sector read function
-    if (fat16_init(sd_read) != 0)
+    if (fat16_init(block_read) != 0)
     {
         printf("Failed to initialize FAT16 library\r\n");
         return -1;
@@ -43,7 +65,7 @@ int main()
         }
     }
 
-    printf("Printing example.txt...\r\n");
+    printf("Printing hello.txt...\r\n");
 
     for (int i = 0; i < 16; i++)
     {
@@ -52,7 +74,7 @@ int main()
             char filename[13];
             fat16_get_file_name(&files_list[i], filename);
 
-            if (strncmp(filename, "EXAMPLE .TXT", 12) == 0)
+            if (strncmp(filename, "HELLO   .TXT", 12) == 0)
             {
                 printf("Found file: %s - cluster: %u\r\n", filename, files_list[i].first_cluster_low);
 

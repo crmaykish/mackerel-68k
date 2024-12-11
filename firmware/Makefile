@@ -62,7 +62,7 @@ bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o
 hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
-fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o
+fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o ide.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
