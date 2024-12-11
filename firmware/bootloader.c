@@ -5,8 +5,9 @@
 #include "mackerel.h"
 #include "sd.h"
 #include "ide.h"
+#include "fat16.h"
 
-#define VERSION "0.1.3"
+#define VERSION "0.2.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -47,10 +48,7 @@ int main()
         }
         else if (strncmp(buffer, "ide", 3) == 0)
         {
-            strtok(buffer, " ");
-            char *param1 = strtok(NULL, " ");
-            uint32_t sectors = strtoul(param1, 0, 16);
-            handler_ide(sectors);
+            handler_ide();
         }
         else if (strncmp(buffer, "runrom", 6) == 0)
         {
@@ -154,22 +152,80 @@ void handler_boot()
     handler_runram();
 }
 
-void handler_ide(uint32_t sectors)
+void block_read(uint32_t block_num, uint8_t *block)
 {
-    uint16_t *mem = (uint16_t *)0x400;
+    IDE_read_sector((uint16_t *)block, block_num);
+}
 
-    // Read the rest of the IDE drive to load the Linux image into RAM
-    printf("Loading kernel into 0x%X...\n", (int)mem);
+void handler_ide()
+{
+    fat16_boot_sector_t boot_sector;
+    fat16_dir_entry_t files_list[16] = {0};
 
-    uint32_t blocks = sectors;
+    printf("Attempting to load Linux kernel from IDE...\r\n");
 
-    for (int block = 1; block <= blocks; block++)
+    // Reset the IDE interface
+    uint16_t buf[256];
+    IDE_reset();
+    IDE_device_info(buf);
+
+    // Initialize FAT16 library with the IDE block read function
+    if (fat16_init(block_read) != 0)
     {
-        IDE_read_sector(mem, block);
-        mem += 256;
+        printf("Failed to initialize FAT16 library\r\n");
+        return;
     }
 
-    handler_runram();
+    fat16_read_boot_sector(2048, &boot_sector);
+    fat16_print_boot_sector_info(&boot_sector);
+
+    printf("\r\nReading files on disk...\r\n");
+    fat16_list_files(&boot_sector, files_list);
+
+    bool kernel_found = false;
+
+    for (int i = 0; i < 16; i++)
+    {
+        if (files_list[i].file_size > 0)
+        {
+            char filename[13];
+            fat16_get_file_name(&files_list[i], filename);
+
+            if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
+            {
+                printf("\r\nFound IMAGE.BIN, reading it into RAM...\r\n");
+
+                uint8_t *file = (uint8_t *)0x400;
+
+                int bytes_read = fat16_read_file(&boot_sector, files_list[i].first_cluster_low, file, files_list[i].file_size);
+
+                printf("\r\n");
+
+                printf("Read %d of %d bytes\r\n", bytes_read, files_list[i].file_size);
+
+                if (bytes_read != files_list[i].file_size)
+                {
+                    printf("File read failed\r\n");
+                }
+                else
+                {
+                    printf("File read successfully\r\n");
+                    kernel_found = true;
+                }
+
+                break;
+            }
+        }
+    }
+
+    if (kernel_found)
+    {
+        handler_runram();
+    }
+    else
+    {
+        printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
+    }
 }
 
 void handler_load(uint32_t addr)

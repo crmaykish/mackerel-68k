@@ -34,13 +34,13 @@ int main()
         return 1;
     }
 #else
-    // Reset and IDE interface
+    // Reset the IDE interface
     uint16_t buf[256];
     IDE_reset();
     IDE_device_info(buf);
 #endif
 
-    // Initialize FAT16 library with the SD card sector read function
+    // Initialize FAT16 library with the block read function
     if (fat16_init(block_read) != 0)
     {
         printf("Failed to initialize FAT16 library\r\n");
