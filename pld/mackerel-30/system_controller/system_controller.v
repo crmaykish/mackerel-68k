@@ -22,6 +22,10 @@ module system_controller(
 	output CS_ROM_n,
 	output CS_SRAM_n,
 	
+	output CS_DRAM_n,
+	input DSACK0_DRAM_n,
+	input DSACK1_DRAM_n,
+
 	output CS_FPU_n,
 	input DSACK0_FPU_n,
 	input DSACK1_FPU_n,
@@ -90,8 +94,11 @@ assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
 wire ROM_EN = ~BOOT || (AH == 4'b1000);
 assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 
-// RAM at 0x00000000
+// SRAM at 0x00000000
 assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b0000);
+
+// DRAM at 0x80000000
+assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1000);
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);

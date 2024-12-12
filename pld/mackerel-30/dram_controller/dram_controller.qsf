@@ -108,3 +108,5 @@ set_location_assignment PIN_4 -to RST_n
 set_location_assignment PIN_11 -to RW
 set_location_assignment PIN_12 -to SIZ0
 set_location_assignment PIN_15 -to SIZ1
+set_location_assignment PIN_9 -to DSACK0_DRAM_n
+set_location_assignment PIN_8 -to DSACK1_DRAM_n
