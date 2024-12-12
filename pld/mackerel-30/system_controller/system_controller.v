@@ -97,8 +97,8 @@ assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 // SRAM at 0x00000000
 assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b0000);
 
-// DRAM at 0x80000000
-assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1000);
+// DRAM at 0xC0000000
+assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1100);
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);
