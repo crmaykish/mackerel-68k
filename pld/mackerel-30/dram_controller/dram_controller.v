@@ -96,56 +96,58 @@ always @(posedge CLK) begin
 					// Start CAS-before-RAS refresh cycle
 					state <= REFRESH1;
 				end
-				// else if (~CS2 && ~AS2) begin
-				// 	// DRAM selected, start normal R/W cycle
-				// 	state <= RW1;
-				// end
+				else if (~CS2_n && ~AS2_n) begin
+					// DRAM selected, start normal R/W cycle
+					state <= RW1;
+				end
 			end
 
-			// RW1: begin
-			// 	// Mux in the address
-			// 	ADDR_OUT <= ADDR_IN[11:1];
-			// 	state <= RW2;
-			// end
+			RW1: begin
+				// Mux in the address
+				ADDR_DRAM <= ADDR[11:0];
+				state <= RW2;
+			end
 
-			// RW2: begin
-			// 	// Row address is valid, lower RAS
-			// 	if (BANK_A) RASA <= 1'b0;
-			// 	else RASB <= 1'b0;
-			// 	state <= RW3;
-			// end
+			RW2: begin
+				// Row address is valid, lower RAS
+				// TODO: use SIZ to determine which RAS pins to assert?
+				RAS0_n <= 1'b0;
+				RAS1_n <= 1'b0;
+				RAS2_n <= 1'b0;
+				RAS3_n <= 1'b0;
+				state <= RW3;
+			end
 
-			// RW3: begin
-			// 	// Mux in the column address
-			// 	ADDR_OUT <= ADDR_IN[22:12];
+			RW3: begin
+				// Mux in the column address
+				ADDR_DRAM <= ADDR[22:12];
 
-			// 	// Set the WE line
-			// 	if (BANK_A) WRA <= RW;
-			// 	else WRB <= RW;
+				// Set the WE line
+				DRAM_WR_n <= RW;
 
-			// 	state <= RW4;
-			// end
+				state <= RW4;
+			end
 
-			// RW4: begin
-			// 	// Column address is valid, lower CAS
-			// 	if (BANK_A) begin
-			// 		CASA0 <= LDS;
-			// 		CASA1 <= UDS;
-			// 	end
-			// 	else begin
-			// 		CASB0 <= LDS;
-			// 		CASB1 <= UDS;
-			// 	end
-			// 	state <= RW5;
-			// end
+			RW4: begin
+				// Column address is valid, lower CAS
+				// TODO: use SIZ to determine which CAS pins to assert?
+				CAS0_n <= 1'b0;
+				CAS1_n <= 1'b0;
+				CAS2_n <= 1'b0;
+				CAS3_n <= 1'b0;
 
-			// RW5: begin
-			// 	// Data is valid, lower DTACK
-			// 	DTACK_DRAM <= 1'b0;
+				state <= RW5;
+			end
 
-			// 	// When AS returns high, the bus cycle is complete
-			// 	if (AS_n) state <= PRECHARGE;
-			// end
+			RW5: begin
+				// Data is valid, lower DTACK
+				// TODO: figure out which DSACK pins to assert based on bus cycle width
+				DSACK0_DRAM_n <= 1'b0;
+				DSACK1_DRAM_n <= 1'b0;
+
+				// When AS returns high, the bus cycle is complete
+				if (AS_n) state <= PRECHARGE;
+			end
 
 			REFRESH1: begin
 				// Acknowledge the refresh request

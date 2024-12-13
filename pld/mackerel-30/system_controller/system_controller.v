@@ -98,7 +98,7 @@ assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b0000);
 
 // DRAM at 0xC0000000
-assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1100);
+assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1100);
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);
@@ -126,7 +126,11 @@ assign CS_FPU_n = 1'b1;
 
 wire IDE16 = ~AS_n && (~IDE_CS0_n || ~IDE_CS1_n);
 
-assign DSACK0_n = ~(~AS_n && ~IDE16);
-assign DSACK1_n = ~(IDE16);
+wire DRAM = (~CS_DRAM_n && ~DSACK0_DRAM_n);
+
+assign DSACK0_n = DRAM;
+assign DSACK1_n = 1'b1;
+
+assign P5 = DSACK0_DRAM_n;
 
 endmodule
