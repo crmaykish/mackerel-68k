@@ -104,3 +104,6 @@ set_location_assignment PIN_27 -to IDE_INT
 set_location_assignment PIN_28 -to IDE_RDY
 set_location_assignment PIN_29 -to IDE_RD_n
 set_location_assignment PIN_30 -to IDE_WR_n
+set_location_assignment PIN_73 -to CS_DRAM_n
+set_location_assignment PIN_74 -to DSACK0_DRAM_n
+set_location_assignment PIN_81 -to DSACK1_DRAM_n
