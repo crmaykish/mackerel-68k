@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.2.0"
+#define VERSION "0.2.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -16,7 +16,7 @@ void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_ide();
-void memtest(int start, int end);
+void memtest(uint32_t start, uint32_t size);
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
@@ -90,8 +90,8 @@ int main()
             char *param1 = strtok(NULL, " ");
             char *param2 = strtok(NULL, " ");
             uint32_t start = strtoul(param1, 0, 16);
-            uint32_t stop = strtoul(param2, 0, 16);
-            memtest(start, stop);
+            uint32_t size = strtoul(param2, 0, 16);
+            memtest(start, size);
         }
         else
         {
@@ -305,31 +305,33 @@ uint8_t readline(char *buffer)
     return count;
 }
 
-void memtest(int start, int end)
+void memtest(uint32_t start, uint32_t size)
 {
-    printf("Starting memory test from 0x%X to 0x%X...\n", start, end);
+    printf("Starting memory test from 0x%X to 0x%X...\n", start, start + size);
 
-    for (int i = start; i < end; i++)
+    uint8_t *mem = (uint8_t *)start;
+
+    for (uint32_t i = 0; i < size; i++)
     {
-        MEM(i) = 0x00;
+        mem[i] = 0x00;
 
-        if (MEM(i) != 0x00)
+        if (mem[i] != 0x00)
         {
-            printf("Memory error at: 0x%X, expected 0x00, actual 0x%X\n", i, MEM(i));
+            printf("Memory error at: 0x%X, expected 0x00, actual 0x%X\n", i, mem[i]);
         }
 
-        MEM(i) = 0xAB;
+        mem[i] = 0x55;
 
-        if (MEM(i) != 0xAB)
+        if (mem[i] != 0x55)
         {
-            printf("Memory error at: 0x%X, expected 0xAB, actual 0x%X\n", i, MEM(i));
+            printf("Memory error at: 0x%X, expected 0x55, actual 0x%X\n", i, mem[i]);
         }
 
-        MEM(i) = 0xFF;
+        mem[i] = 0xAA;
 
-        if (MEM(i) != 0xFF)
+        if (mem[i] != 0xAA)
         {
-            printf("Memory error at: 0x%X, expected 0xFF, actual 0x%X\n", i, MEM(i));
+            printf("Memory error at: 0x%X, expected 0xAA, actual 0x%X\n", i, mem[i]);
         }
     }
 
