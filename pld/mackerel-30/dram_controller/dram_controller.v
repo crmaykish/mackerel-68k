@@ -110,7 +110,8 @@ always @(posedge CLK) begin
 
 			RW2: begin
 				// Row address is valid, lower RAS
-				// TODO: use SIZ to determine which RAS pins to assert?
+				// TODO: select the RAS pair based on ADDR bus?
+				// For the 8 MB sticks, these seem to be all be wired in parallel, so they're all necessary?
 				RAS0_n <= 1'b0;
 				RAS1_n <= 1'b0;
 				RAS2_n <= 1'b0;
@@ -140,8 +141,8 @@ always @(posedge CLK) begin
 			end
 
 			RW5: begin
-				// Data is valid, lower DTACK
-				// TODO: figure out which DSACK pins to assert based on bus cycle width
+				// Data is valid, lower DSACK
+				// TODO: figure out which DSACK pins to assert based on bus cycle width?
 				DSACK0_DRAM_n <= 1'b0;
 				DSACK1_DRAM_n <= 1'b0;
 
