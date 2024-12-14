@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.2.1"
+#define VERSION "0.2.2"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -15,6 +15,7 @@ void handler_runram();
 void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
+void handler_zero(uint32_t addr, uint32_t size);
 void handler_ide();
 void memtest(uint32_t start, uint32_t size);
 uint8_t readline(char *buffer);
@@ -92,6 +93,15 @@ int main()
             uint32_t start = strtoul(param1, 0, 16);
             uint32_t size = strtoul(param2, 0, 16);
             memtest(start, size);
+        }
+        else if (strncmp(buffer, "zero", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t size = strtoul(param2, 0, 16);
+            handler_zero(start, size);
         }
         else
         {
@@ -262,6 +272,14 @@ void handler_load(uint32_t addr)
     MEM(addr + in_count - 3) = 0;
 
     printf("Done! Transferred %d bytes.\r\n", in_count - 3);
+}
+
+void handler_zero(uint32_t addr, uint32_t size)
+{
+    for (uint32_t i = addr; i < addr + size; i++)
+    {
+        MEM(i) = 0x00;
+    }
 }
 
 void command_not_found(char *command_name)
