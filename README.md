@@ -4,8 +4,6 @@ Mackerel 68k is a series of single-board computers based on the Motorola 68000. 
 
 See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for more pictures, build logs, etc.
 
-![Mackerel-10 with IDE Driver](media/images/mackerel-10-v1-with-drive.jpg)
-
 ## Docs
 
 1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
@@ -85,6 +83,12 @@ The memory map looks like this:
 - DRAM:     0x000000 - 0xEFFFFF (15MB)
 - ROM:      0xF00000 - 0xFF4000 (not quite 1MB)
 - I/O:      0xF40000 - 0xFFFFFF
+
+### Mackerel-30
+
+![Mackerel-30 v0.1](media/images/mackerel-30-v0.1-bringup.jpg)
+
+Mackerel-30 is based on the 68030 CPU. It includes the DUART and IDE interface from Mackerel-10 and upgrades the DRAM controller to use a 72-pin SIMM. It also includes a MC68882 FPU.
 
 ## Software
 
