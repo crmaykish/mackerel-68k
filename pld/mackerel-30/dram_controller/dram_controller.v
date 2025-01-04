@@ -61,6 +61,7 @@ always @(posedge CLK) begin
 	end
 end
 
+// ==== Double clock input signals from CPU clock domain
 reg AS1_n = 1;
 reg CS1_n = 1;
 reg AS2_n = 1;
@@ -71,6 +72,43 @@ always @(posedge CLK) begin
 	CS1_n <= CS_n;
 	AS2_n <= AS1_n;
 	CS2_n <= CS1_n;
+end
+
+// ==== Translate cycle type to appropriate CAS signals
+// This comes directly from Table 7-4 in the MC68030 datasheet
+wire [3:0] CYCLE_TYPE = {SIZ1, SIZ0, ADDR[1], ADDR[0]};
+reg [3:0] CAS;	// active high
+
+always @(*) begin
+	case (CYCLE_TYPE)
+		// CYCLE TYPE <= CAS[3:0]
+
+		// byte
+		4'b0100: CAS <= 4'b1000;
+		4'b0101: CAS <= 4'b0100;
+		4'b0110: CAS <= 4'b0010;
+		4'b0111: CAS <= 4'b0001;
+
+		// word
+		4'b1000: CAS <= 4'b1100;
+		4'b1001: CAS <= 4'b0110;
+		4'b1010: CAS <= 4'b0011;
+		4'b1011: CAS <= 4'b0001;
+
+		// 3-byte
+		4'b1100: CAS <= 4'b1110;
+		4'b1101: CAS <= 4'b0111;
+		4'b1110: CAS <= 4'b0011;
+		4'b1111: CAS <= 4'b0001;
+
+		// long word
+		4'b0000: CAS <= 4'b1111;
+		4'b0001: CAS <= 4'b0111;
+		4'b0010: CAS <= 4'b0011;
+		4'b0011: CAS <= 4'b0001;
+
+		default: CAS <= 4'b1111;
+	endcase
 end
 
 // ==== DRAM controller state machine
@@ -104,24 +142,26 @@ always @(posedge CLK) begin
 
 			RW1: begin
 				// Mux in the address
-				ADDR_DRAM <= ADDR[11:0];
+				ADDR_DRAM <= ADDR[13:2];
 				state <= RW2;
 			end
 
 			RW2: begin
 				// Row address is valid, lower RAS
-				// TODO: select the RAS pair based on ADDR bus?
-				// For the 8 MB sticks, these seem to be all be wired in parallel, so they're all necessary?
+
+				// NOTE: this is only set up for single-sided SIMMs
+				// Double-sided SIMMs will need to select RAS1/RAS3 based on one of the incoming address lines
+
 				RAS0_n <= 1'b0;
-				RAS1_n <= 1'b0;
+				// RAS1_n <= 1'b0;
 				RAS2_n <= 1'b0;
-				RAS3_n <= 1'b0;
+				// RAS3_n <= 1'b0;
 				state <= RW3;
 			end
 
 			RW3: begin
 				// Mux in the column address
-				ADDR_DRAM <= ADDR[22:12];
+				ADDR_DRAM <= ADDR[25:14];
 
 				// Set the WE line
 				DRAM_WR_n <= RW;
@@ -131,18 +171,19 @@ always @(posedge CLK) begin
 
 			RW4: begin
 				// Column address is valid, lower CAS
-				// TODO: use SIZ to determine which CAS pins to assert?
-				CAS0_n <= 1'b0;
-				CAS1_n <= 1'b0;
-				CAS2_n <= 1'b0;
-				CAS3_n <= 1'b0;
+				CAS0_n <= ~CAS[0];
+				CAS1_n <= ~CAS[1];
+				CAS2_n <= ~CAS[2];
+				CAS3_n <= ~CAS[3];
 
 				state <= RW5;
 			end
 
 			RW5: begin
 				// Data is valid, lower DSACK
+				
 				// TODO: figure out which DSACK pins to assert based on bus cycle width?
+				
 				DSACK0_DRAM_n <= 1'b0;
 				DSACK1_DRAM_n <= 1'b0;
 

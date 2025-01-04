@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.2.2"
+#define VERSION "0.3.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -17,17 +17,20 @@ void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_ide();
-void memtest(uint32_t start, uint32_t size);
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
 void print_string_bin(char *str, uint8_t max);
 
+void memtest(uint8_t *start, uint32_t size);
+void memtest8(uint8_t *start, uint32_t size, uint8_t target);
+void memtest32(uint32_t *start, uint32_t size);
+
 char buffer[INPUT_BUFFER_SIZE];
 
 int main()
 {
-    printf("\r\n### %s Bootloader v%s ###\r\n###       crmaykish - 2024        ###\r\n", SYSTEM_NAME, VERSION);
+    printf("\r\n### %s Bootloader v%s ###\r\n###       crmaykish - 2025        ###\r\n", SYSTEM_NAME, VERSION);
 
     while (true)
     {
@@ -85,14 +88,23 @@ int main()
 
             MEM(addr) = val;
         }
-        else if (strncmp(buffer, "memtest", 7) == 0)
+        else if (strncmp(buffer, "mem8", 4) == 0)
         {
             strtok(buffer, " ");
             char *param1 = strtok(NULL, " ");
             char *param2 = strtok(NULL, " ");
             uint32_t start = strtoul(param1, 0, 16);
             uint32_t size = strtoul(param2, 0, 16);
-            memtest(start, size);
+            memtest((uint8_t *)start, size);
+        }
+        else if (strncmp(buffer, "mem32", 5) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t size = strtoul(param2, 0, 16);
+            memtest32((uint32_t *)start, size);
         }
         else if (strncmp(buffer, "zero", 4) == 0)
         {
@@ -323,35 +335,65 @@ uint8_t readline(char *buffer)
     return count;
 }
 
-void memtest(uint32_t start, uint32_t size)
+void memtest(uint8_t *start, uint32_t size)
 {
-    printf("Starting memory test from 0x%X to 0x%X...\n", start, start + size);
+    memtest8(start, size, 0x00);
+    memtest8(start, size, 0xAA);
+    memtest8(start, size, 0x55);
+    memtest8(start, size, 0xFF);
 
-    uint8_t *mem = (uint8_t *)start;
+    printf("Test complete\r\n");
+}
 
-    for (uint32_t i = 0; i < size; i++)
+void memtest8(uint8_t *start, uint32_t size, uint8_t target)
+{
+    printf("8-bit Mem Test: %X to %X w/ val %02X\r\n", (uint32_t)start, (uint32_t)(start + size), target);
+
+    for (uint8_t *i = start; i < (uint8_t *)(start + size); i++)
     {
-        mem[i] = 0x00;
+        *i = target;
+    }
 
-        if (mem[i] != 0x00)
+    for (uint8_t *i = start; i < (uint8_t *)(start + size); i++)
+    {
+        if (*i != target)
         {
-            printf("Memory error at: 0x%X, expected 0x00, actual 0x%X\n", i, mem[i]);
-        }
-
-        mem[i] = 0x55;
-
-        if (mem[i] != 0x55)
-        {
-            printf("Memory error at: 0x%X, expected 0x55, actual 0x%X\n", i, mem[i]);
-        }
-
-        mem[i] = 0xAA;
-
-        if (mem[i] != 0xAA)
-        {
-            printf("Memory error at: 0x%X, expected 0xAA, actual 0x%X\n", i, mem[i]);
+            printf("Error at 0x%X, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, target, *i);
         }
     }
 
-    printf("Memory test complete.\n");
+    printf("\r\n");
+}
+
+// Write the 32-bit address value to the same address in RAM
+void memtest32(uint32_t *start, uint32_t size)
+{
+    printf("32-bit Mem Test: %X to %X\r\n", (uint32_t)start, (uint32_t)start + (uint32_t)size);
+
+    printf("Writing...\r\n");
+    for (uint32_t *i = start; i < (uint32_t *)(start + size / 4); i++)
+    {
+        *i = (uint32_t)i;
+
+        if ((*i % 0x10000) == 0)
+        {
+            duart_putc('.');
+        }
+    }
+
+    printf("\r\nReading...\r\n");
+    for (uint32_t *i = start; i < (uint32_t *)(start + size / 4); i++)
+    {
+        if (*i != (uint32_t)i)
+        {
+            printf("Error at 0x%X, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, (uint32_t)i, *i);
+        }
+
+        if ((*i % 0x10000) == 0)
+        {
+            duart_putc('.');
+        }
+    }
+
+    printf("\r\nTest complete\r\n");
 }

@@ -101,8 +101,8 @@ set_location_assignment PIN_10 -to CS_n
 set_location_assignment PIN_54 -to DRAM_WR_n
 set_location_assignment PIN_16 -to DS_n
 set_location_assignment PIN_57 -to RAS0_n
-set_location_assignment PIN_64 -to RAS1_n
-set_location_assignment PIN_56 -to RAS2_n
+set_location_assignment PIN_56 -to RAS1_n
+set_location_assignment PIN_64 -to RAS2_n
 set_location_assignment PIN_65 -to RAS3_n
 set_location_assignment PIN_4 -to RST_n
 set_location_assignment PIN_11 -to RW

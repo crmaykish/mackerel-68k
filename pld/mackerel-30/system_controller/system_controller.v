@@ -114,12 +114,6 @@ assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
 
 assign CS_FPU_n = 1'b1;
 
-// wire [1:0] CYCLE_WIDTH = {SIZ1, SIZ0};
-// wire CYCLE_WIDTH_8 = (CYCLE_WIDTH == 2'b01);
-// wire CYCLE_WIDTH_16 = (CYCLE_WIDTH == 2'b01);
-// wire CYCLE_WIDTH_24 = (CYCLE_WIDTH == 2'b11);
-// wire CYCLE_WIDTH_32 = (CYCLE_WIDTH == 2'b00);
-
 // TODO: Does it matter if the requested cycle width is not matched by the DSACK signals?
 // e.g. If the CPU requests 8 bits from DRAM, but the DRAM responds with 32
 
