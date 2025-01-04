@@ -149,13 +149,14 @@ always @(posedge CLK) begin
 			RW2: begin
 				// Row address is valid, lower RAS
 
-				// NOTE: this is only set up for single-sided SIMMs
-				// Double-sided SIMMs will need to select RAS1/RAS3 based on one of the incoming address lines
+				// NOTE: This is set up for 64/128 MB SIMMs
+				// If A26 is 0, the first side of the SIMM is selected, else the other side is selected
 
-				RAS0_n <= 1'b0;
-				// RAS1_n <= 1'b0;
-				RAS2_n <= 1'b0;
-				// RAS3_n <= 1'b0;
+				RAS0_n <= ADDR[26];
+				RAS1_n <= ~ADDR[26];
+				RAS2_n <= ADDR[26];
+				RAS3_n <= ~ADDR[26];
+
 				state <= RW3;
 			end
 
