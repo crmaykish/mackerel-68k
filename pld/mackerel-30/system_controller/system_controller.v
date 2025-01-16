@@ -90,15 +90,15 @@ assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
 
 // === ADDRESS DECODING === //
 
-// ROM at 0x80000000 (mapped to 0x0000 for the first eight bus cycles)
-wire ROM_EN = ~BOOT || (AH == 4'b1000);
+// ROM at 0xE0000000 (mapped to 0x0000 for the first eight bus cycles)
+wire ROM_EN = ~BOOT || (AH == 4'b1110);
 assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 
 // SRAM at 0x00000000
 assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b0000);
 
-// DRAM at 0xC0000000
-assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1100);
+// DRAM at 0x80000000
+assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1000);
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);
