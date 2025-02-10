@@ -1,11 +1,12 @@
 MEMORY
 {
-	RAM(RWX) : ORIGIN = 0x400, LENGTH = 0x80000 - 0x400
+	RAM_CODE(RX) : ORIGIN = 0x400, LENGTH = 0x10000 - 0x400
+	RAM_DATA(RW) : ORIGIN = 0x10000, LENGTH = 0x70000 - 0x1000 # 0x1000 for the stack
 }
 
 SECTIONS
 {
-	.text 0x400 : { *(.text) } > RAM
-	.rodata : { *(.rodata) } > RAM
-	.bss : { *(.bss) } > RAM
+	.text 0x400 : { *(.text) } > RAM_CODE
+	.rodata : { *(.rodata) } > RAM_DATA
+	.bss : { *(.bss) } > RAM_DATA
 }

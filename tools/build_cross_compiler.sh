@@ -2,12 +2,12 @@
 # I tested this script on Debian 12. It will probably work on similar Debian-based distros.
 # Note: this compiler will build the bootloader and other bare-metal programs. It does not build uClinux.
 
-export PREFIX="/home/$(whoami)/opt/cross"
+export PREFIX="/home/$(whoami)/mackerel/cross"
 export TARGET=m68k-elf
 export PATH="$PREFIX/bin:$PATH"
 
-BINUTILS_VERSION="2.38"
-GCC_VERSION="11.2.0"
+BINUTILS_VERSION="2.44"
+GCC_VERSION="14.2.0"
 
 log_message() {
     echo ""
