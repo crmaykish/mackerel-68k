@@ -1,7 +1,7 @@
-CC = ~/mackerel/cross/bin/m68k-elf-gcc
-AS = ~/mackerel/cross/bin/m68k-elf-as
-LD = ~/mackerel/cross/bin/m68k-elf-ld
-OBJCOPY = ~/mackerel/cross/bin/m68k-elf-objcopy
+CC = m68k-mackerel-elf-gcc
+AS = m68k-mackerel-elf-as
+LD = m68k-mackerel-elf-ld
+OBJCOPY = m68k-mackerel-elf-objcopy
 
 BOARD = mack08
 
