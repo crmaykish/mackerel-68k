@@ -1,0 +1,8 @@
+CT_CONFIG_VERSION="4"
+CT_ARCH_M68K=y
+CT_STATIC_TOOLCHAIN=y
+CT_TARGET_VENDOR="mackerel"
+CT_KERNEL_LINUX=y
+CT_LINUX_SRC_DEVEL=y
+CT_LINUX_DEVEL_URL="https://github.com/crmaykish/mackerel-linux-mmu.git"
+CT_LINUX_DEVEL_BRANCH="mackerel-30-config"
