@@ -47,12 +47,6 @@ Status: Planning
 
 ## Hardware
 
-### Prototype
-
-![Mackerel Rev 0](media/images/mackerel-08-rev0.jpg)
-
-The first few iterations of Mackerel started as protoboard cards connected to a passive backplane. Originally the 48-pin DIP package of the MC68008 was used, but this was quickly replaced with the 52-pin PLCC package for 4MB of address space. Once the hardware design was functional, PCB design for Mackerel-08 was started.
-
 ### Mackerel-08
 
 ![Mackerel-08 SBC v1](media/images/mackerel-08-v1.1_cropped.jpg)
