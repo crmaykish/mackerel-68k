@@ -132,10 +132,13 @@ make install
 cd <some_empty_workspace_directory>
 
 # Make sure the newly built crosstools-ng binary is available in the path
-export PATH=$PATH:/home/$(whoami)$/crosstools/bin
+export PATH=$PATH:/home/$(whoami)/crosstools/bin
 
 # Copy the toolchain defconfig from this repo into the workspace
 cp <path_to_this_repo>/tools/mackerel_crosstools_defconfig defconfig
+
+# Create a full .config from the simplified defconfig
+ct-ng defconfig
 
 # Build the Mackerel toolchain, this can take a while (5-20 minutes)
 ct-ng build
@@ -159,7 +162,7 @@ cd <mackerel_linux_mmu_repo>
 git checkout mackerel-30-config
 
 # Put the toolchain on the path
-export PATH=$PATH:/home/$(whoami)$/x-tools/m68k-mackerel-linux-gnu/bin
+export PATH=$PATH:/home/$(whoami)/x-tools/m68k-mackerel-linux-gnu/bin
 
 # Load the Mackerel-30 config
 make ARCH=m68k mackerel30_defconfig
