@@ -7,16 +7,16 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.4.0"
+#define VERSION "0.4.1"
 
 #define INPUT_BUFFER_SIZE 32
 
 void handler_runram();
-void handler_runrom();
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_ide();
+void handler_help();
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
@@ -28,9 +28,31 @@ void memtest32(uint32_t *start, uint32_t size);
 
 char buffer[INPUT_BUFFER_SIZE];
 
+void handler_help()
+{
+    duart_puts("Available commands:\r\n");
+    duart_puts(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x400)\r\n");
+    duart_puts(" boot                  - Boot Linux from SD\r\n");
+    duart_puts(" ide                   - Boot Linux from IDE\r\n");
+    duart_puts(" run                   - Jump to RAM at 0x400\r\n");
+    duart_puts(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
+    duart_puts(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
+    duart_puts(" poke <addr> <val>     - Poke a byte <val> into memory at <addr>\r\n");
+    duart_puts(" mem8 <start> <size>   - Run 8-bit memory test from <start> for <size> bytes\r\n");
+    duart_puts(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
+    duart_puts(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
+}
+
 int main()
 {
-    printf("\r\n### %s Bootloader v%s ###\r\n###       crmaykish - 2025        ###\r\n", SYSTEM_NAME, VERSION);
+    duart_puts("\r\n");
+    duart_puts("========================================\r\n");
+    duart_puts("   " SYSTEM_NAME " Bootloader\r\n");
+    duart_puts("   Version: " VERSION "\r\n");
+    duart_puts("   Copyright (c) 2025 Colin Maykish\r\n");
+    duart_puts("   github.com/crmaykish/mackerel-68k\r\n");
+    duart_puts("========================================\r\n\r\n");
+    duart_puts("Type 'help' for a list of available commands.\r\n\r\n");
 
     while (true)
     {
@@ -53,10 +75,6 @@ int main()
         else if (strncmp(buffer, "ide", 3) == 0)
         {
             handler_ide();
-        }
-        else if (strncmp(buffer, "runrom", 6) == 0)
-        {
-            handler_runrom();
         }
         else if (strncmp(buffer, "run", 3) == 0 || strncmp(buffer, "runram", 6) == 0)
         {
@@ -115,6 +133,10 @@ int main()
             uint32_t size = strtoul(param2, 0, 16);
             handler_zero(start, size);
         }
+        else if (strncmp(buffer, "help", 4) == 0)
+        {
+            handler_help();
+        }
         else
         {
             command_not_found(buffer);
@@ -130,12 +152,6 @@ void handler_runram()
 {
     duart_puts("Jumping to 0x400\r\n");
     asm("jsr 0x400");
-}
-
-void handler_runrom()
-{
-    duart_puts("Jumping to 0x100000\r\n");
-    asm("jsr 0x100000");
 }
 
 void handler_boot()

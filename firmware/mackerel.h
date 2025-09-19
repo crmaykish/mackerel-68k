@@ -28,6 +28,8 @@ typedef unsigned int uint32_t;
 #define DUART1_BASE 0x3FC000
 // IDE is not supported on Mackerel-08
 #define IDE_BASE 0xFFFFFF
+#else
+#define SYSTEM_NAME "Mackerel"
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)
