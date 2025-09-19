@@ -73,6 +73,7 @@ void IDE_device_info(uint16_t *buf)
     read_sector_internal(buf);
 
     // Model
+    printf("Model: ");
     for (int i = 27; i <= 46; i++)
     {
         printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
@@ -81,6 +82,7 @@ void IDE_device_info(uint16_t *buf)
     printf("\r\n");
 
     // Version
+    printf("Version: ");
     for (int i = 23; i <= 26; i++)
     {
         printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
@@ -89,6 +91,7 @@ void IDE_device_info(uint16_t *buf)
     printf("\r\n");
 
     // Serial number
+    printf("Serial number: ");
     for (int i = 10; i <= 19; i++)
     {
         printf("%c%c", (char)((buf[i] & 0x00FF)), (char)((buf[i] & 0xFF00) >> 8));
