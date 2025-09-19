@@ -8,7 +8,8 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 
 1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
 2. [Compiling The Bootloader and GAL Logic](docs/compiling-bootloader.md)
-3. [Building Linux 6.13 for Mackerel-30](docs/building-linux-6-for-mackerel-30.md)
+3. [Building and Running uClinux](docs/building-and-running-uclinux.md)
+4. [Building Linux 6.13 for Mackerel-30](docs/building-linux-6-for-mackerel-30.md)
 
 ## Hardware
 
