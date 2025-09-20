@@ -19,6 +19,7 @@ typedef unsigned int uint32_t;
 #define SYSTEM_NAME "Mackerel-30"
 #define DUART1_BASE 0xF0000000
 #define IDE_BASE 0xF0010000
+#define PROGRAM_START 0x400
 #elif MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
 #define DUART1_BASE 0xFF8000
@@ -30,6 +31,7 @@ typedef unsigned int uint32_t;
 #define IDE_BASE 0xFFFFFF
 #else
 #define SYSTEM_NAME "Mackerel"
+#define PROGRAM_START 0x400
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)

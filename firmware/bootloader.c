@@ -7,11 +7,11 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.4.2"
+#define VERSION "0.4.4"
 
 #define INPUT_BUFFER_SIZE 32
 
-void handler_runram();
+void handler_run(uint32_t addr);
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
@@ -30,17 +30,17 @@ char buffer[INPUT_BUFFER_SIZE];
 
 void handler_help()
 {
-    duart_puts("Available commands:\r\n");
-    duart_puts(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x400)\r\n");
-    duart_puts(" boot                  - Boot Linux from SD\r\n");
-    duart_puts(" ide                   - Boot Linux from IDE\r\n");
-    duart_puts(" run                   - Jump to RAM at 0x400\r\n");
-    duart_puts(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
-    duart_puts(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
-    duart_puts(" poke <addr> <val>     - Poke a byte <val> into memory at <addr>\r\n");
-    duart_puts(" mem8 <start> <size>   - Run 8-bit memory test from <start> for <size> bytes\r\n");
-    duart_puts(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
-    duart_puts(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
+    printf("Available commands:\r\n");
+    printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
+    printf(" boot                  - Boot Linux from SD\r\n");
+    printf(" ide                   - Boot Linux from IDE\r\n");
+    printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
+    printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
+    printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
+    printf(" poke <addr> <val>     - Poke a byte <val> into memory at <addr>\r\n");
+    printf(" mem8 <start> <size>   - Run 8-bit memory test from <start> for <size> bytes\r\n");
+    printf(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
+    printf(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
 }
 
 int main()
@@ -76,9 +76,12 @@ int main()
         {
             handler_ide();
         }
-        else if (strncmp(buffer, "run", 3) == 0 || strncmp(buffer, "runram", 6) == 0)
+        else if (strncmp(buffer, "run", 3) == 0)
         {
-            handler_runram();
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            uint32_t addr = strtoul(param1, 0, 16);
+            handler_run(addr);
         }
         else if (strncmp(buffer, "dump", 4) == 0)
         {
@@ -148,10 +151,23 @@ int main()
     return 0;
 }
 
-void handler_runram()
+void handler_run(uint32_t addr)
 {
-    duart_puts("Jumping to 0x400\r\n");
-    asm("jsr 0x400");
+    if (addr == 0)
+    {
+        addr = PROGRAM_START;
+    }
+
+    printf("Jumping to 0x%X\r\n", addr);
+
+    // Jump to the subroutine at the specified address
+    // Programs will return control to the bootloader when they exit because jsr is used
+    __asm__ volatile(
+        "move.l %0, %%a0\n\t"
+        "jsr (%%a0)"
+        :
+        : "r"(addr)
+        : "a0");
 }
 
 void handler_boot()
@@ -162,7 +178,7 @@ void handler_boot()
         return;
 
     unsigned char first[512];
-    unsigned char *mem = (unsigned char *)0x400;
+    unsigned char *mem = (unsigned char *)PROGRAM_START;
 
     // Read the first block of the SD card to determine the Linux image size
     sd_read(0, first);
@@ -187,7 +203,7 @@ void handler_boot()
 
     printf("Done\n");
 
-    handler_runram();
+    handler_run(PROGRAM_START);
 }
 
 void block_read(uint32_t block_num, uint8_t *block)
@@ -231,9 +247,9 @@ void handler_ide()
 
             if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
             {
-                printf("\r\nFound IMAGE.BIN, reading it into RAM...\r\n");
+                printf("\r\nFound IMAGE.BIN, loading it into RAM at 0x%X...\r\n", PROGRAM_START);
 
-                uint8_t *file = (uint8_t *)0x400;
+                uint8_t *file = (uint8_t *)PROGRAM_START;
 
                 int bytes_read = fat16_read_file(&boot_sector, files_list[i].first_cluster_low, file, files_list[i].file_size);
 
@@ -258,7 +274,7 @@ void handler_ide()
 
     if (kernel_found)
     {
-        handler_runram();
+        handler_run(PROGRAM_START);
     }
     else
     {
@@ -274,7 +290,7 @@ void handler_load(uint32_t addr)
 
     if (addr == 0)
     {
-        addr = 0x400;
+        addr = PROGRAM_START;
     }
 
     printf("Loading from serial into 0x%X...\r\n", addr);
