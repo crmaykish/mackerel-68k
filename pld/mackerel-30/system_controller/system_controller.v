@@ -117,9 +117,9 @@ assign CS_FPU_n = 1'b1;
 // TODO: Does it matter if the requested cycle width is not matched by the DSACK signals?
 // e.g. If the CPU requests 8 bits from DRAM, but the DRAM responds with 32
 
-wire IDE_SELECTED = ~AS_n && (~IDE_CS0_n || ~IDE_CS1_n);
-
 // === DSACK GENERATION === //
+
+wire IDE_SELECTED = ~AS_n && (~IDE_CS0_n || ~IDE_CS1_n);
 
 always @(*) begin
 	if (~AVEC_n) begin
@@ -131,13 +131,9 @@ always @(*) begin
 		DSACK0_n <= DSACK0_DRAM_n;
 		DSACK1_n <= DSACK1_DRAM_n;
 	end
-	else if (IDE_SELECTED) begin
-		DSACK0_n <= 1'b1;
-		DSACK1_n <= ~IDE_RDY;	// TODO: All IDE access is 16-bit - is that alright?
-	end
 	else begin
-		DSACK0_n <= 1'b0;	// All other accesses are 8-bit
-		DSACK1_n <= 1'b1;
+		DSACK0_n <= ~(~AS_n && ~IDE_SELECTED);
+		DSACK1_n <= ~(IDE_SELECTED);
 	end
 end
 
