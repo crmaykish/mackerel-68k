@@ -22,8 +22,8 @@ void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
 void print_string_bin(char *str, uint8_t max);
 
-void memtest(uint8_t *start, uint32_t size);
 void memtest8(uint8_t *start, uint32_t size, uint8_t target);
+void memtest16(uint16_t *start, uint32_t size, uint16_t target);
 void memtest32(uint32_t *start, uint32_t size);
 
 char buffer[INPUT_BUFFER_SIZE];
@@ -39,6 +39,7 @@ void handler_help()
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
     printf(" poke <addr> <val>     - Poke a byte <val> into memory at <addr>\r\n");
     printf(" mem8 <start> <size>   - Run 8-bit memory test from <start> for <size> bytes\r\n");
+    printf(" mem16 <start> <size>  - Run 16-bit memory test from <start> for <size> bytes\r\n");
     printf(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
     printf(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
 }
@@ -116,7 +117,28 @@ int main()
             char *param2 = strtok(NULL, " ");
             uint32_t start = strtoul(param1, 0, 16);
             uint32_t size = strtoul(param2, 0, 16);
-            memtest((uint8_t *)start, size);
+
+            memtest8((uint8_t *)start, size, 0x00);
+            memtest8((uint8_t *)start, size, 0xAA);
+            memtest8((uint8_t *)start, size, 0x55);
+            memtest8((uint8_t *)start, size, 0xFF);
+            
+            printf("Test complete\r\n");
+        }
+        else if (strncmp(buffer, "mem16", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            char *param2 = strtok(NULL, " ");
+            uint32_t start = strtoul(param1, 0, 16);
+            uint32_t size = strtoul(param2, 0, 16);
+            
+            memtest16((uint16_t *)start, size, 0x0000);
+            memtest16((uint16_t *)start, size, 0xAABB);
+            memtest16((uint16_t *)start, size, 0x55CC);
+            memtest16((uint16_t *)start, size, 0xFFFF);
+
+            printf("Test complete\r\n");
         }
         else if (strncmp(buffer, "mem32", 5) == 0)
         {
@@ -367,16 +389,6 @@ uint8_t readline(char *buffer)
     return count;
 }
 
-void memtest(uint8_t *start, uint32_t size)
-{
-    memtest8(start, size, 0x00);
-    memtest8(start, size, 0xAA);
-    memtest8(start, size, 0x55);
-    memtest8(start, size, 0xFF);
-
-    printf("Test complete\r\n");
-}
-
 void memtest8(uint8_t *start, uint32_t size, uint8_t target)
 {
     printf("8-bit Mem Test: %X to %X w/ val %02X\r\n", (uint32_t)start, (uint32_t)(start + size), target);
@@ -391,6 +403,26 @@ void memtest8(uint8_t *start, uint32_t size, uint8_t target)
         if (*i != target)
         {
             printf("Error at 0x%X, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, target, *i);
+        }
+    }
+
+    printf("\r\n");
+}
+
+void memtest16(uint16_t *start, uint32_t size, uint16_t target)
+{
+    printf("16-bit Mem Test: %X to %X w/ val %04X\r\n", (uint32_t)start, (uint32_t)(start + size / 2), target);
+
+    for (uint16_t *i = start; i < (uint16_t *)(start + size / 2); i++)
+    {
+        *i = target;
+    }
+
+    for (uint16_t *i = start; i < (uint16_t *)(start + size / 2); i++)
+    {
+        if (*i != target)
+        {
+            printf("Error at 0x%X, expected 0x%04X, got 0x%04X\r\n", (uint32_t)i, target, *i);
         }
     }
 
