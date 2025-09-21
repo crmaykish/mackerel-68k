@@ -118,34 +118,88 @@ assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
 // TODO: FPU support is currently disabled
 assign CS_FPU_n = 1'b1;
 
-// === DSACK GENERATION === //
+// === WAIT STATE GENERATION === //
 
-always @(*) begin
-	if (~AVEC_n) begin
-		// DSACK and AVEC should not be asserted at the same time
-		DSACK0_n <= 1'b1;
-		DSACK1_n <= 1'b1;
-	end
-	else if (~CS_DRAM_n) begin
-		DSACK0_n <= DSACK0_DRAM_n;
-		DSACK1_n <= DSACK1_DRAM_n;
-	end
-	else if (~CS_IDE_n) begin
-		// TODO: In theory, we should wait for IDE_RDY before asserting DSACK, but it doesn't seem to work
-		// Might be an issue with the SD/CF adapters
-		DSACK0_n <= 1'b1;
-		DSACK1_n <= 1'b0;
-	end
-	else if (~CS_ROM_n || ~CS_SRAM_n || ~CS_DUART_n) begin
-		// All other accesses are 8-bit and complete in one cycle
-		DSACK0_n <= 1'b0;
-		DSACK1_n <= 1'b1;
-	end
+parameter IDE_WAIT = 2;    // IDE wait states (cycles)
+parameter DUART_WAIT = 1;  // DUART wait states (cycles)
+
+reg [3:0] ide_wait_cnt = 0;
+reg [3:0] duart_wait_cnt = 0;
+reg ide_waiting = 0;
+reg duart_waiting = 0;
+
+// Clocked wait-state generator
+always @(posedge CLK or negedge RST_n) begin
+    if (!RST_n) begin
+        ide_wait_cnt <= 0;
+		ide_waiting <= 0;
+        duart_wait_cnt <= 0;
+        duart_waiting <= 0;
+    end
 	else begin
-		// Nothing selected, hold DSACK high
-		DSACK0_n <= 1'b1;
-		DSACK1_n <= 1'b1;
-	end
+        // IDE wait state logic
+        if (~CS_IDE_n && ~ide_waiting) begin
+            ide_wait_cnt <= 0;
+            ide_waiting <= 1;
+        end else if (ide_waiting && ide_wait_cnt < IDE_WAIT) begin
+            ide_wait_cnt <= ide_wait_cnt + 1;
+        end else if (ide_waiting && ide_wait_cnt >= IDE_WAIT) begin
+            ide_waiting <= 0;
+        end
+
+        // DUART wait state logic
+        if (~CS_DUART_n && ~duart_waiting) begin
+            duart_wait_cnt <= 0;
+            duart_waiting <= 1;
+        end else if (duart_waiting && duart_wait_cnt < DUART_WAIT) begin
+            duart_wait_cnt <= duart_wait_cnt + 1;
+        end else if (duart_waiting && duart_wait_cnt >= DUART_WAIT) begin
+            duart_waiting <= 0;
+        end
+    end
+end
+
+// === DSACK GENERATION === //
+always @(*) begin
+    if (~AVEC_n) begin
+        DSACK0_n <= 1'b1;
+        DSACK1_n <= 1'b1;
+    end
+    else if (~CS_DRAM_n) begin
+        DSACK0_n <= DSACK0_DRAM_n;
+        DSACK1_n <= DSACK1_DRAM_n;
+    end
+    else if (~CS_IDE_n) begin
+        // Insert IDE wait states before asserting DSACK
+        if (ide_waiting) begin
+            DSACK0_n <= 1'b1;
+			DSACK1_n <= 1'b1;
+		end
+        else begin
+            DSACK0_n <= 1'b1;
+            DSACK1_n <= 1'b0;
+		end
+    end
+    else if (~CS_DUART_n) begin
+        // Insert DUART wait states before asserting DSACK
+        if (duart_waiting) begin
+            DSACK0_n <= 1'b1;
+			DSACK1_n <= 1'b1;
+		end
+        else begin
+            DSACK0_n <= 1'b0;
+            DSACK1_n <= 1'b1;
+		end
+    end
+    else if (~CS_ROM_n || ~CS_SRAM_n) begin
+        // ROM and SRAM respond immediately
+        DSACK0_n <= 1'b0;
+        DSACK1_n <= 1'b1;
+    end
+    else begin
+        DSACK0_n <= 1'b1;
+        DSACK1_n <= 1'b1;
+    end
 end
 
 endmodule
