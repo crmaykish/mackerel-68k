@@ -1,11 +1,11 @@
 MEMORY
 {
-	RAM(RX) : ORIGIN = 0x400, LENGTH = 0x80000 - 0x400 - 0x4000 #ignore the RAM used by the bootloader
+	RAM(RX) : ORIGIN = 0x80000000, LENGTH = 0x08000000 - 0x4000 # 16KB reserved for stack
 }
 
 SECTIONS
 {
-	.text 0x400 : { *(.text) } > RAM
+	.text 0x80000000 : { *(.text) } > RAM
 	.rodata : { *(.rodata) } > RAM
 	.bss : { *(.bss) } > RAM
 }

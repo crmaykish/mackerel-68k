@@ -81,7 +81,7 @@ end
 wire [3:0] CYCLE_TYPE = {SIZ1, SIZ0, ADDR[1], ADDR[0]};
 reg [3:0] CAS;	// active high
 
-always @(*) begin
+always @(posedge CLK) begin
 	case (CYCLE_TYPE)
 		// CYCLE TYPE <= CAS[3:0]
 
@@ -194,9 +194,10 @@ always @(posedge CLK) begin
 
 			RW5: begin
 				// Data is valid, lower DSACK
-				
-				// TODO: figure out which DSACK pins to assert based on bus cycle width?
-				
+
+				// NOTE: It's safe to always assert 32-bit DSACK.
+				//       On read cycles, the CPU will ignore bytes it doesn't need.
+				//       One write cycles, the CAS lines gate the appropriate byte lanes to DRAM anyway.
 				DSACK0_DRAM_n <= 1'b0;
 				DSACK1_DRAM_n <= 1'b0;
 

@@ -1,7 +1,7 @@
 MEMORY
 {
   	ROM(RX) : ORIGIN = 0xE0000000, LENGTH = 0x80000
-	RAM(RX) : ORIGIN = 0x80000 - 0x4000, LENGTH = 0x4000 - 0x1000
+	RAM(RX) : ORIGIN = 0x400, LENGTH = 0x80000 - 0x400 - 0x1000 # 0x400 offset for vectors, 0x1000 reserved for stack space
 }
 
 SECTIONS
@@ -9,5 +9,5 @@ SECTIONS
 	.vectors 0xE0000000 : { *(.vectors) } > ROM
 	.text : { *(.text) } > ROM
 	.rodata : { *(.rodata) } > ROM
-	.bss 0x80000 - 0x4000 : { *(.bss) } > RAM
+	.bss 0x400 : { *(.bss) } > RAM
 }
