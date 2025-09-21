@@ -107,19 +107,18 @@ assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && A
 assign IDE_CS0_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0001);
 // IDE CS1 at 0xF0020000
 assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0010);
-// If either IDE CS pin is active, enable the IDE buffers
-assign IDE_BUF_n = ~(~IDE_CS0_n || ~IDE_CS1_n);
+
+// IDE is selected if either CS0 or CS1 is active
+wire CS_IDE_n = ~(~AS_n && (~IDE_CS0_n || ~IDE_CS1_n));
+
+assign IDE_BUF_n = CS_IDE_n;
 assign IDE_RD_n = ~(RW && ~AS_n && ~DS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
 
+// TODO: FPU support is currently disabled
 assign CS_FPU_n = 1'b1;
 
-// TODO: Does it matter if the requested cycle width is not matched by the DSACK signals?
-// e.g. If the CPU requests 8 bits from DRAM, but the DRAM responds with 32
-
 // === DSACK GENERATION === //
-
-wire IDE_SELECTED = ~AS_n && (~IDE_CS0_n || ~IDE_CS1_n);
 
 always @(*) begin
 	if (~AVEC_n) begin
@@ -131,9 +130,21 @@ always @(*) begin
 		DSACK0_n <= DSACK0_DRAM_n;
 		DSACK1_n <= DSACK1_DRAM_n;
 	end
+	else if (~CS_IDE_n) begin
+		// TODO: In theory, we should wait for IDE_RDY before asserting DSACK, but it doesn't seem to work
+		// Might be an issue with the SD/CF adapters
+		DSACK0_n <= 1'b1;
+		DSACK1_n <= 1'b0;
+	end
+	else if (~CS_ROM_n || ~CS_SRAM_n || ~CS_DUART_n) begin
+		// All other accesses are 8-bit and complete in one cycle
+		DSACK0_n <= 1'b0;
+		DSACK1_n <= 1'b1;
+	end
 	else begin
-		DSACK0_n <= ~(~AS_n && ~IDE_SELECTED);
-		DSACK1_n <= ~(IDE_SELECTED);
+		// Nothing selected, hold DSACK high
+		DSACK0_n <= 1'b1;
+		DSACK1_n <= 1'b1;
 	end
 end
 
