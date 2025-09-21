@@ -172,11 +172,11 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     uint32_t sector_size = boot_sector->bytes_per_sector;
     uint32_t sectors_per_cluster = boot_sector->sectors_per_cluster;
 
+    int last_percent = -2; // So first print is at 0%
+
     while (current_cluster != 0xFFFF && buffer_index < buffer_size)
     {
         // printf("current cluster: %u\r\n", current_cluster);
-
-        duart_putc('.');
 
         // TODO: where is this magic 32 coming from?
         uint32_t first_sector_of_cluster = 32 + 2048 + (current_cluster - 2) * sectors_per_cluster + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
@@ -195,11 +195,20 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
             uint32_t bytes_to_copy = (buffer_size - buffer_index < sector_size) ? (buffer_size - buffer_index) : sector_size;
             memcpy(buffer + buffer_index, sector_buffer, bytes_to_copy);
             buffer_index += bytes_to_copy;
+
+            // Progress reporting
+            int percent = (buffer_index * 100) / buffer_size;
+            if (percent >= last_percent + 2) {
+                printf("%d%%...", percent);
+                last_percent = percent;
+            }
         }
 
         // Get the next cluster from the FAT
         current_cluster = get_fat_entry(boot_sector, current_cluster);
     }
+
+    printf("\r\n");
 
     return buffer_index; // Returns the number of bytes read
 }

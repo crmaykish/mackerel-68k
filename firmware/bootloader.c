@@ -122,7 +122,7 @@ int main()
             memtest8((uint8_t *)start, size, 0xAA);
             memtest8((uint8_t *)start, size, 0x55);
             memtest8((uint8_t *)start, size, 0xFF);
-            
+
             printf("Test complete\r\n");
         }
         else if (strncmp(buffer, "mem16", 4) == 0)
@@ -132,7 +132,7 @@ int main()
             char *param2 = strtok(NULL, " ");
             uint32_t start = strtoul(param1, 0, 16);
             uint32_t size = strtoul(param2, 0, 16);
-            
+
             memtest16((uint16_t *)start, size, 0x0000);
             memtest16((uint16_t *)start, size, 0xAABB);
             memtest16((uint16_t *)start, size, 0x55CC);
@@ -269,7 +269,7 @@ void handler_ide()
 
             if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
             {
-                printf("\r\nFound IMAGE.BIN, loading it into RAM at 0x%X...\r\n", PROGRAM_START);
+                printf("\r\nReading IMAGE.BIN (%d bytes) into RAM at %X...\r\n", files_list[i].file_size, PROGRAM_START);
 
                 uint8_t *file = (uint8_t *)PROGRAM_START;
 
