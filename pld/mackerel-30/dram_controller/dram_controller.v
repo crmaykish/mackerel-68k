@@ -39,6 +39,8 @@ localparam REFRESH2				= 4'd7;
 localparam REFRESH3				= 4'd8;
 localparam REFRESH4				= 4'd9;
 localparam PRECHARGE			= 4'd10;
+localparam RW2A					= 4'd11;
+localparam RW4A					= 4'd12;
 
 reg [3:0] state = IDLE;
 
@@ -160,6 +162,11 @@ always @(posedge CLK) begin
 				state <= RW3;
 			end
 
+			RW2A: begin
+				// Wait state for RAS to settle
+				state <= RW3;
+			end
+
 			RW3: begin
 				// Mux in the column address
 				ADDR_DRAM <= ADDR[25:14];
@@ -177,6 +184,11 @@ always @(posedge CLK) begin
 				CAS2_n <= ~CAS[2];
 				CAS3_n <= ~CAS[3];
 
+				state <= RW5;
+			end
+
+			RW4A: begin
+				// Wait state for CAS to settle
 				state <= RW5;
 			end
 
