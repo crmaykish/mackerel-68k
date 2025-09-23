@@ -10,4 +10,10 @@ SECTIONS
 	.text : { *(.text) } > ROM
 	.rodata : { *(.rodata) } > ROM
 	.bss 0xF00000 - 0x4000 : { *(.bss) } > RAM
+
+	/* Export RAM info to bootloader (informational only) */
+	__sram_start = 0xE00000;
+	__sram_length = 0x100000;
+	__dram_start = 0x00;
+	__dram_length = 0xE00000;
 }

@@ -24,13 +24,12 @@ typedef unsigned int uint32_t;
 #define SYSTEM_NAME "Mackerel-10"
 #define DUART1_BASE 0xFF8000
 #define IDE_BASE 0xFFC000
+#define PROGRAM_START 0x400
 #elif MACKEREL_08
 #define SYSTEM_NAME "Mackerel-08"
 #define DUART1_BASE 0x3FC000
 // IDE is not supported on Mackerel-08
 #define IDE_BASE 0xFFFFFF
-#else
-#define SYSTEM_NAME "Mackerel"
 #define PROGRAM_START 0x400
 #endif
 

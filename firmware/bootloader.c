@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.4.5"
+#define VERSION "0.4.6"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -17,6 +17,7 @@ void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_ide();
 void handler_help();
+void handler_info();
 uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
@@ -25,6 +26,12 @@ void print_string_bin(char *str, uint8_t max);
 void memtest8(uint8_t *start, uint32_t size, uint8_t target);
 void memtest16(uint16_t *start, uint32_t size, uint16_t target);
 void memtest32(uint32_t *start, uint32_t size);
+
+// Reference RAM info from the linker
+extern char __sram_start[];
+extern char __sram_length[];
+extern char __dram_start[];
+extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
 
@@ -42,6 +49,8 @@ void handler_help()
     printf(" mem16 <start> <size>  - Run 16-bit memory test from <start> for <size> bytes\r\n");
     printf(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
     printf(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
+    printf(" info                  - Show system information\r\n");
+    printf(" help                  - Show this help message\r\n");
 }
 
 int main()
@@ -158,6 +167,10 @@ int main()
             uint32_t size = strtoul(param2, 0, 16);
             handler_zero(start, size);
         }
+        else if (strncmp(buffer, "info", 4) == 0)
+        {
+            handler_info();
+        }
         else if (strncmp(buffer, "help", 4) == 0)
         {
             handler_help();
@@ -269,7 +282,7 @@ void handler_ide()
 
             if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
             {
-                printf("\r\nReading IMAGE.BIN (%d bytes) into RAM at %X...\r\n", files_list[i].file_size, PROGRAM_START);
+                printf("\r\nReading IMAGE.BIN (%d bytes) into RAM at 0x%X...\r\n", files_list[i].file_size, PROGRAM_START);
 
                 uint8_t *file = (uint8_t *)PROGRAM_START;
 
@@ -345,6 +358,17 @@ void handler_zero(uint32_t addr, uint32_t size)
     for (uint32_t i = addr; i < addr + size; i++)
     {
         MEM(i) = 0x00;
+    }
+}
+
+void handler_info()
+{
+    printf("System Information:\r\n");
+    printf(" System: " SYSTEM_NAME "\r\n");
+    printf(" SRAM: 0x%08X to 0x%08X (%d KB)\r\n", (uint32_t)__sram_start, (uint32_t)(__sram_start + (uint32_t)__sram_length), (uint32_t)__sram_length / 1024);
+    if ((uint32_t)__dram_length > 0)
+    {
+        printf(" DRAM: 0x%08X to 0x%08X (%d KB)\r\n", (uint32_t)__dram_start, (uint32_t)(__dram_start + (uint32_t)__dram_length), (uint32_t)__dram_length / 1024);
     }
 }
 
