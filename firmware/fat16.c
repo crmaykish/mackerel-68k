@@ -146,20 +146,20 @@ void fat16_get_file_name(fat16_dir_entry_t *dir_entry, char *filename)
 // Function to get the next cluster from the FAT
 uint16_t get_fat_entry(fat16_boot_sector_t *boot_sector, uint16_t cluster)
 {
-    // The FAT16 entry for a cluster is at cluster * 2 (since each entry is 2 bytes)
-    uint32_t fat_offset = cluster * 2; // Offset of the entry in the FAT table (in bytes)
+    static uint32_t cached_sector = (uint32_t)-1;
+    static uint8_t fat_buffer[1024]; // Make sure this is large enough for your largest sector size
 
-    // Calculate the FAT sector (add hidden sectors + reserved sectors + the offset)
+    uint32_t fat_offset = cluster * 2;
     uint32_t fat_sector = boot_sector->hidden_sectors + boot_sector->reserved_sectors + (fat_offset / boot_sector->bytes_per_sector);
+    uint32_t fat_entry_offset = fat_offset % boot_sector->bytes_per_sector;
 
-    uint32_t fat_entry_offset = fat_offset % boot_sector->bytes_per_sector; // Offset within the sector
+    // Only read if not already cached
+    if (fat_sector != cached_sector) {
+        read_sector(fat_sector, fat_buffer);
+        cached_sector = fat_sector;
+    }
 
-    uint8_t fat_buffer[boot_sector->bytes_per_sector]; // Buffer to hold one FAT sector
-    read_sector(fat_sector, fat_buffer);
-
-    // The entry is 2 bytes long, so read the next 2 bytes for the cluster chain
     uint16_t next_cluster = (fat_buffer[fat_entry_offset] | (fat_buffer[fat_entry_offset + 1] << 8)) & 0xFFFF;
-
     return next_cluster;
 }
 
@@ -195,14 +195,10 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
             uint32_t bytes_to_copy = (buffer_size - buffer_index < sector_size) ? (buffer_size - buffer_index) : sector_size;
             memcpy(buffer + buffer_index, sector_buffer, bytes_to_copy);
             buffer_index += bytes_to_copy;
-
-            // Progress reporting
-            int percent = (buffer_index * 100) / buffer_size;
-            if (percent >= last_percent + 2) {
-                printf("%d%%...", percent);
-                last_percent = percent;
-            }
         }
+
+        // Progress reporting
+        duart_putc('.');
 
         // Get the next cluster from the FAT
         current_cluster = get_fat_entry(boot_sector, current_cluster);
