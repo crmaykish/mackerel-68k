@@ -30,8 +30,8 @@ CFLAGS = -m68000
 AFLAGS = -m68000
 endif
 
-COMMON_OBJS_ROM = $(VECTORS) start.o syscalls.o mackerel.o term.o
-COMMON_OBJS_RAM = start_ram.o syscalls.o mackerel.o term.o
+COMMON_OBJS_ROM = $(VECTORS) start.o newlib_init.o syscalls.o mackerel.o term.o
+COMMON_OBJS_RAM = start_ram.o newlib_init.o syscalls.o mackerel.o term.o
 
 BASE_BINS = bootloader.bin hello.bin kernel.bin fatfs_demo.bin libctest.bin
 

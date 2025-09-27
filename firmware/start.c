@@ -1,4 +1,7 @@
 #include "mackerel.h"
+#include "newlib_init.h"
+
+extern char _sidata[], _sdata[], _edata[];
 
 extern int main();
 
@@ -64,9 +67,11 @@ void _start()
         set_exception_handler(i, &user_interrupt);
     }
 
-    // Setup the hardware peripherals
-    duart_init();
+    // Copy initialized data from flash to RAM
+    for (char *src = _sidata, *dst = _sdata; dst < _edata;)
+        *dst++ = *src++;
 
-    // Call main
+    duart_init();
+    newlib_init();
     main();
 }
