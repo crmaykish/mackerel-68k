@@ -7,9 +7,24 @@ MEMORY
 SECTIONS
 {
 	.vectors 0xF00000 : { *(.vectors) } > ROM
-	.text : { *(.text) } > ROM
-	.rodata : { *(.rodata) } > ROM
-	.bss 0xF00000 - 0x4000 : { *(.bss) } > RAM
+	.text : { *(.text*) } > ROM
+	.rodata : { *(.rodata*) } > ROM
+	.data : {
+		_sdata = .;
+		*(.data*)
+		*(.sdata*)
+		_edata = .;
+	} > RAM AT > ROM
+		_sidata = LOADADDR(.data);
+		.bss (NOLOAD) : {
+		_sbss = .;
+		*(.bss*)
+		*(COMMON)
+		_ebss = .;
+	} > RAM
+	_end = .;
+	_heap_end = ORIGIN(RAM) + LENGTH(RAM);
+	stack_top = ORIGIN(RAM) + LENGTH(RAM);
 
 	/* Export RAM info to bootloader (informational only) */
 	__sram_start = 0xE00000;
