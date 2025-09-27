@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.4.7"
+#define VERSION "0.4.8"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -15,7 +15,7 @@ void handler_run(uint32_t addr);
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
-void handler_ide();
+void handler_ide(uint32_t end);
 void handler_help();
 void handler_info();
 uint8_t readline(char *buffer);
@@ -35,12 +35,89 @@ extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
 
+struct bi_record
+{
+    uint16_t tag;    // BI_xxx
+    uint16_t size;   // total size of this record in bytes (incl. header)
+    uint32_t data[]; // payload
+};
+
+struct mem_info
+{
+    uint32_t addr; // physical base
+    uint32_t size; // length in bytes
+};
+
+#define BI_LAST 0x0000
+#define BI_MACHTYPE 0x0001 /* optional */
+#define BI_CPUTYPE 0x0002  /* optional */
+#define BI_MMUTYPE 0x0004  /* optional */
+#define BI_MEMCHUNK 0x0005
+#define BI_RAMDISK 0x0006 /* optional */
+#define BI_COMMAND_LINE 0x0007
+
+typedef unsigned long uintptr_t;
+
+static inline uint8_t *align4(uint8_t *p)
+{
+    uintptr_t v = (uintptr_t)p;
+    v = (v + 3) & ~3u;
+    return (uint8_t *)v;
+}
+
+void emit_bootinfo(uintptr_t _end)
+{
+    uint8_t *p = align4((uint8_t *)_end);
+
+    // BI_MEMCHUNK
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        struct mem_info *mi;
+        r->tag = BI_MEMCHUNK;
+        r->size = sizeof(*r) + sizeof(*mi);
+        mi = (struct mem_info *)r->data;
+        mi->addr = 0x80000000u; // DRAM base
+        mi->size = 0x08000000u; // 128 MiB
+        p += r->size;
+    }
+    // BI_COMMAND_LINE
+    {
+        const char cmd[] = "console=mackerel loglevel=7";
+        struct bi_record *r = (struct bi_record *)p;
+        const uint32_t paylen = sizeof(cmd); // include NUL
+        r->tag = BI_COMMAND_LINE;
+        r->size = sizeof(*r) + paylen;
+        p += sizeof(*r);
+        for (uint32_t i = 0; i < paylen; i++)
+            p[i] = cmd[i];
+        p += paylen;
+        p = align4(p);
+    }
+    // BI_MACHTYPE
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        r->tag  = BI_MACHTYPE;
+        r->size = sizeof(*r) + sizeof(uint32_t);
+        p += sizeof(*r);
+        *(uint32_t *)p = 15;    // MACH_MACKEREL = 15 in Linux bootinfo.h
+        p += sizeof(uint32_t);
+        p = align4(p);
+    }
+    // BI_LAST sentinel
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        r->tag = BI_LAST;
+        r->size = sizeof(*r);
+        // no payload
+    }
+}
+
 void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Boot Linux from SD\r\n");
-    printf(" ide                   - Boot Linux from IDE\r\n");
+    printf(" ide <end>             - Boot Linux from IDE\r\n");
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -57,8 +134,8 @@ int main()
 {
     duart_puts("\r\n");
     duart_puts("========================================\r\n");
-    duart_puts("   " SYSTEM_NAME " Bootloader\r\n");
-    duart_puts("   Version: " VERSION "\r\n");
+    duart_puts("   " SYSTEM_NAME " Bootloader v" VERSION "\r\n");
+    duart_puts("   Build Date: " __DATE__ " - " __TIME__ "\r\n");
     duart_puts("   Copyright (c) 2025 Colin Maykish\r\n");
     duart_puts("   github.com/crmaykish/mackerel-68k\r\n");
     duart_puts("========================================\r\n\r\n");
@@ -84,7 +161,10 @@ int main()
         }
         else if (strncmp(buffer, "ide", 3) == 0)
         {
-            handler_ide();
+            strtok(buffer, " ");
+            char *param1 = strtok(NULL, " ");
+            uint32_t end = strtoul(param1, 0, 16);
+            handler_ide(end);
         }
         else if (strncmp(buffer, "run", 3) == 0)
         {
@@ -246,7 +326,7 @@ void block_read(uint32_t block_num, uint8_t *block)
     IDE_read_sector((uint16_t *)block, block_num);
 }
 
-void handler_ide()
+void handler_ide(uint32_t end)
 {
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
@@ -309,6 +389,12 @@ void handler_ide()
 
     if (kernel_found)
     {
+        if (end > 0)
+        {
+            printf("Setting up bootinfo at _end: 0x%X\r\n", end);
+            emit_bootinfo((uintptr_t)end);
+        }
+
         handler_run(PROGRAM_START);
     }
     else
