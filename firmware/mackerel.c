@@ -89,9 +89,9 @@ void print_string_bin(char *str, uint8_t max)
 void memdump(uint32_t address, uint32_t bytes)
 {
     uint32_t i = 0;
-    uint32_t b = 0;
+    uint8_t b = 0;
 
-    printf("%08X  ", address);
+    printf("%08lX  ", address);
 
     while (i < bytes)
     {
@@ -113,7 +113,7 @@ void memdump(uint32_t address, uint32_t bytes)
             printf(" |");
             print_string_bin((char *)(address + i - 16), 16);
 
-            printf("|\r\n%08X  ", address + i);
+            printf("|\r\n%08lX  ", address + i);
         }
         else if (i % 8 == 0)
         {

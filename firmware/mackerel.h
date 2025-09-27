@@ -2,11 +2,7 @@
 #define _MACKEREL_H
 
 #include <stdbool.h>
-
-// NOTE: Baselibc has no stdint header
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
+#include <stdint.h>
 
 #define EXCEPTION_AUTOVECTOR 24
 #define EXCEPTION_USER 64

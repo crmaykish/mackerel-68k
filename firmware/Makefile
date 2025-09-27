@@ -30,10 +30,10 @@ CFLAGS = -m68000
 AFLAGS = -m68000
 endif
 
-COMMON_OBJS_ROM = $(VECTORS) start.o glue.o mackerel.o term.o
-COMMON_OBJS_RAM = start_ram.o glue.o mackerel.o term.o
+COMMON_OBJS_ROM = $(VECTORS) start.o syscalls.o mackerel.o term.o
+COMMON_OBJS_RAM = start_ram.o syscalls.o mackerel.o term.o
 
-BASE_BINS = bootloader.bin hello.bin kernel.bin fatfs_demo.bin
+BASE_BINS = bootloader.bin hello.bin kernel.bin fatfs_demo.bin libctest.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
@@ -57,16 +57,19 @@ all: $(BINS)
 	$(OBJCOPY) $< -O binary $@
 
 bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lc -lgcc
 
 hello.elf: $(COMMON_OBJS_RAM) hello.o ide.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o ide.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 kernel.elf: $(COMMON_OBJS_RAM) kernel.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+libctest.elf: $(COMMON_OBJS_RAM) libctest.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 	
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@

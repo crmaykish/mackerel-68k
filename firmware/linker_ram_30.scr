@@ -5,7 +5,15 @@ MEMORY
 
 SECTIONS
 {
-	.text 0x80000000 : { *(.text) } > RAM
-	.rodata : { *(.rodata) } > RAM
-	.bss : { *(.bss) } > RAM
+    .text : { *(.text*) } > RAM
+    .rodata : { *(.rodata*) } > RAM
+    .bss (NOLOAD) : {
+        _sbss = .;
+        *(.bss*)
+        *(COMMON)
+        _ebss = .;
+    } > RAM
+    _end = .;
+    
+    _heap_end = ORIGIN(RAM) + LENGTH(RAM);
 }

@@ -9,7 +9,10 @@ SECTIONS
 	.vectors 0xE0000000 : { *(.vectors) } > ROM
 	.text : { *(.text) } > ROM
 	.rodata : { *(.rodata) } > ROM
-	.bss 0x400 : { *(.bss) } > RAM
+	.bss 0x400 : {
+		*(.bss)
+		_end = .;
+	} > RAM
 
 	/* Export RAM info to bootloader (informational only) */
 	__sram_start = 0x00;

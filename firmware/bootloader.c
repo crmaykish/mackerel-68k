@@ -273,7 +273,7 @@ void handler_run(uint32_t addr)
         addr = PROGRAM_START;
     }
 
-    printf("Jumping to 0x%X\r\n", addr);
+    printf("Jumping to 0x%lX\r\n", addr);
 
     // Jump to the subroutine at the specified address
     // Programs will return control to the bootloader when they exit because jsr is used
@@ -298,7 +298,7 @@ void handler_boot()
     // Read the first block of the SD card to determine the Linux image size
     sd_read(0, first);
     uint32_t image_size = strtoul((char *)first, 0, 10);
-    printf("Image size: %u\n", image_size);
+    printf("Image size: %lu\n", image_size);
 
     // Read the rest of the SD card to load the Linux image into RAM
     printf("Loading kernel into 0x%X...\n", (int)mem);
@@ -309,7 +309,7 @@ void handler_boot()
     {
         if (block % 10 == 0)
         {
-            printf("%d/%d\n", block, blocks);
+            printf("%d/%ld\n", block, blocks);
         }
 
         sd_read(block, mem);
@@ -362,7 +362,7 @@ void handler_ide(uint32_t end)
 
             if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
             {
-                printf("\r\nReading IMAGE.BIN (%d bytes) into RAM at 0x%X...\r\n", files_list[i].file_size, PROGRAM_START);
+                printf("\r\nReading IMAGE.BIN (%ld bytes) into RAM at 0x%X...\r\n", files_list[i].file_size, PROGRAM_START);
 
                 uint8_t *file = (uint8_t *)PROGRAM_START;
 
@@ -370,7 +370,7 @@ void handler_ide(uint32_t end)
 
                 printf("\r\n");
 
-                printf("Read %d of %d bytes\r\n", bytes_read, files_list[i].file_size);
+                printf("Read %d of %ld bytes\r\n", bytes_read, files_list[i].file_size);
 
                 if (bytes_read != files_list[i].file_size)
                 {
@@ -391,7 +391,7 @@ void handler_ide(uint32_t end)
     {
         if (end > 0)
         {
-            printf("Setting up bootinfo at _end: 0x%X\r\n", end);
+            printf("Setting up bootinfo at _end: 0x%lX\r\n", end);
             emit_bootinfo((uintptr_t)end);
         }
 
@@ -414,7 +414,7 @@ void handler_load(uint32_t addr)
         addr = PROGRAM_START;
     }
 
-    printf("Loading from serial into 0x%X...\r\n", addr);
+    printf("Loading from serial into 0x%lX...\r\n", addr);
 
     while (end_count != 3)
     {
@@ -451,10 +451,10 @@ void handler_info()
 {
     printf("System Information:\r\n");
     printf(" System: " SYSTEM_NAME "\r\n");
-    printf(" SRAM: 0x%08X to 0x%08X (%d KB)\r\n", (uint32_t)__sram_start, (uint32_t)(__sram_start + (uint32_t)__sram_length), (uint32_t)__sram_length / 1024);
+    printf(" SRAM: 0x%08lX to 0x%08lX (%ld KB)\r\n", (uint32_t)__sram_start, (uint32_t)(__sram_start + (uint32_t)__sram_length), (uint32_t)__sram_length / 1024);
     if ((uint32_t)__dram_length > 0)
     {
-        printf(" DRAM: 0x%08X to 0x%08X (%d KB)\r\n", (uint32_t)__dram_start, (uint32_t)(__dram_start + (uint32_t)__dram_length), (uint32_t)__dram_length / 1024);
+        printf(" DRAM: 0x%08lX to 0x%08lX (%ld KB)\r\n", (uint32_t)__dram_start, (uint32_t)(__dram_start + (uint32_t)__dram_length), (uint32_t)__dram_length / 1024);
     }
 }
 
@@ -501,7 +501,7 @@ uint8_t readline(char *buffer)
 
 void memtest8(uint8_t *start, uint32_t size, uint8_t target)
 {
-    printf("8-bit Mem Test: %X to %X w/ val %02X\r\n", (uint32_t)start, (uint32_t)(start + size), target);
+    printf("8-bit Mem Test: %lX to %lX w/ val %02X\r\n", (uint32_t)start, (uint32_t)(start + size), target);
 
     for (uint8_t *i = start; i < (uint8_t *)(start + size); i++)
     {
@@ -512,7 +512,7 @@ void memtest8(uint8_t *start, uint32_t size, uint8_t target)
     {
         if (*i != target)
         {
-            printf("Error at 0x%X, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, target, *i);
+            printf("Error at 0x%lX, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, target, *i);
         }
     }
 
@@ -521,7 +521,7 @@ void memtest8(uint8_t *start, uint32_t size, uint8_t target)
 
 void memtest16(uint16_t *start, uint32_t size, uint16_t target)
 {
-    printf("16-bit Mem Test: %X to %X w/ val %04X\r\n", (uint32_t)start, (uint32_t)(start + size / 2), target);
+    printf("16-bit Mem Test: %lX to %lX w/ val %04X\r\n", (uint32_t)start, (uint32_t)(start + size / 2), target);
 
     for (uint16_t *i = start; i < (uint16_t *)(start + size / 2); i++)
     {
@@ -532,7 +532,7 @@ void memtest16(uint16_t *start, uint32_t size, uint16_t target)
     {
         if (*i != target)
         {
-            printf("Error at 0x%X, expected 0x%04X, got 0x%04X\r\n", (uint32_t)i, target, *i);
+            printf("Error at 0x%lX, expected 0x%04X, got 0x%04X\r\n", (uint32_t)i, target, *i);
         }
     }
 
@@ -542,7 +542,7 @@ void memtest16(uint16_t *start, uint32_t size, uint16_t target)
 // Write the 32-bit address value to the same address in RAM
 void memtest32(uint32_t *start, uint32_t size)
 {
-    printf("32-bit Mem Test: %X to %X\r\n", (uint32_t)start, (uint32_t)start + (uint32_t)size);
+    printf("32-bit Mem Test: %lX to %lX\r\n", (uint32_t)start, (uint32_t)start + (uint32_t)size);
 
     printf("Writing...\r\n");
     for (uint32_t *i = start; i < (uint32_t *)(start + size / 4); i++)
@@ -560,7 +560,7 @@ void memtest32(uint32_t *start, uint32_t size)
     {
         if (*i != (uint32_t)i)
         {
-            printf("Error at 0x%X, expected 0x%02X, got 0x%02X\r\n", (uint32_t)i, (uint32_t)i, *i);
+            printf("Error at 0x%lX, expected 0x%lX, got 0x%lX\r\n", (uint32_t)i, (uint32_t)i, *i);
         }
 
         if ((*i % 0x10000) == 0)

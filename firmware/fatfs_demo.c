@@ -61,7 +61,7 @@ int main()
         {
             char filename[13];
             fat16_get_file_name(&files_list[i], filename);
-            printf("%s, %u\r\n", filename, files_list[i].file_size);
+            printf("%s, %lu\r\n", filename, files_list[i].file_size);
         }
     }
 

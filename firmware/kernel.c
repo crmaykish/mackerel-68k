@@ -52,7 +52,7 @@ int main()
 
     while (true)
     {
-        printf("Loop: %X\r\n", i);
+        printf("Loop: %lX\r\n", i);
 
         i++;
 

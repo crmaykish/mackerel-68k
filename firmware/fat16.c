@@ -66,8 +66,8 @@ void fat16_print_boot_sector_info(fat16_boot_sector_t *buffer)
     printf("FAT size (sectors): %u\n", buffer->fat_size_16);
     printf("Sectors per track: %u\n", buffer->sectors_per_track);
     printf("Head count: %u\n", buffer->heads);
-    printf("Hidden sectors: %u\n", buffer->hidden_sectors);
-    printf("Total sectors (large): %u\n", buffer->total_sectors_32);
+    printf("Hidden sectors: %lu\n", buffer->hidden_sectors);
+    printf("Total sectors (large): %lu\n", buffer->total_sectors_32);
 }
 
 int fat16_list_files(fat16_boot_sector_t *boot_sector, fat16_dir_entry_t files_list[])
@@ -171,8 +171,6 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     // Calculate the first sector of the cluster
     uint32_t sector_size = boot_sector->bytes_per_sector;
     uint32_t sectors_per_cluster = boot_sector->sectors_per_cluster;
-
-    int last_percent = -2; // So first print is at 0%
 
     while (current_cluster != 0xFFFF && buffer_index < buffer_size)
     {
