@@ -120,8 +120,8 @@ assign CS_FPU_n = 1'b1;
 
 // === WAIT STATE GENERATION === //
 
-parameter IDE_WAIT = 2;    // IDE wait states (cycles)
-parameter DUART_WAIT = 1;  // DUART wait states (cycles)
+parameter IDE_WAIT = 0;    // IDE wait states (cycles)
+parameter DUART_WAIT = 0;  // DUART wait states (cycles)
 
 reg [3:0] ide_wait_cnt = 0;
 reg [3:0] duart_wait_cnt = 0;
