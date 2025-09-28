@@ -23,8 +23,8 @@ AFLAGS = -m68010
 else
 # Mackerel-08
 CPPFLAGS = -DMACKEREL_08
-MEMORY_MAP_ROM = linker_rom.scr
-MEMORY_MAP_RAM = linker_ram.scr
+MEMORY_MAP_ROM = linker_rom_08.scr
+MEMORY_MAP_RAM = linker_ram_08.scr
 VECTORS = vectors_08.s
 CFLAGS = -m68000
 AFLAGS = -m68000

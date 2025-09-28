@@ -1,0 +1,34 @@
+MEMORY
+{
+  	ROM(RX) : ORIGIN = 0x380000, LENGTH = 0x7C000
+	RAM(RW) : ORIGIN = 0x380000 - 0x1000 - 0x1000, LENGTH = 0x1000
+}
+
+SECTIONS
+{
+	.vectors 0x380000 : { *(.vectors) } > ROM
+	.text : { *(.text*) } > ROM
+	.rodata : { *(.rodata*) } > ROM
+	.data : {
+		_sdata = .;
+		*(.data*)
+		*(.sdata*)
+		_edata = .;
+	} > RAM AT > ROM
+		_sidata = LOADADDR(.data);
+		.bss (NOLOAD) : {
+		_sbss = .;
+		*(.bss*)
+		*(COMMON)
+		_ebss = .;
+	} > RAM
+	_end = .;
+	_heap_end = ORIGIN(RAM) + LENGTH(RAM);
+	stack_top = ORIGIN(RAM) + LENGTH(RAM);
+
+	/* Export RAM info to bootloader (informational only) */
+	__sram_start = 0x00;
+	__sram_length = 0x380000;
+	__dram_start = 0x00;
+	__dram_length = 0x00;
+}

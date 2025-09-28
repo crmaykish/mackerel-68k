@@ -1,0 +1,19 @@
+MEMORY
+{
+	RAM(RWX) : ORIGIN = 0x400, LENGTH = 0x380000 - 0x400 - 0x1000
+}
+
+SECTIONS
+{
+	.text : { *(.text*) } > RAM
+    .rodata : { *(.rodata*) } > RAM
+    .bss (NOLOAD) : {
+        _sbss = .;
+        *(.bss*)
+        *(COMMON)
+        _ebss = .;
+    } > RAM
+    _end = .;
+    
+    _heap_end = ORIGIN(RAM) + LENGTH(RAM);
+}
