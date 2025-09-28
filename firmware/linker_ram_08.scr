@@ -1,6 +1,7 @@
 MEMORY
 {
-	RAM(RWX) : ORIGIN = 0x400, LENGTH = 0x380000 - 0x400 - 0x1000
+    /* RAM starts after vectors at 0x400, top 4K reserved for stack, another 4k below that is used by the bootloader */
+	RAM(RWX) : ORIGIN = 0x400, LENGTH = 0x380000 - 0x400 - 0x1000 - 0x1000
 }
 
 SECTIONS

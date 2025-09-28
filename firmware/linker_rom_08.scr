@@ -1,6 +1,7 @@
 MEMORY
 {
   	ROM(RX) : ORIGIN = 0x380000, LENGTH = 0x7C000
+	/* Top 4K reserved for stack, next highest 4K is used by the bootloader */
 	RAM(RW) : ORIGIN = 0x380000 - 0x1000 - 0x1000, LENGTH = 0x1000
 }
 
