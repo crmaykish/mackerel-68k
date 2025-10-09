@@ -87,7 +87,7 @@ void emit_bootinfo(uintptr_t _end)
         r->tag = BI_MEMCHUNK;
         r->size = sizeof(*r) + sizeof(*mi);
         mi->addr = 0x00000000u;
-        mi->size = 0x01000000u; // 16 MB
+        mi->size = 0x08000000u; // 128MB
         p += r->size;
         p = align4(p);
     }
