@@ -1,6 +1,6 @@
 MEMORY
 {
-	RAM(RX) : ORIGIN = 0x80000000, LENGTH = 0x08000000 - 0x4000 # 16KB reserved for stack
+	RAM(RX) : ORIGIN = 0x1000, LENGTH = 0x08000000 - 0x1000 - 0x80000 # Has access to all DRAM except the 512 KB reserved at the top for the bootloader and stack
 }
 
 SECTIONS

@@ -1,7 +1,7 @@
 MEMORY
 {
   	ROM(RX) : ORIGIN = 0xE0000000, LENGTH = 0x80000
-	RAM(RX) : ORIGIN = 0x400, LENGTH = 0x80000 - 0x400 - 0x1000 # 0x400 offset for vectors, 0x1000 reserved for stack space
+	RAM(RX) : ORIGIN = 0x08000000 - 0x80000, LENGTH = 0x80000 - 0x1000 # 512KB at the top of DRAM, 0x1000 reserved for stack
 }
 
 SECTIONS
@@ -28,7 +28,7 @@ SECTIONS
 
 	/* Export RAM info to bootloader (informational only) */
 	__sram_start = 0x00;
-	__sram_length = 0x80000;
-	__dram_start = 0x80000000;
-	__dram_length = 0x8000000;
+	__sram_length = 0x00;
+	__dram_start = 	0x00000000;
+	__dram_length = 0x08000000;
 }

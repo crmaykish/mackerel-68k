@@ -94,11 +94,11 @@ assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
 wire ROM_EN = ~BOOT || (AH == 4'b1110);
 assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 
-// SRAM at 0x00000000
-assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b0000);
+// SRAM is currently disabled
+assign CS_SRAM_n = 1'b1;
 
-// DRAM at 0x80000000
-assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1000);
+// DRAM at 0x0000_0000 - 0x7FFF_FFFF
+assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b0000);
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);

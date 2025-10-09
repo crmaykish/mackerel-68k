@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.1"
+#define VERSION "0.5.2"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -474,7 +474,8 @@ void handler_zero(uint32_t addr, uint32_t size)
     uint32_t n = size / 4;
 
     // Unroll 8 stores per loop for speed
-    while (n >= 8) {
+    while (n >= 8)
+    {
         p[0] = 0;
         p[1] = 0;
         p[2] = 0;
@@ -486,7 +487,8 @@ void handler_zero(uint32_t addr, uint32_t size)
         p += 8;
         n -= 8;
     }
-    while (n--) {
+    while (n--)
+    {
         *p++ = 0;
     }
 
@@ -501,10 +503,7 @@ void handler_info()
     printf("System Information:\r\n");
     printf(" System: " SYSTEM_NAME "\r\n");
     printf(" SRAM: 0x%08lX to 0x%08lX (%ld KB)\r\n", (uint32_t)__sram_start, (uint32_t)(__sram_start + (uint32_t)__sram_length), (uint32_t)__sram_length / 1024);
-    if ((uint32_t)__dram_length > 0)
-    {
-        printf(" DRAM: 0x%08lX to 0x%08lX (%ld KB)\r\n", (uint32_t)__dram_start, (uint32_t)(__dram_start + (uint32_t)__dram_length), (uint32_t)__dram_length / 1024);
-    }
+    printf(" DRAM: 0x%08lX to 0x%08lX (%ld KB)\r\n", (uint32_t)__dram_start, (uint32_t)(__dram_start + (uint32_t)__dram_length), (uint32_t)__dram_length / 1024);
 }
 
 void command_not_found(char *command_name)
