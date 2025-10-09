@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.0"
+#define VERSION "0.5.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -69,46 +69,70 @@ void emit_bootinfo(uintptr_t _end)
 {
     uint8_t *p = align4((uint8_t *)_end);
 
-    // BI_MEMCHUNK
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        struct mem_info *mi;
-        r->tag = BI_MEMCHUNK;
-        r->size = sizeof(*r) + sizeof(*mi);
-        mi = (struct mem_info *)r->data;
-        mi->addr = 0x80000000u; // DRAM base
-        mi->size = 0x08000000u; // 128 MiB
-        p += r->size;
-    }
-    // BI_COMMAND_LINE
-    {
-        const char cmd[] = "console=mackerel loglevel=7";
-        struct bi_record *r = (struct bi_record *)p;
-        const uint32_t paylen = sizeof(cmd); // include NUL
-        r->tag = BI_COMMAND_LINE;
-        r->size = sizeof(*r) + paylen;
-        p += sizeof(*r);
-        for (uint32_t i = 0; i < paylen; i++)
-            p[i] = cmd[i];
-        p += paylen;
-        p = align4(p);
-    }
     // BI_MACHTYPE
     {
         struct bi_record *r = (struct bi_record *)p;
-        r->tag  = BI_MACHTYPE;
+        r->tag = BI_MACHTYPE;
         r->size = sizeof(*r) + sizeof(uint32_t);
         p += sizeof(*r);
-        *(uint32_t *)p = 15;    // MACH_MACKEREL = 15 in Linux bootinfo.h
+        *(uint32_t *)p = 15; // 15
         p += sizeof(uint32_t);
         p = align4(p);
     }
-    // BI_LAST sentinel
+
+    // BI_MEMCHUNK
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        struct mem_info *mi = (struct mem_info *)(p + sizeof(*r));
+        r->tag = BI_MEMCHUNK;
+        r->size = sizeof(*r) + sizeof(*mi);
+        mi->addr = 0x00000000u;
+        mi->size = 0x01000000u; // 16 MB
+        p += r->size;
+        p = align4(p);
+    }
+
+    // BI_CPUTYPE
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        r->tag = BI_CPUTYPE;
+        r->size = sizeof(*r) + sizeof(uint32_t);
+        p += sizeof(*r);
+        *(uint32_t *)p = 3; // 3
+        p += sizeof(uint32_t);
+        p = align4(p);
+    }
+
+    // BI_MMUTYPE
+    {
+        struct bi_record *r = (struct bi_record *)p;
+        r->tag = BI_MMUTYPE;
+        r->size = sizeof(*r) + sizeof(uint32_t);
+        p += sizeof(*r);
+        *(uint32_t *)p = 2; // 2
+        p += sizeof(uint32_t);
+        p = align4(p);
+    }
+
+    // BI_COMMAND_LINE (NUL included)
+    {
+        const char cmd[] = "console=mackerel loglevel=7";
+        struct bi_record *r = (struct bi_record *)p;
+        const uint32_t paylen = sizeof(cmd);
+        r->tag = BI_COMMAND_LINE;
+        r->size = sizeof(*r) + paylen;
+        p += sizeof(*r);
+        memcpy(p, cmd, paylen);
+        p += paylen;
+        p = align4(p);
+    }
+
+    // BI_LAST
     {
         struct bi_record *r = (struct bi_record *)p;
         r->tag = BI_LAST;
-        r->size = sizeof(*r);
-        // no payload
+        r->size = sizeof(*r); // 4
+        // done
     }
 }
 
@@ -331,6 +355,11 @@ void handler_ide(uint32_t end)
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
+#ifdef MACKEREL_30
+    printf("Zeroing memory from 0x%X to 0x%X...\r\n", PROGRAM_START, PROGRAM_START + 0x400000);
+    handler_zero(PROGRAM_START, 0x400000);
+#endif
+
     printf("Attempting to load Linux kernel from IDE...\r\n");
 
     // Reset the IDE interface
@@ -441,10 +470,30 @@ void handler_load(uint32_t addr)
 
 void handler_zero(uint32_t addr, uint32_t size)
 {
-    for (uint32_t i = addr; i < addr + size; i++)
-    {
-        MEM(i) = 0x00;
+    uint32_t *p = (uint32_t *)addr;
+    uint32_t n = size / 4;
+
+    // Unroll 8 stores per loop for speed
+    while (n >= 8) {
+        p[0] = 0;
+        p[1] = 0;
+        p[2] = 0;
+        p[3] = 0;
+        p[4] = 0;
+        p[5] = 0;
+        p[6] = 0;
+        p[7] = 0;
+        p += 8;
+        n -= 8;
     }
+    while (n--) {
+        *p++ = 0;
+    }
+
+    // Handle leftover bytes
+    addr += (size & ~3u);
+    for (uint32_t i = 0; i < (size & 3u); i++)
+        MEM(addr + i) = 0;
 }
 
 void handler_info()
