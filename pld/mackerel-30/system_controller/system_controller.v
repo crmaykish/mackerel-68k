@@ -63,30 +63,8 @@ assign STERM_n = 1'b1;
 wire BOOT;
 boot_signal bs(RST_n, AS_n, BOOT);
 
-// === INTERRUPT HANDLING === //
-
-irq_encoder ie1(
-	.irq1(0),
-	.irq2(0),
-	.irq3(IDE_INT),
-	.irq4(0),
-	.irq5(~IRQ_DUART_n),
-	.irq6(0),
-	.irq7(0),
-	.ipl0_n(IPL_n[0]),
-	.ipl1_n(IPL_n[1]),
-	.ipl2_n(IPL_n[2])
-);
-
-// Autovector the non-DUART interrupts
-always @(posedge CLK) begin
-	// Autovector the non-DUART interrupts
-	if (~IACK_n && IACK_DUART_n && ~AS_n) AVEC_n <= 1'b0;
-	else AVEC_n <= 1'b1;
-end
-
 // DUART IACK is mapped to IRQ level 5
-assign IACK_DUART_n = ~(~IACK_n && ~AS_n && AL[3:1] == 3'd5);
+assign IACK_DUART_n = ~(~IACK_n && AL[3:1] == 3'd5);
 
 // === ADDRESS DECODING === //
 
@@ -159,11 +137,37 @@ always @(posedge CLK or negedge RST_n) begin
     end
 end
 
+// === INTERRUPT HANDLING === //
+
+irq_encoder ie1(
+	.irq1(0),
+	.irq2(0),
+	.irq3(IDE_INT),
+	.irq4(0),
+	.irq5(~IRQ_DUART_n),
+	.irq6(0),
+	.irq7(0),
+	.ipl0_n(IPL_n[0]),
+	.ipl1_n(IPL_n[1]),
+	.ipl2_n(IPL_n[2])
+);
+
+// Autovector the non-DUART interrupts
+always @(*) begin
+    if (~IACK_n && IACK_DUART_n && ~AS_n)
+        AVEC_n = 1'b0;
+    else
+        AVEC_n = 1'b1;
+end
+
 // === DSACK GENERATION === //
 always @(*) begin
-    if (~AVEC_n) begin
-        DSACK0_n <= 1'b1;
-        DSACK1_n <= 1'b1;
+    // Handle interrupt acknowledge cycles
+    if (~IACK_n) begin
+        if (~IACK_DUART_n) begin
+            DSACK0_n <= 1'b0;
+            DSACK1_n <= 1'b1;
+        end
     end
     else if (~CS_DRAM_n) begin
         DSACK0_n <= DSACK0_DRAM_n;
@@ -173,23 +177,23 @@ always @(*) begin
         // Insert IDE wait states before asserting DSACK
         if (ide_waiting) begin
             DSACK0_n <= 1'b1;
-			DSACK1_n <= 1'b1;
+            DSACK1_n <= 1'b1;
 		end
         else begin
             DSACK0_n <= 1'b1;
             DSACK1_n <= 1'b0;
-		end
+        end
     end
     else if (~CS_DUART_n) begin
         // Insert DUART wait states before asserting DSACK
         if (duart_waiting) begin
             DSACK0_n <= 1'b1;
-			DSACK1_n <= 1'b1;
+            DSACK1_n <= 1'b1;
 		end
         else begin
             DSACK0_n <= 1'b0;
             DSACK1_n <= 1'b1;
-		end
+        end
     end
     else if (~CS_ROM_n || ~CS_SRAM_n) begin
         // ROM and SRAM respond immediately
