@@ -86,6 +86,9 @@ assign IDE_CS0_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0001);
 // IDE CS1 at 0xF0020000
 assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0010);
 
+// Timer control registers at 0xF0030000
+assign CS_TIMER_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0011);
+
 // IDE is selected if either CS0 or CS1 is active
 wire CS_IDE_n = ~(~AS_n && (~IDE_CS0_n || ~IDE_CS1_n));
 
@@ -137,6 +140,53 @@ always @(posedge CLK or negedge RST_n) begin
     end
 end
 
+// === TIMER INTERRUPT === //
+parameter integer TIMER_DIVIDER = 240_000;  // 24 MHz / 240,000 = 100 Hz
+reg [$clog2(TIMER_DIVIDER)-1:0] timer_cnt = 0;
+reg timer_enable = 1'b0;
+reg IRQ_TIMER = 1'b0;   // Timer interrupt flag
+
+// Detect writes to enable / disable registers
+wire timer_write = (~CS_TIMER_n && ~RW);  // active during write cycle
+wire timer_en_write  = timer_write && (AL == 4'h0);
+wire timer_dis_write = timer_write && (AL == 4'h1);
+
+// Level 6 IACK detection (autovector) to clear pending
+wire IACK_LVL6 = (~IACK_n && ~AS_n && AL[3:1] == 3'd6);
+
+always @(posedge CLK or negedge RST_n) begin
+    if (!RST_n) begin
+        timer_cnt <= 0;
+        timer_enable <= 1'b0;
+        IRQ_TIMER <= 1'b0;
+    end else begin
+        // Register writes
+        if (timer_en_write)
+            timer_enable <= 1'b1;
+        else if (timer_dis_write) begin
+            timer_enable <= 1'b0;
+            IRQ_TIMER <= 1'b0;
+            timer_cnt <= 0;
+        end
+
+        // Counter / interrupt generation
+        if (timer_enable) begin
+            if (timer_cnt == TIMER_DIVIDER - 1) begin
+                timer_cnt <= 0;
+                IRQ_TIMER <= 1'b1;
+            end else begin
+                timer_cnt <= timer_cnt + 1;
+            end
+        end else begin
+            timer_cnt <= 0;
+        end
+
+        // Clear on level 6 IACK
+        if (IACK_LVL6)
+            IRQ_TIMER <= 1'b0;
+    end
+end
+
 // === INTERRUPT HANDLING === //
 
 irq_encoder ie1(
@@ -145,7 +195,7 @@ irq_encoder ie1(
 	.irq3(IDE_INT),
 	.irq4(0),
 	.irq5(~IRQ_DUART_n),
-	.irq6(0),
+	.irq6(IRQ_TIMER),
 	.irq7(0),
 	.ipl0_n(IPL_n[0]),
 	.ipl1_n(IPL_n[1]),
@@ -167,6 +217,10 @@ always @(*) begin
         if (~IACK_DUART_n) begin
             DSACK0_n <= 1'b0;
             DSACK1_n <= 1'b1;
+        end else begin
+            // Autovector
+            DSACK0_n <= 1'b0;
+            DSACK1_n <= 1'b1;
         end
     end
     else if (~CS_DRAM_n) begin
@@ -178,7 +232,7 @@ always @(*) begin
         if (ide_waiting) begin
             DSACK0_n <= 1'b1;
             DSACK1_n <= 1'b1;
-		end
+        end
         else begin
             DSACK0_n <= 1'b1;
             DSACK1_n <= 1'b0;
@@ -189,14 +243,18 @@ always @(*) begin
         if (duart_waiting) begin
             DSACK0_n <= 1'b1;
             DSACK1_n <= 1'b1;
-		end
+        end
         else begin
             DSACK0_n <= 1'b0;
             DSACK1_n <= 1'b1;
         end
     end
+    else if (~CS_TIMER_n) begin
+        // Timer registers respond immediately
+        DSACK0_n <= 1'b0;
+        DSACK1_n <= 1'b1;
+    end
     else if (~CS_ROM_n || ~CS_SRAM_n) begin
-        // ROM and SRAM respond immediately
         DSACK0_n <= 1'b0;
         DSACK1_n <= 1'b1;
     end
