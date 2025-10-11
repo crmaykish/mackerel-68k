@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.2"
+#define VERSION "0.5.3"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -34,6 +34,8 @@ extern char __dram_start[];
 extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
+
+char kernel_command_line[1024] = "console=mackerel console=ttySC1 loglevel=7 root=/dev/ram0 rw init=/init";
 
 struct bi_record
 {
@@ -102,7 +104,6 @@ void emit_bootinfo(uintptr_t _end)
         p += sizeof(uint32_t);
         p = align4(p);
     }
-
     // BI_MMUTYPE
     {
         struct bi_record *r = (struct bi_record *)p;
@@ -116,13 +117,12 @@ void emit_bootinfo(uintptr_t _end)
 
     // BI_COMMAND_LINE (NUL included)
     {
-        const char cmd[] = "console=mackerel loglevel=7";
         struct bi_record *r = (struct bi_record *)p;
-        const uint32_t paylen = sizeof(cmd);
+        const uint32_t paylen = sizeof(kernel_command_line);
         r->tag = BI_COMMAND_LINE;
         r->size = sizeof(*r) + paylen;
         p += sizeof(*r);
-        memcpy(p, cmd, paylen);
+        memcpy(p, kernel_command_line, paylen);
         p += paylen;
         p = align4(p);
     }
@@ -356,8 +356,8 @@ void handler_ide(uint32_t end)
     fat16_dir_entry_t files_list[16] = {0};
 
 #ifdef MACKEREL_30
-    printf("Zeroing memory from 0x%X to 0x%X...\r\n", PROGRAM_START, PROGRAM_START + 0x400000);
-    handler_zero(PROGRAM_START, 0x400000);
+    printf("Zeroing memory from 0x%lX to 0x%lX...\r\n", (uint32_t)PROGRAM_START, (uint32_t)(PROGRAM_START + end + 0x1000));
+    handler_zero(PROGRAM_START, end + 0x1000);
 #endif
 
     printf("Attempting to load Linux kernel from IDE...\r\n");
@@ -423,6 +423,8 @@ void handler_ide(uint32_t end)
             printf("Setting up bootinfo at _end: 0x%lX\r\n", end);
             emit_bootinfo((uintptr_t)end);
         }
+
+        printf("Linux kernel command line: %s\r\n", kernel_command_line);
 
         handler_run(PROGRAM_START);
     }

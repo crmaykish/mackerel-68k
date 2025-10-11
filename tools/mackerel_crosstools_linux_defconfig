@@ -6,4 +6,3 @@ CT_KERNEL_LINUX=y
 CT_LINUX_SRC_DEVEL=y
 CT_LINUX_DEVEL_URL="https://github.com/crmaykish/mackerel-linux-mmu.git"
 CT_LINUX_DEVEL_BRANCH="mackerel-30-config"
-CT_LINUX_V_6_13=y
