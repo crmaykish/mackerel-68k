@@ -35,7 +35,7 @@ extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
 
-char kernel_command_line[1024] = "console=mackerel console=ttySC1 loglevel=7 root=/dev/ram0 rw init=/init";
+char kernel_command_line[1024] = "console=mackerel console=ttyXR0 loglevel=7";
 
 struct bi_record
 {
