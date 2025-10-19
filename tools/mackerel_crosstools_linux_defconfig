@@ -1,6 +1,6 @@
 CT_CONFIG_VERSION="4"
 CT_ARCH_M68K=y
-CT_ARCH_CPU="m68030"
+CT_ARCH_CPU="68020"
 CT_STATIC_TOOLCHAIN=y
 CT_TARGET_VENDOR="mackerel"
 CT_KERNEL_LINUX=y
@@ -8,5 +8,8 @@ CT_LINUX_SRC_DEVEL=y
 CT_LINUX_DEVEL_URL="https://github.com/crmaykish/mackerel-linux-mmu.git"
 CT_LINUX_DEVEL_BRANCH="mackerel-30-config"
 CT_LIBC_MUSL=y
-CT_LIBC_MUSL_EXTRA_CFLAGS="-m68020 -msoft-float"
+CT_MUSL_SRC_DEVEL=y
+CT_MUSL_DEVEL_URL="git@github.com:crmaykish/mackerel-musl.git"
+CT_MUSL_DEVEL_BRANCH="mackerel-soft-fpu"
+CT_LIBC_MUSL_EXTRA_CFLAGS="-msoft-float"
 CT_GETTEXT_NEEDED=y
