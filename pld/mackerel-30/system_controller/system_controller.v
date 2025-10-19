@@ -89,15 +89,18 @@ assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0010);
 // Timer control registers at 0xF0030000
 assign CS_TIMER_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0011);
 
+
+wire cop_window  = (AM == 4'b0010);
+// TODO: Add CPID=1 (A15-A12) to CS decoding
+wire fpu_cycle   = CPU_SPACE && cop_window;
+assign CS_FPU_n = ~fpu_cycle;
+
 // IDE is selected if either CS0 or CS1 is active
 wire CS_IDE_n = ~(~AS_n && (~IDE_CS0_n || ~IDE_CS1_n));
 
 assign IDE_BUF_n = CS_IDE_n;
 assign IDE_RD_n = ~(RW && ~AS_n && ~DS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
-
-// TODO: FPU support is currently disabled
-assign CS_FPU_n = 1'b1;
 
 // === WAIT STATE GENERATION === //
 
@@ -226,6 +229,11 @@ always @(*) begin
     else if (~CS_DRAM_n) begin
         DSACK0_n <= DSACK0_DRAM_n;
         DSACK1_n <= DSACK1_DRAM_n;
+    end
+    else if (~CS_FPU_n) begin
+        // Pass through FPU DSACKs
+        DSACK0_n <= DSACK0_FPU_n;
+        DSACK1_n <= DSACK1_FPU_n;
     end
     else if (~CS_IDE_n) begin
         // Insert IDE wait states before asserting DSACK
