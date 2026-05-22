@@ -26,7 +26,7 @@ Status: Complete
 
 ![Mackerel-08 SBC v1](media/images/mackerel-08-v1.1_cropped.jpg)
 
-Based on the original prototype hardare, this SBC combines the 52-pin PLCC MC68008, a 512KB Flash ROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage.
+Based on the original prototype hardware, this SBC combines the 52-pin PLCC MC68008, a 512KB Flash ROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage.
 
 Three 22V10 PLDs are used for address decoding, interrupt mapping, and DTACK generation. An expansion header breaks out address, data, and control lines to allow additional peripherals to be connected directly to the processor bus.
 
@@ -36,7 +36,7 @@ The address space is mapped as follows:
 
 - RAM:    0x000000 - 0x37FFFF (up to 3.5 MB)
 - ROM:    0x380000 - 0x3FBFFF (496/512 KB usable)
-- DUART:  0x3FC000 - 0x3DFFFF (8KB)
+- DUART:  0x3FC000 - 0x3FDFFF (8KB)
 - Exp:    0x3FE000 - 0x3FFFFF (Expansion header, 8KB)
 
 Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first eight /AS cycles of the CPU after reset. This BOOT signal is used by the address decoder PLD to map the ROM to address 0x000000 long enough for the CPU to read the initial stack pointer and program counter vectors from ROM. RAM is mapped to 0x000000 after that.
@@ -64,12 +64,13 @@ The memory map looks like this:
 
 Status: In Development
 
-- 68030 CPU at 25 MHz
-- 64 MB of 72-pin DRAM
+- 68030 CPU at 24 MHz
+- 128 MB of 72-pin DRAM
 - Ethernet interface (via SPI)
+- Floating point hardware
 - Linux kernel v6.x with MMU support
 
-![Mackerel-30 v0.1](media/images/mackerel-30-v0.1-bringup.jpg)
+![Mackerel-30 v0.1](media/images/mackerel-30-v0.1-assembled.jpg)
 
 Mackerel-30 is based on the 68030 CPU. It includes the DUART and IDE interface from Mackerel-10 and upgrades the DRAM controller to use a 72-pin SIMM. It also includes a MC68882 FPU.
 
@@ -86,7 +87,7 @@ Status: Planning
 ### Bootloader and Bare-metal Programs
 Every version of Mackerel runs a small bootloader program installed on the Flash ROM. This provides a simple set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code.
 
-The bootloader can read program data coming in over the serial port (`load` command) or it can read data from an SD card or IDE drive (`boot` and `ide` respectively). Either way, the program code gets loaded into RAM at address 0x400 and then the bootloader jumps to that address to start the execution.
+The bootloader can read program data coming in over the serial port (`load` command) or it can read data from an SD card or IDE drive (`boot` and `ide` respectively). Either way, the program code gets loaded into RAM and then the bootloader jumps to that address to start the execution. The load address is 0x400 on Mackerel-08 and Mackerel-10, and 0x1000 on Mackerel-30.
 
 ### uClinux
 
@@ -95,7 +96,7 @@ Mackerel-08 and Mackerel-10 can run [uClinux](https://github.com/crmaykish/macke
 In both versions, the Linux system is fairly minimal. There is an interactive bash-style shell, and a few basic programs. Mackerel-10 has an IDE driver and support for ext2 filesystems.
 
 ### Compilers and Tools
-The bootloader and other bare-metal programs can be built with a standard m68k-elf cross-compiler. There is a script to build one from modern binutils and gcc in [the tools folder](tools/build_cross_compiler.sh).
+The bootloader and other bare-metal programs can be built with a custom m68k cross-compiler. See [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for instructions on building one with crosstools-ng.
 
 I've been using this [toolchain from Sourceforce](https://sourceforge.net/projects/uclinux/files/Tools/m68k-uclinux-20160822/m68k-uclinux-tools-20160822.tar.bz2/download) to build uClinux. I have run this toolchain on modern Arch Linux and Debian 12 machines without issues.
 
