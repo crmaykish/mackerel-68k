@@ -160,7 +160,7 @@ int main()
     duart_puts("========================================\r\n");
     duart_puts("   " SYSTEM_NAME " Bootloader v" VERSION "\r\n");
     duart_puts("   Build Date: " __DATE__ " - " __TIME__ "\r\n");
-    duart_puts("   Copyright (c) 2025 Colin Maykish\r\n");
+    duart_puts("   Copyright (c) 2026 Colin Maykish\r\n");
     duart_puts("   github.com/crmaykish/mackerel-68k\r\n");
     duart_puts("========================================\r\n\r\n");
     duart_puts("Type 'help' for a list of available commands.\r\n\r\n");
