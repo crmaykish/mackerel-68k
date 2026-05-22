@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.3"
+#define VERSION "0.5.4"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -529,9 +529,9 @@ uint8_t readline(char *buffer)
             buffer[count] = in;
             count++;
         }
-        else if (0x08)
+        // Backspace
+        else if (in == 0x08 || in == 0x7F)
         {
-            // Backspace
             if (count > 0)
             {
                 duart_puts("\e[1D"); // Move cursor to the left
