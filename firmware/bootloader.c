@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.4"
+#define VERSION "0.5.5"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -136,12 +136,26 @@ void emit_bootinfo(uintptr_t _end)
     }
 }
 
+#define MKRL_MAGIC 0x4D4B524CUL
+
+/* Scan the first page of the loaded kernel image for the Mackerel header.
+ * head.S embeds "MKRL" followed by _end right after the bootinfo version list. */
+static uint32_t scan_kernel_end(uint32_t load_addr)
+{
+    uint32_t *p   = (uint32_t *)(load_addr + 2); /* skip initial bras */
+    uint32_t *lim = (uint32_t *)(load_addr + 4096 - 4);
+    for (; p < lim; p++)
+        if (*p == MKRL_MAGIC)
+            return *(p + 1);
+    return 0;
+}
+
 void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Boot Linux from SD\r\n");
-    printf(" ide <end>             - Boot Linux from IDE\r\n");
+    printf(" ide [end]             - Boot Linux from IDE (end addr auto-detected from image)\r\n");
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -187,7 +201,7 @@ int main()
         {
             strtok(buffer, " ");
             char *param1 = strtok(NULL, " ");
-            uint32_t end = strtoul(param1, 0, 16);
+            uint32_t end = param1 ? strtoul(param1, 0, 16) : 0;
             handler_ide(end);
         }
         else if (strncmp(buffer, "run", 3) == 0)
@@ -355,11 +369,6 @@ void handler_ide(uint32_t end)
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
-#ifdef MACKEREL_30
-    printf("Zeroing memory from 0x%lX to 0x%lX...\r\n", (uint32_t)PROGRAM_START, (uint32_t)(PROGRAM_START + end + 0x1000));
-    handler_zero(PROGRAM_START, end + 0x1000);
-#endif
-
     printf("Attempting to load Linux kernel from IDE...\r\n");
 
     // Reset the IDE interface
@@ -418,11 +427,21 @@ void handler_ide(uint32_t end)
 
     if (kernel_found)
     {
-        if (end > 0)
+        uint32_t detected = scan_kernel_end(PROGRAM_START);
+        if (detected != 0)
         {
-            printf("Setting up bootinfo at _end: 0x%lX\r\n", end);
-            emit_bootinfo((uintptr_t)end);
+            printf("Auto-detected _end: 0x%lX\r\n", detected);
+            end = detected;
         }
+
+        if (end == 0)
+        {
+            printf("ERROR: kernel _end unknown. Re-flash a newer kernel or run: ide <end_addr>\r\n");
+            return;
+        }
+
+        printf("Setting up bootinfo at _end: 0x%lX\r\n", end);
+        emit_bootinfo((uintptr_t)end);
 
         printf("Linux kernel command line: %s\r\n", kernel_command_line);
 
