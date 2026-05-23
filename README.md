@@ -1,5 +1,7 @@
 # Mackerel 68k
 
+[![Discord](https://img.shields.io/discord/1507804606133043320?logo=discord)](https://discord.gg/DtvXxYCt2Q)
+
 Mackerel 68k is a series of single-board computers based on the Motorola 68000. The goal of this project is to build a computer with each of the major processors in the family, from the 68008 through the 68040. Each iteration will add additional hardware peripherals, but the main software goal is to run Linux on every board.
 
 See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for more pictures, build logs, etc.
