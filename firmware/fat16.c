@@ -134,11 +134,11 @@ void fat16_get_file_name(fat16_dir_entry_t *dir_entry, char *filename)
     memset(filename, ' ', 13);
 
     // Copy the name
-    strncpy(filename, (char *)dir_entry->filename, 8);
+    memcpy(filename, (char *)dir_entry->filename, 8);
     // Add a dot between the name and extension
     filename[8] = '.';
     // Copy the extension
-    strncpy(filename + 9, (char *)dir_entry->extension, 3);
+    memcpy(filename + 9, (char *)dir_entry->extension, 3);
 
     filename[12] = 0; // Null-terminate the string
 }
@@ -172,8 +172,12 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     uint32_t sector_size = boot_sector->bytes_per_sector;
     uint32_t sectors_per_cluster = boot_sector->sectors_per_cluster;
 
-    while (current_cluster != 0xFFFF && buffer_index < buffer_size)
+    uint32_t cluster_count = 0;
+    const uint32_t max_clusters = 65525; // Maximum valid FAT16 data clusters
+
+    while (current_cluster >= 2 && current_cluster < 0xFFF8 && buffer_index < buffer_size && cluster_count < max_clusters)
     {
+        cluster_count++;
         // printf("current cluster: %u\r\n", current_cluster);
 
         // TODO: where is this magic 32 coming from?
