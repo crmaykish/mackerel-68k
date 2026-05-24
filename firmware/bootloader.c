@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.5"
+#define VERSION "0.5.6"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -34,6 +34,8 @@ extern char __dram_start[];
 extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
+
+#ifndef MACKEREL_08
 
 char kernel_command_line[1024] = "console=mackerel console=ttyXR0 loglevel=7";
 
@@ -149,6 +151,8 @@ static uint32_t scan_kernel_end(uint32_t load_addr)
             return *(p + 1);
     return 0;
 }
+
+#endif
 
 void handler_help()
 {
@@ -366,6 +370,10 @@ void block_read(uint32_t block_num, uint8_t *block)
 
 void handler_ide(uint32_t end)
 {
+#ifdef MACKEREL_08
+    printf("IDE is not supported on Mackerel-08\r\n");
+    return;
+#else
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
@@ -451,6 +459,7 @@ void handler_ide(uint32_t end)
     {
         printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
     }
+#endif
 }
 
 void handler_load(uint32_t addr)
