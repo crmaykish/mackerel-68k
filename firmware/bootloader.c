@@ -16,6 +16,7 @@ void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_ide(uint32_t end);
+void handler_gpio(char *dir, char *pin_str, char *val_str);
 void handler_help();
 void handler_info();
 uint8_t readline(char *buffer);
@@ -168,6 +169,8 @@ void handler_help()
     printf(" mem16 <start> <size>  - Run 16-bit memory test from <start> for <size> bytes\r\n");
     printf(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
     printf(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
+    printf(" gpio in <pin>         - Read DUART input pin IP<pin> (0-6)\r\n");
+    printf(" gpio out <pin> <0|1>  - Set DUART output pin OP<pin> (2-7, 0-1 reserved for RTS)\r\n");
     printf(" info                  - Show system information\r\n");
     printf(" help                  - Show this help message\r\n");
 }
@@ -289,6 +292,14 @@ int main()
             uint32_t size = strtoul(param2, 0, 16);
             handler_zero(start, size);
         }
+        else if (strncmp(buffer, "gpio", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *dir     = strtok(NULL, " ");
+            char *pin_str = strtok(NULL, " ");
+            char *val_str = strtok(NULL, " ");
+            handler_gpio(dir, pin_str, val_str);
+        }
         else if (strncmp(buffer, "info", 4) == 0)
         {
             handler_info();
@@ -306,6 +317,65 @@ int main()
     }
 
     return 0;
+}
+
+void handler_gpio(char *dir, char *pin_str, char *val_str)
+{
+    if (!dir || !pin_str)
+    {
+        printf("Usage: gpio <in|out> <pin> [0|1]\r\n");
+        return;
+    }
+
+    uint8_t pin = (uint8_t)strtoul(pin_str, 0, 10);
+
+    if (strncmp(dir, "in", 2) == 0)
+    {
+        if (pin > 6)
+        {
+            printf("Input pins are IP0-IP6\r\n");
+            return;
+        }
+        uint8_t ipr = MEM(DUART1_IP);
+        printf("IP%d = %d\r\n", pin, (ipr >> pin) & 1);
+    }
+    else if (strncmp(dir, "out", 3) == 0)
+    {
+        if (pin > 7)
+        {
+            printf("Output pins are OP2-OP7\r\n");
+            return;
+        }
+        if (pin < 2)
+        {
+            printf("OP0-OP1 reserved for RTS\r\n");
+            return;
+        }
+        if (!val_str)
+        {
+            printf("Usage: gpio out <pin> <0|1>\r\n");
+            return;
+        }
+        uint8_t val = (uint8_t)strtoul(val_str, 0, 10);
+        if (val == 1)
+        {
+            MEM(DUART1_OPR_RESET) = (1 << pin);
+            printf("OP%d = 1\r\n", pin);
+        }
+        else if (val == 0)
+        {
+            MEM(DUART1_OPR) = (1 << pin);
+            printf("OP%d = 0\r\n", pin);
+        }
+        else
+        {
+            printf("Value must be 0 or 1\r\n");
+        }
+    }
+    else
+    {
+        printf("Direction must be 'in' or 'out'\r\n");
+    }
 }
 
 void handler_run(uint32_t addr)
