@@ -55,8 +55,13 @@ wire CPU_SPACE = (FC == 3'b111);
 // Processor is responding to an interrupt
 wire IACK_n = ~(CPU_SPACE && ~AS_n && AM[19:16] == 4'b1111);
 
+// Coprocessor cycle
+wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
+// Need to assert BERR during coprocessor cycles to prevent CPU from stalling indefinitely waitin for a DSACK that will never come.
+// This is true even with FPU software emulation enabled
+assign BERR_n  = ~COP_CYCLE;
+
 // Currently unused outputs
-assign BERR_n = 1'b1;
 assign CIIN_n = 1'b1;
 assign STERM_n = 1'b1;
 
