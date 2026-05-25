@@ -162,6 +162,7 @@ always @(posedge CLK) begin
 				state <= RW3;
 			end
 
+			// TODO: this state is never reached
 			RW2A: begin
 				// Wait state for RAS to settle
 				state <= RW3;
@@ -187,6 +188,7 @@ always @(posedge CLK) begin
 				state <= RW5;
 			end
 
+			// TODO: this state is never reached
 			RW4A: begin
 				// Wait state for CAS to settle
 				state <= RW5;

@@ -43,7 +43,9 @@ module system_controller(
 	input IDE_RDY,
 	input IDE_INT,
 	
-	output P5, P6, P8, P9, P10
+	output P5, P6, P8, P9,
+
+	input ENC_INT_n
 );
 
 // === COMMON SIGNALS === //
@@ -187,13 +189,32 @@ always @(posedge CLK or negedge RST_n) begin
     end
 end
 
+// === ENC28J60 INTERRUPT (IPL 4) === //
+// Edge-detecting latch: fires on falling edge of ENC_INT_n, clears on IACK
+reg enc_int_prev = 1'b1;
+reg IRQ_ENC      = 1'b0;
+wire IACK_LVL4 = ~IACK_n && ~AS_n && AL[3:1] == 3'd4;
+
+always @(posedge CLK or negedge RST_n) begin
+    if (!RST_n) begin
+        enc_int_prev <= 1'b1;
+        IRQ_ENC      <= 1'b0;
+    end else begin
+        enc_int_prev <= ENC_INT_n;
+        if (enc_int_prev && !ENC_INT_n)  // falling edge → latch
+            IRQ_ENC <= 1'b1;
+        else if (IACK_LVL4)              // IACK → clear
+            IRQ_ENC <= 1'b0;
+    end
+end
+
 // === INTERRUPT HANDLING === //
 
 irq_encoder ie1(
 	.irq1(0),
 	.irq2(0),
 	.irq3(IDE_INT),
-	.irq4(0),
+	.irq4(IRQ_ENC),
 	.irq5(~IRQ_DUART_n),
 	.irq6(IRQ_TIMER),
 	.irq7(0),

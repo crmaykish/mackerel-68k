@@ -147,8 +147,10 @@ void sd_read(uint32_t block_num, uint8_t *block)
         return;
     }
 
-    command[4] = (block_num & 0xFF);
-    command[3] = ((block_num & 0xFF00) >> 8);
+    command[1] = (block_num >> 24) & 0xFF;
+    command[2] = (block_num >> 16) & 0xFF;
+    command[3] = (block_num >> 8)  & 0xFF;
+    command[4] =  block_num        & 0xFF;
 
     result = sd_command(command);
 
