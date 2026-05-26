@@ -55,14 +55,23 @@ wire CPU_SPACE = (FC == 3'b111);
 // Processor is responding to an interrupt
 wire IACK_n = ~(CPU_SPACE && ~AS_n && AM[19:16] == 4'b1111);
 
+// SRAM address space: 0xC0000000
+wire SRAM_SPACE = (AH == 4'b1100);
+// DRAM address space: 0x00000000
+wire DRAM_SPACE = (AH == 4'b0000);
+// ROM address space: 0xE0000000
+wire ROM_SPACE = (AH == 4'b1110);
+// I/O address space: 0xF0000000
+wire IO_SPACE = (AH == 4'b1111);
+
 // Coprocessor cycle
 wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
 // Need to assert BERR during coprocessor cycles to prevent CPU from stalling indefinitely waitin for a DSACK that will never come.
 // This is true even with FPU software emulation enabled
 assign BERR_n  = ~COP_CYCLE;
 
-// Cache inhibit: assert for everything EXCEPT ROM (0xE0000000)
-assign CIIN_n = ~(~CPU_SPACE && ~AS_n && AH != 4'b1110);
+// Inhibit cache for I/O and DRAM
+assign CIIN_n = ~(~CPU_SPACE && ~AS_n && (IO_SPACE || DRAM_SPACE));
 assign STERM_n = 1'b1;
 
 // === BOOT SIGNAL === //
@@ -79,7 +88,6 @@ assign IACK_DUART_n = ~(~IACK_n && AL[3:1] == 3'd5);
 wire ROM_EN = ~BOOT || (AH == 4'b1110);
 assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 
-// SRAM at 0xC0000000 - 0xDFFF_FFFF (repeated 512KB block)
 assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1100);
 
 // DRAM at 0x0000_0000 - 0x7FFF_FFFF
@@ -87,16 +95,16 @@ assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b0000);
 // assign CS_DRAM_n = 1'b1;
 
 // DUART at 0xF0000000
-assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);
+assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && IO_SPACE && AM == 4'b0000);
 
 // IDE CS0 at 0xF0010000
-assign IDE_CS0_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0001);
+assign IDE_CS0_n = ~(BOOT && ~CPU_SPACE && IO_SPACE && AM == 4'b0001);
 // IDE CS1 at 0xF0020000
-assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0010);
+assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && IO_SPACE && AM == 4'b0010);
 
 // Timer control registers at 0xF0030000
 wire CS_TIMER_n;
-assign CS_TIMER_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0011);
+assign CS_TIMER_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && IO_SPACE && AM == 4'b0011);
 
 // IDE is selected if either CS0 or CS1 is active
 wire CS_IDE_n = ~(~AS_n && (~IDE_CS0_n || ~IDE_CS1_n));
@@ -150,7 +158,8 @@ always @(posedge CLK or negedge RST_n) begin
 end
 
 // === TIMER INTERRUPT === //
-parameter integer TIMER_DIVIDER = 240_000;  // 24 MHz / 240,000 = 100 Hz
+parameter integer CPU_CLK_HZ    = 24_000_000;
+parameter integer TIMER_DIVIDER = CPU_CLK_HZ / 100;  // 100 Hz timer tick
 reg [$clog2(TIMER_DIVIDER)-1:0] timer_cnt = 0;
 reg timer_enable = 1'b0;
 reg IRQ_TIMER = 1'b0;   // Timer interrupt flag

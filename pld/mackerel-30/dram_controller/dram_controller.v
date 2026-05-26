@@ -44,6 +44,9 @@ localparam RW4A					= 4'd12;
 
 reg [3:0] state = IDLE;
 
+// tRP enforcement: set in PRECHARGE, consumed in IDLE to enforce one wait cycle before next RAS
+reg trp_wait = 1'b0;
+
 // ==== Periodic refresh generator
 reg refresh_request = 1'b0;
 reg refresh_ack = 1'b0;
@@ -117,6 +120,7 @@ end
 always @(posedge CLK) begin
 	if (~RST_n) begin
 		state <= IDLE;
+		trp_wait <= 1'b0;
 		RAS0_n <= 1'b1;
 		RAS1_n <= 1'b1;
 		RAS2_n <= 1'b1;
@@ -132,11 +136,14 @@ always @(posedge CLK) begin
 	else begin
 		case (state)
 			IDLE: begin
-				if (refresh_request) begin
+				if (trp_wait) begin
+					// Enforce tRP: consume the wait flag set by PRECHARGE before allowing a new cycle.
+					// This adds one 50 MHz cycle (20 ns) giving 40 ns total tRP (PRECHARGE + here).
+					trp_wait <= 1'b0;
+				end else if (refresh_request) begin
 					// Start CAS-before-RAS refresh cycle
 					state <= REFRESH1;
-				end
-				else if (~CS2_n && ~AS2_n) begin
+				end else if (~CS2_n && ~AS2_n) begin
 					// DRAM selected, start normal R/W cycle
 					state <= RW1;
 				end
@@ -264,6 +271,7 @@ always @(posedge CLK) begin
 				CAS3_n <= 1'b1;
 				ADDR_DRAM <= 12'b0;
 
+				trp_wait <= 1'b1;
 				state <= IDLE;
 			end
 		endcase
