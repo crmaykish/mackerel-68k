@@ -61,8 +61,8 @@ wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
 // This is true even with FPU software emulation enabled
 assign BERR_n  = ~COP_CYCLE;
 
-// Currently unused outputs
-assign CIIN_n = 1'b1;
+// Cache inhibit: assert for everything EXCEPT ROM (0xE0000000)
+assign CIIN_n = ~(~CPU_SPACE && ~AS_n && AH != 4'b1110);
 assign STERM_n = 1'b1;
 
 // === BOOT SIGNAL === //

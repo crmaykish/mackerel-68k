@@ -50,7 +50,7 @@ int fat16_init(fat16_read_sector_f read_sector_fun)
 
 void fat16_read_boot_sector(uint32_t starting_sector, fat16_boot_sector_t *buffer)
 {
-    read_sector(starting_sector, (uint8_t *)(buffer));
+    read_sector(starting_sector, (uint8_t *)(buffer), 1);
     bswap_boot_sector(buffer);
 }
 
@@ -89,7 +89,7 @@ int fat16_list_files(fat16_boot_sector_t *boot_sector, fat16_dir_entry_t files_l
     uint32_t root_dir_sector = 2048 + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
     uint8_t buffer[512];
 
-    read_sector(root_dir_sector, buffer);
+    read_sector(root_dir_sector, buffer, 1);
 
     // TODO: this 16 value should be determined by the root directory count in the boot sector
     // After 16 entries, a new sector needs to be read (I think)
@@ -155,7 +155,7 @@ uint16_t get_fat_entry(fat16_boot_sector_t *boot_sector, uint16_t cluster)
 
     // Only read if not already cached
     if (fat_sector != cached_sector) {
-        read_sector(fat_sector, fat_buffer);
+        read_sector(fat_sector, fat_buffer, 1);
         cached_sector = fat_sector;
     }
 
@@ -180,19 +180,34 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
         uint32_t first_sector_of_cluster = 32 + 2048 + (current_cluster - 2) * sectors_per_cluster + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
 
         // Read the sectors of the current cluster into the buffer
-        for (uint32_t sector_offset = 0; sector_offset < sectors_per_cluster && buffer_index < buffer_size; sector_offset++)
+        uint32_t remaining = buffer_size - buffer_index;
+        uint32_t cluster_bytes = (uint32_t)sectors_per_cluster * sector_size;
+
+        if (remaining >= cluster_bytes)
         {
-            uint32_t sector = first_sector_of_cluster + sector_offset;
-            uint8_t sector_buffer[sector_size];
-
-            // Read the sector into the buffer
-            // printf("file sector %u\r\n", sector);
-            read_sector(sector, sector_buffer);
-
-            // Copy the sector data into the main buffer
-            uint32_t bytes_to_copy = (buffer_size - buffer_index < sector_size) ? (buffer_size - buffer_index) : sector_size;
-            memcpy(buffer + buffer_index, sector_buffer, bytes_to_copy);
-            buffer_index += bytes_to_copy;
+            // Whole cluster fits — one multi-sector read straight into destination
+            read_sector(first_sector_of_cluster, buffer + buffer_index, sectors_per_cluster);
+            buffer_index += cluster_bytes;
+        }
+        else
+        {
+            // Partial cluster at end of file — fall back to sector by sector
+            for (uint32_t i = 0; i < sectors_per_cluster && buffer_index < buffer_size; i++)
+            {
+                uint32_t rem = buffer_size - buffer_index;
+                if (rem >= sector_size)
+                {
+                    read_sector(first_sector_of_cluster + i, buffer + buffer_index, 1);
+                    buffer_index += sector_size;
+                }
+                else
+                {
+                    uint8_t sector_buffer[sector_size];
+                    read_sector(first_sector_of_cluster + i, sector_buffer, 1);
+                    memcpy(buffer + buffer_index, sector_buffer, rem);
+                    buffer_index += rem;
+                }
+            }
         }
 
         // Progress reporting

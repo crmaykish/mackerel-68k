@@ -38,6 +38,8 @@ void IDE_wait_for_data_ready();
 
 void IDE_read_sector(uint16_t *buf, uint32_t lba);
 
+void IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count);
+
 void IDE_device_info(uint16_t *buf);
 
 void IDE_reset();

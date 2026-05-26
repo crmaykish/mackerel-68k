@@ -433,9 +433,9 @@ void handler_boot()
     handler_run(PROGRAM_START);
 }
 
-void block_read(uint32_t block_num, uint8_t *block)
+void block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
-    IDE_read_sector((uint16_t *)block, block_num);
+    IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
 }
 
 void handler_ide(uint32_t end)

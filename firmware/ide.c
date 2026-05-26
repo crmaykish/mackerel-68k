@@ -63,25 +63,31 @@ void IDE_wait_for_data_ready()
     }
 }
 
-void IDE_read_sector(uint16_t *buf, uint32_t lba)
+void IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count)
 {
-    // NOTE: IDE sector count starts at 1 (not true in LBA mode?)
-
     // NOTE: limited to 24 bit LBA addressing (~8GB)
+    // count: 1-255 sectors per command (0 would mean 256 per ATA spec, not supported here)
 
-    // Select master drive
     MEM(IDE_DRIVE_SEL) = 0xE0;
 
-    MEM(IDE_SECTOR_COUNT) = 1;
+    MEM(IDE_SECTOR_COUNT) = count;
 
     MEM(IDE_SECTOR_START) = (uint8_t)(lba & 0xFF);
     MEM(IDE_LBA_MID) = (uint8_t)((lba >> 8) & 0xFF);
     MEM(IDE_LBA_HIGH) = (uint8_t)((lba >> 16) & 0xFF);
 
-    // Send the read sector command
     MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
-    IDE_wait_for_data_ready();
-    read_sector_internal(buf);
+
+    for (uint8_t s = 0; s < count; s++)
+    {
+        IDE_wait_for_data_ready();
+        read_sector_internal(buf + (uint32_t)s * 256);
+    }
+}
+
+void IDE_read_sector(uint16_t *buf, uint32_t lba)
+{
+    IDE_read_sectors(buf, lba, 1);
 }
 
 void IDE_device_info(uint16_t *buf)
