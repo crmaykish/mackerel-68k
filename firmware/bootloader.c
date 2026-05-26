@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.5.8"
+#define VERSION "0.6.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -28,7 +28,7 @@ void memtest8(uint8_t *start, uint32_t size, uint8_t target);
 void memtest16(uint16_t *start, uint32_t size, uint16_t target);
 void memtest32(uint32_t *start, uint32_t size);
 
-// Reference RAM info from the linker
+// Reference RAM info from the linker script
 extern char __sram_start[];
 extern char __sram_length[];
 extern char __dram_start[];
@@ -92,7 +92,7 @@ void emit_bootinfo(uintptr_t _end)
         r->tag = BI_MEMCHUNK;
         r->size = sizeof(*r) + sizeof(*mi);
         mi->addr = 0x00000000u;
-        mi->size = 0x08000000u; // 128MB
+        mi->size = (uint32_t)__dram_length;
         p += r->size;
         p = align4(p);
     }

@@ -34,8 +34,13 @@ void __attribute((interrupt)) user_interrupt() { panic("User interrupt"); }
 void _start()
 {
 #ifdef MACKEREL_30
-    // Enable 68030 caches (instruction and data), NOTE: CPLD is currently inhibiting cache for everything but ROM access
+    // Enable 68030 caches (instruction and data)
     asm volatile("movec %0, %%cacr" : : "d"(0x0901));
+#endif
+
+#ifdef MACKEREL_30_SRAM
+    // Relocate VBR to SRAM so exception vectors go there, not DRAM
+    set_vbr(0xC0000000);
 #endif
 
     // Disable interrupts

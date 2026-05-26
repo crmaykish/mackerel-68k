@@ -79,11 +79,12 @@ assign IACK_DUART_n = ~(~IACK_n && AL[3:1] == 3'd5);
 wire ROM_EN = ~BOOT || (AH == 4'b1110);
 assign CS_ROM_n = ~(~CPU_SPACE && ~AS_n && ROM_EN);
 
-// SRAM is currently disabled
-assign CS_SRAM_n = 1'b1;
+// SRAM at 0xC0000000 - 0xDFFF_FFFF (repeated 512KB block)
+assign CS_SRAM_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1100);
 
 // DRAM at 0x0000_0000 - 0x7FFF_FFFF
 assign CS_DRAM_n = ~(BOOT && ~CPU_SPACE && AH == 4'b0000);
+// assign CS_DRAM_n = 1'b1;
 
 // DUART at 0xF0000000
 assign CS_DUART_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0000);
@@ -94,6 +95,7 @@ assign IDE_CS0_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0001);
 assign IDE_CS1_n = ~(BOOT && ~CPU_SPACE && AH == 4'b1111 && AM == 4'b0010);
 
 // Timer control registers at 0xF0030000
+wire CS_TIMER_n;
 assign CS_TIMER_n = ~(BOOT && ~CPU_SPACE && ~AS_n && ~DS_n && AH == 4'b1111 && AM == 4'b0011);
 
 // IDE is selected if either CS0 or CS1 is active
@@ -241,52 +243,52 @@ always @(*) begin
     // Handle interrupt acknowledge cycles
     if (~IACK_n) begin
         if (~IACK_DUART_n) begin
-            DSACK0_n <= 1'b0;
-            DSACK1_n <= 1'b1;
+            DSACK0_n = 1'b0;
+            DSACK1_n = 1'b1;
         end else begin
             // Autovector
-            DSACK0_n <= 1'b0;
-            DSACK1_n <= 1'b1;
+            DSACK0_n = 1'b0;
+            DSACK1_n = 1'b1;
         end
     end
     else if (~CS_DRAM_n) begin
-        DSACK0_n <= DSACK0_DRAM_n;
-        DSACK1_n <= DSACK1_DRAM_n;
+        DSACK0_n = DSACK0_DRAM_n;
+        DSACK1_n = DSACK1_DRAM_n;
     end
     else if (~CS_IDE_n) begin
         // Insert IDE wait states before asserting DSACK
         if (ide_waiting) begin
-            DSACK0_n <= 1'b1;
-            DSACK1_n <= 1'b1;
+            DSACK0_n = 1'b1;
+            DSACK1_n = 1'b1;
         end
         else begin
-            DSACK0_n <= 1'b1;
-            DSACK1_n <= 1'b0;
+            DSACK0_n = 1'b1;
+            DSACK1_n = 1'b0;
         end
     end
     else if (~CS_DUART_n) begin
         // Insert DUART wait states before asserting DSACK
         if (duart_waiting) begin
-            DSACK0_n <= 1'b1;
-            DSACK1_n <= 1'b1;
+            DSACK0_n = 1'b1;
+            DSACK1_n = 1'b1;
         end
         else begin
-            DSACK0_n <= 1'b0;
-            DSACK1_n <= 1'b1;
+            DSACK0_n = 1'b0;
+            DSACK1_n = 1'b1;
         end
     end
     else if (~CS_TIMER_n) begin
         // Timer registers respond immediately
-        DSACK0_n <= 1'b0;
-        DSACK1_n <= 1'b1;
+        DSACK0_n = 1'b0;
+        DSACK1_n = 1'b1;
     end
     else if (~CS_ROM_n || ~CS_SRAM_n) begin
-        DSACK0_n <= 1'b0;
-        DSACK1_n <= 1'b1;
+        DSACK0_n = 1'b0;
+        DSACK1_n = 1'b1;
     end
     else begin
-        DSACK0_n <= 1'b1;
-        DSACK1_n <= 1'b1;
+        DSACK0_n = 1'b1;
+        DSACK1_n = 1'b1;
     end
 end
 

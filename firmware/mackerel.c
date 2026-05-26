@@ -18,7 +18,11 @@ void set_interrupts(bool enabled)
 
 void set_exception_handler(unsigned char exception_number, void (*exception_handler)())
 {
+#ifdef MACKEREL_30
+    MEM32(get_vbr() + exception_number * 4) = (uint32_t)exception_handler;
+#else
     MEM32(exception_number * 4) = (uint32_t)exception_handler;
+#endif
 }
 
 void duart_init(void)

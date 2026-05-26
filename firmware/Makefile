@@ -6,10 +6,17 @@ OBJCOPY = m68k-mackerel-elf-objcopy
 BOARD = mack08
 
 ifeq ($(BOARD),mack30)
-CPPFLAGS = -DMACKEREL_30
+SRAM ?= yes
+ifeq ($(SRAM),yes)
+CPPFLAGS = -DMACKEREL_30 -DMACKEREL_30_SRAM
 MEMORY_MAP_ROM = linker_rom_30.scr
-MEMORY_MAP_RAM = linker_ram_30.scr
 VECTORS = vectors_30.s
+else
+CPPFLAGS = -DMACKEREL_30
+MEMORY_MAP_ROM = linker_rom_30_nosram.scr
+VECTORS = vectors_30_nosram.s
+endif
+MEMORY_MAP_RAM = linker_ram_30.scr
 CFLAGS = -m68030 -msoft-float -fomit-frame-pointer
 AFLAGS = -m68030
 else ifeq ($(BOARD),mack10)
