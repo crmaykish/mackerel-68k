@@ -155,7 +155,8 @@ uint16_t get_fat_entry(fat16_boot_sector_t *boot_sector, uint16_t cluster)
 
     // Only read if not already cached
     if (fat_sector != cached_sector) {
-        read_sector(fat_sector, fat_buffer, 1);
+        if (read_sector(fat_sector, fat_buffer, 1) != 0)
+            return 0xFFFF;  // treat read failure as end-of-chain
         cached_sector = fat_sector;
     }
 
@@ -186,7 +187,8 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
         if (remaining >= cluster_bytes)
         {
             // Whole cluster fits — one multi-sector read straight into destination
-            read_sector(first_sector_of_cluster, buffer + buffer_index, sectors_per_cluster);
+            if (read_sector(first_sector_of_cluster, buffer + buffer_index, sectors_per_cluster) != 0)
+                return -1;
             buffer_index += cluster_bytes;
         }
         else
@@ -197,13 +199,15 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
                 uint32_t rem = buffer_size - buffer_index;
                 if (rem >= sector_size)
                 {
-                    read_sector(first_sector_of_cluster + i, buffer + buffer_index, 1);
+                    if (read_sector(first_sector_of_cluster + i, buffer + buffer_index, 1) != 0)
+                        return -1;
                     buffer_index += sector_size;
                 }
                 else
                 {
                     uint8_t sector_buffer[sector_size];
-                    read_sector(first_sector_of_cluster + i, sector_buffer, 1);
+                    if (read_sector(first_sector_of_cluster + i, sector_buffer, 1) != 0)
+                        return -1;
                     memcpy(buffer + buffer_index, sector_buffer, rem);
                     buffer_index += rem;
                 }

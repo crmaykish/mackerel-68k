@@ -1,12 +1,13 @@
 #ifndef IDE_H_
 #define IDE_H_
 
+#include <stdbool.h>
 #include "mackerel.h"
 
 // IDE mem-mapped registers
-#define IDE_DATA IDE_BASE + 0x00
-// #define IDE_ERROR IDE_BASE + 0x02
-#define IDE_FEATURE IDE_BASE + 0x02
+#define IDE_DATA    IDE_BASE + 0x00
+#define IDE_ERROR   IDE_BASE + 0x02  // read
+#define IDE_FEATURE IDE_BASE + 0x02  // write
 #define IDE_SECTOR_COUNT IDE_BASE + 0x04
 #define IDE_SECTOR_START IDE_BASE + 0x06
 #define IDE_LBA_MID IDE_BASE + 0x08
@@ -32,13 +33,17 @@
 #define IDE_SR_IDX 0x02  // Index
 #define IDE_SR_ERR 0x01  // Error
 
-void IDE_wait_for_device_ready();
+// Timeout iteration counts (rough calibration at 24 MHz, ~333 ns/iter)
+#define IDE_TIMEOUT_READY 2000000  // ~500 ms
+#define IDE_TIMEOUT_DRQ    500000  // ~125 ms per sector
 
-void IDE_wait_for_data_ready();
+bool IDE_wait_for_device_ready();
 
-void IDE_read_sector(uint16_t *buf, uint32_t lba);
+bool IDE_wait_for_data_ready();
 
-void IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count);
+int IDE_read_sector(uint16_t *buf, uint32_t lba);
+
+int IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count);
 
 void IDE_device_info(uint16_t *buf);
 

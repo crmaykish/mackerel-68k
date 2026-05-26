@@ -49,52 +49,87 @@ void read_sector_internal(uint16_t *buf)
     }
 }
 
-void IDE_wait_for_device_ready()
+// polls !BSY && DRDY per ATA spec — BSY must clear before task-file registers are valid
+bool IDE_wait_for_device_ready()
 {
-    while ((MEM(IDE_STATUS) & IDE_SR_DRDY) == 0)
+    for (uint32_t i = 0; i < IDE_TIMEOUT_READY; i++)
     {
+        uint8_t status = MEM(IDE_STATUS);
+        if ((status & (IDE_SR_BSY | IDE_SR_DRDY)) == IDE_SR_DRDY)
+            return true;
     }
+    printf("IDE timeout waiting for device ready\r\n");
+    return false;
 }
 
-void IDE_wait_for_data_ready()
+// returns false on timeout; also bails early if the drive signals ERR/DF
+bool IDE_wait_for_data_ready()
 {
-    while ((MEM(IDE_STATUS) & IDE_SR_DRQ) == 0)
+    for (uint32_t i = 0; i < IDE_TIMEOUT_DRQ; i++)
     {
+        uint8_t status = MEM(IDE_STATUS);
+        if (status & IDE_SR_DRQ)
+            return true;
+        if (status & (IDE_SR_ERR | IDE_SR_DF))
+            return false;
     }
+    printf("IDE timeout waiting for data ready\r\n");
+    return false;
 }
 
-void IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count)
+// NOTE: limited to 24-bit LBA addressing (~8 GB)
+// count: 1-255 sectors per command (0 means 256 per ATA spec, not supported here)
+int IDE_read_sectors(uint16_t *buf, uint32_t lba, uint8_t count)
 {
-    // NOTE: limited to 24 bit LBA addressing (~8GB)
-    // count: 1-255 sectors per command (0 would mean 256 per ATA spec, not supported here)
+    // verify BSY clear and DRDY set before touching task-file registers
+    if (!IDE_wait_for_device_ready())
+        return -1;
 
     MEM(IDE_DRIVE_SEL) = 0xE0;
-
     MEM(IDE_SECTOR_COUNT) = count;
-
     MEM(IDE_SECTOR_START) = (uint8_t)(lba & 0xFF);
-    MEM(IDE_LBA_MID) = (uint8_t)((lba >> 8) & 0xFF);
-    MEM(IDE_LBA_HIGH) = (uint8_t)((lba >> 16) & 0xFF);
-
-    MEM(IDE_COMMAND) = IDE_CMD_READ_SECTOR;
+    MEM(IDE_LBA_MID)      = (uint8_t)((lba >> 8) & 0xFF);
+    MEM(IDE_LBA_HIGH)     = (uint8_t)((lba >> 16) & 0xFF);
+    MEM(IDE_COMMAND)      = IDE_CMD_READ_SECTOR;
 
     for (uint8_t s = 0; s < count; s++)
     {
-        IDE_wait_for_data_ready();
+        if (!IDE_wait_for_data_ready())
+        {
+            printf("IDE DRQ timeout at LBA %lu sector %u\r\n", lba, s);
+            return -1;
+        }
+
         read_sector_internal(buf + (uint32_t)s * 256);
+
+        // check ERR/DF after each sector's data is transferred
+        uint8_t status = MEM(IDE_STATUS);
+        if (status & (IDE_SR_ERR | IDE_SR_DF))
+        {
+            uint8_t err = MEM(IDE_ERROR);
+            printf("IDE error at LBA %lu sector %u: STATUS=0x%02X ERR=0x%02X\r\n",
+                   lba, s, status, err);
+            return -1;
+        }
     }
+
+    return 0;
 }
 
-void IDE_read_sector(uint16_t *buf, uint32_t lba)
+int IDE_read_sector(uint16_t *buf, uint32_t lba)
 {
-    IDE_read_sectors(buf, lba, 1);
+    return IDE_read_sectors(buf, lba, 1);
 }
 
 void IDE_device_info(uint16_t *buf)
 {
     printf("Reading IDE device info...\r\n");
     MEM(IDE_COMMAND) = IDE_CMD_IDENTIFY;
-    IDE_wait_for_data_ready();
+    if (!IDE_wait_for_data_ready())
+    {
+        printf("IDE identify timeout\r\n");
+        return;
+    }
     read_sector_internal(buf);
 
     // Model
@@ -128,5 +163,6 @@ void IDE_device_info(uint16_t *buf)
 void IDE_reset()
 {
     MEM(IDE_COMMAND) = IDE_CMD_RESET;
-    IDE_wait_for_device_ready();
+    if (!IDE_wait_for_device_ready())
+        printf("IDE reset timeout\r\n");
 }

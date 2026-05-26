@@ -10,12 +10,13 @@
 #include "ide.h"
 #endif
 
-void block_read(uint32_t block_num, uint8_t *block, uint32_t count)
+int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
 #ifdef MACKEREL_08
     sd_read(block_num, block);
+    return 0;
 #else
-    IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
+    return IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
 #endif
 }
 

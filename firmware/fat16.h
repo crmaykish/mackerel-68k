@@ -3,8 +3,8 @@
 
 #include "mackerel.h"
 
-// Function to read a single sector from a block device
-typedef void (*fat16_read_sector_f)(uint32_t, uint8_t *, uint32_t);
+// Returns 0 on success, -1 on error
+typedef int (*fat16_read_sector_f)(uint32_t, uint8_t *, uint32_t);
 
 typedef struct __attribute__((packed))
 {
