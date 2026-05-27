@@ -28,6 +28,12 @@ void memtest8(uint8_t *start, uint32_t size, uint8_t target);
 void memtest16(uint16_t *start, uint32_t size, uint16_t target);
 void memtest32(uint32_t *start, uint32_t size);
 
+#ifdef MACKEREL_30
+void handler_cache(char *sub);
+void handler_cinv(char *sub);
+void handler_dtest(uint32_t addr, uint32_t size);
+#endif
+
 // Reference RAM info from the linker script
 extern char __sram_start[];
 extern char __sram_length[];
@@ -142,10 +148,11 @@ void emit_bootinfo(uintptr_t _end)
 #define MKRL_MAGIC 0x4D4B524CUL
 
 /* Scan the first page of the loaded kernel image for the Mackerel header.
- * head.S embeds "MKRL" followed by _end right after the bootinfo version list. */
+ * head.S places "MKRL" followed by _end at a fixed offset into the image.
+ * Called with D-cache disabled; see handler_ide. */
 static uint32_t scan_kernel_end(uint32_t load_addr)
 {
-    uint32_t *p   = (uint32_t *)(load_addr + 2); /* skip initial bras */
+    uint32_t *p   = (uint32_t *)(load_addr + 2);
     uint32_t *lim = (uint32_t *)(load_addr + 4096 - 4);
     for (; p < lim; p++)
         if (*p == MKRL_MAGIC)
@@ -173,6 +180,11 @@ void handler_help()
     printf(" gpio out <pin> <0|1>  - Set DUART output pin OP<pin> (2-7, 0-1 reserved for RTS)\r\n");
     printf(" info                  - Show system information\r\n");
     printf(" help                  - Show this help message\r\n");
+#ifdef MACKEREL_30
+    printf(" cache [on|off|i|d]    - Read or set CACR (on=I+D, off=none, i=I-only, d=D-only)\r\n");
+    printf(" cinv [i|d]            - Invalidate cache entries (default: both)\r\n");
+    printf(" dtest [addr] [size]   - DRAM stress test: write/random-read/linear-verify\r\n");
+#endif
 }
 
 int main()
@@ -308,6 +320,29 @@ int main()
         {
             handler_help();
         }
+#ifdef MACKEREL_30
+        else if (strncmp(buffer, "cache", 5) == 0)
+        {
+            strtok(buffer, " ");
+            char *sub = strtok(NULL, " ");
+            handler_cache(sub);
+        }
+        else if (strncmp(buffer, "cinv", 4) == 0)
+        {
+            strtok(buffer, " ");
+            char *sub = strtok(NULL, " ");
+            handler_cinv(sub);
+        }
+        else if (strncmp(buffer, "dtest", 5) == 0)
+        {
+            strtok(buffer, " ");
+            char *p1 = strtok(NULL, " ");
+            char *p2 = strtok(NULL, " ");
+            uint32_t addr = p1 ? strtoul(p1, 0, 16) : 0;
+            uint32_t size = p2 ? strtoul(p2, 0, 16) : 0;
+            handler_dtest(addr, size);
+        }
+#endif
         else
         {
             command_not_found(buffer);
@@ -505,6 +540,12 @@ void handler_ide(uint32_t end)
 
     if (kernel_found)
     {
+#ifdef MACKEREL_30
+        /* Disable D-cache before scanning: misaligned longword reads (CMPI.L #imm,(An))
+         * produce incorrect bus cycles when the D-cache is active, causing the scan to
+         * miss the MKRL magic word. The kernel's head.S sets its own CACR on entry. */
+        { uint32_t z = 0; asm volatile("movec %0,%%cacr"::"d"(z)); }
+#endif
         uint32_t detected = scan_kernel_end(PROGRAM_START);
         if (detected != 0)
         {
@@ -522,7 +563,6 @@ void handler_ide(uint32_t end)
         emit_bootinfo((uintptr_t)end);
 
         printf("Linux kernel command line: %s\r\n", kernel_command_line);
-
         handler_run(PROGRAM_START);
     }
     else
@@ -686,6 +726,138 @@ void memtest16(uint16_t *start, uint32_t size, uint16_t target)
 
     printf("\r\n");
 }
+
+#ifdef MACKEREL_30
+
+static uint32_t get_cacr(void)
+{
+    uint32_t v;
+    asm volatile("movec %%cacr, %0" : "=d"(v));
+    return v;
+}
+
+static void set_cacr(uint32_t v)
+{
+    asm volatile("movec %0, %%cacr" : : "d"(v));
+}
+
+void handler_cache(char *sub)
+{
+    if (!sub || sub[0] == '\0')
+    {
+        uint32_t cacr = get_cacr();
+        printf("CACR = 0x%04lX\r\n", cacr);
+        printf("I-cache: %s%s\r\n",
+               (cacr & 0x0001) ? "enabled" : "disabled",
+               (cacr & 0x0002) ? " (frozen)" : "");
+        printf("D-cache: %s%s\r\n",
+               (cacr & 0x0100) ? "enabled" : "disabled",
+               (cacr & 0x0200) ? " (frozen)" : "");
+    }
+    else if (strncmp(sub, "on", 2) == 0)
+    {
+        set_cacr(0x0909);
+        printf("I+D caches enabled and cleared\r\n");
+    }
+    else if (strncmp(sub, "off", 3) == 0)
+    {
+        set_cacr(0x0000);
+        printf("Caches disabled\r\n");
+    }
+    else if (strncmp(sub, "i", 1) == 0)
+    {
+        set_cacr(0x0009);
+        printf("I-cache enabled and cleared\r\n");
+    }
+    else if (strncmp(sub, "d", 1) == 0)
+    {
+        set_cacr(0x0900);
+        printf("D-cache enabled and cleared\r\n");
+    }
+    else
+    {
+        printf("Usage: cache [on|off|i|d]\r\n");
+    }
+}
+
+void handler_cinv(char *sub)
+{
+    uint32_t mask;
+    if (!sub || sub[0] == '\0')
+        mask = 0x0808;
+    else if (strncmp(sub, "i", 1) == 0)
+        mask = 0x0008;
+    else if (strncmp(sub, "d", 1) == 0)
+        mask = 0x0800;
+    else
+    {
+        printf("Usage: cinv [i|d]\r\n");
+        return;
+    }
+    set_cacr(get_cacr() | mask);
+    printf("Cache invalidated\r\n");
+}
+
+void handler_dtest(uint32_t addr, uint32_t size)
+{
+    if (addr == 0) addr = 0x1000;
+    if (size == 0) size = 0x200000;
+    addr &= ~0x3u;
+    size &= ~0x3u;
+
+    volatile uint32_t *p = (volatile uint32_t *)addr;
+    uint32_t n = size / 4;
+
+    printf("dtest: addr=0x%lX size=0x%lX (%ld slots)\r\n", addr, size, n);
+    printf("Writing address pattern...\r\n");
+
+    set_cacr(0x0000);
+    for (uint32_t i = 0; i < n; i++)
+        p[i] = addr + i * 4;
+
+    printf("Random reads...\r\n");
+    set_cacr(0x0909);
+
+    uint32_t seed = 0;
+    uint32_t rand_fail = 0;
+    for (int k = 0; k < 1024; k++)
+    {
+        seed = seed * 1664525u + 1013904223u;
+        uint32_t idx = seed % n;
+        uint32_t expected = addr + idx * 4;
+        uint32_t got = p[idx];
+        if (got != expected)
+        {
+            if (rand_fail < 5)
+                printf("FAIL [%d] addr=0x%lX expected=0x%lX got=0x%lX\r\n",
+                       k, addr + idx * 4, expected, got);
+            rand_fail++;
+        }
+    }
+
+    printf("Linear scan...\r\n");
+    set_cacr(0x0000);
+    uint32_t linear_fail = 0;
+    for (uint32_t i = 0; i < n; i++)
+    {
+        uint32_t expected = addr + i * 4;
+        uint32_t got = p[i];
+        if (got != expected)
+        {
+            if (linear_fail < 5)
+                printf("FAIL at 0x%lX: expected 0x%lX, got 0x%lX\r\n",
+                       addr + i * 4, expected, got);
+            linear_fail++;
+        }
+    }
+
+    if (rand_fail == 0 && linear_fail == 0)
+        printf("PASS (1024 random, %ld linear)\r\n", n);
+    else
+        printf("FAIL: %ld random errors, %ld linear errors\r\n", rand_fail, linear_fail);
+}
+
+#endif /* MACKEREL_30 */
 
 // Write the 32-bit address value to the same address in RAM
 void memtest32(uint32_t *start, uint32_t size)
