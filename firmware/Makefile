@@ -3,7 +3,7 @@ AS = m68k-mackerel-elf-as
 LD = m68k-mackerel-elf-ld
 OBJCOPY = m68k-mackerel-elf-objcopy
 
-BOARD = mack08
+BOARD = mack30
 
 ifeq ($(BOARD),mack30)
 # Mackerel-30
@@ -91,6 +91,19 @@ libctest.elf: $(COMMON_OBJS_RAM) libctest.o
 
 %-lower.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=1 -I binary -O binary $< $@
+
+ifeq ($(BOARD),mack10)
+flash: bootloader-upper.bin bootloader-lower.bin
+	@echo "Insert ROM UPPER and press Enter..."
+	@read _
+	minipro -p SST39SF040 -s -w bootloader-upper.bin -y
+	@echo "Insert ROM LOWER and press Enter..."
+	@read _
+	minipro -p SST39SF040 -s -w bootloader-lower.bin -y
+else
+flash: bootloader.bin
+	minipro -p SST39SF040 -s -w bootloader.bin -y
+endif
 
 clean:
 	rm -f *.o *.elf *.bin
