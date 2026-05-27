@@ -706,12 +706,13 @@ void memtest32(uint32_t *start, uint32_t size)
     printf("\r\nReading...\r\n");
     for (uint32_t *i = start; i < (uint32_t *)(start + size / 4); i++)
     {
-        if (*i != (uint32_t)i)
+        uint32_t got = *i;
+        if (got != (uint32_t)i)
         {
-            printf("Error at 0x%lX, expected 0x%lX, got 0x%lX\r\n", (uint32_t)i, (uint32_t)i, *i);
+            printf("Error at 0x%lX, expected 0x%lX, got 0x%lX\r\n", (uint32_t)i, (uint32_t)i, got);
         }
 
-        if ((*i % 0x10000) == 0)
+        if ((got % 0x10000) == 0)
         {
             duart_putc('.');
         }

@@ -93,42 +93,39 @@ void print_string_bin(char *str, uint8_t max)
 
 void memdump(uint32_t address, uint32_t bytes)
 {
+    uint8_t line[16];
     uint32_t i = 0;
-    uint8_t b = 0;
-
-    printf("%08lX  ", address);
 
     while (i < bytes)
     {
-        b = MEM(address + i);
+        uint32_t line_start = i;
+        uint32_t line_len = 0;
 
-        if (b == 0)
+        // Buffer one line before printing anything
+        while (line_len < 16 && i < bytes)
         {
-            term_set_color(TERM_FG_GREY);
+            line[line_len++] = MEM(address + i++);
         }
 
-        printf("%02X ", b);
+        printf("%08lX  ", address + line_start);
 
-        term_set_color(TERM_RESET);
-
-        i++;
-
-        if (i % 16 == 0 && i < bytes)
+        for (uint32_t j = 0; j < line_len; j++)
         {
-            printf(" |");
-            print_string_bin((char *)(address + i - 16), 16);
+            if (line[j] == 0)
+                term_set_color(TERM_FG_GREY);
 
-            printf("|\r\n%08lX  ", address + i);
+            printf("%02X ", line[j]);
+
+            term_set_color(TERM_RESET);
+
+            if (j == 7)
+                duart_putc(' ');
         }
-        else if (i % 8 == 0)
-        {
-            duart_putc(' ');
-        }
+
+        printf(" |");
+        print_string_bin((char *)line, line_len);
+        printf("|\r\n");
     }
-
-    duart_putc('|');
-    print_string_bin((char *)(address + i - 16), 16);
-    duart_putc('|');
 }
 
 uint16_t bswap16(uint16_t value)
