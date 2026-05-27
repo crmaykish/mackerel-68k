@@ -166,10 +166,9 @@ always @(posedge CLK) begin
 				RAS2_n <= ADDR[26];
 				RAS3_n <= ~ADDR[26];
 
-				state <= RW3;
+				state <= RW2A;
 			end
 
-			// TODO: this state is never reached
 			RW2A: begin
 				// Wait state for RAS to settle
 				state <= RW3;
@@ -192,26 +191,27 @@ always @(posedge CLK) begin
 				CAS2_n <= ~CAS[2];
 				CAS3_n <= ~CAS[3];
 
-				state <= RW5;
+				state <= RW4A;
 			end
 
-			// TODO: this state is never reached
 			RW4A: begin
 				// Wait state for CAS to settle
 				state <= RW5;
 			end
 
 			RW5: begin
-				// Data is valid, lower DSACK
-
+				// Assert DSACK until AS2_n goes high. Deassert DSACK in the same cycle we exit to PRECHARGE
 				// NOTE: It's safe to always assert 32-bit DSACK.
 				//       On read cycles, the CPU will ignore bytes it doesn't need.
-				//       One write cycles, the CAS lines gate the appropriate byte lanes to DRAM anyway.
-				DSACK0_DRAM_n <= 1'b0;
-				DSACK1_DRAM_n <= 1'b0;
-
-				// When AS returns high, the bus cycle is complete
-				if (AS_n) state <= PRECHARGE;
+				//       On write cycles, the CAS lines gate the appropriate byte lanes to DRAM anyway.
+				if (AS2_n) begin
+					DSACK0_DRAM_n <= 1'b1;
+					DSACK1_DRAM_n <= 1'b1;
+					state <= PRECHARGE;
+				end else begin
+					DSACK0_DRAM_n <= 1'b0;
+					DSACK1_DRAM_n <= 1'b0;
+				end
 			end
 
 			REFRESH1: begin
