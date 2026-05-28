@@ -34,8 +34,8 @@ void __attribute((interrupt)) user_interrupt() { panic("User interrupt"); }
 void _start()
 {
 #ifdef MACKEREL_30
-    // Enable 68030 caches (instruction and data)
-    asm volatile("movec %0, %%cacr" : : "d"(0x0901));
+    // Enable 68030 instruction cache only
+    asm volatile("movec %0, %%cacr" : : "d"(CACR_CLEAR_ICACHE | CACR_ENABLE_ICACHE));
 #endif
 
 #ifdef MACKEREL_30_SRAM

@@ -70,8 +70,8 @@ wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
 // This is true even with FPU software emulation enabled
 assign BERR_n  = ~COP_CYCLE;
 
-// Inhibit cache for I/O and DRAM
-assign CIIN_n = ~(~CPU_SPACE && ~AS_n && (IO_SPACE || DRAM_SPACE));
+// Inhibit cache for I/O
+assign CIIN_n = ~(~CPU_SPACE && ~AS_n && (IO_SPACE));
 assign STERM_n = 1'b1;
 
 // === BOOT SIGNAL === //

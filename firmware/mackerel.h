@@ -92,6 +92,14 @@ void delay(int time);
 #ifdef MACKEREL_30
 void set_vbr(unsigned int vbr_val);
 unsigned int get_vbr();
+
+#define CACR_ENABLE_ICACHE   0x0001
+#define CACR_FREEZE_ICACHE   0x0002
+#define CACR_CLEAR_ICACHE    0x000
+#define CACR_ENABLE_DCACHE   0x0100
+#define CACR_FREEZE_DCACHE   0x0200
+#define CACR_CLEAR_DCACHE    0x0800
+
 #endif
 
 #endif
