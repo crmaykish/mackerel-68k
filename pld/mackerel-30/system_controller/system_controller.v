@@ -118,7 +118,10 @@ assign CS_FPU_n = 1'b1;
 
 // === WAIT STATE GENERATION === //
 
-parameter IDE_WAIT = 0;    // IDE wait states (cycles)
+// PIO mode 0 minimum cycle time is 600 ns; at 24 MHz (41.7 ns/cycle) that
+// requires ~14 wait clocks.  The ide_waiting pulse is held for IDE_WAIT+1
+// cycles, so IDE_WAIT=14 gives 15 cycles (~625 ns)
+parameter IDE_WAIT  = 14;  // IDE wait states (cycles)
 parameter DUART_WAIT = 0;  // DUART wait states (cycles)
 
 reg [3:0] ide_wait_cnt = 0;
