@@ -4,17 +4,25 @@
 #include <stdbool.h>
 #include "mackerel.h"
 
-// IDE mem-mapped registers
-#define IDE_DATA    IDE_BASE + 0x00
-#define IDE_ERROR   IDE_BASE + 0x02  // read
-#define IDE_FEATURE IDE_BASE + 0x02  // write
+// IDE command block registers (CS0)
+#define IDE_DATA         IDE_BASE + 0x00
+#define IDE_ERROR        IDE_BASE + 0x02  // read
+#define IDE_FEATURE      IDE_BASE + 0x02  // write
 #define IDE_SECTOR_COUNT IDE_BASE + 0x04
 #define IDE_SECTOR_START IDE_BASE + 0x06
-#define IDE_LBA_MID IDE_BASE + 0x08
-#define IDE_LBA_HIGH IDE_BASE + 0x0A
-#define IDE_DRIVE_SEL IDE_BASE + 0x0C
-#define IDE_STATUS IDE_BASE + 0x0E
-#define IDE_COMMAND IDE_BASE + 0x0E
+#define IDE_LBA_MID      IDE_BASE + 0x08
+#define IDE_LBA_HIGH     IDE_BASE + 0x0A
+#define IDE_DRIVE_SEL    IDE_BASE + 0x0C
+#define IDE_STATUS       IDE_BASE + 0x0E
+#define IDE_COMMAND      IDE_BASE + 0x0E
+
+// IDE control block registers (CS1)
+#define IDE_DEVICE_CONTROL IDE_CTL_BASE + 0x0C  // write: Device Control (nIEN, SRST)
+#define IDE_ALT_STATUS     IDE_CTL_BASE + 0x0C  // read:  Alternate Status (no IRQ clear)
+
+// Device Control bits
+#define IDE_DC_SRST 0x04  // software reset
+#define IDE_DC_NIEN 0x02  // disable drive interrupts
 
 // IDE commands
 #define IDE_CMD_RESET 0x08

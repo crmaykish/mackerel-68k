@@ -141,6 +141,20 @@ uint32_t bswap32(uint32_t value)
            ((value << 24) & 0xFF000000);
 }
 
+void sleep_us(uint32_t us)
+{
+    uint32_t clocks = us * (CPU_CLK_HZ / 1000000UL);
+    uint32_t count = (clocks + SLEEP_CYCLES_PER_LOOP - 1) / SLEEP_CYCLES_PER_LOOP;
+    if (count == 0) count = 1;
+    for (volatile uint32_t i = count; i > 0; i--);
+}
+
+void sleep_ms(uint32_t ms)
+{
+    for (uint32_t i = 0; i < ms; i++)
+        sleep_us(1000);
+}
+
 void delay(int time)
 {
     for (int delay = 0; delay < time; delay++)

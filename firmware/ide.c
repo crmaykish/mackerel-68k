@@ -124,10 +124,16 @@ int IDE_read_sector(uint16_t *buf, uint32_t lba)
 void IDE_device_info(uint16_t *buf)
 {
     printf("Reading IDE device info...\r\n");
+    MEM(IDE_DRIVE_SEL) = 0xE0;
+    if (!IDE_wait_for_device_ready())
+    {
+        printf("IDE identify timeout (device not ready)\r\n");
+        return;
+    }
     MEM(IDE_COMMAND) = IDE_CMD_IDENTIFY;
     if (!IDE_wait_for_data_ready())
     {
-        printf("IDE identify timeout\r\n");
+        printf("IDE identify timeout (no DRQ)\r\n");
         return;
     }
     read_sector_internal(buf);
@@ -162,7 +168,10 @@ void IDE_device_info(uint16_t *buf)
 
 void IDE_reset()
 {
-    MEM(IDE_COMMAND) = IDE_CMD_RESET;
+    // Pulse SRST in Device Control per ATA spec. Min hold time is 5 µs.
+    MEM(IDE_DEVICE_CONTROL) = IDE_DC_SRST;
+    sleep_us(10);
+    MEM(IDE_DEVICE_CONTROL) = 0x00;
     if (!IDE_wait_for_device_ready())
         printf("IDE reset timeout\r\n");
 }

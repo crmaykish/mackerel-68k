@@ -14,19 +14,27 @@
 #ifdef MACKEREL_30
 #define SYSTEM_NAME "Mackerel-30"
 #define DUART1_BASE 0xF0000000
-#define IDE_BASE 0xF0010000
+#define IDE_BASE     0xF0010000
+#define IDE_CTL_BASE 0xF0020000  // IDE control block (CS1)
 #define PROGRAM_START 0x1000
+#define CPU_CLK_HZ 24000000UL
+// 68030 with I-cache only
+#define SLEEP_CYCLES_PER_LOOP 10
 #elif MACKEREL_10
 #define SYSTEM_NAME "Mackerel-10"
 #define DUART1_BASE 0xFF8000
 #define IDE_BASE 0xFFC000
 #define PROGRAM_START 0x400
+#define CPU_CLK_HZ 10000000UL
+#define SLEEP_CYCLES_PER_LOOP 40
 #elif MACKEREL_08
 #define SYSTEM_NAME "Mackerel-08"
 #define DUART1_BASE 0x3FC000
 // IDE is not supported on Mackerel-08
 #define IDE_BASE 0xFFFFFF
 #define PROGRAM_START 0x400
+#define CPU_CLK_HZ 12000000UL
+#define SLEEP_CYCLES_PER_LOOP 80
 #endif
 
 #define DUART1_MR1A (DUART1_BASE + 0x01)
@@ -87,6 +95,8 @@ uint16_t bswap16(uint16_t value);
 uint32_t bswap32(uint32_t value);
 
 // Timing
+void sleep_us(uint32_t us);
+void sleep_ms(uint32_t ms);
 void delay(int time);
 
 #ifdef MACKEREL_30
