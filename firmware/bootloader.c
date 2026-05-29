@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.6.0"
+#define VERSION "0.6.1"
 
 #define INPUT_BUFFER_SIZE 32
 
