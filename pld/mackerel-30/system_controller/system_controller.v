@@ -64,11 +64,32 @@ wire ROM_SPACE = (AH == 4'b1110);
 // I/O address space: 0xF0000000
 wire IO_SPACE = (AH == 4'b1111);
 
-// Coprocessor cycle
+// Coprocessor cycle — used for both CS_FPU_n and DSACK routing
 wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
-// Need to assert BERR during coprocessor cycles to prevent CPU from stalling indefinitely waitin for a DSACK that will never come.
-// This is true even with FPU software emulation enabled
-assign BERR_n  = ~COP_CYCLE;
+
+// FPU BERR timeout: if no DSACK within FPU_TIMEOUT cycles, assert BERR.
+// With FPU installed it responds in a few cycles; without FPU, this fires
+// vector 11 so the kernel soft-float emulator can handle the instruction.
+parameter FPU_TIMEOUT = 8'd100;
+reg [7:0] fpu_timeout_cnt = 0;
+reg fpu_berr = 1'b0;
+
+always @(posedge CLK or negedge RST_n) begin
+    if (!RST_n) begin
+        fpu_timeout_cnt <= 0;
+        fpu_berr        <= 1'b0;
+    end else if (COP_CYCLE) begin
+        if (fpu_timeout_cnt < FPU_TIMEOUT)
+            fpu_timeout_cnt <= fpu_timeout_cnt + 1;
+        else
+            fpu_berr <= 1'b1;
+    end else begin
+        fpu_timeout_cnt <= 0;
+        fpu_berr        <= 1'b0;
+    end
+end
+
+assign BERR_n = ~fpu_berr;
 
 // Inhibit cache for I/O
 assign CIIN_n = ~(~CPU_SPACE && ~AS_n && (IO_SPACE));
@@ -113,8 +134,9 @@ assign IDE_BUF_n = CS_IDE_n;
 assign IDE_RD_n = ~(RW && ~AS_n && ~DS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
 
-// TODO: FPU support is currently disabled
-assign CS_FPU_n = 1'b1;
+// CS_FPU_n gated by AS_n (same as COP_CYCLE) to prevent spurious assertions
+// between bus cycles when FC/AM transiently pass through coprocessor values.
+assign CS_FPU_n = ~COP_CYCLE;
 
 // === WAIT STATE GENERATION === //
 
@@ -297,6 +319,10 @@ always @(*) begin
     else if (~CS_ROM_n || ~CS_SRAM_n) begin
         DSACK0_n = 1'b0;
         DSACK1_n = 1'b1;
+    end
+    else if (~CS_FPU_n) begin
+        DSACK0_n = DSACK0_FPU_n;
+        DSACK1_n = DSACK1_FPU_n;
     end
     else begin
         DSACK0_n = 1'b1;
