@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "mackerel-68k-symbols")(type "KiCad")(uri "/home/colin/Workspace/mackerel-68k/hardware/mackerel-68k-symbols.kicad_sym")(options "")(descr ""))
+)
