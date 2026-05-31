@@ -7,7 +7,7 @@
 #include "ide.h"
 #include "fat16.h"
 
-#define VERSION "0.6.1"
+#define VERSION "0.7.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -15,7 +15,7 @@ void handler_run(uint32_t addr);
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
-void handler_ide(uint32_t end);
+void handler_ide(void);
 void handler_gpio(char *dir, char *pin_str, char *val_str);
 void handler_help();
 void handler_info();
@@ -42,132 +42,13 @@ extern char __dram_length[];
 
 char buffer[INPUT_BUFFER_SIZE];
 
-#ifndef MACKEREL_08
-
-char kernel_command_line[1024] = "console=mackerel console=ttyXR0 loglevel=7";
-
-struct bi_record
-{
-    uint16_t tag;    // BI_xxx
-    uint16_t size;   // total size of this record in bytes (incl. header)
-    uint32_t data[]; // payload
-};
-
-struct mem_info
-{
-    uint32_t addr; // physical base
-    uint32_t size; // length in bytes
-};
-
-#define BI_LAST 0x0000
-#define BI_MACHTYPE 0x0001 /* optional */
-#define BI_CPUTYPE 0x0002  /* optional */
-#define BI_MMUTYPE 0x0004  /* optional */
-#define BI_MEMCHUNK 0x0005
-#define BI_RAMDISK 0x0006 /* optional */
-#define BI_COMMAND_LINE 0x0007
-
-typedef unsigned long uintptr_t;
-
-static inline uint8_t *align4(uint8_t *p)
-{
-    uintptr_t v = (uintptr_t)p;
-    v = (v + 3) & ~3u;
-    return (uint8_t *)v;
-}
-
-void emit_bootinfo(uintptr_t _end)
-{
-    uint8_t *p = align4((uint8_t *)_end);
-
-    // BI_MACHTYPE
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        r->tag = BI_MACHTYPE;
-        r->size = sizeof(*r) + sizeof(uint32_t);
-        p += sizeof(*r);
-        *(uint32_t *)p = 15; // 15
-        p += sizeof(uint32_t);
-        p = align4(p);
-    }
-
-    // BI_MEMCHUNK
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        struct mem_info *mi = (struct mem_info *)(p + sizeof(*r));
-        r->tag = BI_MEMCHUNK;
-        r->size = sizeof(*r) + sizeof(*mi);
-        mi->addr = 0x00000000u;
-        mi->size = (uint32_t)__dram_length;
-        p += r->size;
-        p = align4(p);
-    }
-
-    // BI_CPUTYPE
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        r->tag = BI_CPUTYPE;
-        r->size = sizeof(*r) + sizeof(uint32_t);
-        p += sizeof(*r);
-        *(uint32_t *)p = 3; // 3
-        p += sizeof(uint32_t);
-        p = align4(p);
-    }
-    // BI_MMUTYPE
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        r->tag = BI_MMUTYPE;
-        r->size = sizeof(*r) + sizeof(uint32_t);
-        p += sizeof(*r);
-        *(uint32_t *)p = 2; // 2
-        p += sizeof(uint32_t);
-        p = align4(p);
-    }
-
-    // BI_COMMAND_LINE (NUL included)
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        const uint32_t paylen = sizeof(kernel_command_line);
-        r->tag = BI_COMMAND_LINE;
-        r->size = sizeof(*r) + paylen;
-        p += sizeof(*r);
-        memcpy(p, kernel_command_line, paylen);
-        p += paylen;
-        p = align4(p);
-    }
-
-    // BI_LAST
-    {
-        struct bi_record *r = (struct bi_record *)p;
-        r->tag = BI_LAST;
-        r->size = sizeof(*r); // 4
-        // done
-    }
-}
-
-#define MKRL_MAGIC 0x4D4B524CUL
-
-/* Scan the first page of the loaded kernel image for the Mackerel header.
- * head.S places "MKRL" followed by _end at a fixed offset into the image.
- * Called with D-cache disabled; see handler_ide. */
-static uint32_t scan_kernel_end(uint32_t load_addr)
-{
-    uint32_t *p   = (uint32_t *)(load_addr + 2);
-    uint32_t *lim = (uint32_t *)(load_addr + 4096 - 4);
-    for (; p < lim; p++)
-        if (*p == MKRL_MAGIC)
-            return *(p + 1);
-    return 0;
-}
-
-#endif
 
 void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Boot Linux from SD\r\n");
-    printf(" ide [end]             - Boot Linux from IDE (end addr auto-detected from image)\r\n");
+    printf(" ide                   - Boot Linux from IDE\r\n");
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -218,10 +99,7 @@ int main()
         }
         else if (strncmp(buffer, "ide", 3) == 0)
         {
-            strtok(buffer, " ");
-            char *param1 = strtok(NULL, " ");
-            uint32_t end = param1 ? strtoul(param1, 0, 16) : 0;
-            handler_ide(end);
+            handler_ide();
         }
         else if (strncmp(buffer, "run", 3) == 0)
         {
@@ -473,7 +351,7 @@ int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
     return IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
 }
 
-void handler_ide(uint32_t end)
+void handler_ide(void)
 {
 #ifdef MACKEREL_08
     printf("IDE is not supported on Mackerel-08\r\n");
@@ -540,29 +418,6 @@ void handler_ide(uint32_t end)
 
     if (kernel_found)
     {
-#ifdef MACKEREL_30
-        /* Disable D-cache before scanning: misaligned longword reads (CMPI.L #imm,(An))
-         * produce incorrect bus cycles when the D-cache is active, causing the scan to
-         * miss the MKRL magic word. The kernel's head.S sets its own CACR on entry. */
-        { uint32_t z = 0; asm volatile("movec %0,%%cacr"::"d"(z)); }
-#endif
-        uint32_t detected = scan_kernel_end(PROGRAM_START);
-        if (detected != 0)
-        {
-            printf("Auto-detected _end: 0x%lX\r\n", detected);
-            end = detected;
-        }
-
-        if (end == 0)
-        {
-            printf("ERROR: kernel _end unknown. Re-flash a newer kernel or run: ide <end_addr>\r\n");
-            return;
-        }
-
-        printf("Setting up bootinfo at _end: 0x%lX\r\n", end);
-        emit_bootinfo((uintptr_t)end);
-
-        printf("Linux kernel command line: %s\r\n", kernel_command_line);
         handler_run(PROGRAM_START);
     }
     else
