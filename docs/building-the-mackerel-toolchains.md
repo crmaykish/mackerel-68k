@@ -1,6 +1,6 @@
 # Building the Mackerel Toolchain(s)
 
-Mackerel code and the Linux image (at least on Mackerel-30) are compiled with custom toolchains. These are created using crosstools-ng. There are two defconfigs provided in this repository, one for the baremetal toolchain (bootloader, test apps) and one for the Linux toolchain (v6.x with full glibc).
+Mackerel code and the Linux image (at least on Mackerel-30) are compiled with custom toolchains. These are created using crosstools-ng. There are two defconfigs provided in this repository, one for the baremetal toolchain (bootloader, test apps) and one for the Linux toolchain (v6.18.x with musl libc).
 
 1. Run one of the `tools/install_reqs_` scripts based on your Linux distribution.
 
@@ -34,13 +34,13 @@ ct-ng defconfig
 ct-ng build
 ```
 
-4. Verify the build:
+4. Verify the compiler works:
 
 ```
-~/x-tools/m68k-mackerel-linux-gnu/bin/m68k-mackerel-linux-gnu-gcc --version
+~/x-tools/m68k-mackerel-linux-musl/bin/m68k-mackerel-linux-musl-gcc --version
 
-m68k-mackerel-linux-gnu-gcc (crosstool-NG 1.27.0.20_329bb4d) 14.2.0
-Copyright (C) 2024 Free Software Foundation, Inc.
+m68k-mackerel-linux-musl-gcc (crosstool-NG 1.28.0.43_1193ab8) 16.1.0
+Copyright (C) 2026 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```

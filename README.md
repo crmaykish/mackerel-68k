@@ -11,7 +11,8 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
 2. [How to Compile Code and Programmable Logic](docs/how-to-compile-everything.md)
 3. [Building and Running uClinux (Mackerel-08 and Mackerel-10)](docs/building-and-running-uclinux.md)
-4. [Building and Running Linux v6.x (Mackerel-30)](docs/building-linux-6-for-mackerel-30.md)
+4. [Building the Mackerel Toolchains](docs/building-the-mackerel-30-toolchains.md)
+5. [Building and Booting Linux v6.18.x on Mackerel-30](docs/building-linux-6-for-mackerel-30.md)
 
 ## Hardware
 
@@ -96,6 +97,10 @@ The bootloader can read program data coming in over the serial port (`load` comm
 Mackerel-08 and Mackerel-10 can run [uClinux](https://github.com/crmaykish/mackerel-uclinux-20160919). This version dates from 2016 and runs Linux kernel version 4.4. The binary Linux image can be loaded from a bitbang SD card on Mackerel-08 and from an IDE drive on Mackerel-10.
 
 In both versions, the Linux system is fairly minimal. There is an interactive bash-style shell, and a few basic programs. Mackerel-10 has an IDE driver and support for ext2 filesystems.
+
+### Linux on Mackerel-30
+
+Mackerel-30 has a modern kernel port (v6.18.x) with drivers for serial, IDE, and SPI ethernet. Userspace is based on busybox. Kernel source and build scripts are can be found in the dedicated [Mackerel Linux Repo](https://github.com/crmaykish/mackerel-linux).
 
 ### Compilers and Tools
 The bootloader and other bare-metal programs can be built with a custom m68k cross-compiler. See [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for instructions on building one with crosstools-ng.
