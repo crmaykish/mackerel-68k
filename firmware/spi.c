@@ -8,52 +8,69 @@
 
 void spi_init(uint8_t cs)
 {
-    // Default state of the SPI pins
     GPIO_ON(cs);
     GPIO_ON(MOSI);
     GPIO_OFF(SCLK);
-
     GPIO_OFF(LED);
 }
 
-uint8_t spi_transfer(uint8_t cs, uint8_t byte_to_send)
+void spi_cs_low(uint8_t cs)
 {
-    uint8_t byte_received = 0;
+    GPIO_OFF(cs);
+}
+
+void spi_cs_high(uint8_t cs)
+{
+    GPIO_ON(cs);
+}
+
+uint8_t spi_byte(uint8_t b)
+{
+    uint8_t recv = 0;
     int i;
 
     GPIO_OFF(SCLK);
 
-    // Set chip select (active low)
-    GPIO_OFF(cs);
-
     for (i = 7; i >= 0; i--)
     {
-        if (byte_to_send & (1 << i))
-        {
+        if (b & (1 << i))
             GPIO_ON(MOSI);
-        }
         else
-        {
             GPIO_OFF(MOSI);
-        }
 
-        // Clock high
         GPIO_ON(SCLK);
-
-        // Shift in a bit
         if (MISO_GET())
-        {
-            byte_received |= (1 << i);
-        }
-
-        // Clock low
+            recv |= (1 << i);
         GPIO_OFF(SCLK);
     }
 
-    // disable SD card
-    GPIO_ON(cs);
+    return recv;
+}
 
-    return byte_received;
+// Portable byte receive. Mackerel-08 uses the faster inline-asm version in
+// spi.h instead.
+#ifndef MACKEREL_08
+uint8_t spi_recv(void)
+{
+    uint8_t b = 0;
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x80; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x40; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x20; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x10; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x08; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x04; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x02; GPIO_OFF(SCLK);
+    GPIO_ON(SCLK); if (MISO_GET()) b |= 0x01; GPIO_OFF(SCLK);
+    return b;
+}
+#endif
+
+uint8_t spi_transfer(uint8_t cs, uint8_t b)
+{
+    spi_cs_low(cs);
+    uint8_t recv = spi_byte(b);
+    spi_cs_high(cs);
+    return recv;
 }
 
 void spi_loop_clk()

@@ -4,10 +4,13 @@
 #include <string.h>
 #include "mackerel.h"
 #include "sd.h"
+
+#ifndef MACKEREL_08
 #include "ide.h"
 #include "fat16.h"
+#endif
 
-#define VERSION "0.7.0"
+#define VERSION "0.7.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -15,7 +18,6 @@ void handler_run(uint32_t addr);
 void handler_load(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
-void handler_ide(void);
 void handler_gpio(char *dir, char *pin_str, char *val_str);
 void handler_help();
 void handler_info();
@@ -23,6 +25,10 @@ uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
 void print_string_bin(char *str, uint8_t max);
+
+#ifndef MACKEREL_08
+void handler_ide(void);
+#endif
 
 void memtest8(uint8_t *start, uint32_t size, uint8_t target);
 void memtest16(uint16_t *start, uint32_t size, uint16_t target);
@@ -48,7 +54,9 @@ void handler_help()
     printf("Available commands:\r\n");
     printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Boot Linux from SD\r\n");
+#ifndef MACKEREL_08
     printf(" ide                   - Boot Linux from IDE\r\n");
+#endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -97,10 +105,12 @@ int main()
         {
             handler_boot();
         }
+#ifndef MACKEREL_08
         else if (strncmp(buffer, "ide", 3) == 0)
         {
             handler_ide();
         }
+#endif
         else if (strncmp(buffer, "run", 3) == 0)
         {
             strtok(buffer, " ");
@@ -330,15 +340,10 @@ void handler_boot()
 
     uint32_t blocks = (image_size / 512) + 1;
 
-    for (int block = 1; block <= blocks; block++)
+    if (!sd_read_blocks(1, blocks, mem))
     {
-        if (block % 10 == 0)
-        {
-            printf("%d/%ld\n", block, blocks);
-        }
-
-        sd_read(block, mem);
-        mem += 512;
+        printf("Load failed\n");
+        return;
     }
 
     printf("Done\n");
@@ -346,6 +351,7 @@ void handler_boot()
     handler_run(PROGRAM_START);
 }
 
+#ifndef MACKEREL_08
 int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
     return IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
@@ -353,10 +359,7 @@ int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 
 void handler_ide(void)
 {
-#ifdef MACKEREL_08
-    printf("IDE is not supported on Mackerel-08\r\n");
-    return;
-#else
+
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
@@ -397,8 +400,6 @@ void handler_ide(void)
 
                 int bytes_read = fat16_read_file(&boot_sector, files_list[i].first_cluster_low, file, files_list[i].file_size);
 
-                printf("\r\n");
-
                 printf("Read %d of %ld bytes\r\n", bytes_read, files_list[i].file_size);
 
                 if (bytes_read != files_list[i].file_size)
@@ -424,8 +425,8 @@ void handler_ide(void)
     {
         printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
     }
-#endif
 }
+#endif
 
 void handler_load(uint32_t addr)
 {

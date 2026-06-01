@@ -1,6 +1,8 @@
+#ifndef MACKEREL_08
 #include "ide.h"
 #include "mackerel.h"
 #include <stdio.h>
+
 
 #ifdef MACKEREL_30
 static const uint8_t bit_reverse_table[256] = {
@@ -175,3 +177,5 @@ void IDE_reset()
     if (!IDE_wait_for_device_ready())
         printf("IDE reset timeout\r\n");
 }
+
+#endif // MACKEREL_08

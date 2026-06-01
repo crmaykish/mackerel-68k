@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "fat16.h"
+#include "term.h"
 
 fat16_read_sector_f read_sector = NULL;
 
@@ -173,6 +174,12 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     uint32_t sector_size = boot_sector->bytes_per_sector;
     uint32_t sectors_per_cluster = boot_sector->sectors_per_cluster;
 
+    // Progress reporting
+    uint32_t pct_step = buffer_size / 100;
+    if (pct_step == 0)
+        pct_step = 1;
+    int last_pct = -1;
+
     while (current_cluster != 0xFFFF && buffer_index < buffer_size)
     {
         // printf("current cluster: %u\r\n", current_cluster);
@@ -214,14 +221,23 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
             }
         }
 
-        // Progress reporting
-        duart_putc('.');
+        // Redraw the progress bar only when the percentage changes.
+        int pct = buffer_index / pct_step;
+        if (pct > 100)
+            pct = 100;
+        if (pct != last_pct)
+        {
+            last_pct = pct;
+            term_progress_bar(pct);
+        }
 
         // Get the next cluster from the FAT
         current_cluster = get_fat_entry(boot_sector, current_cluster);
     }
 
-    printf("\r\n");
+    term_progress_bar(100);
+    duart_putc('\r');
+    duart_putc('\n');
 
     return buffer_index; // Returns the number of bytes read
 }

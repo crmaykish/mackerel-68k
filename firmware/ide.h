@@ -1,6 +1,8 @@
 #ifndef IDE_H_
 #define IDE_H_
 
+#ifndef MACKEREL_08
+
 #include <stdbool.h>
 #include "mackerel.h"
 
@@ -57,4 +59,5 @@ void IDE_device_info(uint16_t *buf);
 
 void IDE_reset();
 
+#endif // MACKEREL_08
 #endif

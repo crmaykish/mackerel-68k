@@ -33,3 +33,31 @@ void term_clear()
     term_set_color(TERM_RESET);
     duart_puts("\033[2J\033[H");
 }
+
+// Draw a fancy progress bar with percentage
+void term_progress_bar(int pct)
+{
+    int filled = (pct * TERM_BAR_WIDTH) / 100;
+
+    duart_putc('\r');
+    duart_putc('[');
+    for (int i = 0; i < TERM_BAR_WIDTH; i++)
+        duart_putc(i < filled ? '#' : '-');
+    duart_putc(']');
+    duart_putc(' ');
+
+    // Right-align the percentage in a 3-character field so it doesn't jitter.
+    if (pct >= 100)
+    {
+        duart_putc('1');
+        duart_putc('0');
+        duart_putc('0');
+    }
+    else
+    {
+        duart_putc(' ');
+        duart_putc(pct >= 10 ? '0' + pct / 10 : ' ');
+        duart_putc('0' + pct % 10);
+    }
+    duart_putc('%');
+}

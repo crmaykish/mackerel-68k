@@ -42,11 +42,15 @@ typedef uint8_t term_cursor_dir_e;
 #define TERM_CURSOR_RIGHT 'C'
 #define TERM_CURSOR_LEFT 'D'
 
+// Width of the progress bar (characters between the brackets).
+#define TERM_BAR_WIDTH 50
+
 void term_set_color(char *color);
 void term_cursor_move(term_cursor_dir_e dir, uint8_t steps);
 void term_cursor_set_x(uint8_t x);
 void term_cursor_set_pos(uint8_t x, uint8_t y);
 void term_cursor_set_vis(bool visible);
 void term_clear();
+void term_progress_bar(int pct);
 
 #endif
