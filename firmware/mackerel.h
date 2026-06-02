@@ -15,7 +15,7 @@
 #define SYSTEM_NAME "Mackerel-30"
 #define DUART1_BASE 0xF0000000
 #define IDE_BASE     0xF0010000
-#define IDE_CTL_BASE 0xF0020000  // IDE control block (CS1)
+#define IDE_CTL_BASE 0xF0020000
 #define PROGRAM_START 0x1000
 #define CPU_CLK_HZ 24000000UL
 // 68030 with I-cache only
@@ -24,6 +24,7 @@
 #define SYSTEM_NAME "Mackerel-10"
 #define DUART1_BASE 0xFF8000
 #define IDE_BASE 0xFFC000
+#define IDE_CTL_BASE 0xFF4000
 #define PROGRAM_START 0x400
 #define CPU_CLK_HZ 10000000UL
 #define SLEEP_CYCLES_PER_LOOP 40

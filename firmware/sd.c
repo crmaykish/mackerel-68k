@@ -230,6 +230,10 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
     uint32_t next_update = pct_step;
     int pct = 0;
 
+    // Hide the cursor while the progress bar redraws to keep it from
+    // flickering across the bar. Re-enabled on every exit path below.
+    term_cursor_set_vis(false);
+
     for (uint32_t block = 0; block < num_blocks; block++)
     {
         int timeout = 8192;
@@ -239,6 +243,7 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
 
         if (result != 0xFE)
         {
+            term_cursor_set_vis(true);
             printf("Block %lu: no data token\r\n", block);
             for (int i = 0; i < 6; i++)
                 spi_byte(CMD12[i]);
@@ -264,6 +269,7 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
     }
     term_progress_bar(100);
     duart_putc('\n');
+    term_cursor_set_vis(true);
 
     // CMD12: stop transmission
     for (int i = 0; i < 6; i++)

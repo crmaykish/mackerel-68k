@@ -180,6 +180,10 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
         pct_step = 1;
     int last_pct = -1;
 
+    // Hide the cursor while the progress bar redraws to keep it from
+    // flickering across the bar. Re-enabled on every exit path below.
+    term_cursor_set_vis(false);
+
     while (current_cluster != 0xFFFF && buffer_index < buffer_size)
     {
         // printf("current cluster: %u\r\n", current_cluster);
@@ -195,7 +199,10 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
         {
             // Whole cluster fits — one multi-sector read straight into destination
             if (read_sector(first_sector_of_cluster, buffer + buffer_index, sectors_per_cluster) != 0)
+            {
+                term_cursor_set_vis(true);
                 return -1;
+            }
             buffer_index += cluster_bytes;
         }
         else
@@ -207,14 +214,20 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
                 if (rem >= sector_size)
                 {
                     if (read_sector(first_sector_of_cluster + i, buffer + buffer_index, 1) != 0)
+                    {
+                        term_cursor_set_vis(true);
                         return -1;
+                    }
                     buffer_index += sector_size;
                 }
                 else
                 {
                     uint8_t sector_buffer[sector_size];
                     if (read_sector(first_sector_of_cluster + i, sector_buffer, 1) != 0)
+                    {
+                        term_cursor_set_vis(true);
                         return -1;
+                    }
                     memcpy(buffer + buffer_index, sector_buffer, rem);
                     buffer_index += rem;
                 }
@@ -238,6 +251,7 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     term_progress_bar(100);
     duart_putc('\r');
     duart_putc('\n');
+    term_cursor_set_vis(true);
 
     return buffer_index; // Returns the number of bytes read
 }
