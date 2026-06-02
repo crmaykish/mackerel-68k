@@ -4,13 +4,14 @@
 #include <string.h>
 #include "mackerel.h"
 #include "sd.h"
+#include "term.h"
 
 #ifndef MACKEREL_08
 #include "ide.h"
 #include "fat16.h"
 #endif
 
-#define VERSION "0.7.1"
+#define VERSION "0.7.2"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -78,6 +79,10 @@ void handler_help()
 
 int main()
 {
+    // Re-enable the cursor in case a reset interrupted a transfer that had
+    // hidden it while drawing the progress bar (see fat16/sd read loops).
+    term_cursor_set_vis(true);
+
     duart_puts("\r\n");
     duart_puts("========================================\r\n");
     duart_puts("   " SYSTEM_NAME " Bootloader v" VERSION "\r\n");
