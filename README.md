@@ -11,7 +11,7 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
 2. [How to Compile Code and Programmable Logic](docs/how-to-compile-everything.md)
 3. [Building and Running uClinux (Mackerel-08 and Mackerel-10)](docs/building-and-running-uclinux.md)
-4. [Building the Mackerel Toolchains](docs/building-the-mackerel-30-toolchains.md)
+4. [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md)
 5. [Building and Booting Linux v6.18.x on Mackerel-30](docs/building-linux-6-for-mackerel-30.md)
 
 ## Hardware

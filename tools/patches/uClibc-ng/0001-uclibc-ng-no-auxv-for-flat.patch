@@ -1,0 +1,33 @@
+uClibc-ng: don't read an aux vector for bFLT binaries
+
+binfmt_flat does not place an ELF aux vector on the stack (only the ELF and
+FDPIC loaders do). __uClibc_main walked past envp and ran _dl_aux_init() on
+whatever followed, parsing the arg/env string area as auxv garbage and
+hanging in early TLS/stack-guard setup. For flat formats, hand _dl_aux_init()
+an empty AT_NULL-terminated vector instead.
+
+--- a/libc/misc/internals/__uClibc_main.c
++++ b/libc/misc/internals/__uClibc_main.c
+@@ -399,12 +399,22 @@
+     }
+ 
+ #ifndef SHARED
++#if defined(__UCLIBC_FORMAT_FLAT__) || defined(__UCLIBC_FORMAT_FLAT_SEP_DATA__) || \
++    defined(__UCLIBC_FORMAT_SHARED_FLAT__)
++    /* binfmt_flat does not place an ELF aux vector on the stack (only the ELF
++       and FDPIC loaders do). Walking past envp would parse the arg/env string
++       area as auxv garbage and corrupt early TLS/stack-guard setup. Hand
++       _dl_aux_init() an empty, AT_NULL-terminated vector instead. */
++    static unsigned long flat_auxv[2] = { AT_NULL, 0 };
++    aux_dat = flat_auxv;
++#else
+     /* Pull stuff from the ELF header when possible */
+     aux_dat = (unsigned long*)__environ;
+     while (*aux_dat) {
+ 	aux_dat++;
+     }
+     aux_dat++;
++#endif
+     /* Get the program headers (_dl_phdr) from the aux vector
+        It will be used into __libc_setup_tls. */
+     _dl_aux_init ((ElfW(auxv_t) *)aux_dat);
