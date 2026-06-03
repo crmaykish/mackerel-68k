@@ -90,7 +90,7 @@ Status: Planning
 ### Bootloader and Bare-metal Programs
 Every version of Mackerel runs a small bootloader program installed on the Flash ROM. This provides a simple set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code.
 
-The bootloader can read program data coming in over the serial port (`load` command) or it can read data from an SD card or IDE drive (`boot` and `ide` respectively). Either way, the program code gets loaded into RAM and then the bootloader jumps to that address to start the execution. The load address is 0x400 on Mackerel-08 and Mackerel-10, and 0x1000 on Mackerel-30.
+The bootloader can read program data coming in over the serial port (`load` command) or it can load a Linux image from disk with the `boot` command. The `boot` command uses the same FAT16 driver on every board — it reads `IMAGE.BIN` from the SD card on Mackerel-08 (over bitbang SPI) and from the IDE/CF drive on Mackerel-10 and Mackerel-30. Either way, the program code gets loaded into RAM and then the bootloader jumps to that address to start the execution. The load address is 0x400 on Mackerel-08 and Mackerel-10, and 0x1000 on Mackerel-30.
 
 ### uClinux
 
