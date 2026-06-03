@@ -18,5 +18,5 @@ git checkout mackerel-30
 # Replace /dev/sdX with your CF card device name
 sudo ./makeroot.sh /dev/sdX
 
-# Plug in the CF card and run the `ide` command from the bootloader
+# Plug in the CF card and run the `boot` command from the bootloader
 ```

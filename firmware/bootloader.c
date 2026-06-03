@@ -5,13 +5,13 @@
 #include "mackerel.h"
 #include "sd.h"
 #include "term.h"
+#include "fat16.h"
 
 #ifndef MACKEREL_08
 #include "ide.h"
-#include "fat16.h"
 #endif
 
-#define VERSION "0.7.2"
+#define VERSION "0.8.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -26,10 +26,6 @@ uint8_t readline(char *buffer);
 void command_not_found(char *command);
 void memdump(uint32_t address, uint32_t bytes);
 void print_string_bin(char *str, uint8_t max);
-
-#ifndef MACKEREL_08
-void handler_ide(void);
-#endif
 
 void memtest8(uint8_t *start, uint32_t size, uint8_t target);
 void memtest16(uint16_t *start, uint32_t size, uint16_t target);
@@ -54,10 +50,7 @@ void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
-    printf(" boot                  - Boot Linux from SD\r\n");
-#ifndef MACKEREL_08
-    printf(" ide                   - Boot Linux from IDE\r\n");
-#endif
+    printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -110,12 +103,6 @@ int main()
         {
             handler_boot();
         }
-#ifndef MACKEREL_08
-        else if (strncmp(buffer, "ide", 3) == 0)
-        {
-            handler_ide();
-        }
-#endif
         else if (strncmp(buffer, "run", 3) == 0)
         {
             strtok(buffer, " ");
@@ -325,57 +312,40 @@ void handler_run(uint32_t addr)
         : "a0");
 }
 
-void handler_boot()
+// Define the block_read function based on the board.
+// Mackerel-08 uses bitbang SD. Mackerel-10 and Mackerel-30 have real IDE
+#ifdef MACKEREL_08
+static int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
-    printf("Loading Linux from SD card...\n");
-
-    if (!sd_init())
-        return;
-
-    unsigned char first[512];
-    unsigned char *mem = (unsigned char *)PROGRAM_START;
-
-    // Read the first block of the SD card to determine the Linux image size
-    sd_read(0, first);
-    uint32_t image_size = strtoul((char *)first, 0, 10);
-    printf("Image size: %lu\n", image_size);
-
-    // Read the rest of the SD card to load the Linux image into RAM
-    printf("Loading kernel into 0x%X...\n", (int)mem);
-
-    uint32_t blocks = (image_size / 512) + 1;
-
-    if (!sd_read_blocks(1, blocks, mem))
-    {
-        printf("Load failed\n");
-        return;
-    }
-
-    printf("Done\n");
-
-    handler_run(PROGRAM_START);
+    return sd_read_blocks(block_num, count, block) ? 0 : -1;
 }
-
-#ifndef MACKEREL_08
-int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
+#else
+static int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
     return IDE_read_sectors((uint16_t *)block, block_num, (uint8_t)count);
 }
+#endif
 
-void handler_ide(void)
+void handler_boot()
 {
-
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
-    printf("Attempting to load Linux kernel from IDE...\r\n");
+#ifdef MACKEREL_08
+    printf("Loading Linux kernel from SD card...\r\n");
+
+    if (!sd_init())
+        return;
+#else
+    printf("Loading Linux kernel from IDE...\r\n");
 
     // Reset the IDE interface
     uint16_t buf[256];
     IDE_reset();
     IDE_device_info(buf);
+#endif
 
-    // Initialize FAT16 library with the IDE block read function
+    // Initialize FAT16 library with the board's block read function
     if (fat16_init(block_read) != 0)
     {
         printf("Failed to initialize FAT16 library\r\n");
@@ -407,7 +377,7 @@ void handler_ide(void)
 
                 printf("Read %d of %ld bytes\r\n", bytes_read, files_list[i].file_size);
 
-                if (bytes_read != files_list[i].file_size)
+                if (bytes_read != (int)files_list[i].file_size)
                 {
                     printf("File read failed\r\n");
                 }
@@ -431,7 +401,6 @@ void handler_ide(void)
         printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
     }
 }
-#endif
 
 void handler_load(uint32_t addr)
 {

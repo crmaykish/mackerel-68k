@@ -33,9 +33,9 @@ If everything went well, you will now have an `images/image.bin` file created.
 
 Mackerel-08 can load Linux from a microSD card through an adapter board. In theory, there are many of these boards that would work, but I have only had good consistency with this [one from Adafruit](https://www.adafruit.com/product/254). The header on Mackerel-08 is designed for this adapter to slot right in. I have tried other cheaper adapters and they all start to fail as clock speeds increase. Since bitbang SPI is already incredibly slow, we can't afford any more bottlenecks.
 
-The bootloader treats the SD card as a big dumb block storage and not like a real drive with partitions and filesystems. There is a script in the root of the uclinux repository called `sd.sh`. Connect a microSD card to your PC through an appropriate adapter and run this script against it. The script will "format" the card in a way that the bootloader can read.
+The SD card uses the same format as the IDE/CF drives on Mackerel-10 and Mackerel-30: a single FAT16 partition (aligned at LBA 2048) containing the Linux image as `IMAGE.BIN`. There is a script in the root of the uclinux repository called `sd.sh`. Connect a microSD card to your PC through an appropriate adapter and run this script against it. It partitions and formats the card as FAT16 and copies the image to it - the same layout the Mackerel-10 section below describes for an IDE drive.
 
-The script is just writing the size of the Linux image to the first few bytes of the block device and then writing the binary data from the Linux image to the drive after that. The bootloader reads the size and then reads as many blocks off the SD card as is necessary to load the Linux image into RAM.
+The bootloader reads `IMAGE.BIN` off the card with the same FAT16 driver it uses for IDE; the only difference on Mackerel-08 is that the transport underneath is bitbang SPI instead of the IDE bus. 
 
 Once you have an SD card created and connected to Mackerel-08, power it on and run `boot` from the console. The bootloader will read the image into RAM and then jump to it to start booting the kernel. This loading procedure can take over 5 minutes depending on the clock speed of the 68008.
 
@@ -70,7 +70,7 @@ All that's left now is to copy the Linux image to the FAT16 partition:
 3. From the uclinux repo: `sudo cp images/image.bin /mnt/cf/IMAGE.BIN`
 4. `sudo umount /dev/sdb1`
 
-Plug the drive back into Mackerel-10, power it on, and run `ide` from the bootloader prompt. Hopefully you are greeted with a short copy sequence followed by kernel boot messages.
+Plug the drive back into Mackerel-10, power it on, and run `boot` from the bootloader prompt. Hopefully you are greeted with a short copy sequence followed by kernel boot messages.
 
 Since Mackerel-10 also has an IDE driver in uClinux, you can use that 1GB ext2 partition we created earlier.
 

@@ -3,7 +3,6 @@
 #include "sd.h"
 #include "spi.h"
 #include "mackerel.h"
-#include "term.h"
 
 static uint8_t CMD0[6]   = {0x40 +  0, 0x00, 0x00, 0x00, 0x00, 0x95};
 static uint8_t CMD8[6]   = {0x40 +  8, 0x00, 0x00, 0x01, 0xAA, 0x87};
@@ -222,18 +221,6 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
         return false;
     }
 
-    // Progress reporting: split the transfer into ~50 updates (2% each).
-    // Single up-front division; the loop only adds and compares.
-    uint32_t pct_step = num_blocks / 50;
-    if (pct_step == 0)
-        pct_step = 1;
-    uint32_t next_update = pct_step;
-    int pct = 0;
-
-    // Hide the cursor while the progress bar redraws to keep it from
-    // flickering across the bar. Re-enabled on every exit path below.
-    term_cursor_set_vis(false);
-
     for (uint32_t block = 0; block < num_blocks; block++)
     {
         int timeout = 8192;
@@ -243,7 +230,6 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
 
         if (result != 0xFE)
         {
-            term_cursor_set_vis(true);
             printf("Block %lu: no data token\r\n", block);
             for (int i = 0; i < 6; i++)
                 spi_byte(CMD12[i]);
@@ -256,20 +242,7 @@ bool sd_read_blocks(uint32_t start_block, uint32_t num_blocks, uint8_t *buf)
 
         spi_recv();
         spi_recv();
-
-        // Progress indicator: redraw the percentage only when we cross a step.
-        if (block + 1 >= next_update)
-        {
-            next_update += pct_step;
-            pct += 2;
-            if (pct > 100)
-                pct = 100;
-            term_progress_bar(pct);
-        }
     }
-    term_progress_bar(100);
-    duart_putc('\n');
-    term_cursor_set_vis(true);
 
     // CMD12: stop transmission
     for (int i = 0; i < 6; i++)
