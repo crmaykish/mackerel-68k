@@ -1,0 +1,27 @@
+m68k: honor strict alignment for -mcpu=68000 (uClinux/Linux target)
+
+config/m68k/linux.h forced STRICT_ALIGNMENT to 0 for all m68k-linux/uclinux
+targets, which is correct only for the 68020+ (they tolerate unaligned
+word/long access). On a 68000/68010 an unaligned word/long access raises an
+address error, so GCC must not emit one. Honor the target strict-alignment
+flag (set for all non-ColdFire CPUs) instead of forcing it off.
+
+--- a/gcc/config/m68k/linux.h
++++ b/gcc/config/m68k/linux.h
+@@ -25,10 +25,13 @@
+ #undef PREFERRED_STACK_BOUNDARY
+ #define PREFERRED_STACK_BOUNDARY 32
+ 
+-/* for 68k machines this only needs to be TRUE for the 68000 */
+-
++/* The 68000/68010 take an address error on unaligned word/long access; only
++   the 68020 and later tolerate it.  Honor the target strict-alignment setting
++   (enabled for all non-ColdFire CPUs in m68k_option_override, and overridable
++   with -m[no-]strict-align) instead of forcing it off, so that -mcpu=68000 code
++   never emits unaligned accesses.  */
+ #undef STRICT_ALIGNMENT
+-#define STRICT_ALIGNMENT 0
++#define STRICT_ALIGNMENT TARGET_STRICT_ALIGNMENT
+ #undef M68K_HONOR_TARGET_STRICT_ALIGNMENT
+ #define M68K_HONOR_TARGET_STRICT_ALIGNMENT 0
+ 
