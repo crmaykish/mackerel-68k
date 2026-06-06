@@ -66,17 +66,14 @@ always @(posedge CLK) begin
 	end
 end
 
-// ==== Double clock input signals from CPU clock domain
-reg AS1_n = 1;
-reg CS1_n = 1;
-reg AS2_n = 1;
-reg CS2_n = 1;
+// DRAM is active only when CS and AS are asserted
+wire dram_active_n = AS_n | CS_n;
+reg act1_n = 1'b1;
+reg act2_n = 1'b1;
 
 always @(posedge CLK) begin
-	AS1_n <= AS_n;
-	CS1_n <= CS_n;
-	AS2_n <= AS1_n;
-	CS2_n <= CS1_n;
+	act1_n <= dram_active_n;
+	act2_n <= act1_n;
 end
 
 // ==== Translate cycle type to appropriate CAS signals
@@ -143,8 +140,8 @@ always @(posedge CLK) begin
 				end else if (refresh_request) begin
 					// Start CAS-before-RAS refresh cycle
 					state <= REFRESH1;
-				end else if (~CS2_n && ~AS2_n) begin
-					// DRAM selected, start normal R/W cycle
+				end else if (~act2_n) begin
+					// DRAM selected (AS & CS_DRAM), start normal R/W cycle
 					state <= RW1;
 				end
 			end
@@ -200,11 +197,12 @@ always @(posedge CLK) begin
 			end
 
 			RW5: begin
-				// Assert DSACK until AS2_n goes high. Deassert DSACK in the same cycle we exit to PRECHARGE
+				// Hold DSACK until the cycle ends (act2_n high = AS or CS_DRAM negated),
+				// then deassert in the same cycle we exit to PRECHARGE.
 				// NOTE: It's safe to always assert 32-bit DSACK.
 				//       On read cycles, the CPU will ignore bytes it doesn't need.
 				//       On write cycles, the CAS lines gate the appropriate byte lanes to DRAM anyway.
-				if (AS2_n) begin
+				if (act2_n) begin
 					DSACK0_DRAM_n <= 1'b1;
 					DSACK1_DRAM_n <= 1'b1;
 					state <= PRECHARGE;

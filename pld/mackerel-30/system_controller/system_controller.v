@@ -67,29 +67,8 @@ wire IO_SPACE = (AH == 4'b1111);
 // Coprocessor cycle — used for both CS_FPU_n and DSACK routing
 wire COP_CYCLE = CPU_SPACE && ~AS_n && (AM == 4'b0010);
 
-// FPU BERR timeout: if no DSACK within FPU_TIMEOUT cycles, assert BERR.
-// With FPU installed it responds in a few cycles; without FPU, this fires
-// vector 11 so the kernel soft-float emulator can handle the instruction.
-parameter FPU_TIMEOUT = 8'd100;
-reg [7:0] fpu_timeout_cnt = 0;
-reg fpu_berr = 1'b0;
-
-always @(posedge CLK or negedge RST_n) begin
-    if (!RST_n) begin
-        fpu_timeout_cnt <= 0;
-        fpu_berr        <= 1'b0;
-    end else if (COP_CYCLE) begin
-        if (fpu_timeout_cnt < FPU_TIMEOUT)
-            fpu_timeout_cnt <= fpu_timeout_cnt + 1;
-        else
-            fpu_berr <= 1'b1;
-    end else begin
-        fpu_timeout_cnt <= 0;
-        fpu_berr        <= 1'b0;
-    end
-end
-
-assign BERR_n = ~fpu_berr;
+// Tie BERR high - bus errors will just hang the CPU
+assign BERR_n = 1'b1;
 
 // Inhibit cache for I/O
 assign CIIN_n = ~(~CPU_SPACE && ~AS_n && (IO_SPACE));
@@ -255,7 +234,7 @@ irq_encoder ie1(
 	.irq1(0),
 	.irq2(0),
 	.irq3(IDE_INT),
-	.irq4(IRQ_ENC),
+	.irq4(0),   // TODO: Wire IRQ_ENC when ENC28J60 is installed
 	.irq5(~IRQ_DUART_n),
 	.irq6(IRQ_TIMER),
 	.irq7(0),
@@ -286,8 +265,14 @@ always @(*) begin
         end
     end
     else if (~CS_DRAM_n) begin
-        DSACK0_n = DSACK0_DRAM_n;
-        DSACK1_n = DSACK1_DRAM_n;
+        // Gate DRAM DSACK with AS
+        if (~AS_n) begin
+            DSACK0_n = DSACK0_DRAM_n;
+            DSACK1_n = DSACK1_DRAM_n;
+        end else begin
+            DSACK0_n = 1'b1;
+            DSACK1_n = 1'b1;
+        end
     end
     else if (~CS_IDE_n) begin
         // Insert IDE wait states before asserting DSACK
