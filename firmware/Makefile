@@ -71,7 +71,7 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
-bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o ymodem.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lc -lgcc
 
 fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o ide.o

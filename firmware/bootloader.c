@@ -6,17 +6,18 @@
 #include "sd.h"
 #include "term.h"
 #include "fat16.h"
+#include "ymodem.h"
 
 #ifndef MACKEREL_08
 #include "ide.h"
 #endif
 
-#define VERSION "0.8.0"
+#define VERSION "0.8.5"
 
 #define INPUT_BUFFER_SIZE 32
 
 void handler_run(uint32_t addr);
-void handler_load(uint32_t addr);
+void handler_ymodem(uint32_t addr);
 void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_gpio(char *dir, char *pin_str, char *val_str);
@@ -49,7 +50,7 @@ char buffer[INPUT_BUFFER_SIZE];
 void handler_help()
 {
     printf("Available commands:\r\n");
-    printf(" load <addr>           - Load binary from serial into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
+    printf(" ymodem <addr>         - Receive a file via YMODEM into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
@@ -92,12 +93,12 @@ int main()
         readline(buffer);
         duart_puts("\r\n");
 
-        if (strncmp(buffer, "load", 4) == 0)
+        if (strncmp(buffer, "ymodem", 6) == 0)
         {
             strtok(buffer, " ");
             char *param1 = strtok(NULL, " ");
             uint32_t addr = strtoul(param1, 0, 16);
-            handler_load(addr);
+            handler_ymodem(addr);
         }
         else if (strncmp(buffer, "boot", 4) == 0)
         {
@@ -402,40 +403,38 @@ void handler_boot()
     }
 }
 
-void handler_load(uint32_t addr)
+void handler_ymodem(uint32_t addr)
 {
-    int in_count = 0;
-    int end_count = 0;
-    uint8_t in = 0;
+    static char name[128];
+    uint32_t size = 0;
 
-    if (addr == 0)
-    {
+    if (addr == 0) {
         addr = PROGRAM_START;
     }
 
-    printf("Loading from serial into 0x%lX...\r\n", addr);
+    // TODO properly calculate max buffer size based on available RAM
+#ifdef MACKEREL_08
+    uint32_t bufsz = 0x300000; // 3MB
+#else
+    uint32_t bufsz = 0x800000; // 8 MB
+#endif
 
-    while (end_count != 3)
+    printf("Ready to receive at 0x%lx over YMODEM...\r\n", (unsigned long)addr);
+
+    long n = ymodem_recv((uint8_t *)addr, bufsz, name, &size);
+
+    if (n < 0)
     {
-        in = duart_getc();
-
-        MEM(addr + in_count) = in;
-
-        if (in == 0xDE)
-        {
-            end_count++;
-        }
-        else
-        {
-            end_count = 0;
-        }
-
-        in_count++;
+        printf("\r\nYMODEM transfer failed (%ld).\r\n", n);
+        return;
     }
 
-    MEM(addr + in_count - 3) = 0;
-
-    printf("Done! Transferred %d bytes.\r\n", in_count - 3);
+    printf("\r\nReceived '%s' (%ld bytes) into 0x%lx.\r\n", name, n, (unsigned long)addr);
+    
+    if (size && (uint32_t)n != size)
+    {
+        printf("Warning: stored %ld of %lu bytes (buffer limit?).\r\n", n, (unsigned long)size);
+    }
 }
 
 void handler_zero(uint32_t addr, uint32_t size)

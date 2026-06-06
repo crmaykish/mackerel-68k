@@ -12,28 +12,25 @@ See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-
 2. [How to Compile Code and Programmable Logic](docs/how-to-compile-everything.md)
 3. [Building and Running uClinux (Mackerel-08 and Mackerel-10)](docs/building-and-running-uclinux.md)
 4. [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md)
-5. [Building and Booting Linux v6.18.x on Mackerel-30](docs/building-linux-6-for-mackerel-30.md)
+5. [Building and Booting Linux on Mackerel](docs/building-linux-6-for-mackerel-30.md)
 
 ## Hardware
-
-Each of the following systems represents a chapter in the project. In total, four SBCs will be designed and built. Note: each chapter includes the hardware peripherals of the previous one. Only new requirements are listed for each board.
 
 ### Mackerel-08
 
 Status: Complete
 
-- 68008 CPU (52-pin PLCC variant)
+- MC68008 CPU (52-pin PLCC variant)
 - 512 KB of Flash ROM, 3.5MB SRAM
-- Dual serial ports, bit-banged SPI interface
-- uClinux 4.4
+- Two serial ports
+- SD card support (bitbang SPI)
+- Linux 7.1.x NOMMU
 
 ![Mackerel-08 SBC v1](media/images/mackerel-08-v1.1_cropped.jpg)
 
 Based on the original prototype hardware, this SBC combines the 52-pin PLCC MC68008, a 512KB Flash ROM, up to 3.5MB of SRAM, and a XR68C681 DUART on a single PCB. The DUART exposes two serial ports and three bit-banged SPI headers. One of these headers is currently used with an SD card breakout board to provide bulk storage.
 
 Three 22V10 PLDs are used for address decoding, interrupt mapping, and DTACK generation. An expansion header breaks out address, data, and control lines to allow additional peripherals to be connected directly to the processor bus.
-
-Although the 68008 is only rated to 8/10 MHz, the CPU runs reliably overclocked to 16 MHz.
 
 The address space is mapped as follows:
 
@@ -48,10 +45,12 @@ Mackerel-08 uses a 74HC595 shift register to create a BOOT signal for the first 
 
 Status: Complete
 
-- 68000 or 68010 CPU
-- Up to 16 MB of 30-pin DRAM
+- MC68000 or MC68010 CPU
+- 1 MB of ROM, 1 MB of SRAM
+- Up to 16 MB of 30-pin DRAM (15 usable)
+- Two serial ports
 - IDE interface
-- uClinux 4.4
+- Linux 7.1.x NOMMU
 
 ![Mackerel-10 v1](media/images/mackerel-10-v1.2.jpg)
 
@@ -65,46 +64,42 @@ The memory map looks like this:
 
 ### Mackerel-30
 
-Status: In Development
+Status: Prototype
 
-- 68030 CPU at 24 MHz
+- MC68030 CPU at 20 MHz
+- MC68882 FPU
+- 512 KB ROM, 512 KB SRAM
 - 128 MB of 72-pin DRAM
-- Ethernet interface (via SPI)
-- Floating point hardware
-- Linux kernel v6.x with MMU support
+- Two serial ports
+- IDE interface
+- Ethernet over SPI
+- Linux 7.1.x
 
 ![Mackerel-30 v0.1](media/images/mackerel-30-v0.1-assembled.jpg)
 
 Mackerel-30 is based on the 68030 CPU. It includes the DUART and IDE interface from Mackerel-10 and upgrades the DRAM controller to use a 72-pin SIMM. It also includes a MC68882 FPU.
 
 ### Mackerel-40
-Status: Planning
+Status: Design
 
-- 68040 CPU at 33 MHz
-- 256 MB of 72-pin DRAM
-- VGA display
-- Linux v6.x + X server GUI
+- 68040 CPU at 33 MHz (internal MMU and FPU)
+- 2 MB of ROM, 2 MB SRAM
+- 2x72 pin SIMMs (up to 256 MB of DRAM)
+- Dedicated I/O controller (SPI, I2C, GPIO)
+- DUART and IDE from earlier boards
 
 ## Software
 
 ### Bootloader and Bare-metal Programs
 Every version of Mackerel runs a small bootloader program installed on the Flash ROM. This provides a simple set of debugging tools (peek, poke, memtest, etc.) as well as two methods for loading external code.
 
-The bootloader can read program data coming in over the serial port (`load` command) or it can load a Linux image from disk with the `boot` command. The `boot` command uses the same FAT16 driver on every board — it reads `IMAGE.BIN` from the SD card on Mackerel-08 (over bitbang SPI) and from the IDE/CF drive on Mackerel-10 and Mackerel-30. Either way, the program code gets loaded into RAM and then the bootloader jumps to that address to start the execution. The load address is 0x400 on Mackerel-08 and Mackerel-10, and 0x1000 on Mackerel-30.
+The bootloader supports the YMODEM protocol for loading programs and data into RAM (see the `ymodem` command), using `lrzsz-sb` on the PC for example. Other terminal programs like TeraTerm should also work.
 
-### uClinux
+The `boot` command is used to load the Linux kernel from disk (SD or IDE). It expects a `IMAGE.BIN` file on the first FAT16 partition of the drive. See the `prepare_disk.sh` script in the [mackerel-linux repository](https://github.com/crmaykish/mackerel-linux).
 
-Mackerel-08 and Mackerel-10 can run [uClinux](https://github.com/crmaykish/mackerel-uclinux-20160919). This version dates from 2016 and runs Linux kernel version 4.4. The binary Linux image can be loaded from a bitbang SD card on Mackerel-08 and from an IDE drive on Mackerel-10.
+### Linux on Mackerel
 
-In both versions, the Linux system is fairly minimal. There is an interactive bash-style shell, and a few basic programs. Mackerel-10 has an IDE driver and support for ext2 filesystems.
-
-### Linux on Mackerel-30
-
-Mackerel-30 has a modern kernel port (v6.18.x) with drivers for serial, IDE, and SPI ethernet. Userspace is based on busybox. Kernel source and build scripts are can be found in the dedicated [Mackerel Linux Repo](https://github.com/crmaykish/mackerel-linux).
+All three hardware variants support the latest mainline kernel (v7.1.x). Mackerel-08 and Mackerel-10 run with the NOMMU support and are more limited in their capabilities. Mackerel-30 supports the MMU and the external FPU in Linux and functions more like a traditional headless Linux install. Userspace is made up of busybox (init and shell) with driver support for the DUART, IDE storage, and networking over SPI.
 
 ### Compilers and Tools
-The bootloader and other bare-metal programs can be built with a custom m68k cross-compiler. See [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for instructions on building one with crosstools-ng.
-
-I've been using this [toolchain from Sourceforce](https://sourceforge.net/projects/uclinux/files/Tools/m68k-uclinux-20160822/m68k-uclinux-tools-20160822.tar.bz2/download) to build uClinux. I have run this toolchain on modern Arch Linux and Debian 12 machines without issues.
-
-My serial transfer tool is [here](https://github.com/crmaykish/ctt). This is used in combination with the bootloader to transfer data (usually program code) into RAM.
+There are three different toolchains for Mackerel. The baremetal toolchain builds the bootloader and other low level programs in this repo. There are also two variants of the Linux toolchain - one for Mackerel-30 with MMU support and the other for NOMMU/ucLinux on Mackerel-08/10. See [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for instructions on building them all with crosstools-ng.
