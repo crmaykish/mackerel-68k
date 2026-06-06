@@ -6,6 +6,6 @@ CT_TARGET_VENDOR="mackerel"
 CT_KERNEL_LINUX=y
 CT_LINUX_SRC_DEVEL=y
 CT_LINUX_DEVEL_URL="https://github.com/crmaykish/mackerel-linux.git"
-CT_LINUX_DEVEL_BRANCH="mackerel-30"
+CT_LINUX_DEVEL_BRANCH="mackerel"
 CT_LIBC_MUSL=y
 CT_GETTEXT_NEEDED=y
