@@ -133,12 +133,24 @@ assign CS_ROM0_n = ~(~AS_n && ~LDS_n && ROM_EN);
 assign CS_ROM1_n = ~(~AS_n && ~UDS_n && ROM_EN);
 
 // SRAM enabled at 0xE00000 - 0xF00000 (1 MB)
-wire RAM_EN = BOOT && IACK_n && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000;
-assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
-assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 
-// DRAM at 0x000000 - 0xE00000 (14 MB)
-assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < 24'hE00000);
+// Comment out one of these blocks to enable/disable SRAM.
+// The memory space will be replaced by DRAM when the SRAM is disabled.
+// Make sure the bootloader matches the setup here
+
+// SRAM Enabled
+// localparam DRAM_TOP = 24'hE00000;
+// wire RAM_EN = BOOT && IACK_n && ADDR_FULL >= 24'hE00000 && ADDR_FULL < 24'hF00000;
+// assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
+// assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
+
+// SRAM Disabled
+localparam DRAM_TOP = 24'hF00000;
+assign CS_SRAM0_n = 1'b1;
+assign CS_SRAM1_n = 1'b1;
+
+// DRAM at 0x000000 - 0xE00000 or 0xF00000 (14/15 MB)
+assign CS_DRAM_n = ~(BOOT && IACK_n && ADDR_FULL < DRAM_TOP);
 
 // DUART at 0xFF8000
 assign CS_DUART_n = ~(BOOT && IACK_n && ~LDS_n && ADDR_FULL >= 24'hFF8000 && ADDR_FULL < 24'hFFC000);
