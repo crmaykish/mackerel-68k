@@ -10,6 +10,24 @@ Mackerel code and the Linux image are compiled with custom toolchains built usin
 
 The uClinux toolchain targets processors without an MMU. It uses uClibc-ng with NOMMU mode and produces bFLT binaries via elf2flt.
 
+## Download prebuilt toolchains (recommended)
+
+If you don't want to build the toolchains yourself, prebuilt `tar.xz` archives (GCC 16.1.0, x86-64 Linux host) are attached to the [`toolchains-2026-06-06` release](https://github.com/crmaykish/mackerel-68k/releases/tag/toolchains-2026-06-06). Extract them to `~/x-tools`:
+
+```
+mkdir -p ~/x-tools
+sha256sum -c SHA256SUMS    # verify the downloads
+tar -C ~/x-tools -xf m68k-mackerel-elf-gcc16.1.0-x86_64-linux.tar.xz
+tar -C ~/x-tools -xf m68k-mackerel-linux-musl-gcc16.1.0-x86_64-linux.tar.xz
+tar -C ~/x-tools -xf m68k-mackerel-uclinux-uclibc-gcc16.1.0-x86_64-linux.tar.xz
+
+# add the one(s) you need to PATH, e.g.:
+export PATH="$PATH:$HOME/x-tools/m68k-mackerel-elf/bin"
+m68k-mackerel-elf-gcc --version
+```
+
+To build them from source instead, follow the rest of this document.
+
 ---
 
 1. Run one of the `tools/install_reqs_` scripts based on your Linux distribution.
