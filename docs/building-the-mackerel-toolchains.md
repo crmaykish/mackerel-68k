@@ -52,18 +52,18 @@ ct-ng build
 
 ### uClinux (uClibc-ng) toolchain
 
-**Build from the full saved `.config`, NOT from a defconfig.** Running
-`ct-ng defconfig` (or `oldconfig`) re-defaults `CT_ARCH_USE_MMU=y`, which silently
-builds a Linux/MMU toolchain (`m68k-mackerel-linux-uclibc`, ELF) instead of the
-uClinux/NOMMU one we need (FLAT). So we copy a known-good full `.config` into place
-and call `ct-ng build` directly. This toolchain also needs the uClibc-ng config and
-the local patch tree.
+**This toolchain must be built from the full saved `.config`. There is no
+uClinux defconfig, and `ct-ng defconfig`/`oldconfig` does NOT work for it.**
+Regenerating the config re-defaults `CT_ARCH_USE_MMU=y`, which silently builds a
+Linux/MMU toolchain (`m68k-mackerel-linux-uclibc`, ELF) instead of the
+uClinux/NOMMU one we need (FLAT). So we copy the known-good full `.config` into
+place and call `ct-ng build` directly. This toolchain also needs the uClibc-ng 
+config and the local patch tree.
 
 The repo ships:
-- `tools/mackerel_crosstools_uclinux.config` — the full crosstool-ng `.config` (MMU off, FLAT, `-msep-data`, local patches enabled)
+- `tools/mackerel_crosstools_uclinux.config` - the full crosstool-ng `.config` (MMU off, FLAT, `-msep-data`, local patches enabled). This is the build input; copy it to `.config`.
 - `tools/mackerel_uclinux_uclibc.config` — the uClibc-ng configuration
 - `tools/patches/` — local patches (`gcc/`, `uClibc-ng/`) applied during the build
-- `tools/mackerel_crosstools_uclinux_defconfig` — a readable summary of the key non-default settings; reference only, **not** a build input
 
 ```
 cd <some_empty_workspace_directory>
@@ -74,9 +74,10 @@ export PATH=$PATH:/home/$(whoami)/crosstools/bin
 # Copy the full .config (note: NOT a defconfig)
 cp <path_to_this_repo>/tools/mackerel_crosstools_uclinux.config .config
 
-# The .config references ${CT_TOP_DIR}/uclibc.config and ${CT_TOP_DIR}/patches,
-# so the uClibc-ng config must be named exactly "uclibc.config" here, and the
-# patches tree must sit next to it.
+# The .config references ${CT_TOP_DIR}/uclibc.config and ${CT_TOP_DIR}/patches
+# (paths are kept relative so the build tree is portable/shareable), so the
+# uClibc-ng config must be named exactly "uclibc.config" in this directory, and
+# the patches tree must sit next to it.
 cp <path_to_this_repo>/tools/mackerel_uclinux_uclibc.config uclibc.config
 cp -r <path_to_this_repo>/tools/patches .
 

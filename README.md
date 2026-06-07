@@ -2,9 +2,25 @@
 
 [![Discord](https://img.shields.io/discord/1507804606133043320?logo=discord)](https://discord.gg/DtvXxYCt2Q)
 
-Mackerel 68k is a series of single-board computers based on the Motorola 68000. The goal of this project is to build a computer with each of the major processors in the family, from the 68008 through the 68040. Each iteration will add additional hardware peripherals, but the main software goal is to run Linux on every board.
+Mackerel 68k is a family of homebrew single-board computers built around the Motorola 68000 line of processors plus a from-scratch effort to run **mainline Linux** on each one.
 
-See the [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer) for more pictures, build logs, etc.
+The project works its way up the 68k family one chip at a time, from the 68008 to the 68040. Each new board adds capability: more memory, faster CPUs, an FPU, an MMU, and richer peripherals. But the throughline is software - every Mackerel runs the **latest mainline Linux kernel**, from a tiny NOMMU uClinux shell on the 68008 up to a full MMU + hardware-FPU install on the 68030.
+
+What's in the box, top to bottom:
+
+- **Bespoke hardware** - custom PCBs with programmable logic chips (22V10 GALs on the 68008, Altera CPLDs on the later boards) handling address decoding, DRAM control, and interrupts.
+- **A homegrown bootloader** - a small ROM monitor on every board with debug tools (peek, poke, memtest), YMODEM file transfer, and the ability to boot Linux from IDE or SD.
+- **Custom toolchains** - bare-metal and Linux (MMU + NOMMU) GCC cross-compilers built with crosstool-ng.
+- **Mainline Linux** - kernel port with drivers for the DUART, IDE storage, and Ethernet-over-SPI, booting to a BusyBox userspace.
+- **Fully open source** - every schematic, PCB layout, logic file, and line of code is open, and hobbyists around the world have built their own Mackerel boards.
+
+Three boards are running today (68008, 68010, and 68030), with a 68040 system in the works.
+
+## Links
+
+1. [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer)
+2. [Mackerel Linux v7.1.x](https://github.com/crmaykish/mackerel-linux/tree/mackerel)
+3. [Mackerel uClinux (deprecated)](https://github.com/crmaykish/mackerel-uclinux-20160919)
 
 ## Docs
 
