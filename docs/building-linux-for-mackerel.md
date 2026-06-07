@@ -38,7 +38,7 @@ In every command below, swap the board argument (`30`, `10`, or `08`) to target 
    git checkout mackerel
    ```
 
-3. **Host tools.** `parted` + `mkfs.fat`/`mkfs.ext4` for preparing the storage media. `lrzsz` (the `lrzsz-sb` sender) is only needed for the YMODEM fallback described at the end.
+3. **Host tools.** `parted` + `mkfs.fat`/`mkfs.ext4` for preparing the storage media. Building the Mackerel-08 root filesystem also needs `genromfs` (on Arch it is in the AUR). `lrzsz` (the `lrzsz-sb` sender) is only needed for the YMODEM fallback described at the end. The `tools/install_reqs_*` scripts in the main repo install these.
 
 ## Building
 
