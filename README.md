@@ -26,9 +26,8 @@ Three boards are running today (68008, 68010, and 68030), with a 68040 system in
 
 1. [Mackerel-08 Assembly](docs/mackerel-08-board-assembly.md)
 2. [How to Compile Code and Programmable Logic](docs/how-to-compile-everything.md)
-3. [Building and Running uClinux (Mackerel-08 and Mackerel-10)](docs/building-and-running-uclinux.md)
-4. [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md)
-5. [Building and Booting Linux on Mackerel](docs/building-linux-6-for-mackerel-30.md)
+3. [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md)
+4. [Building and Booting Linux on Mackerel](docs/building-linux-for-mackerel.md)
 
 ## Hardware
 
