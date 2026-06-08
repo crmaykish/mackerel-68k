@@ -10,6 +10,7 @@ bash build_rootfs.sh 30
 bash build_kernel.sh 30
 sudo bash prepare_disk.sh /dev/sdX # First time only
 sudo bash install_disk.sh /dev/sdX 30
+minipro -p SST39SF040 -s -w rom08.bin # Mackerel-08 only
 # Insert card, power on, run `boot` from the bootloader
 ```
 ---
