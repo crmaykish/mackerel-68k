@@ -20,7 +20,7 @@ All three Mackerel boards run the **same mainline Linux kernel** (currently 7.1)
 |-------|----------|-----|-----|-----------------|---------|
 | Mackerel-30 | `30` (default) | 68030 | yes | ext4 on disk (`/dev/sda2`) | IDE / CompactFlash |
 | Mackerel-10 | `10` | 68000/68010 | no (NOMMU) | embedded initramfs, optional ext root on `/dev/sda2` | IDE / CompactFlash |
-| Mackerel-08 | `08` | 68008 | no (NOMMU) | in-kernel ROMfs | SD card |
+| Mackerel-08 | `08` | 68008 | no (NOMMU) | ROMfs flashed to the ROM chip |
 
 Every board boots the same way: the bootloader's `boot` command reads `IMAGE.BIN` from the boot partition of the storage device into RAM and jumps to it.
 
@@ -56,7 +56,7 @@ What each board's scripts produce:
 
 - **Mackerel-30** - BusyBox `busybox` (dynamic musl), a full root tree in `rootfs_mackerel30/` (written to disk separately), and a ~5 MB `image.bin` that loads and runs at `0x1000`.
 - **Mackerel-10** - BusyBox `busybox_nommu` (bFLT), an `initramfs.list` that the kernel turns into an *embedded* initramfs, and an `image.bin` (flat binary) that loads and runs at `0x400`.
-- **Mackerel-08** - BusyBox `busybox_mackerel08` (bFLT), a `romfs.img` that is **appended to the kernel image**, and an `image.bin` that loads and runs at `0x400`.
+- **Mackerel-08** - BusyBox `busybox_mackerel08` (bFLT), also assembles `rom08.bin`.
 
 To start completely fresh, `bash clean_all.sh` removes all build products and intermediate trees.
 
@@ -74,6 +74,8 @@ sudo bash install_disk.sh /dev/sdX 30     # IMAGE.BIN -> boot partition, rootfs 
 - **Mackerel-30** - `IMAGE.BIN` to the FAT16 boot partition and the full ext4 root tree to `sda2`. `boot` reads the image into RAM, writes the Linux bootinfo records after it, and jumps to the kernel, which mounts `sda2` as root.
 - **Mackerel-10** - `IMAGE.BIN` to the boot partition and the ext root to `sda2`. The image carries a self-contained initramfs, so it boots without a root on `sda2`; if one is present, `/init` `switch_root`s into it (falling back to the RAM initramfs if the disk is absent).
 - **Mackerel-08** - just `IMAGE.BIN` to the SD card's FAT partition; the root filesystem is a ROMfs baked into the image, so there is nothing to write to a separate partition.
+
+> **NOTE:** Mackerel-08 expects its root filesystem to be in the 512KB ROM alongside the bootloader. The `rom08.bin` file can be flashed with minipro any time after running the `build_rootfs.sh` script. This is required to boot Linux.
 
 In all three cases the board reads the image off its storage device and starts Linux with the `boot` command - no host connection required beyond the serial console.
 
