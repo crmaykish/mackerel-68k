@@ -73,7 +73,7 @@ sudo bash install_disk.sh /dev/sdX 30     # IMAGE.BIN -> boot partition, rootfs 
 
 - **Mackerel-30** - `IMAGE.BIN` to the FAT16 boot partition and the full ext4 root tree to `sda2`. `boot` reads the image into RAM, writes the Linux bootinfo records after it, and jumps to the kernel, which mounts `sda2` as root.
 - **Mackerel-10** - `IMAGE.BIN` to the boot partition and the ext root to `sda2`. The image carries a self-contained initramfs, so it boots without a root on `sda2`; if one is present, `/init` `switch_root`s into it (falling back to the RAM initramfs if the disk is absent).
-- **Mackerel-08** - just `IMAGE.BIN` to the SD card's FAT partition; the root filesystem is a ROMfs baked into the image, so there is nothing to write to a separate partition.
+- **Mackerel-08** - just `IMAGE.BIN` to the SD card's FAT partition; the root filesystem is a ROMfs file into the image that gets flashed to the actual ROM chip.
 
 > **NOTE:** Mackerel-08 expects its root filesystem to be in the 512KB ROM alongside the bootloader. The `rom08.bin` file can be flashed with minipro any time after running the `build_rootfs.sh` script. This is required to boot Linux.
 
