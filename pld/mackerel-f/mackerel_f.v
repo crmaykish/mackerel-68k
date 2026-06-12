@@ -113,12 +113,7 @@ module mackerel_f (
         else DATA_BUS_IN = 16'h0000;
     end
 
-    // Debug LEDs
-    assign led[0] = ~rst_cpu;
-
-    assign led[2] = ~gpio[0];
-    assign led[3] = ~gpio[1];
-    assign led[4] = ~gpio[2];
-    assign led[5] = ~gpio[3];
+    // Debug LEDs (active low)
+    assign led = ~gpio[5:0];
 
 endmodule
