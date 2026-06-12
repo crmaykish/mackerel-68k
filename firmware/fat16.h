@@ -54,6 +54,9 @@ typedef struct __attribute__((packed))
 
 int fat16_init(fat16_read_sector_f read_sector);
 
+int fat16_find_partition(void);
+uint32_t fat16_part_start(void);
+
 void fat16_read_boot_sector(uint32_t starting_sector, fat16_boot_sector_t *buffer);
 
 void fat16_print_boot_sector_info(fat16_boot_sector_t *buffer);

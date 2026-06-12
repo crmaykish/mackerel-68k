@@ -5,6 +5,38 @@
 
 fat16_read_sector_f read_sector = NULL;
 
+// Start LBA of the FAT16 partition. Defaults to 2048 (the conventional 1 MB offset)
+static uint32_t fat16_part_lba = 2048;
+
+uint32_t fat16_part_start(void) { return fat16_part_lba; }
+
+// Read the MBR (LBA 0) and locate the first FAT16 partition, setting the start
+// LBA used by the rest of the library. Returns 0 if one was found, -1 otherwise
+int fat16_find_partition(void)
+{
+    if (read_sector == NULL)
+        return -1;
+
+    uint8_t mbr[512];
+    if (read_sector(0, mbr, 1) != 0)
+        return -1;
+    if (mbr[510] != 0x55 || mbr[511] != 0xAA)   // boot signature
+        return -1;
+
+    for (int i = 0; i < 4; i++)
+    {
+        const uint8_t *e = mbr + 0x1BE + i * 16;
+        uint8_t type = e[4];
+        // FAT16: 0x04 (<32MB), 0x06 (FAT16B), 0x0E (FAT16 LBA)
+        if (type == 0x04 || type == 0x06 || type == 0x0E)
+        {
+            fat16_part_lba = (uint32_t)e[8] | ((uint32_t)e[9] << 8) | ((uint32_t)e[10] << 16) | ((uint32_t)e[11] << 24);
+            return 0;
+        }
+    }
+    return -1;
+}
+
 void bswap_boot_sector(fat16_boot_sector_t *b)
 {
     if (b == NULL)
@@ -87,7 +119,7 @@ int fat16_list_files(fat16_boot_sector_t *boot_sector, fat16_dir_entry_t files_l
 
     int valid_files = 0;
 
-    uint32_t root_dir_sector = 2048 + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
+    uint32_t root_dir_sector = fat16_part_lba + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
     uint8_t buffer[512];
 
     read_sector(root_dir_sector, buffer, 1);
@@ -184,12 +216,13 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     // flickering across the bar. Re-enabled on every exit path below.
     term_cursor_set_vis(false);
 
+    uint32_t root_dir_sectors = (boot_sector->root_entries * 32 + sector_size - 1) / sector_size;
+
     while (current_cluster != 0xFFFF && buffer_index < buffer_size)
     {
         // printf("current cluster: %u\r\n", current_cluster);
 
-        // TODO: where is this magic 32 coming from?
-        uint32_t first_sector_of_cluster = 32 + 2048 + (current_cluster - 2) * sectors_per_cluster + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
+        uint32_t first_sector_of_cluster = root_dir_sectors + fat16_part_lba + (current_cluster - 2) * sectors_per_cluster + boot_sector->reserved_sectors + (boot_sector->num_fats * boot_sector->fat_size_16);
 
         // Read the sectors of the current cluster into the buffer
         uint32_t remaining = buffer_size - buffer_index;
