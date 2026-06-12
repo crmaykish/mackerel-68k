@@ -73,17 +73,27 @@ module mackerel_f (
     // Memory Map
     wire [23:0] address = {ADDR_BUS, 1'b0};    // ADDR_BUS does not have a 0th bit, add it in for convenient math
     wire cs_rom_n = ~(~ASn && (~BOOT || (address >= 24'hF00000)));
-    wire cs_sram_n = 1'b1;
+    wire cs_sram_n = ~(~ASn && BOOT && address < 24'h2000);
     wire cs_gpio_n = ~(~ASn && BOOT && address >= 24'hE00000 && address < 24'hF00000);
     wire cs_uart_n = 1'b1;
 
     // ROM: 1K x 16 = 2KB
-    reg [15:0] rom [0:1024];
+    reg [15:0] rom [0:1023];
     reg [15:0] rom_out;
     // Preload the ROM with a hex file
     initial $readmemh("rom.hex", rom);
-    // Connect the address bus between the CPU and ROM
     always @(posedge sys_clk) rom_out <= rom[ADDR_BUS[10:1]];
+
+    // RAM: 4K x 16 = 8KB
+    reg [15:0] sram [0:4095];
+    reg [15:0] sram_out;
+    always @(posedge sys_clk) begin
+        if (~cs_sram_n) begin
+            if (~RWn && ~UDSn) sram[ADDR_BUS[12:1]][15:8] <= DATA_BUS_OUT[15:8];
+            if (~RWn && ~LDSn) sram[ADDR_BUS[12:1]][7:0] <= DATA_BUS_OUT[7:0];
+            sram_out <= sram[ADDR_BUS[12:1]];
+        end
+    end
 
     // GPIO
     reg [7:0] gpio = 8'b0;
@@ -95,13 +105,11 @@ module mackerel_f (
     // DTACK Generation
     assign DTACKn = 1'b0;
 
-    // Data Mux - map the correct memory/peripheral data bus to the CPU on read cycles
+    // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
     always @(*) begin
-        // When ROM is selected: ROM databus OUT -> CPU databus IN
-        if  (~cs_rom_n) DATA_BUS_IN = rom_out;
-        // GPIO read cycle
+        if (~cs_rom_n) DATA_BUS_IN = rom_out;
+        else if (~cs_sram_n) DATA_BUS_IN = sram_out;
         else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};
-        // Nothing selected - hold CPU data bus LOW
         else DATA_BUS_IN = 16'h0000;
     end
 
