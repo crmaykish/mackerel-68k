@@ -7,7 +7,7 @@ module mackerel_f (
     output [5:0] led       // 6 onboard LEDs
 );
 
-    // reset
+    // Reset
     reg [23:0] rst = 24'd0;
     wire rst_cpu = ~rst[23];
 
@@ -22,11 +22,16 @@ module mackerel_f (
     wire enPhi1 = (phase == 2'b11);
     wire enPhi2 = (phase == 2'b01);
 
-    // Main 68000 CPU Core
+    // System Buses
     wire [23:1] ADDR_BUS;
-    wire [15:0] DATA_BUS_IN;
     wire [15:0] DATA_BUS_OUT;
+    reg [15:0] DATA_BUS_IN = 16'h0;
 
+    // Control Lines
+    wire RWn, ASn, LDSn, UDSn, FC0, FC1, FC2;
+    wire DTACKn;
+
+    // CPU Core
     fx68k cpu(
         .extReset(rst_cpu),
         .pwrUp(rst_cpu),
@@ -37,10 +42,19 @@ module mackerel_f (
         .enPhi2(enPhi2),
 
         .eab(ADDR_BUS),
-        .iEdb(16'b0),
+        .iEdb(DATA_BUS_IN),
         .oEdb(DATA_BUS_OUT),
 
-        .DTACKn(1'b0),
+        .eRWn(RWn),
+        .ASn(ASn),
+        .LDSn(LDSn),
+        .UDSn(UDSn),
+
+        .DTACKn(DTACKn),
+
+        .FC0(FC0),
+        .FC1(FC1),
+        .FC2(FC2),
 
         .IPL0n(1'b1),
         .IPL1n(1'b1),
@@ -51,6 +65,36 @@ module mackerel_f (
         .BRn(1'b1),
         .BGACKn(1'b1)
     );
+
+    // BOOT Signal (Map ROM to 0x0000 temporarily on reset)
+    wire BOOT;
+    boot_signal bs1(~rst_cpu, ASn, BOOT);
+
+    // ROM: 1K x 16 = 2KB
+    reg [15:0] rom [0:1024];
+    reg [15:0] rom_out;
+    // Preload the ROM with a hex file
+    initial $readmemh("rom.hex", rom);
+    // Connect the address bus between the CPU and ROM
+    always @(posedge sys_clk) rom_out <= rom[ADDR_BUS[10:1]];
+
+    // Memory Map
+    wire [23:0] address = {ADDR_BUS, 1'b0};    // ADDR_BUS does not have a 0th bit, add it in for convenient math
+    wire cs_rom_n = ~(~ASn && (~BOOT || (address >= 24'hF00000)));
+    wire cs_sram_n = 1'b1;
+    wire cs_gpio_n = 1'b1;
+    wire cs_uart_n = 1'b1;
+
+    // DTACK Generation
+    assign DTACKn = 1'b0;
+
+    // Data Mux - map the correct memory/peripheral data bus to the CPU on read cycles
+    always @(*) begin
+        // When ROM is selected: ROM databus OUT -> CPU databus IN
+        if (~cs_rom_n) DATA_BUS_IN = rom_out;
+        // Nothing selected - hold CPU data bus LOW
+        else DATA_BUS_IN = 16'h0000;
+    end
 
     // Debug LEDs
     assign led[0] = ~rst_cpu;
