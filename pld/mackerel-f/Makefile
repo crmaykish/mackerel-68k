@@ -1,10 +1,15 @@
 CORE   = cores/fx68k
+UART   = cores/uart16550/rtl/verilog
 TOP    = mackerel_f
 GW     = LD_LIBRARY_PATH=$(HOME)/Gowin_EDA/IDE/lib $(HOME)/Gowin_EDA/IDE/bin/gw_sh
 LOADER = $(HOME)/oss-cad-suite/bin/openFPGALoader
 BIT    = impl/pnr/$(TOP).fs
 
-$(BIT): $(CORE)/fx68k.v mackerel_f.v $(TOP).cst microrom.mem nanorom.mem build.tcl
+# Everything build.tcl feeds to Gowin -> editing any of it forces a re-synth
+SRCS   = mackerel_f.v pll.v uart.v boot_signal.v $(CORE)/fx68k.v $(wildcard $(UART)/*.v)
+INPUTS = $(SRCS) $(TOP).cst $(TOP).sdc build.tcl microrom.mem nanorom.mem rom.hex
+
+$(BIT): $(INPUTS)
 	$(GW) build.tcl
 
 flash: $(BIT)

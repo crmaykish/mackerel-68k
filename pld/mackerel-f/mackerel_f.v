@@ -2,7 +2,11 @@
 module mackerel_f (
     input clk_27, // 27 MHz oscillator, pin 52
     input btn_rst_n, // Physical reset button pin 4
-    output [5:0] led // 6 onboard LEDs
+    
+    output [5:0] led, // 6 onboard LEDs
+
+    input uart_rx,
+    output uart_tx
 );
 
     // PLL: 27 MHz oscillator -> 48 MHz SoC clock
@@ -94,8 +98,9 @@ module mackerel_f (
     wire cs_periph_n = ~(~ASn &&  BOOT && in_periph);
 
     // TODO: Decode FC lines to avoid conflicting with IACK
+
     wire cs_gpio_n = ~(~cs_periph_n && periph_sel == 3'd0);
-    wire cs_uart_n = 1'b1;
+    wire cs_uart_n = ~(~cs_periph_n && periph_sel == 3'd1);
 
     // ROM: 1K x 16 = 2 KB physical, mirrored across the 30 KB ROM region
     reg [15:0] rom [0:1023];
@@ -122,14 +127,37 @@ module mackerel_f (
         if (~cs_gpio_n && ~RWn && ~UDSn) gpio <= DATA_BUS_OUT[15:8];
     end
 
+    // UART
+    wire irq_uart;
+    wire dtack_uart;
+    wire [7:0] uart_dout;
+
+    uart u1(
+        .clk(clk_soc),
+        .rst_n(~rst_cpu),
+
+        .cs_n(cs_uart_n),
+        .reg_addr(ADDR_BUS[3:1]),
+        .rwn(RWn),
+        .ds_n(UDSn),
+        .data_in(DATA_BUS_OUT[15:8]),
+        .data_out(uart_dout),
+        .dtack_n(dtack_uart),
+        .irq(irq_uart),
+
+        .rx(uart_rx),
+        .tx(uart_tx)
+    );
+
     // DTACK Generation
-    assign DTACKn = 1'b0;
+    assign DTACKn = cs_uart_n ? 1'b0 : dtack_uart;  // DTACK grounded unless UART is selected
 
     // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
     always @(*) begin
         if (~cs_rom_n) DATA_BUS_IN = rom_out;
         else if (~cs_ram_n) DATA_BUS_IN = sram_out;
-        else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};
+        else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};       // Pad 8-bit peripherals with LDS of 0
+        else if (~cs_uart_n) DATA_BUS_IN = {uart_dout, 8'h00};  // "
         else DATA_BUS_IN = 16'h0000;
     end
 

@@ -4,7 +4,7 @@
 
 module pll (
     input  clk_in,     // 27 MHz oscillator
-    output clk_out,    // 48 MHz SoC clock
+    output clk_out,    // 24 MHz SoC clock
     output locked      // high once the PLL has locked
 );
 
@@ -32,8 +32,8 @@ module pll (
     // The five that matter
     defparam rpll.FCLKIN = "27";
     defparam rpll.IDIV_SEL = 8;           // input  / 9
-    defparam rpll.FBDIV_SEL = 15;         // feedback * 16  -> 48 MHz
-    defparam rpll.ODIV_SEL = 16;          // VCO = 768 MHz
+    defparam rpll.FBDIV_SEL = 7;          // feedback * 8   -> 24 MHz
+    defparam rpll.ODIV_SEL = 32;          // VCO = 768 MHz
     defparam rpll.DEVICE = "GW1NR-9C";
 
     // Tie-offs: static config, single output, internal feedback, no dyn reconfig
