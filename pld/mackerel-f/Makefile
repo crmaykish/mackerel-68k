@@ -1,6 +1,6 @@
 CORE   = cores/fx68k
 TOP    = mackerel_f
-GW     = LD_LIBRARY_PATH=$(HOME)/Downloads/Gowin_EDA/IDE/lib $(HOME)/Downloads/Gowin_EDA/IDE/bin/gw_sh
+GW     = LD_LIBRARY_PATH=$(HOME)/Gowin_EDA/IDE/lib $(HOME)/Gowin_EDA/IDE/bin/gw_sh
 LOADER = $(HOME)/oss-cad-suite/bin/openFPGALoader
 BIT    = impl/pnr/$(TOP).fs
 

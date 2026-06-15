@@ -35,6 +35,15 @@ VECTORS = vectors_10.s
 CFLAGS = -m68010
 AFLAGS = -m68010
 
+else ifeq ($(BOARD),mackf)
+# Mackerel-F
+CPPFLAGS = -DMACKEREL_F
+MEMORY_MAP_ROM = linker_rom_f.scr
+MEMORY_MAP_RAM = linker_ram_f.scr
+VECTORS = vectors_f.s
+CFLAGS = -m68000
+AFLAGS = -m68000
+
 else
 # Mackerel-08
 CPPFLAGS = -DMACKEREL_08
@@ -71,6 +80,10 @@ all: $(BINS)
 %.bin: %.elf
 	$(OBJCOPY) $< -O binary $@
 
+# Convert a raw .bin to Verilog readmemh format
+%.hex: %.bin
+	hexdump -v -e '2/1 "%02x" "\n"' $< > $@
+
 bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o ymodem.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lc -lgcc
 
@@ -83,6 +96,9 @@ kernel.elf: $(COMMON_OBJS_RAM) kernel.o
 libctest.elf: $(COMMON_OBJS_RAM) libctest.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 	
+leds.elf: vectors_f.s leds.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lgcc
+
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@
 
@@ -103,4 +119,4 @@ flash: bootloader.bin
 endif
 
 clean:
-	rm -f *.o *.elf *.bin
+	rm -f *.o *.elf *.bin *.hex
