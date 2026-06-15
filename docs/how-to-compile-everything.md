@@ -6,7 +6,7 @@ NOTE: Make sure you have the [toolchain](building-the-mackerel-toolchains.md) se
 
 ## Build the Bootloader
 
-Once you have the cross-compiler built and installed, the bootloader and other programs can be compiled by running `make` from the [firmware](../firmware/) folder. By default, this is will create programs for Mackerel-08. To build for other boards, use the `BOARD` flag with `mack10` or `mack30`, e.g. `make BOARD=mack10`.
+Once you have the cross-compiler built and installed, the bootloader and other programs can be compiled by running `make` from the [firmware](../firmware/) folder. By default, this will create programs for Mackerel-30. To build for other boards, use the `BOARD` flag with `mack08`, `mack10`, or `mackf` (the Tang Nano FPGA), e.g. `make BOARD=mack08`. Note: object files don't encode the board, so run `make clean` when switching boards.
 
 ## Running From ROM vs. RAM
 
