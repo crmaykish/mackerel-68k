@@ -1,8 +1,7 @@
 // Mackerel-F Top Level SoC Module
 module mackerel_f (
-    input clk_27, // 27 MHz oscillator, pin 52
-    input btn_rst_n, // Physical reset button pin 4
-    
+    input clk_27, // 27 MHz oscillator, pin 4
+
     output [5:0] led, // 6 onboard LEDs
 
     input uart_rx,
@@ -19,7 +18,7 @@ module mackerel_f (
     wire rst_cpu = ~rst[23];
 
     always @(posedge clk_soc) begin
-        if (!btn_rst_n || !pll_lock) rst <= 24'd0;
+        if (!pll_lock) rst <= 24'd0;   // power-on reset, held until the PLL locks
         else if (rst_cpu) rst <= rst + 1'b1;
     end
 

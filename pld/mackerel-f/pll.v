@@ -22,7 +22,7 @@ module pll (
         .ODSEL(6'b0),
         .PSDA(4'b0),         // dynamic phase / duty / fine-delay, unused
         .DUTYDA(4'b0),
-        .FDLY(4'b0),
+        .FDLY(4'b1111),
 
         .CLKOUTP(),          // phase-shifted output, unused
         .CLKOUTD(),          // divided output, unused
@@ -34,7 +34,7 @@ module pll (
     defparam rpll.IDIV_SEL = 8;           // input  / 9
     defparam rpll.FBDIV_SEL = 7;          // feedback * 8   -> 24 MHz
     defparam rpll.ODIV_SEL = 32;          // VCO = 768 MHz
-    defparam rpll.DEVICE = "GW1NR-9C";
+    defparam rpll.DEVICE = "GW2AR-18C";
 
     // Tie-offs: static config, single output, internal feedback, no dyn reconfig
     defparam rpll.DYN_IDIV_SEL = "false";

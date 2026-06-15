@@ -13,7 +13,7 @@ $(BIT): $(INPUTS)
 	$(GW) build.tcl
 
 flash: $(BIT)
-	$(LOADER) -b tangnano9k -f $(BIT)
+	$(LOADER) -b tangnano20k -f $(BIT)
 
 clean:
 	rm -f $(CORE)/fx68k.v microrom.mem nanorom.mem *.json

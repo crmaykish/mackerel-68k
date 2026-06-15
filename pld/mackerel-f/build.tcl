@@ -1,4 +1,4 @@
-set_device -name GW1NR-9C GW1NR-LV9QN88PC6/I5
+set_device -name GW2AR-18C GW2AR-LV18QN88C8/I7
 
 add_file cores/fx68k/fx68k.v
 add_file mackerel_f.v
