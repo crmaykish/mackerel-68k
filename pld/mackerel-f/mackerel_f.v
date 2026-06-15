@@ -1,24 +1,27 @@
 // Mackerel-F Top Level SoC Module
 module mackerel_f (
-    input sys_clk,       // 27 MHz oscillator, pin 52
-
-    input btn_rst_n,     // Physical reset button pin 4
-
-    output [5:0] led       // 6 onboard LEDs
+    input clk_27, // 27 MHz oscillator, pin 52
+    input btn_rst_n, // Physical reset button pin 4
+    output [5:0] led // 6 onboard LEDs
 );
+
+    // PLL: 27 MHz oscillator -> 48 MHz SoC clock
+    wire clk_soc;
+    wire pll_lock;
+    pll soc_pll(.clk_in(clk_27), .clk_out(clk_soc), .locked(pll_lock));
 
     // Reset
     reg [23:0] rst = 24'd0;
     wire rst_cpu = ~rst[23];
 
-    always @(posedge sys_clk) begin
-        if (!btn_rst_n) rst <= 24'd0;
+    always @(posedge clk_soc) begin
+        if (!btn_rst_n || !pll_lock) rst <= 24'd0;
         else if (rst_cpu) rst <= rst + 1'b1;
     end
 
     // Two-phase clock generation
     reg [1:0] phase = 2'b0;
-    always @(posedge sys_clk) phase <= phase + 1'b1;
+    always @(posedge clk_soc) phase <= phase + 1'b1;
     wire enPhi1 = (phase == 2'b11);
     wire enPhi2 = (phase == 2'b01);
 
@@ -37,7 +40,7 @@ module mackerel_f (
         .pwrUp(rst_cpu),
         .HALTn(1'b1),
 
-        .clk(sys_clk),
+        .clk(clk_soc),
         .enPhi1(enPhi1),
         .enPhi2(enPhi2),
 
@@ -82,12 +85,12 @@ module mackerel_f (
     reg [15:0] rom_out;
     // Preload the ROM with a hex file
     initial $readmemh("rom.hex", rom);
-    always @(posedge sys_clk) rom_out <= rom[ADDR_BUS[10:1]];
+    always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[10:1]];
 
     // RAM: 4K x 16 = 8KB
     reg [15:0] sram [0:4095];
     reg [15:0] sram_out;
-    always @(posedge sys_clk) begin
+    always @(posedge clk_soc) begin
         if (~cs_sram_n) begin
             if (~RWn && ~UDSn) sram[ADDR_BUS[12:1]][15:8] <= DATA_BUS_OUT[15:8];
             if (~RWn && ~LDSn) sram[ADDR_BUS[12:1]][7:0] <= DATA_BUS_OUT[7:0];
@@ -97,7 +100,7 @@ module mackerel_f (
 
     // GPIO
     reg [7:0] gpio = 8'b0;
-    always @(posedge sys_clk) begin
+    always @(posedge clk_soc) begin
         // GPIO writes
         if (~cs_gpio_n && ~RWn && ~UDSn) gpio <= DATA_BUS_OUT[15:8];
     end
