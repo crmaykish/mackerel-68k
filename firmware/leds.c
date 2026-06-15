@@ -1,6 +1,6 @@
 // Baremetal self-contained simple LED/GPIO test
 
-#define GPIO_ADDR 0xE00000
+#define GPIO_ADDR 0xFFF800
 #define DELAY_CNT 100000
 
 #define MEM(address) (*(volatile char *)(address))
