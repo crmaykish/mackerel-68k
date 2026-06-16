@@ -39,6 +39,14 @@
 #define PROGRAM_START 0x400
 #define CPU_CLK_HZ 12000000UL
 #define SLEEP_CYCLES_PER_LOOP 80
+#elif MACKEREL_F
+#define SYSTEM_NAME "Mackerel-F"
+#define UART_BASE 0xFFF900
+#define TIMER_BASE 0xFFFA00 // peripheral slot 2: programmable system-tick timer
+#define PROGRAM_START 0x400
+#define CPU_CLK_HZ 32400000UL
+// fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters
+#define SLEEP_CYCLES_PER_LOOP 40
 #endif
 
 // Enable/disable CPU interrupts
