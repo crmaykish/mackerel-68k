@@ -18,6 +18,9 @@ add_file cores/uart16550/rtl/verilog/uart_tfifo.v
 add_file cores/uart16550/rtl/verilog/raminfr.v
 add_file cores/uart16550/rtl/verilog/uart_sync_flops.v
 
+add_file spi.v
+add_file cores/tiny_spi/rtl/verilog/tiny_spi.v
+
 add_file timer.v
 add_file irq_encoder.v
 

@@ -26,4 +26,7 @@ clone_core uart16550 https://github.com/freecores/uart16550.git
 # nand2mario's byte-addressable SDRAM controller for the Tang Nano 20k
 clone_core sdram-tang-nano-20k https://github.com/nand2mario/sdram-tang-nano-20k.git
 
+# OpenCores tiny_spi SPI master
+clone_core tiny_spi https://github.com/freecores/tiny_spi.git
+
 echo "Done."
