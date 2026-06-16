@@ -116,12 +116,13 @@ module mackerel_f (
     wire cs_gpio_n = ~(~cs_periph_n && periph_sel == 3'd0);
     wire cs_uart_n = ~(~cs_periph_n && periph_sel == 3'd1);
 
-    // ROM: 1K x 16 = 2 KB physical, mirrored across the 30 KB ROM region
-    reg [15:0] rom [0:1023];
+    // ROM: 16K x 16 = 32 KB physical, covering the whole 30 KB ROM region
+    // (linear, no longer mirrored -- ADDR_BUS[14:1] is the in-region word index).
+    reg [15:0] rom [0:16383];
     reg [15:0] rom_out;
     // Preload the ROM with a hex file
     initial $readmemh("rom.hex", rom);
-    always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[10:1]];
+    always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[14:1]];
 
 
     // GPIO
