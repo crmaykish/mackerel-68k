@@ -4,24 +4,34 @@
 #include <string.h>
 #include "mackerel.h"
 #include "console.h"
-#include "sd.h"
 #include "term.h"
-#include "fat16.h"
 #include "ymodem.h"
 
-#ifndef MACKEREL_08
-#include "ide.h"
+#ifdef HAS_DUART_GPIO
+#include "uart_xr68c681.h" // the "gpio" command toggles the DUART's port pins
 #endif
 
-#define VERSION "0.8.5"
+#ifdef HAS_MASS_STORAGE
+#include "sd.h"
+#include "fat16.h"
+#ifndef MACKEREL_08
+#include "ide.h" // mack10/mack30 use IDE; mack08 uses bitbang SD
+#endif
+#endif
+
+#define VERSION "0.8.6"
 
 #define INPUT_BUFFER_SIZE 32
 
 void handler_run(uint32_t addr);
 void handler_ymodem(uint32_t addr);
-void handler_boot();
 void handler_zero(uint32_t addr, uint32_t size);
+#ifdef HAS_MASS_STORAGE
+void handler_boot();
+#endif
+#ifdef HAS_DUART_GPIO
 void handler_gpio(char *dir, char *pin_str, char *val_str);
+#endif
 void handler_help();
 void handler_info();
 uint8_t readline(char *buffer);
@@ -52,7 +62,9 @@ void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" ymodem <addr>         - Receive a file via YMODEM into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
+#ifdef HAS_MASS_STORAGE
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
+#endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -61,8 +73,10 @@ void handler_help()
     printf(" mem16 <start> <size>  - Run 16-bit memory test from <start> for <size> bytes\r\n");
     printf(" mem32 <start> <size>  - Run 32-bit memory test from <start> for <size> bytes\r\n");
     printf(" zero <start> <size>   - Zero out memory from <start> for <size> bytes\r\n");
+#ifdef HAS_DUART_GPIO
     printf(" gpio in <pin>         - Read DUART input pin IP<pin> (0-6)\r\n");
     printf(" gpio out <pin> <0|1>  - Set DUART output pin OP<pin> (2-7, 0-1 reserved for RTS)\r\n");
+#endif
     printf(" info                  - Show system information\r\n");
     printf(" help                  - Show this help message\r\n");
 #ifdef MACKEREL_30
@@ -101,10 +115,12 @@ int main()
             uint32_t addr = strtoul(param1, 0, 16);
             handler_ymodem(addr);
         }
+#ifdef HAS_MASS_STORAGE
         else if (strncmp(buffer, "boot", 4) == 0)
         {
             handler_boot();
         }
+#endif
         else if (strncmp(buffer, "run", 3) == 0)
         {
             strtok(buffer, " ");
@@ -186,6 +202,7 @@ int main()
             uint32_t size = strtoul(param2, 0, 16);
             handler_zero(start, size);
         }
+#ifdef HAS_DUART_GPIO
         else if (strncmp(buffer, "gpio", 4) == 0)
         {
             strtok(buffer, " ");
@@ -194,6 +211,7 @@ int main()
             char *val_str = strtok(NULL, " ");
             handler_gpio(dir, pin_str, val_str);
         }
+#endif
         else if (strncmp(buffer, "info", 4) == 0)
         {
             handler_info();
@@ -236,6 +254,7 @@ int main()
     return 0;
 }
 
+#ifdef HAS_DUART_GPIO
 void handler_gpio(char *dir, char *pin_str, char *val_str)
 {
     if (!dir || !pin_str)
@@ -294,6 +313,7 @@ void handler_gpio(char *dir, char *pin_str, char *val_str)
         printf("Direction must be 'in' or 'out'\r\n");
     }
 }
+#endif /* HAS_DUART_GPIO */
 
 void handler_run(uint32_t addr)
 {
@@ -314,6 +334,7 @@ void handler_run(uint32_t addr)
         : "a0");
 }
 
+#ifdef HAS_MASS_STORAGE
 // Define the block_read function based on the board.
 // Mackerel-08 uses bitbang SD. Mackerel-10 and Mackerel-30 have real IDE
 #ifdef MACKEREL_08
@@ -403,6 +424,7 @@ void handler_boot()
         printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
     }
 }
+#endif /* HAS_MASS_STORAGE */
 
 void handler_ymodem(uint32_t addr)
 {

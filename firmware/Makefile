@@ -62,6 +62,14 @@ else
 UART_DRIVER = uart_xr68c681.o
 endif
 
+# Mass-storage drivers linked into the bootloader. Mackerel-F has none yet
+# (UART console + ymodem only), so it links a leaner bootloader.
+ifeq ($(BOARD),mackf)
+STORAGE_OBJS =
+else
+STORAGE_OBJS = sd.o spi.o ide.o fat16.o
+endif
+
 COMMON_OBJS_ROM = $(VECTORS) start.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
 COMMON_OBJS_RAM = start_ram.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
 
@@ -92,7 +100,7 @@ all: $(BINS)
 %.hex: %.bin
 	hexdump -v -e '2/1 "%02x" "\n"' $< > $@
 
-bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o ymodem.o
+bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o $(STORAGE_OBJS) ymodem.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lc -lgcc
 
 fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o ide.o

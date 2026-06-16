@@ -49,6 +49,13 @@
 #define SLEEP_CYCLES_PER_LOOP 40
 #endif
 
+// Bootloader peripheral capabilities, per board. Mackerel-F has neither yet --
+// it's a UART console only (no DUART GPIO port pins, no SD/IDE mass storage).
+#ifndef MACKEREL_F
+#define HAS_DUART_GPIO   // 'gpio' command toggles the DUART's port pins
+#define HAS_MASS_STORAGE // 'boot' loads Linux from SD/IDE via FAT16
+#endif
+
 // Enable/disable CPU interrupts
 void set_interrupts(bool enabled);
 
