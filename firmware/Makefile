@@ -73,14 +73,13 @@ endif
 COMMON_OBJS_ROM = $(VECTORS) start.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
 COMMON_OBJS_RAM = start_ram.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
 
-BASE_BINS = bootloader.bin kernel.bin fatfs_demo.bin libctest.bin
+BASE_BINS = bootloader.bin fatfs_demo.bin libctest.bin
 
 ifeq ($(BOARD),mack10)
 # Mackerel-10
 BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
 else ifeq ($(BOARD),mackf)
 # Mackerel-F: bootloader (ROM) + the RAM test apps loaded over ymodem.
-# No kernel/fatfs_demo (those need the DUART ISR / mass storage).
 BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin
 else
 # Mackerel-08 / Mackerel-30
