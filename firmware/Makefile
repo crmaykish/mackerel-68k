@@ -130,8 +130,8 @@ irqtest.elf: $(COMMON_OBJS_RAM) irqtest.o
 spitest.elf: $(COMMON_OBJS_RAM) spitest.o spi_tiny.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
-# SD card bring-up: SPI-mode init + read CID/CSD/block 0 (RAM program, ymodem + run).
-sdtest.elf: $(COMMON_OBJS_RAM) sdtest.o spi_tiny.o
+# SD card smoke test: sd_spi init + read CID/CSD/block 0 (RAM program, ymodem + run).
+sdtest.elf: $(COMMON_OBJS_RAM) sdtest.o sd_spi.o spi_tiny.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 %-upper.bin: %.bin
