@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "mackerel.h"
+#include "console.h"
 #include "sd.h"
 #include "term.h"
 #include "fat16.h"
@@ -77,21 +78,21 @@ int main()
     // hidden it while drawing the progress bar (see fat16/sd read loops).
     term_cursor_set_vis(true);
 
-    duart_puts("\r\n");
-    duart_puts("========================================\r\n");
-    duart_puts("   " SYSTEM_NAME " Bootloader v" VERSION "\r\n");
-    duart_puts("   Build Date: " __DATE__ " - " __TIME__ "\r\n");
-    duart_puts("   Copyright (c) 2026 Colin Maykish\r\n");
-    duart_puts("   github.com/crmaykish/mackerel-68k\r\n");
-    duart_puts("========================================\r\n\r\n");
-    duart_puts("Type 'help' for a list of available commands.\r\n\r\n");
+    console_puts("\r\n");
+    console_puts("========================================\r\n");
+    console_puts("   " SYSTEM_NAME " Bootloader v" VERSION "\r\n");
+    console_puts("   Build Date: " __DATE__ " - " __TIME__ "\r\n");
+    console_puts("   Copyright (c) 2026 Colin Maykish\r\n");
+    console_puts("   github.com/crmaykish/mackerel-68k\r\n");
+    console_puts("========================================\r\n\r\n");
+    console_puts("Type 'help' for a list of available commands.\r\n\r\n");
 
     while (true)
     {
         // Present the command prompt and wait for input
-        duart_puts("> ");
+        console_puts("> ");
         readline(buffer);
-        duart_puts("\r\n");
+        console_puts("\r\n");
 
         if (strncmp(buffer, "ymodem", 6) == 0)
         {
@@ -229,7 +230,7 @@ int main()
             command_not_found(buffer);
         }
 
-        duart_puts("\r\n");
+        console_puts("\r\n");
     }
 
     return 0;
@@ -477,21 +478,21 @@ void handler_info()
 
 void command_not_found(char *command_name)
 {
-    duart_puts("Command not found: ");
-    duart_puts(command_name);
+    console_puts("Command not found: ");
+    console_puts(command_name);
 }
 
 uint8_t readline(char *buffer)
 {
     uint8_t count = 0;
-    uint8_t in = duart_getc();
+    uint8_t in = console_getc();
 
     while (in != '\n' && in != '\r')
     {
         // Character is printable ASCII
         if (in >= 0x20 && in < 0x7F)
         {
-            duart_putc(in);
+            console_putc(in);
 
             buffer[count] = in;
             count++;
@@ -501,14 +502,14 @@ uint8_t readline(char *buffer)
         {
             if (count > 0)
             {
-                duart_puts("\e[1D"); // Move cursor to the left
-                duart_putc(' ');     // Clear last character
-                duart_puts("\e[1D"); // Move cursor to the left again
+                console_puts("\e[1D"); // Move cursor to the left
+                console_putc(' ');     // Clear last character
+                console_puts("\e[1D"); // Move cursor to the left again
                 count--;             // Move input buffer index back
             }
         }
 
-        in = duart_getc();
+        in = console_getc();
     }
 
     buffer[count] = 0;
@@ -700,7 +701,7 @@ void memtest32(uint32_t *start, uint32_t size)
 
         if ((*i % 0x10000) == 0)
         {
-            duart_putc('.');
+            console_putc('.');
         }
     }
 
@@ -715,7 +716,7 @@ void memtest32(uint32_t *start, uint32_t size)
 
         if ((got % 0x10000) == 0)
         {
-            duart_putc('.');
+            console_putc('.');
         }
     }
 

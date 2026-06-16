@@ -1,4 +1,5 @@
 #include "mackerel.h"
+#include "console.h"
 #include "newlib_init.h"
 
 extern char _sidata[], _sdata[], _edata[];
@@ -7,9 +8,9 @@ extern int main();
 
 void panic(const char *err)
 {
-    duart_puts("\r\nPANIC: ");
-    duart_puts(err);
-    duart_puts("\r\n");
+    console_puts("\r\nPANIC: ");
+    console_puts(err);
+    console_puts("\r\n");
 
     while (1)
     {
@@ -81,7 +82,7 @@ void _start()
     for (char *src = _sidata, *dst = _sdata; dst < _edata;)
         *dst++ = *src++;
 
-    duart_init();
+    console_init();
     newlib_init();
     main();
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "mackerel.h"
+#include "console.h"
 #include "term.h"
 
 void set_interrupts(bool enabled)
@@ -25,53 +26,6 @@ void set_exception_handler(unsigned char exception_number, void (*exception_hand
 #endif
 }
 
-void duart_init(void)
-{
-    MEM(DUART1_IMR) = 0x00;        // Mask all interrupts
-    MEM(DUART1_OPCR) = 0x00;       // OP0/OP1 = RTSA//RTSB/, OP2-OP7 = general-purpose GPIO
-    MEM(DUART1_MR1B) = 0b00010011; // No Rx RTS, No Parity, 8 bits per character
-    MEM(DUART1_MR2B) = 0b00000111; // Channel mode normal, No Tx RTS, No CTS, stop bit length 1
-    MEM(DUART1_ACR) = 0x80;        // Baudrate set 2
-    MEM(DUART1_CRB) = 0x80;        // Set Rx extended bit
-    MEM(DUART1_CRB) = 0xA0;        // Set Tx extended bit
-    MEM(DUART1_CSRB) = 0x88;       // 115200 baud
-    MEM(DUART1_CRB) = 0b0101;      // Enable Tx/Rx
-}
-
-void duart_putc(char c)
-{
-    while ((MEM(DUART1_SRB) & 0b00000100) == 0)
-    {
-    }
-
-    MEM(DUART1_TBB) = c;
-
-    if (c == 0x0A)
-    {
-        duart_putc(0x0D);
-    }
-}
-
-char duart_getc(void)
-{
-    while ((MEM(DUART1_SRB) & 0b00000001) == 0)
-    {
-    }
-
-    return MEM(DUART1_RBB);
-}
-
-void duart_puts(const char *s)
-{
-    unsigned i = 0;
-
-    while (s[i] != 0)
-    {
-        duart_putc(s[i]);
-        i++;
-    }
-}
-
 void print_string_bin(char *str, uint8_t max)
 {
     uint8_t i = 0;
@@ -80,11 +34,11 @@ void print_string_bin(char *str, uint8_t max)
     {
         if (str[i] >= 32 && str[i] < 127)
         {
-            duart_putc(str[i]);
+            console_putc(str[i]);
         }
         else
         {
-            duart_putc('.');
+            console_putc('.');
         }
 
         i++;
@@ -119,7 +73,7 @@ void memdump(uint32_t address, uint32_t bytes)
             term_set_color(TERM_RESET);
 
             if (j == 7)
-                duart_putc(' ');
+                console_putc(' ');
         }
 
         printf(" |");

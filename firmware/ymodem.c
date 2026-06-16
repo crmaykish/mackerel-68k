@@ -1,5 +1,6 @@
 #include "ymodem.h"
 #include "mackerel.h"
+#include "uart.h"
 
 #define SOH 0x01 // 128-byte block
 #define STX 0x02 // 1024-byte block
@@ -18,23 +19,14 @@
 #define T_FLUSH_MS 50   // drain leftovers after a rejected block
 #define MAX_IDLE 10     // give up after this many block-start timeouts (~10s)
 
-// single-byte TX
-static void tx_raw(uint8_t b)
-{
-    while ((MEM(DUART1_SRB) & 0x04) == 0)
-    {
-    }
-    MEM(DUART1_TBB) = b;
-}
-
 // RX one byte, poll for up to ms milliseconds
 static int rx_ms(uint32_t ms)
 {
     uint32_t polls = ms * YM_POLLS_PER_MS;
     for (uint32_t i = 0; i < polls; i++)
     {
-        if (MEM(DUART1_SRB) & 0x01)
-            return MEM(DUART1_RBB);
+        if (uart_rx_ready())
+            return (uint8_t)uart_getc();
     }
     return -1;
 }
@@ -69,7 +61,7 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
     // Make sure are off during the transfer
     set_interrupts(false);
 
-    tx_raw(CRC_C); // kick off: request CRC mode
+    uart_putc(CRC_C); // kick off: request CRC mode
 
     for (;;)
     {
@@ -82,17 +74,17 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
                 break;
             }
             // Re-prompt: 'C' while negotiating CRC, NAK once in the data flow.
-            tx_raw((!have_header || trailer) ? CRC_C : NAK);
+            uart_putc((!have_header || trailer) ? CRC_C : NAK);
             continue;
         }
         idle = 0;
 
         if (hdr == EOT)
         {
-            tx_raw(ACK);
+            uart_putc(ACK);
             trailer = true;
             expect = 0;
-            tx_raw(CRC_C); // request the trailing null header block
+            uart_putc(CRC_C); // request the trailing null header block
             continue;
         }
         if (hdr == CAN)
@@ -132,7 +124,7 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
         {
             while (rx_ms(T_FLUSH_MS) >= 0) // drain the rest of the bad block
                 ;
-            tx_raw(NAK);
+            uart_putc(NAK);
             continue;
         }
 
@@ -140,7 +132,7 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
         {
             if (trailer)
             {
-                tx_raw(ACK); // final null header -> batch complete
+                uart_putc(ACK); // final null header -> batch complete
                 *size = fsize;
                 result = (long)total;
                 break;
@@ -149,7 +141,7 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
             {
                 if (blk[0] == 0) // empty header == nothing to send
                 {
-                    tx_raw(ACK);
+                    uart_putc(ACK);
                     result = 0;
                     break;
                 }
@@ -164,8 +156,8 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
                     fsize = fsize * 10 + (blk[j] - '0');
                 have_header = true;
                 expect = 1;
-                tx_raw(ACK);
-                tx_raw(CRC_C); // request first data block
+                uart_putc(ACK);
+                uart_putc(CRC_C); // request first data block
                 continue;
             }
             // data block
@@ -178,15 +170,15 @@ long ymodem_recv(uint8_t *buf, uint32_t bufsz, char *name, uint32_t *size)
                 buf[total + i] = blk[i];
             total += copy;
             expect++;
-            tx_raw(ACK);
+            uart_putc(ACK);
         }
         else if ((uint8_t)bn == (uint8_t)(expect - 1))
         {
-            tx_raw(ACK); // duplicate (our ACK was lost): re-ACK, don't store
+            uart_putc(ACK); // duplicate (our ACK was lost): re-ACK, don't store
         }
         else
         {
-            tx_raw(NAK); // out of sequence
+            uart_putc(NAK); // out of sequence
         }
     }
 

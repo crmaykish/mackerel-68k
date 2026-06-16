@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <stdint.h>
 #include "mackerel.h"
+#include "console.h"
 
 // Implement enough syscalls for newlib to function
 
@@ -19,7 +20,7 @@ ssize_t write(int fd, const void *buf, size_t count)
     if (fd != 1 && fd != 2) return -1;   // only stdout/stderr
     const char *p = buf;
     for (size_t i = 0; i < count; i++) {
-        duart_putc(p[i]);
+        console_putc(p[i]);
     }
     return (ssize_t)count;
 }

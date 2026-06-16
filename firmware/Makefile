@@ -54,8 +54,16 @@ CFLAGS = -m68000
 AFLAGS = -m68000
 endif
 
-COMMON_OBJS_ROM = $(VECTORS) start.o newlib_init.o syscalls.o mackerel.o term.o
-COMMON_OBJS_RAM = start_ram.o newlib_init.o syscalls.o mackerel.o term.o
+# UART backend: the DUART boards share one driver; Mackerel-F uses the 16550.
+# Add a board with a new UART chip by writing uart_<chip>.c and selecting it here.
+ifeq ($(BOARD),mackf)
+UART_DRIVER = uart_16550.o
+else
+UART_DRIVER = uart_xr68c681.o
+endif
+
+COMMON_OBJS_ROM = $(VECTORS) start.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
+COMMON_OBJS_RAM = start_ram.o newlib_init.o syscalls.o mackerel.o console.o $(UART_DRIVER) term.o
 
 BASE_BINS = bootloader.bin kernel.bin fatfs_demo.bin libctest.bin
 

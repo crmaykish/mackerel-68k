@@ -2,6 +2,7 @@
 #define SPI_H
 
 #include "mackerel.h"
+#include "uart_xr68c681.h"
 
 // SPI output pins
 #define SCLK (3)

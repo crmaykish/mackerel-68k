@@ -2,6 +2,7 @@
 #include <string.h>
 #include "fat16.h"
 #include "term.h"
+#include "console.h"
 
 fat16_read_sector_f read_sector = NULL;
 
@@ -282,8 +283,8 @@ int fat16_read_file(fat16_boot_sector_t *boot_sector, uint16_t starting_cluster,
     }
 
     term_progress_bar(100);
-    duart_putc('\r');
-    duart_putc('\n');
+    console_putc('\r');
+    console_putc('\n');
     term_cursor_set_vis(true);
 
     return buffer_index; // Returns the number of bytes read
