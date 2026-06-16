@@ -41,8 +41,10 @@
 #define SLEEP_CYCLES_PER_LOOP 80
 #elif MACKEREL_F
 #define SYSTEM_NAME "Mackerel-F"
+#define GPIO_BASE 0xFFF800 // slot 0: 6 LEDs + SD chip-select (bit 6)
 #define UART_BASE 0xFFF900
-#define TIMER_BASE 0xFFFA00 // peripheral slot 2: programmable system-tick timer
+#define TIMER_BASE 0xFFFA00 // slot 2: programmable system-tick timer
+#define SPI_BASE 0xFFFB00 // slot 3: tiny_spi master (SD card)
 #define PROGRAM_START 0x400
 #define CPU_CLK_HZ 32400000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters

@@ -80,7 +80,7 @@ ifeq ($(BOARD),mack10)
 BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
 else ifeq ($(BOARD),mackf)
 # Mackerel-F: bootloader (ROM) + the RAM test apps loaded over ymodem.
-BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin
+BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin spitest.bin
 else
 # Mackerel-08 / Mackerel-30
 BINS = $(BASE_BINS)
@@ -124,6 +124,10 @@ uarttest.elf: $(COMMON_OBJS_RAM) uarttest.o
 
 # Interrupt test: timer (level 6) + UART RX (level 5) (RAM program, ymodem + run).
 irqtest.elf: $(COMMON_OBJS_RAM) irqtest.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+# SPI smoke test: tiny_spi register access + transfer engine (RAM program, ymodem + run).
+spitest.elf: $(COMMON_OBJS_RAM) spitest.o spi_tiny.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 %-upper.bin: %.bin
