@@ -80,7 +80,7 @@ ifeq ($(BOARD),mack10)
 BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
 else ifeq ($(BOARD),mackf)
 # Mackerel-F: bootloader (ROM) + the RAM test apps loaded over ymodem.
-BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin spitest.bin
+BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin spitest.bin sdtest.bin
 else
 # Mackerel-08 / Mackerel-30
 BINS = $(BASE_BINS)
@@ -128,6 +128,10 @@ irqtest.elf: $(COMMON_OBJS_RAM) irqtest.o
 
 # SPI smoke test: tiny_spi register access + transfer engine (RAM program, ymodem + run).
 spitest.elf: $(COMMON_OBJS_RAM) spitest.o spi_tiny.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+# SD card bring-up: SPI-mode init + read CID/CSD/block 0 (RAM program, ymodem + run).
+sdtest.elf: $(COMMON_OBJS_RAM) sdtest.o spi_tiny.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 %-upper.bin: %.bin
