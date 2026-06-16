@@ -3,5 +3,7 @@ fx68k.v
 *.fs
 impl/
 *.json
+*.vcd
+*.vvp
 
 cores/
