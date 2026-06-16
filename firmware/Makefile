@@ -90,9 +90,6 @@ bootloader.elf: $(COMMON_OBJS_ROM) bootloader.o sd.o spi.o ide.o fat16.o ymodem.
 fatfs_demo.elf: $(COMMON_OBJS_RAM) fatfs_demo.o fat16.o sd.o spi.o ide.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
-kernel.elf: $(COMMON_OBJS_RAM) kernel.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
-
 libctest.elf: $(COMMON_OBJS_RAM) libctest.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 	
