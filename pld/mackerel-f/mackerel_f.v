@@ -5,13 +5,26 @@ module mackerel_f (
     output [5:0] led, // 6 onboard LEDs
 
     input uart_rx,
-    output uart_tx
+    output uart_tx,
+
+    // SDRAM (Tang Nano 20k in-package SiP; pins auto-routed by name, no .cst)
+    output O_sdram_clk,
+    output O_sdram_cke,
+    output O_sdram_cs_n,
+    output O_sdram_cas_n,
+    output O_sdram_ras_n,
+    output O_sdram_wen_n,
+    output [3:0]  O_sdram_dqm,
+    output [10:0] O_sdram_addr,
+    output [1:0]  O_sdram_ba,
+    inout  [31:0] IO_sdram_dq
 );
 
-    // PLL: 27 MHz oscillator -> 48 MHz SoC clock
+    // PLL: 27 MHz oscillator -> 64.8 MHz SoC clock (+ phase-shifted SDRAM chip clock)
     wire clk_soc;
+    wire clk_soc_ps;
     wire pll_lock;
-    pll soc_pll(.clk_in(clk_27), .clk_out(clk_soc), .locked(pll_lock));
+    pll soc_pll(.clk_in(clk_27), .clk_out(clk_soc), .clk_out_ps(clk_soc_ps), .locked(pll_lock));
 
     // Reset
     reg [23:0] rst = 24'd0;
@@ -22,11 +35,11 @@ module mackerel_f (
         else if (rst_cpu) rst <= rst + 1'b1;
     end
 
-    // Two-phase clock generation
-    reg [1:0] phase = 2'b0;
-    always @(posedge clk_soc) phase <= phase + 1'b1;
-    wire enPhi1 = (phase == 2'b11);
-    wire enPhi2 = (phase == 2'b01);
+    // Two-phase clock: fx68k enables on alternate clk_soc cycles -> CPU = clk_soc/2 = 32.4 MHz
+    reg phase = 1'b0;
+    always @(posedge clk_soc) phase <= ~phase;
+    wire enPhi1 = (phase == 1'b1);
+    wire enPhi2 = (phase == 1'b0);
 
     // System Buses
     wire [23:1] ADDR_BUS;
@@ -74,10 +87,11 @@ module mackerel_f (
 
     // BOOT Signal (Map ROM to 0x0000 temporarily on reset)
     wire BOOT;
-    boot_signal bs1(~rst_cpu, ASn, BOOT);
+    boot_signal bs(~rst_cpu, ASn, BOOT);
 
     // Memory Map
-    //  RAM          0x000000-0xFF7FFF  ~16 MB
+    //  SDRAM        0x000000-0x7FFFFF  8 MB system RAM (sdram.v adapter + sdram_nano.v controller)
+    //  (unmapped)   0x800000-0xFF7FFF  -- nothing here (no DTACK; a stray access would hang)
     //  ROM          0xFF8000-0xFFF7FF  30 KB
     //  Peripherals  0xFFF800-0xFFFFFF  2 KB    8 slots x 256 B:
     //                 slot 0  0xFFF800  GPIO
@@ -88,12 +102,13 @@ module mackerel_f (
     wire in_periph = &address[23:11];                 // top 2 KB
     wire in_rom    = (&address[23:15]) && ~in_periph;  // top 32 KB minus top 2 KB
     wire in_ram    = ~(&address[23:15]);               // everything below 0xFF8000
+    wire in_sdram  = in_ram && ~address[23];           // low 8 MB (0x000000-0x7FFFFF) -> SDRAM system RAM
     wire [2:0] periph_sel = address[10:8];             // 1 of 8 peripheral slots
 
     // Boot shadow maps ROM into low memory until BOOT asserts, so the CPU fetches
-    // the reset vector from ROM at 0x0; afterward RAM owns 0x0.
+    // the reset vector from ROM at 0x0; afterward SDRAM owns 0x0.
     wire cs_rom_n    = ~(~ASn && (~BOOT || in_rom));
-    wire cs_ram_n    = ~(~ASn &&  BOOT && in_ram);
+    wire cs_sdram_n  = ~(~ASn &&  BOOT && in_sdram);
     wire cs_periph_n = ~(~ASn &&  BOOT && in_periph);
 
     // TODO: Decode FC lines to avoid conflicting with IACK
@@ -108,16 +123,6 @@ module mackerel_f (
     initial $readmemh("rom.hex", rom);
     always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[10:1]];
 
-    // RAM: 4K x 16 = 8 KB, mirrored across the RAM region (low 13 addr bits only)
-    reg [15:0] sram [0:4095];
-    reg [15:0] sram_out;
-    always @(posedge clk_soc) begin
-        if (~cs_ram_n) begin
-            if (~RWn && ~UDSn) sram[ADDR_BUS[12:1]][15:8] <= DATA_BUS_OUT[15:8];
-            if (~RWn && ~LDSn) sram[ADDR_BUS[12:1]][7:0] <= DATA_BUS_OUT[7:0];
-            sram_out <= sram[ADDR_BUS[12:1]];
-        end
-    end
 
     // GPIO
     reg [7:0] gpio = 8'b0;
@@ -131,7 +136,7 @@ module mackerel_f (
     wire dtack_uart;
     wire [7:0] uart_dout;
 
-    uart u1(
+    uart u(
         .clk(clk_soc),
         .rst_n(~rst_cpu),
 
@@ -148,13 +153,46 @@ module mackerel_f (
         .tx(uart_tx)
     );
 
-    // DTACK Generation
-    assign DTACKn = cs_uart_n ? 1'b0 : dtack_uart;  // DTACK grounded unless UART is selected
+    // SDRAM (8 MB, in-package SDRAM via the sdram.v adapter + sdram_nano.v controller)
+    wire [15:0] sdram_dout;
+    wire        dtack_sdram;
+
+    sdram_controller s(
+        .clk(clk_soc),
+        .clk_ps(clk_soc_ps),
+        .rst_n(pll_lock),          // inits independently of the CPU reset counter
+
+        .cs_n(cs_sdram_n),
+        .addr(ADDR_BUS[22:1]),
+        .rwn(RWn),
+        .udsn(UDSn),
+        .ldsn(LDSn),
+        .wdata(DATA_BUS_OUT),
+        .rdata(sdram_dout),
+        .dtack_n(dtack_sdram),
+        .init_done(),              // reserved: gate reset until SDRAM init done (when SDRAM is system RAM)
+
+        .O_sdram_clk(O_sdram_clk),
+        .O_sdram_cke(O_sdram_cke),
+        .O_sdram_cs_n(O_sdram_cs_n),
+        .O_sdram_cas_n(O_sdram_cas_n),
+        .O_sdram_ras_n(O_sdram_ras_n),
+        .O_sdram_wen_n(O_sdram_wen_n),
+        .O_sdram_dqm(O_sdram_dqm),
+        .O_sdram_addr(O_sdram_addr),
+        .O_sdram_ba(O_sdram_ba),
+        .IO_sdram_dq(IO_sdram_dq)
+    );
+
+    // DTACK Generation -- 0 (no wait) for ROM/RAM/GPIO; from the peripheral/SDRAM otherwise
+    assign DTACKn = ~cs_sdram_n ? dtack_sdram :
+                    ~cs_uart_n  ? dtack_uart  :
+                                  1'b0;
 
     // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
     always @(*) begin
         if (~cs_rom_n) DATA_BUS_IN = rom_out;
-        else if (~cs_ram_n) DATA_BUS_IN = sram_out;
+        else if (~cs_sdram_n) DATA_BUS_IN = sdram_dout;
         else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};       // Pad 8-bit peripherals with LDS of 0
         else if (~cs_uart_n) DATA_BUS_IN = {uart_dout, 8'h00};  // "
         else DATA_BUS_IN = 16'h0000;

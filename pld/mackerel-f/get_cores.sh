@@ -23,4 +23,7 @@ clone_core fx68k https://github.com/ijor/fx68k.git
 # OpenCores 16550-compatible UART (freecores GitHub mirror)
 clone_core uart16550 https://github.com/freecores/uart16550.git
 
+# nand2mario's byte-addressable SDRAM controller for the Tang Nano 20k
+clone_core sdram-tang-nano-20k https://github.com/nand2mario/sdram-tang-nano-20k.git
+
 echo "Done."

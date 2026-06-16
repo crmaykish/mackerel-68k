@@ -4,6 +4,9 @@ add_file cores/fx68k/fx68k.v
 add_file mackerel_f.v
 add_file pll.v
 
+add_file sdram_controller.v
+add_file cores/sdram-tang-nano-20k/src/sdram.v
+
 add_file uart.v
 add_file cores/uart16550/rtl/verilog/uart_top.v
 add_file cores/uart16550/rtl/verilog/uart_wb.v

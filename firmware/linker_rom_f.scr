@@ -1,7 +1,7 @@
 MEMORY
 {
-    ROM(RX) : ORIGIN = 0xFF8000,  LENGTH = 0x800            /* 30 KB ROM region; 2 KB physical for now */
-    RAM(RW) : ORIGIN = 0x400,  LENGTH = 0x2000 - 0x400      /* 8KB of RAM minus the vector table */
+    ROM(RX) : ORIGIN = 0xFF8000,  LENGTH = 0x800              /* 30 KB ROM region; 2 KB physical for now */
+    RAM(RW) : ORIGIN = 0x400,  LENGTH = 0x800000 - 0x400      /* 8 MB SDRAM at 0x0, minus the vector table */
 }
 
 SECTIONS
@@ -28,7 +28,7 @@ SECTIONS
 
     /* RAM info for the bootloader's `info` command */
     __sram_start = 0x00;
-    __sram_length = 0x2000;
+    __sram_length = 0x00;
     __dram_start = 0x00;
-    __dram_length = 0x00;
+    __dram_length = 0x800000;
 }
