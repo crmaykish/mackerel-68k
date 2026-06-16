@@ -78,6 +78,10 @@ BASE_BINS = bootloader.bin kernel.bin fatfs_demo.bin libctest.bin
 ifeq ($(BOARD),mack10)
 # Mackerel-10
 BINS = $(BASE_BINS) $(addsuffix -upper.bin, $(basename $(BASE_BINS))) $(addsuffix -lower.bin, $(basename $(BASE_BINS)))
+else ifeq ($(BOARD),mackf)
+# Mackerel-F: bootloader (ROM) + the RAM test apps loaded over ymodem.
+# No kernel/fatfs_demo (those need the DUART ISR / mass storage).
+BINS = bootloader.bin libctest.bin uarttest.bin irqtest.bin
 else
 # Mackerel-08 / Mackerel-30
 BINS = $(BASE_BINS)
@@ -111,6 +115,17 @@ libctest.elf: $(COMMON_OBJS_RAM) libctest.o
 	
 leds.elf: vectors_f.s leds.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lgcc
+
+sdramtest.elf: vectors_f.s sdramtest.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_ROM) -nostartfiles $^ -o $@ -lgcc
+
+# Newlib + console stress test (RAM program, loaded over ymodem then `run`).
+uarttest.elf: $(COMMON_OBJS_RAM) uarttest.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+# Interrupt test: timer (level 6) + UART RX (level 5) (RAM program, ymodem + run).
+irqtest.elf: $(COMMON_OBJS_RAM) irqtest.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 %-upper.bin: %.bin
 	$(OBJCOPY) --interleave=2 --byte=0 -I binary -O binary $< $@
