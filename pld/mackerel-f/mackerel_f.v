@@ -7,6 +7,12 @@ module mackerel_f (
     input uart_rx,
     output uart_tx,
 
+    // SD card
+    output sd_cs,
+    output sd_mosi,
+    output sd_sck,
+    input sd_miso,
+
     // SDRAM (Tang Nano 20k in-package SiP; pins auto-routed by name, no .cst)
     output O_sdram_clk,
     output O_sdram_cke,
@@ -123,6 +129,7 @@ module mackerel_f (
     wire cs_gpio_n  = ~(~cs_periph_n && periph_sel == 3'd0);
     wire cs_uart_n  = ~(~cs_periph_n && periph_sel == 3'd1);
     wire cs_timer_n = ~(~cs_periph_n && periph_sel == 3'd2);
+    wire cs_spi_n   = ~(~cs_periph_n && periph_sel == 3'd3);
 
     // ROM: 16K x 16 = 32 KB physical, covering the whole 30 KB ROM region
     // (linear, no longer mirrored -- ADDR_BUS[14:1] is the in-region word index).
@@ -182,6 +189,29 @@ module mackerel_f (
         .irq(irq_timer)
     );
 
+    // SPI Master
+    wire irq_spi;
+    wire dtack_spi;
+    wire [7:0] spi_dout;
+
+    spi sp(
+        .clk(clk_soc),
+        .rst_n(~rst_cpu),
+
+        .cs_n(cs_spi_n),
+        .reg_addr(ADDR_BUS[4:2]),
+        .rwn(RWn),
+        .ds_n(UDSn),
+        .data_in(DATA_BUS_OUT[15:8]),
+        .data_out(spi_dout),
+        .dtack_n(dtack_spi),
+        .irq(irq_spi),
+
+        .mosi(sd_mosi),
+        .sck(sd_sck),
+        .miso(sd_miso)
+    );
+
     // Interrupt map (mirrors Mackerel-30's irq_encoder): priority-encode the
     // sources onto the 68000 IPL pins. Timer = level 6, UART = level 5.
     irq_encoder ie(
@@ -238,6 +268,7 @@ module mackerel_f (
                     ~cs_sdram_n ? dtack_sdram :
                     ~cs_uart_n  ? dtack_uart  :
                     ~cs_timer_n ? dtack_timer :
+                    ~cs_spi_n   ? dtack_spi   :
                                   1'b0;
 
     // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
@@ -247,10 +278,14 @@ module mackerel_f (
         else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};        // Pad 8-bit peripherals with LDS of 0
         else if (~cs_uart_n) DATA_BUS_IN = {uart_dout, 8'h00};   // "
         else if (~cs_timer_n) DATA_BUS_IN = {timer_dout, 8'h00}; // "
+        else if (~cs_spi_n) DATA_BUS_IN = {spi_dout, 8'h00};     // "
         else DATA_BUS_IN = 16'h0000;
     end
 
     // Debug LEDs (active low)
     assign led = ~gpio[5:0];
+
+    // SD chip-select on a GPIO bit (tiny_spi has no SS). Sets gpio[6]=1 to assert CS low.
+    assign sd_cs = ~gpio[6];
 
 endmodule
