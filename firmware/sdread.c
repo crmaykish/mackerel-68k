@@ -16,8 +16,8 @@
 #define TICK_VECTOR  (EXCEPTION_AUTOVECTOR + IRQ_NUM_TIMER) // level 6 -> vector 30
 
 #define IMG_LOAD 0x100000 // load buffer (1 MB up; clear of this program + heap)
-#define IMG_MAX  0x600000 // cap the file read at 6 MB (ends well below the 0x7C0000 reserve)
-#define SPEED_BLOCKS 2048 // 1 MB raw read for the throughput test
+#define IMG_READ 0x40000  // validate FAT reading on the first 256 KB of the file
+#define SWEEP_BLOCKS 512   // 256 KB read per clock rate in the sweep
 
 volatile uint32_t g_ticks = 0; // 10 ms each (100 Hz timer ISR)
 
@@ -106,11 +106,11 @@ int main(void)
         return 1;
     }
 
-    // --- validate the file read ---
+    // --- validate the file read (first 256 KB is enough to exercise the FAT chain) ---
     uint32_t size = files[img].file_size;
-    uint32_t rd = size > IMG_MAX ? IMG_MAX : size;
-    printf("\r\nReading IMAGE.BIN (%lu bytes%s) to 0x%X...\r\n",
-           (unsigned long)size, size > IMG_MAX ? ", capped" : "", IMG_LOAD);
+    uint32_t rd = size < IMG_READ ? size : IMG_READ;
+    printf("\r\nReading first %lu bytes of IMAGE.BIN (of %lu) to 0x%X...\r\n",
+           (unsigned long)rd, (unsigned long)size, IMG_LOAD);
     int got = fat16_read_file(&bs, files[img].first_cluster_low, (uint8_t *)IMG_LOAD, rd);
     printf("read %d of %lu bytes  ", got, (unsigned long)rd);
     printf("first 16: ");
@@ -118,23 +118,57 @@ int main(void)
         printf("%02X ", MEM(IMG_LOAD + i));
     printf("\r\n%s\r\n", got == (int)rd ? "FILE READ OK" : "SHORT READ");
 
-    // --- speed test: timed raw 1 MB sequential read (no console in the loop) ---
-    set_interrupts(false);
+    // --- SPI clock sweep: read the same 1 MB at each rate, checksum + time ---
+    // Same blocks every pass, so the checksums must match if all rates are
+    // reliable; the timer (no console in the loop) gives clean throughput.
+    static const struct { uint8_t baud; const char *mhz; } rates[] = {
+        {7, "4.05"}, {3, "8.10"}, {1, "16.2"},
+    };
+    uint32_t ref = 0;
+    int reliable = 1;
+
     set_exception_handler(TICK_VECTOR, timer_isr);
-    g_ticks = 0;
-    MEM(TIMER_CTRL) = 0x01 | (3 << 4); // enable, 100 Hz
-    set_interrupts(true);
+    printf("\r\nSPI clock sweep (same 256 KB read each pass):\r\n");
 
-    int sok = (sd_spi_read(fat16_part_start(), (uint8_t *)IMG_LOAD, SPEED_BLOCKS) == 0);
+    for (unsigned r = 0; r < sizeof(rates) / sizeof(rates[0]); r++)
+    {
+        sd_spi_set_baud(rates[r].baud);
 
-    set_interrupts(false);
-    MEM(TIMER_CTRL) = 0x00;
+        // time ONLY the read (one call; no console/checksum inside)
+        set_interrupts(false);
+        g_ticks = 0;
+        MEM(TIMER_CTRL) = 0x01 | (3 << 4); // enable, 100 Hz
+        set_interrupts(true);
 
-    uint32_t ms = g_ticks * 10;
-    uint32_t kb = (SPEED_BLOCKS * 512U) / 1024U;
-    printf("\r\nspeed: %lu KB raw read in %lu ms = %lu KB/s %s\r\n",
-           (unsigned long)kb, (unsigned long)ms,
-           (unsigned long)(ms ? kb * 1000U / ms : 0), sok ? "" : "(read err!)");
+        int ok = (sd_spi_read(fat16_part_start(), (uint8_t *)IMG_LOAD, SWEEP_BLOCKS) == 0);
 
-    return (got == (int)rd && sok) ? 0 : 1;
+        set_interrupts(false);
+        MEM(TIMER_CTRL) = 0x00;
+        uint32_t ms = g_ticks * 10;
+
+        // cheap longword-additive checksum, OUTSIDE the timed region; same blocks
+        // each pass so it must match if the rate read the data correctly
+        uint32_t sum = 0;
+        const uint32_t *p = (const uint32_t *)IMG_LOAD;
+        for (uint32_t i = 0; i < SWEEP_BLOCKS * 512U / 4U; i++)
+            sum += p[i];
+
+        uint32_t kb = (SWEEP_BLOCKS * 512U) / 1024U;
+        printf("  %s MHz: %lu ms = %lu KB/s  csum=%08lX %s\r\n",
+               rates[r].mhz, (unsigned long)ms,
+               (unsigned long)(ms ? kb * 1000U / ms : 0),
+               (unsigned long)sum, ok ? "" : "(READ ERR)");
+
+        if (r == 0)
+            ref = sum;
+        else if (sum != ref)
+            reliable = 0;
+        if (!ok)
+            reliable = 0;
+    }
+
+    sd_spi_set_baud(SD_BAUD_DATA); // restore default
+    printf("reliable across all rates: %s\r\n", reliable ? "YES (checksums match)" : "NO");
+
+    return (got == (int)rd && reliable) ? 0 : 1;
 }

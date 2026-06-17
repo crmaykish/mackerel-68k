@@ -42,10 +42,12 @@ static int read_data(uint8_t *buf, int len)
     return 0;
 }
 
+void sd_spi_set_baud(uint8_t baud) { spi_init(baud); }
+
 bool sd_spi_init(void)
 {
     // Power-up: >=74 clocks with CS high and MOSI high, at <=400 kHz.
-    spi_init(128); // ~251 kHz
+    spi_init(SD_BAUD_INIT);
     cs_high();
     for (int i = 0; i < 10; i++)
         rx();
@@ -96,7 +98,7 @@ bool sd_spi_init(void)
     rx();
     sdhc = (ocr[0] & 0x40) != 0;
 
-    spi_init(7); // ~4 MHz for data
+    spi_init(SD_BAUD_DATA);
     return true;
 }
 

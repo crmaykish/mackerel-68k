@@ -11,24 +11,23 @@
 #include "uart_xr68c681.h" // the "gpio" command toggles the DUART's port pins
 #endif
 
-#ifdef HAS_MASS_STORAGE
-#include "sd.h"
 #include "fat16.h"
-#ifndef MACKEREL_08
-#include "ide.h" // mack10/mack30 use IDE; mack08 uses bitbang SD
-#endif
+#ifdef MACKEREL_F
+#include "sd_spi.h" // mackf: SD over the tiny_spi master
+#elif defined(MACKEREL_08)
+#include "sd.h"     // mack08: bitbang SD
+#else
+#include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.6"
+#define VERSION "0.8.7"
 
 #define INPUT_BUFFER_SIZE 32
 
 void handler_run(uint32_t addr);
 void handler_ymodem(uint32_t addr);
 void handler_zero(uint32_t addr, uint32_t size);
-#ifdef HAS_MASS_STORAGE
 void handler_boot();
-#endif
 #ifdef HAS_DUART_GPIO
 void handler_gpio(char *dir, char *pin_str, char *val_str);
 #endif
@@ -62,9 +61,7 @@ void handler_help()
 {
     printf("Available commands:\r\n");
     printf(" ymodem <addr>         - Receive a file via YMODEM into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
-#ifdef HAS_MASS_STORAGE
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
-#endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -115,12 +112,10 @@ int main()
             uint32_t addr = strtoul(param1, 0, 16);
             handler_ymodem(addr);
         }
-#ifdef HAS_MASS_STORAGE
         else if (strncmp(buffer, "boot", 4) == 0)
         {
             handler_boot();
         }
-#endif
         else if (strncmp(buffer, "run", 3) == 0)
         {
             strtok(buffer, " ");
@@ -334,10 +329,14 @@ void handler_run(uint32_t addr)
         : "a0");
 }
 
-#ifdef HAS_MASS_STORAGE
 // Define the block_read function based on the board.
 // Mackerel-08 uses bitbang SD. Mackerel-10 and Mackerel-30 have real IDE
-#ifdef MACKEREL_08
+#ifdef MACKEREL_F
+static int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
+{
+    return sd_spi_read(block_num, block, count);
+}
+#elif defined(MACKEREL_08)
 static int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 {
     return sd_read_blocks(block_num, count, block) ? 0 : -1;
@@ -354,7 +353,16 @@ void handler_boot()
     fat16_boot_sector_t boot_sector;
     fat16_dir_entry_t files_list[16] = {0};
 
-#ifdef MACKEREL_08
+#ifdef MACKEREL_F
+    printf("Loading IMAGE.BIN from SD card...\r\n");
+
+    if (!sd_spi_init())
+    {
+        printf("SD init failed\r\n");
+        return;
+    }
+    sd_spi_print_info();
+#elif defined(MACKEREL_08)
     printf("Loading Linux kernel from SD card...\r\n");
 
     if (!sd_init())
@@ -424,7 +432,6 @@ void handler_boot()
         printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
     }
 }
-#endif /* HAS_MASS_STORAGE */
 
 void handler_ymodem(uint32_t addr)
 {
