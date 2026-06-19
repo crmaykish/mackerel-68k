@@ -23,6 +23,7 @@ add_file cores/tiny_spi/rtl/verilog/tiny_spi.v
 
 add_file timer.v
 add_file irq_encoder.v
+add_file bus_watchdog.v
 
 add_file mackerel_f.cst
 add_file mackerel_f.sdc

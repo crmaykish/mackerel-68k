@@ -10,7 +10,7 @@ VVP      = $(HOME)/oss-cad-suite/bin/vvp
 BIT      = impl/pnr/$(TOP).fs
 
 # Everything build.tcl feeds to Gowin -> editing any of it forces a re-synth
-SRCS   = mackerel_f.v pll.v sdram_controller.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v irq_encoder.v boot_signal.v $(CORE)/fx68k.v $(wildcard $(UART)/*.v)
+SRCS   = mackerel_f.v pll.v sdram_controller.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v irq_encoder.v bus_watchdog.v boot_signal.v $(CORE)/fx68k.v $(wildcard $(UART)/*.v)
 INPUTS = $(SRCS) $(TOP).cst $(TOP).sdc build.tcl microrom.mem nanorom.mem rom.hex
 
 $(BIT): $(INPUTS)
@@ -24,8 +24,6 @@ flash: $(BIT)
 prog: $(BIT)
 	$(LOADER) -b tangnano20k $(BIT)
 
-# Standalone module simulations (iverilog). Add testbenches here as they land.
-test: timer-test
 
 timer-test: timer.v timer_tb.v
 	$(IVERILOG) -g2012 -Wall -o timer_tb.vvp timer.v timer_tb.v && $(VVP) timer_tb.vvp

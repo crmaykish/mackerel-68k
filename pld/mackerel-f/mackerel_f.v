@@ -55,8 +55,9 @@ module mackerel_f (
     // Control Lines
     wire RWn, ASn, LDSn, UDSn, FC0, FC1, FC2;
     wire DTACKn;
-    wire VPAn;                  // autovector strobe (asserted during IACK)
-    wire IPL0n, IPL1n, IPL2n;   // interrupt priority level to the CPU (active low)
+    wire BERRn;
+    wire VPAn;
+    wire IPL0n, IPL1n, IPL2n;
 
     // CPU Core
     fx68k cpu(
@@ -88,7 +89,7 @@ module mackerel_f (
         .IPL2n(IPL2n),
 
         .VPAn(VPAn),
-        .BERRn(1'b1),
+        .BERRn(BERRn),
         .BRn(1'b1),
         .BGACKn(1'b1)
     );
@@ -99,7 +100,7 @@ module mackerel_f (
 
     // Memory Map
     //  SDRAM        0x000000-0x7FFFFF  8 MB system RAM (sdram.v adapter + sdram_nano.v controller)
-    //  (unmapped)   0x800000-0xFF7FFF  -- nothing here (no DTACK; a stray access would hang)
+    //  (unmapped)   0x800000-0xFF7FFF  Nothing - BERR will trigger
     //  ROM          0xFF8000-0xFFF7FF  30 KB
     //  Peripherals  0xFFF800-0xFFFFFF  2 KB    8 slots x 256 B:
     //                 slot 0  0xFFF800  GPIO
@@ -262,14 +263,28 @@ module mackerel_f (
         .IO_sdram_dq(IO_sdram_dq)
     );
 
-    // DTACK Generation -- 0 (no wait) for ROM/RAM/GPIO; from the peripheral/SDRAM
-    // otherwise. An IACK is terminated by VPAn (autovector), so DTACK stays high.
+    // DTACK Generation:
+    //   No wait states for ROM and GPIO
+    //   SDRAM, UART, timer, and SPI controller all provide their own DTACK
+    //   Any other access keeps DTACK de-asserted so BERR will trigger
     assign DTACKn = iack        ? 1'b1 :
+                    ~cs_rom_n   ? 1'b0 :
+                    ~cs_gpio_n  ? 1'b0 :
                     ~cs_sdram_n ? dtack_sdram :
                     ~cs_uart_n  ? dtack_uart  :
                     ~cs_timer_n ? dtack_timer :
                     ~cs_spi_n   ? dtack_spi   :
-                                  1'b0;
+                                  1'b1;
+
+    // Bus Watchdog - if a bus cycles fails to DTACK within a reasonable time (4096 clock cycles), assert BERR
+    bus_watchdog #(.TIMEOUT(4096)) wd(
+        .clk(clk_soc),
+        .rst_n(~rst_cpu),
+        .as_n(ASn),
+        .dtack_n(DTACKn),
+        .vpa_n(VPAn),
+        .berr_n(BERRn)
+    );
 
     // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
     always @(*) begin
