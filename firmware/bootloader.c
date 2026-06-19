@@ -20,7 +20,7 @@
 #include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.7"
+#define VERSION "0.8.8"
 
 #define INPUT_BUFFER_SIZE 32
 

@@ -23,8 +23,8 @@ IO_LOC  "uart_rx" 70;
 IO_PORT "uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
 // Onboard microSD slot: CS=DAT3, MOSI=CMD, SCK=CLK, MISO=DAT0
-IO_LOC  "sd_cs" 81;
-IO_PORT "sd_cs" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC  "cs_spi_sd" 81;
+IO_PORT "cs_spi_sd" IO_TYPE=LVCMOS33 DRIVE=8;
 IO_LOC  "sd_mosi" 82;
 IO_PORT "sd_mosi" IO_TYPE=LVCMOS33 DRIVE=8;
 IO_LOC  "sd_sck" 83;
