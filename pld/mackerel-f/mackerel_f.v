@@ -8,7 +8,7 @@ module mackerel_f (
     output uart_tx,
 
     // SD card
-    output sd_cs,
+    output cs_spi_sd,
     output sd_mosi,
     output sd_sck,
     input sd_miso,
@@ -194,6 +194,7 @@ module mackerel_f (
     wire irq_spi;
     wire dtack_spi;
     wire [7:0] spi_dout;
+    wire [7:0] spi_data_in = ~LDSn ? DATA_BUS_OUT[7:0] : DATA_BUS_OUT[15:8];
 
     spi sp(
         .clk(clk_soc),
@@ -203,7 +204,7 @@ module mackerel_f (
         .reg_addr(ADDR_BUS[4:2]),
         .rwn(RWn),
         .ds_n(UDSn),
-        .data_in(DATA_BUS_OUT[15:8]),
+        .data_in(spi_data_in),
         .data_out(spi_dout),
         .dtack_n(dtack_spi),
         .irq(irq_spi),
@@ -300,7 +301,8 @@ module mackerel_f (
     // Debug LEDs (active low)
     assign led = ~gpio[5:0];
 
-    // SD chip-select on a GPIO bit (tiny_spi has no SS). Sets gpio[6]=1 to assert CS low.
-    assign sd_cs = ~gpio[6];
+    // Use the GPIO register as SPI chip-selects
+    assign cs_spi_sd = ~gpio[6];        // SD Card
+    // assign cs_spi_nic = ~gpio[7];    // Network interface
 
 endmodule
