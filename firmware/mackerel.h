@@ -45,7 +45,9 @@
 #define UART_BASE 0xFFF900
 #define TIMER_BASE 0xFFFA00 // slot 2: programmable system-tick timer
 #define SPI_BASE 0xFFFB00 // slot 3: tiny_spi master (SD card)
+#define SPI2_BASE 0xFFFC00 // slot 4: tiny_spi master (W5500 NIC)
 #define PROGRAM_START 0x400
+#define ROMFS_LOAD_ADDR 0x700000UL // ROMfs region
 #define CPU_CLK_HZ 32400000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters
 #define SLEEP_CYCLES_PER_LOOP 40

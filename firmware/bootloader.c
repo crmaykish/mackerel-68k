@@ -20,7 +20,7 @@
 #include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.8"
+#define VERSION "0.8.13"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -348,6 +348,39 @@ static int block_read(uint32_t block_num, uint8_t *block, uint32_t count)
 }
 #endif
 
+static int load_named_file(fat16_boot_sector_t *bs, fat16_dir_entry_t *files,
+                           const char *name12, uint32_t addr)
+{
+    for (int i = 0; i < 16; i++)
+    {
+        if (files[i].file_size == 0)
+            continue;
+
+        char filename[13];
+        fat16_get_file_name(&files[i], filename);
+
+        if (strncmp(filename, name12, 12) != 0)
+            continue;
+
+        printf("\r\nReading %s (%ld bytes) into RAM at 0x%lX...\r\n",
+               name12, files[i].file_size, (unsigned long)addr);
+
+        int n = fat16_read_file(bs, files[i].first_cluster_low,
+                                (uint8_t *)addr, files[i].file_size);
+
+        if (n != (int)files[i].file_size)
+        {
+            printf("Read failed (%d of %ld bytes)\r\n", n, files[i].file_size);
+            return -1;
+        }
+
+        printf("Read %d bytes OK\r\n", n);
+        return n;
+    }
+
+    return -1; // not found
+}
+
 void handler_boot()
 {
     fat16_boot_sector_t boot_sector;
@@ -388,6 +421,24 @@ void handler_boot()
 
     printf("\r\nReading files on disk...\r\n");
     fat16_list_files(&boot_sector, files_list);
+
+    // Load the kernel image
+    if (load_named_file(&boot_sector, files_list, "IMAGE   .BIN", PROGRAM_START) < 0)
+    {
+        printf("ERROR: Could not load IMAGE.BIN from disk\r\n");
+        return;
+    }
+
+#ifdef MACKEREL_F
+    // Load the ROMfs image
+    if (load_named_file(&boot_sector, files_list, "ROMFS   .BIN", ROMFS_LOAD_ADDR) < 0)
+    {
+        printf("WARNING: ROMFS.BIN not found -- kernel will panic without a root fs\r\n");
+    }
+#endif
+
+    handler_run(PROGRAM_START);
+}
 
     bool kernel_found = false;
 

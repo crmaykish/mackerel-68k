@@ -31,3 +31,15 @@ IO_LOC  "sd_sck" 83;
 IO_PORT "sd_sck" IO_TYPE=LVCMOS33 DRIVE=8;
 IO_LOC  "sd_miso" 84;
 IO_PORT "sd_miso" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+// SPI NIC (W5500) on header pins: CS=25, MOSI=26, SCK=27, MISO=28
+IO_LOC  "cs_spi_nic" 25;
+IO_PORT "cs_spi_nic" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC  "nic_mosi" 26;
+IO_PORT "nic_mosi" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC  "nic_sck" 27;
+IO_PORT "nic_sck" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC  "nic_miso" 28;
+IO_PORT "nic_miso" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC  "nic_int" 29;
+IO_PORT "nic_int" IO_TYPE=LVCMOS33 PULL_MODE=UP;

@@ -13,6 +13,13 @@ module mackerel_f (
     output sd_sck,
     input sd_miso,
 
+    // NIC is on a second SPI master
+    output cs_spi_nic,
+    output nic_mosi,
+    output nic_sck,
+    input nic_miso,
+    input nic_int,
+
     // SDRAM (Tang Nano 20k in-package SiP; pins auto-routed by name, no .cst)
     output O_sdram_clk,
     output O_sdram_cke,
@@ -131,6 +138,8 @@ module mackerel_f (
     wire cs_uart_n  = ~(~cs_periph_n && periph_sel == 3'd1);
     wire cs_timer_n = ~(~cs_periph_n && periph_sel == 3'd2);
     wire cs_spi_n   = ~(~cs_periph_n && periph_sel == 3'd3);
+    wire cs_spi2_n  = ~(~cs_periph_n && periph_sel == 3'd4);
+    wire cs_intc_n  = ~(~cs_periph_n && periph_sel == 3'd5);
 
     // ROM: 16K x 16 = 32 KB physical, covering the whole 30 KB ROM region
     // (linear, no longer mirrored -- ADDR_BUS[14:1] is the in-region word index).
@@ -146,6 +155,12 @@ module mackerel_f (
     always @(posedge clk_soc) begin
         // GPIO writes
         if (~cs_gpio_n && ~RWn && ~UDSn) gpio <= DATA_BUS_OUT[15:8];
+    end
+
+    // Simple interrupt masking register
+    reg [7:0] intc = 8'b0;
+    always @(posedge clk_soc) begin
+        if (~cs_intc_n && ~RWn && ~UDSn) intc <= DATA_BUS_OUT[15:8];
     end
 
     // UART
@@ -214,15 +229,41 @@ module mackerel_f (
         .miso(sd_miso)
     );
 
+    // SPI Master 2 (NIC)
+    wire irq_spi2;
+    wire dtack_spi2;
+    wire [7:0] spi2_dout;
+
+    spi sp2(
+        .clk(clk_soc),
+        .rst_n(~rst_cpu),
+
+        .cs_n(cs_spi2_n),
+        .reg_addr(ADDR_BUS[4:2]),
+        .rwn(RWn),
+        .ds_n(UDSn),
+        .data_in(spi_data_in),
+        .data_out(spi2_dout),
+        .dtack_n(dtack_spi2),
+        .irq(irq_spi2),
+
+        .mosi(nic_mosi),
+        .sck(nic_sck),
+        .miso(nic_miso)
+    );
+
+    // NIC interrupt
+    wire irq_nic = ~nic_int & intc[4];
+
     // Interrupt map (mirrors Mackerel-30's irq_encoder): priority-encode the
-    // sources onto the 68000 IPL pins. Timer = level 6, UART = level 5.
+    // sources onto the 68000 IPL pins. Timer = level 6, UART = level 5, NIC = level 4.
     irq_encoder ie(
         .irq1(1'b0),
         .irq2(1'b0),
         .irq3(1'b0),
-        .irq4(1'b0),
-        .irq5(irq_uart),    // UART  -> IPL 5 (autovector 29)
-        .irq6(irq_timer),   // Timer -> IPL 6 (autovector 30)
+        .irq4(irq_nic),     // W5500 -> IPL 4
+        .irq5(irq_uart),    // UART  -> IPL 5
+        .irq6(irq_timer),   // Timer -> IPL 6
         .irq7(1'b0),
         .ipl0_n(IPL0n),
         .ipl1_n(IPL1n),
@@ -275,6 +316,8 @@ module mackerel_f (
                     ~cs_uart_n  ? dtack_uart  :
                     ~cs_timer_n ? dtack_timer :
                     ~cs_spi_n   ? dtack_spi   :
+                    ~cs_spi2_n  ? dtack_spi2  :
+                    ~cs_intc_n  ? 1'b0        :
                                   1'b1;
 
     // Bus Watchdog - if a bus cycles fails to DTACK within a reasonable time (4096 clock cycles), assert BERR
@@ -295,6 +338,8 @@ module mackerel_f (
         else if (~cs_uart_n) DATA_BUS_IN = {uart_dout, 8'h00};   // "
         else if (~cs_timer_n) DATA_BUS_IN = {timer_dout, 8'h00}; // "
         else if (~cs_spi_n) DATA_BUS_IN = {spi_dout, 8'h00};     // "
+        else if (~cs_spi2_n) DATA_BUS_IN = {spi2_dout, 8'h00};   // "
+        else if (~cs_intc_n) DATA_BUS_IN = {intc, 8'h00};        // "
         else DATA_BUS_IN = 16'h0000;
     end
 
@@ -303,6 +348,6 @@ module mackerel_f (
 
     // Use the GPIO register as SPI chip-selects
     assign cs_spi_sd = ~gpio[6];        // SD Card
-    // assign cs_spi_nic = ~gpio[7];    // Network interface
+    assign cs_spi_nic = ~gpio[7];       // Network interface (W5500)
 
 endmodule
