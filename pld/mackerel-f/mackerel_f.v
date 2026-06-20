@@ -107,7 +107,8 @@ module mackerel_f (
 
     // Memory Map
     //  SDRAM        0x000000-0x7FFFFF  8 MB system RAM (sdram.v adapter + sdram_nano.v controller)
-    //  (unmapped)   0x800000-0xFF7FFF  Nothing - BERR will trigger
+    //  (unmapped)   0x800000-0xFEFFFF  Nothing - BERR will trigger
+    //  BSRAM        0xFF0000-0xFF7FFF  32 KB onboard BSRAM
     //  ROM          0xFF8000-0xFFF7FF  30 KB
     //  Peripherals  0xFFF800-0xFFFFFF  2 KB    8 slots x 256 B:
     //                 slot 0  0xFFF800  GPIO
@@ -119,7 +120,8 @@ module mackerel_f (
     wire in_periph = &address[23:11];                 // top 2 KB
     wire in_rom    = (&address[23:15]) && ~in_periph;  // top 32 KB minus top 2 KB
     wire in_ram    = ~(&address[23:15]);               // everything below 0xFF8000
-    wire in_sdram  = in_ram && ~address[23];           // low 8 MB (0x000000-0x7FFFFF) -> SDRAM system RAM
+    wire in_sdram  = in_ram && ~address[23];           // low 8 MB (0x000000-0x7FFFFF) - SDRAM system RAM
+    wire in_bsram  = (address[23:15] == 9'h1FE);       // 0xFF0000-0xFF7FFF - BSRAM
     wire [2:0] periph_sel = address[10:8];             // 1 of 8 peripheral slots
 
     // CPU space (FC = 111): the 68000 drives this only for interrupt-acknowledge.
@@ -132,6 +134,7 @@ module mackerel_f (
     // the reset vector from ROM at 0x0; afterward SDRAM owns 0x0.
     wire cs_rom_n    = ~(~ASn && (~BOOT || in_rom));
     wire cs_sdram_n  = ~(~ASn &&  BOOT && in_sdram);
+    wire cs_bsram_n  = ~(~ASn &&  BOOT && in_bsram);
     wire cs_periph_n = ~(~ASn &&  BOOT && in_periph && ~cpu_space);
 
     wire cs_gpio_n  = ~(~cs_periph_n && periph_sel == 3'd0);
@@ -141,13 +144,22 @@ module mackerel_f (
     wire cs_spi2_n  = ~(~cs_periph_n && periph_sel == 3'd4);
     wire cs_intc_n  = ~(~cs_periph_n && periph_sel == 3'd5);
 
-    // ROM: 16K x 16 = 32 KB physical, covering the whole 30 KB ROM region
-    // (linear, no longer mirrored -- ADDR_BUS[14:1] is the in-region word index).
+    // ROM (16K x 16 = 32 KB)
     reg [15:0] rom [0:16383];
     reg [15:0] rom_out;
     // Preload the ROM with a hex file
     initial $readmemh("rom.hex", rom);
     always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[14:1]];
+
+    // BSRAM (16k x 16 = 32 KB)
+    reg [7:0] bsram_hi [0:16383];
+    reg [7:0] bsram_lo [0:16383];
+    reg [15:0] bsram_out;
+    always @(posedge clk_soc) begin
+        if (~cs_bsram_n && ~RWn && ~UDSn) bsram_hi[ADDR_BUS[14:1]] <= DATA_BUS_OUT[15:8];
+        if (~cs_bsram_n && ~RWn && ~LDSn) bsram_lo[ADDR_BUS[14:1]] <= DATA_BUS_OUT[7:0];
+        bsram_out <= {bsram_hi[ADDR_BUS[14:1]], bsram_lo[ADDR_BUS[14:1]]};
+    end
 
 
     // GPIO
@@ -311,6 +323,7 @@ module mackerel_f (
     //   Any other access keeps DTACK de-asserted so BERR will trigger
     assign DTACKn = iack        ? 1'b1 :
                     ~cs_rom_n   ? 1'b0 :
+                    ~cs_bsram_n ? 1'b0 :
                     ~cs_gpio_n  ? 1'b0 :
                     ~cs_sdram_n ? dtack_sdram :
                     ~cs_uart_n  ? dtack_uart  :
@@ -333,6 +346,7 @@ module mackerel_f (
     // Databus Input Mux - map the correct memory/peripheral data bus to the CPU on read cycles
     always @(*) begin
         if (~cs_rom_n) DATA_BUS_IN = rom_out;
+        else if (~cs_bsram_n) DATA_BUS_IN = bsram_out;
         else if (~cs_sdram_n) DATA_BUS_IN = sdram_dout;
         else if (~cs_gpio_n) DATA_BUS_IN = {gpio, 8'h00};        // Pad 8-bit peripherals with LDS of 0
         else if (~cs_uart_n) DATA_BUS_IN = {uart_dout, 8'h00};   // "

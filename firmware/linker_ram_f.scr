@@ -1,8 +1,8 @@
 MEMORY
 {
-    /* SDRAM below the bootloader's 256 KB reserve at the top. Programs load at
-       PROGRAM_START (0x400, just above the vector table) and run there. */
-    RAM(RWX) : ORIGIN = 0x400,  LENGTH = 0x7C0000 - 0x400
+    /* SDRAM below the ROMfs region at 0x7A0000 (the bootloader's own RAM lives in BSRAM)
+       Bare metal programs (and Linux kernel) load at PROGRAM_START (0x400) */
+    RAM(RWX) : ORIGIN = 0x400,  LENGTH = 0x7A0000 - 0x400
 }
 
 SECTIONS

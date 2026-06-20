@@ -1,7 +1,7 @@
 MEMORY
 {
     ROM(RX) : ORIGIN = 0xFF8000,  LENGTH = 0x7800             /* 30 KB ROM region (32 KB physical in RTL) */
-    RAM(RW) : ORIGIN = 0x7C0000,  LENGTH = 0x40000            /* top 256 KB of SDRAM: bootloader .data/.bss/heap + stack (SP=0x800000). Loaded programs get 0x400..0x7BFFFF */
+    RAM(RW) : ORIGIN = 0xFF0000,  LENGTH = 0x8000             /* 32 KB BSRAM for the bootloader */
 }
 
 SECTIONS
