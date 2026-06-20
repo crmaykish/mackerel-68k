@@ -24,7 +24,7 @@
 #define RAM_HI 0x7F0000UL
 
 static void uart_init(void) {
-    UART_LCR = 0x80; UART_DLL = 35; UART_DLM = 0; UART_LCR = 0x03; UART_FCR = 0x07;  // 64.8MHz/(16*35) ~ 115200
+    UART_LCR = 0x80; UART_DLL = 41; UART_DLM = 0; UART_LCR = 0x03; UART_FCR = 0x07;  // 75.6MHz/(16*41) ~ 115200
 }
 static void putc_(char c) { while (!(UART_LSR & LSR_THRE)) { } UART_THR = c; }
 static void puts_(const char *s) { while (*s) { if (*s == '\n') putc_('\r'); putc_(*s++); } }

@@ -14,7 +14,7 @@
 #define SPI_TXE 0x01 // engine idle (transfer complete)
 #define SPI_TXR 0x02 // ready to accept the next byte
 
-// SCLK = clk_soc / (2*(baud+1)), clk_soc = 64.8 MHz
+// SCLK = clk_soc / (2*(baud+1)), clk_soc = 75.6 MHz
 void spi_init(uint8_t baud);
 uint8_t spi_transfer(uint8_t tx);
 

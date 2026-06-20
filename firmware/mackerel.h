@@ -48,7 +48,7 @@
 #define SPI2_BASE 0xFFFC00 // slot 4: tiny_spi master (W5500 NIC)
 #define PROGRAM_START 0x400
 #define ROMFS_LOAD_ADDR 0x7A0000UL // ROMfs region (top 384 KB of SDRAM)
-#define CPU_CLK_HZ 32400000UL
+#define CPU_CLK_HZ 37800000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters
 #define SLEEP_CYCLES_PER_LOOP 40
 #endif

@@ -33,7 +33,7 @@ module mackerel_f (
     inout  [31:0] IO_sdram_dq
 );
 
-    // PLL: 27 MHz oscillator -> 64.8 MHz SoC clock (+ phase-shifted SDRAM chip clock)
+    // PLL: 27 MHz oscillator -> 75.6 MHz SoC clock (+ phase-shifted SDRAM chip clock)
     wire clk_soc;
     wire clk_soc_ps;
     wire pll_lock;
@@ -48,7 +48,7 @@ module mackerel_f (
         else if (rst_cpu) rst <= rst + 1'b1;
     end
 
-    // Two-phase clock: fx68k enables on alternate clk_soc cycles -> CPU = clk_soc/2 = 32.4 MHz
+    // Two-phase clock: fx68k enables on alternate clk_soc cycles -> CPU = clk_soc/2 = 37.8 MHz
     reg phase = 1'b0;
     always @(posedge clk_soc) phase <= ~phase;
     wire enPhi1 = (phase == 1'b1);
@@ -198,7 +198,7 @@ module mackerel_f (
     );
 
     // Timer (slot 2 @ 0xFFFA00) -- programmable system-tick interrupt source.
-    // CLK_HZ defaults to 64.8 MHz (= clk_soc), so the tick rates divide exactly.
+    // CLK_HZ defaults to 75.6 MHz (= clk_soc), so the tick rates divide exactly.
     wire       irq_timer;
     wire       dtack_timer;
     wire [7:0] timer_dout;

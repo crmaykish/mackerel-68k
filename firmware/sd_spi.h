@@ -6,7 +6,7 @@
 
 // SD card over the tiny_spi master (SPI mode). CS = GPIO bit 6.
 
-// SPI divisors: SCLK = clk_soc / (2*(baud+1)), clk_soc = 64.8 MHz.
+// SPI divisors: SCLK = clk_soc / (2*(baud+1)), clk_soc = 75.6 MHz.
 #define SD_BAUD_INIT 128 // ~251 kHz (<400 kHz, for card init)
 #define SD_BAUD_DATA 3   // ~8.1 MHz (data rate; HW sweep showed >8 MHz is CPU-bound)
 

@@ -4,8 +4,8 @@
 
 module pll (
     input  clk_in,     // 27 MHz oscillator
-    output clk_out,     // 64.8 MHz SoC clock
-    output clk_out_ps,  // 64.8 MHz, phase-shifted (SDRAM chip clock, PSDA 1010)
+    output clk_out,     // 75.6 MHz SoC clock
+    output clk_out_ps,  // 75.6 MHz, phase-shifted (SDRAM chip clock, PSDA 1010)
     output locked       // high once the PLL has locked
 );
 
@@ -25,7 +25,7 @@ module pll (
         .DUTYDA(4'b0),
         .FDLY(4'b0000),      // 0 like nand2mario (1111 shifts the SDRAM phase)
 
-        .CLKOUTP(clk_out_ps),// phase-shifted 64.8 MHz -> SDRAM chip clock
+        .CLKOUTP(clk_out_ps),// phase-shifted 75.6 MHz -> SDRAM chip clock
         .CLKOUTD(),          // divided output, unused
         .CLKOUTD3()          // /3 output, unused
     );
@@ -33,8 +33,8 @@ module pll (
     // The five that matter
     defparam rpll.FCLKIN = "27";
     defparam rpll.IDIV_SEL = 4;           // input  / 5  (PFD = 5.4 MHz)
-    defparam rpll.FBDIV_SEL = 11;         // feedback * 12 -> 64.8 MHz (CPU = 32.4 MHz at /2)
-    defparam rpll.ODIV_SEL = 16;          // VCO = 1036.8 MHz
+    defparam rpll.FBDIV_SEL = 13;         // feedback * 14 -> 75.6 MHz (CPU = 37.8 MHz at /2)
+    defparam rpll.ODIV_SEL = 8;           // VCO = 604.8 MHz
     defparam rpll.DEVICE = "GW2AR-18C";
 
     // Tie-offs: static config, single output, internal feedback, no dyn reconfig

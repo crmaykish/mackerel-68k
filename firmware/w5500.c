@@ -10,7 +10,7 @@
 
 #define NIC_CS 0x80 // GPIO bit 7 -> cs_spi_nic = ~gpio[7] (set = selected)
 
-#define W5500_SPI_BAUD 1 // SCLK = clk_soc/(2*(baud+1)); 1 = ~16.2 MHz, 0 = ~32.4 MHz
+#define W5500_SPI_BAUD 1 // SCLK = clk_soc/(2*(baud+1)); 1 = ~18.9 MHz, 0 = ~37.8 MHz
 
 // W5500 SPI frame: [addr_hi][addr_lo][control][data...], control = BSB<<3 | RW | OM.
 #define BSB_COMMON 0x00

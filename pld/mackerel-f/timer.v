@@ -23,12 +23,12 @@
 //
 // The four tick periods are derived from CLK_HZ, so they stay correct if the
 // SoC clock changes -- update the one parameter, like the UART baud divisor.
-// At clk_soc = 64.8 MHz all four rates divide exactly (no rounding error).
+// At clk_soc = 75.6 MHz all four rates divide exactly (no rounding error).
 
 `default_nettype none
 
 module timer #(
-    parameter integer CLK_HZ = 64_800_000   // clk frequency; tick periods derive from this
+    parameter integer CLK_HZ = 75_600_000   // clk frequency; tick periods derive from this
 ) (
     input  wire       clk,
     input  wire       rst_n,

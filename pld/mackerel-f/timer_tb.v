@@ -4,7 +4,7 @@
 //
 // The DUT is instantiated with a deliberately small CLK_HZ so the four tick
 // rates become short, observable periods (the divider math is identical to the
-// real 64.8 MHz part -- only the absolute counts shrink). With CLK_HZ = 1000:
+// real 75.6 MHz part -- only the absolute counts shrink). With CLK_HZ = 1000:
 //   10 Hz -> 100 cycles, 25 Hz -> 40, 50 Hz -> 20, 100 Hz -> 10.
 //
 // Checks: reset defaults, CTRL read/write + freq select, the exact tick period

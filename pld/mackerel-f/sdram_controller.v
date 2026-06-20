@@ -6,8 +6,8 @@
 `default_nettype none
 
 module sdram_controller (
-    input  wire        clk,        // 64.8 MHz, shared with the 68k bus (= clk_soc)
-    input  wire        clk_ps,     // 64.8 MHz phase-shifted -> SDRAM chip clock
+    input  wire        clk,        // 75.6 MHz, shared with the 68k bus (= clk_soc)
+    input  wire        clk_ps,     // 75.6 MHz phase-shifted -> SDRAM chip clock
     input  wire        rst_n,
 
     // 68k bus side (clk domain)
@@ -41,7 +41,7 @@ module sdram_controller (
     wire [31:0] ctrl_dout32;
     wire        ctrl_busy, ctrl_data_ready;
 
-    sdram#(.FREQ(64_800_000)) u_ctrl (
+    sdram#(.FREQ(75_600_000)) u_ctrl (
         .clk(clk),
         .clk_sdram(clk_ps),
         .resetn(rst_n),
@@ -62,7 +62,7 @@ module sdram_controller (
     );
 
     // ---- refresh timer: one auto-refresh every ~5 us (>= 4096 per 64 ms) ----
-    localparam [8:0] REFRESH_INT = 9'd340;   // ~5.3 us @ 64 MHz (well under the 15.6 us max)
+    localparam [8:0] REFRESH_INT = 9'd340;   // ~4.5 us @ 75.6 MHz (well under the 15.6 us max)
     reg [8:0] ref_cnt;
     reg       ref_due;
     reg       init_seen;

@@ -21,7 +21,7 @@
 static void uart_init(void)
 {
     UART_LCR = 0x80;   // DLAB=1 -> divisor latches visible
-    UART_DLL = 35;     // 64.8MHz / (16*35) = 115714  (~115200, +0.45%)
+    UART_DLL = 41;     // 75.6MHz / (16*41) = 115244  (~115200, +0.04%)
     UART_DLM = 0;
     UART_LCR = 0x03;   // DLAB=0, 8 data bits / no parity / 1 stop (8N1)
     UART_FCR = 0x07;   // enable + clear RX & TX FIFOs
