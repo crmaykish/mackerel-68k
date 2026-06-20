@@ -65,7 +65,7 @@ endif
 # Mass-storage drivers linked into the bootloader. Mackerel-F reads SD over the
 # tiny_spi master; the DUART boards bitbang SD (mack08) or use IDE (mack10/30).
 ifeq ($(BOARD),mackf)
-STORAGE_OBJS = sd_spi.o spi_tiny.o fat16.o
+STORAGE_OBJS = sd_spi.o spi_tiny.o fat16.o w5500.o netboot.o
 else
 STORAGE_OBJS = sd.o spi.o ide.o fat16.o
 endif

@@ -13,14 +13,15 @@
 
 #include "fat16.h"
 #ifdef MACKEREL_F
-#include "sd_spi.h" // mackf: SD over the tiny_spi master
+#include "sd_spi.h"  // mackf: SD over the tiny_spi master
+#include "netboot.h" // mackf: network boot over the W5500
 #elif defined(MACKEREL_08)
 #include "sd.h"     // mack08: bitbang SD
 #else
 #include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.13"
+#define VERSION "0.8.19"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -62,6 +63,9 @@ void handler_help()
     printf("Available commands:\r\n");
     printf(" ymodem <addr>         - Receive a file via YMODEM into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
+#ifdef MACKEREL_F
+    printf(" netboot               - Fetch IMAGE.BIN + ROMFS.BIN over Ethernet and run\r\n");
+#endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
     printf(" peek <addr>           - Peek a byte from memory at <addr>\r\n");
@@ -116,6 +120,13 @@ int main()
         {
             handler_boot();
         }
+#ifdef MACKEREL_F
+        else if (strncmp(buffer, "netboot", 7) == 0)
+        {
+            if (netboot_load())
+                handler_run(PROGRAM_START);
+        }
+#endif
         else if (strncmp(buffer, "run", 3) == 0)
         {
             strtok(buffer, " ");
@@ -438,50 +449,6 @@ void handler_boot()
 #endif
 
     handler_run(PROGRAM_START);
-}
-
-    bool kernel_found = false;
-
-    for (int i = 0; i < 16; i++)
-    {
-        if (files_list[i].file_size > 0)
-        {
-            char filename[13];
-            fat16_get_file_name(&files_list[i], filename);
-
-            if (strncmp(filename, "IMAGE   .BIN", 12) == 0)
-            {
-                printf("\r\nReading IMAGE.BIN (%ld bytes) into RAM at 0x%X...\r\n", files_list[i].file_size, PROGRAM_START);
-
-                uint8_t *file = (uint8_t *)PROGRAM_START;
-
-                int bytes_read = fat16_read_file(&boot_sector, files_list[i].first_cluster_low, file, files_list[i].file_size);
-
-                printf("Read %d of %ld bytes\r\n", bytes_read, files_list[i].file_size);
-
-                if (bytes_read != (int)files_list[i].file_size)
-                {
-                    printf("File read failed\r\n");
-                }
-                else
-                {
-                    printf("File read successfully\r\n");
-                    kernel_found = true;
-                }
-
-                break;
-            }
-        }
-    }
-
-    if (kernel_found)
-    {
-        handler_run(PROGRAM_START);
-    }
-    else
-    {
-        printf("ERROR: Could not find IMAGE.BIN on disk\r\n");
-    }
 }
 
 void handler_ymodem(uint32_t addr)
