@@ -223,13 +223,31 @@ always @(posedge CLK) begin
 
 			RW5: begin
 				// Hold DSACK until the cycle ends: AS/CS negated or DS negated
-				if (ACTIVE_n | DS2_n) begin
-					DSACK0_DRAM_n <= 1'b1;
-					DSACK1_DRAM_n <= 1'b1;
-					state <= PRECHARGE;
+				if (DRAM_WR_n) begin
+					// READ: release CAS (stop the SIMM driving the data bus)
+					// the moment the CPU ends the data phase
+					if (ACTIVE_n | DS1_n) begin
+						CAS0_n <= 1'b1;
+						CAS1_n <= 1'b1;
+						CAS2_n <= 1'b1;
+						CAS3_n <= 1'b1;
+						DSACK0_DRAM_n <= 1'b1;
+						DSACK1_DRAM_n <= 1'b1;
+						state <= PRECHARGE;
+					end else begin
+						DSACK0_DRAM_n <= 1'b0;
+						DSACK1_DRAM_n <= 1'b0;
+					end
 				end else begin
-					DSACK0_DRAM_n <= 1'b0;
-					DSACK1_DRAM_n <= 1'b0;
+					// WRITE: CAS is not released until PRECHARGE
+					if (ACTIVE_n | DS2_n) begin
+						DSACK0_DRAM_n <= 1'b1;
+						DSACK1_DRAM_n <= 1'b1;
+						state <= PRECHARGE;
+					end else begin
+						DSACK0_DRAM_n <= 1'b0;
+						DSACK1_DRAM_n <= 1'b0;
+					end
 				end
 			end
 
