@@ -43,6 +43,7 @@ module system_controller(
 	input IDE_RDY,
 	input IDE_INT,
 	
+	output EXP_BUF_n,
 	output P5, P6, P8, P9,
 
 	input ENC_INT_n
@@ -112,6 +113,9 @@ wire CS_IDE_n = ~(~AS_n && (~IDE_CS0_n || ~IDE_CS1_n));
 assign IDE_BUF_n = CS_IDE_n;
 assign IDE_RD_n = ~(RW && ~AS_n && ~DS_n);
 assign IDE_WR_n = ~(~RW && ~AS_n && ~DS_n);
+
+// TODO: Expansion buffer currently not supported
+assign EXP_BUF_n = 1'b1;
 
 // CS_FPU_n gated by AS_n (same as COP_CYCLE) to prevent spurious assertions
 // between bus cycles when FC/AM transiently pass through coprocessor values.
