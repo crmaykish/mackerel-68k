@@ -29,3 +29,7 @@ They are also flashed using `minipro` and a compatible programmer.
 Mackerel-10 and Mackerel-30 both implement glue logic and a DRAM controller on two separate CPLDs. Building and flashing these projects requires Altera Quartus 13.0sp1 and an Altera USB blaster (or clone). The Linux version of this old Quartus application still installs and runs for the most part on modern Linux, but it's a buggy mess and the UI is terrible. I have created Makefiles for each of the CPLD projects. It's much more tolerable to edit the Verilog and pin mappings in a nice editor and then use the Makefiles to compile and flash (`make` and `make flash` respectively) with the command line tools.
 
 Note: JTAG setup can be tricky. You may need to manually run `./altera/13.0sp1/quartus/bin/jtagd` before the USB blaster is detected.
+
+## Building the Mackerel-F FPGA Bitstream
+
+Mackerel-F is different - the whole system (CPU, glue logic, memory controller, and peripherals) is FPGA logic synthesized for a Tang Nano 20k. The bootloader is built as a bare-metal program (`make BOARD=mackf bootloader.hex`) and then baked into the bitstream as on-chip ROM. Building the bitstream uses Gowin EDA and `openFPGALoader` rather than minipro. See [Building and Running Mackerel-F (FPGA)](building-and-running-mackerel-f.md) for the full flow.

@@ -14,7 +14,7 @@ What's in the box, top to bottom:
 - **Mainline Linux** - kernel port with drivers for the DUART, IDE storage, and Ethernet-over-SPI, booting to a BusyBox userspace.
 - **Fully open source** - every schematic, PCB layout, logic file, and line of code is open, and hobbyists around the world have built their own Mackerel boards.
 
-Three boards are running today (68008, 68010, and 68030), with a 68040 system in the works.
+Three discrete boards are running today (68008, 68010, and 68030), with a 68040 system in the works - plus Mackerel-F, an FPGA build that runs a full Mackerel system on a soft 68000 core.
 
 ## Links
 
@@ -28,6 +28,7 @@ Three boards are running today (68008, 68010, and 68030), with a 68040 system in
 2. [How to Compile Code and Programmable Logic](docs/how-to-compile-everything.md)
 3. [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md)
 4. [Building and Booting Linux on Mackerel](docs/building-linux-for-mackerel.md)
+5. [Building and Running Mackerel-F (FPGA)](docs/building-and-running-mackerel-f.md)
 
 ## Hardware
 
@@ -103,6 +104,32 @@ Status: Design
 - Dedicated I/O controller (SPI, I2C, GPIO)
 - DUART and IDE from earlier boards
 
+### Mackerel-F
+
+Status: Prototype (FPGA)
+
+- fx68k soft 68000 core at 37.8 MHz, in a Tang Nano 20k
+- 8 MB SDRAM
+- 30 KB ROM (bootloader) and 32 KB BSRAM
+- UART console, programmable timer, and interrupt controller
+- microSD (SPI) and W5500 Ethernet
+- Linux 7.1.x NOMMU
+
+![Mackerel-F on a Tang Nano 20k](media/images/mackerel-f.png)
+
+Mackerel-F is an entire Mackerel system implemented inside an FPGA. Everything that is discrete hardware on the other boards - the CPU, glue logic, memory controller, UART, timer, interrupt controller, and SPI masters - is RTL here, built around the [fx68k](https://github.com/ijor/fx68k) soft 68000 core and synthesized for the Tang Nano 20k. The SoC runs at 75.6 MHz with the 68000 core clocked at half that (37.8 MHz).
+
+Unlike the other boards there is no separate ROM chip: the bootloader is baked into the FPGA bitstream as on-chip ROM and its scratch RAM lives in block RAM, so the entire 8 MB of SDRAM is free for Linux. Alongside the usual `boot` (from SD) and YMODEM transfer, the bootloader adds a `netboot` command that pulls the kernel over Ethernet (raw TCP, with a small host server) and a five-second SD autoboot.
+
+The memory map:
+
+- RAM:    0x000000 - 0x7FFFFF (8 MB SDRAM, the top 384 KB holds the execute-in-place root filesystem)
+- BSRAM:  0xFF0000 - 0xFF7FFF (32 KB, bootloader RAM)
+- ROM:    0xFF8000 - 0xFFF7FF (30 KB, bootloader ROM)
+- I/O:    0xFFF800 - 0xFFFFFF (GPIO, UART, timer, two SPI masters, interrupt controller)
+
+It boots mainline NOMMU uClinux to a BusyBox shell from a ROMfs root run in place from SDRAM, with the microSD for storage and the W5500 for networking. See [Building and Running Mackerel-F (FPGA)](docs/building-and-running-mackerel-f.md).
+
 ## Software
 
 ### Bootloader and Bare-metal Programs
@@ -112,9 +139,11 @@ The bootloader supports the YMODEM protocol for loading programs and data into R
 
 The `boot` command is used to load the Linux kernel from disk (SD or IDE). It expects a `IMAGE.BIN` file on the first FAT16 partition of the drive. See the `prepare_disk.sh` script in the [mackerel-linux repository](https://github.com/crmaykish/mackerel-linux).
 
+On Mackerel-F the bootloader also supports `netboot` (pulling the kernel over Ethernet) and a five-second SD autoboot on power-up.
+
 ### Linux on Mackerel
 
-All three hardware variants support the latest mainline kernel (v7.1.x). Mackerel-08 and Mackerel-10 run with the NOMMU support and are more limited in their capabilities. Mackerel-30 supports the MMU and the external FPU in Linux and functions more like a traditional headless Linux install. Userspace is made up of busybox (init and shell) with driver support for the DUART, IDE storage, and networking over SPI.
+Every Mackerel board runs the latest mainline kernel (v7.1.x). Mackerel-08, Mackerel-10, and the FPGA-based Mackerel-F run NOMMU and are more limited in their capabilities. Mackerel-30 supports the MMU and the external FPU in Linux and functions more like a traditional headless Linux install. Userspace is made up of busybox (init and shell) with driver support for the DUART, IDE storage, and networking over SPI.
 
 ### Compilers and Tools
 There are three different toolchains for Mackerel. The baremetal toolchain builds the bootloader and other low level programs in this repo. There are also two variants of the Linux toolchain - one for Mackerel-30 with MMU support and the other for NOMMU/ucLinux on Mackerel-08/10. Prebuilt toolchains are available on the [releases page](https://github.com/crmaykish/mackerel-68k/releases/tag/toolchains-2026-06-06); see [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for both the download steps and instructions on building them all with crosstools-ng.

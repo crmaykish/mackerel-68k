@@ -15,13 +15,14 @@
 #ifdef MACKEREL_F
 #include "sd_spi.h"  // mackf: SD over the tiny_spi master
 #include "netboot.h" // mackf: network boot over the W5500
+#include "uart.h"    // mackf: uart_rx_ready()/uart_getc() for the autoboot key-poll
 #elif defined(MACKEREL_08)
 #include "sd.h"     // mack08: bitbang SD
 #else
 #include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.20"
+#define VERSION "0.8.22"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -29,6 +30,9 @@ void handler_run(uint32_t addr);
 void handler_ymodem(uint32_t addr);
 void handler_zero(uint32_t addr, uint32_t size);
 void handler_boot();
+#ifdef MACKEREL_F
+static void autoboot(void);
+#endif
 #ifdef HAS_DUART_GPIO
 void handler_gpio(char *dir, char *pin_str, char *val_str);
 #endif
@@ -100,6 +104,12 @@ int main()
     console_puts("   Copyright (c) 2026 Colin Maykish\r\n");
     console_puts("   github.com/crmaykish/mackerel-68k\r\n");
     console_puts("========================================\r\n\r\n");
+
+#ifdef MACKEREL_F
+    // Auto-boot Linux from the SD card after a short, cancellable countdown.
+    autoboot();
+#endif
+
     console_puts("Type 'help' for a list of available commands.\r\n\r\n");
 
     while (true)
@@ -450,6 +460,81 @@ void handler_boot()
 
     handler_run(PROGRAM_START);
 }
+
+#ifdef MACKEREL_F
+
+static void leds_show(uint8_t mask)
+{
+    MEM(GPIO_BASE) = (MEM(GPIO_BASE) & 0xC0) | (mask & 0x3F);
+}
+
+// Auto-boot Linux from the SD card after a ~5 s countdown unless a key is pressed
+static void autoboot(void)
+{
+    fat16_boot_sector_t bs;
+    fat16_dir_entry_t files[16] = {0};
+
+    // Bring up the SD + FAT and look for IMAGE.BIN
+    if (!sd_spi_init())
+        return;
+    if (fat16_init(block_read) != 0)
+        return;
+    fat16_read_boot_sector(2048, &bs);
+    fat16_list_files(&bs, files);
+
+    bool have_image = false;
+    for (int i = 0; i < 16; i++)
+    {
+        if (files[i].file_size == 0)
+            continue;
+        char fn[13];
+        fat16_get_file_name(&files[i], fn);
+        if (strncmp(fn, "IMAGE   .BIN", 12) == 0)
+        {
+            have_image = true;
+            break;
+        }
+    }
+    if (!have_image)
+        return;
+
+    printf("SD card detected with IMAGE.BIN.\r\n");
+    printf("Auto-booting in 5 seconds -- press any key to cancel...\r\n");
+
+    // Single lit LED walking position 0 - 5
+    for (int pos = 0; pos < 6; pos++)
+    {
+        leds_show(1 << pos);
+        for (int slice = 0; slice < 55; slice++)
+        {
+            if (uart_rx_ready())
+            {
+                while (uart_rx_ready()) // drain the cancel key(s)
+                    (void)uart_getc();
+                leds_show(0x00); // all off
+                printf("Autoboot cancelled.\r\n");
+                return;
+            }
+            sleep_ms(10);
+        }
+    }
+
+    // Countdown finished uninterrupted - boot
+    leds_show(0x3F); // all on
+    printf("Auto-booting...\r\n");
+
+    if (load_named_file(&bs, files, "IMAGE   .BIN", PROGRAM_START) < 0)
+    {
+        printf("ERROR: Could not load IMAGE.BIN\r\n");
+        leds_show(0x00);
+        return;
+    }
+    if (load_named_file(&bs, files, "ROMFS   .BIN", ROMFS_LOAD_ADDR) < 0)
+        printf("WARNING: ROMFS.BIN not found - kernel will panic without a root fs\r\n");
+
+    handler_run(PROGRAM_START);
+}
+#endif /* MACKEREL_F */
 
 void handler_ymodem(uint32_t addr)
 {
