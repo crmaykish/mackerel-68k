@@ -18,6 +18,7 @@ module sdram_controller (
     input  wire        ldsn,
     input  wire [15:0] wdata,
     output reg  [15:0] rdata,
+    output reg  [31:0] rdata32,    // raw 32-bit line (both words) for the cache fill
     output wire        dtack_n,
     output reg         init_done,
 
@@ -77,7 +78,7 @@ module sdram_controller (
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state <= S_IDLE; ctrl_rd <= 1'b0; ctrl_wr <= 1'b0; ctrl_refresh <= 1'b0;
-            ctrl_addr <= 23'd0; ctrl_din <= 8'd0; rdata <= 16'd0; dtack <= 1'b0;
+            ctrl_addr <= 23'd0; ctrl_din <= 8'd0; rdata <= 16'd0; rdata32 <= 32'd0; dtack <= 1'b0;
             ref_cnt <= 9'd0; ref_due <= 1'b0; init_seen <= 1'b0; init_done <= 1'b0;
             need_second <= 1'b0;
         end else begin
@@ -110,9 +111,11 @@ module sdram_controller (
                 // !ctrl_rd/!ctrl_wr/!ctrl_refresh: don't sample busy until the
                 // command pulse has cleared (busy only rises the cycle after it).
                 S_RD: begin
-                    if (ctrl_data_ready)
+                    if (ctrl_data_ready) begin
                         rdata <= addr[1] ? {ctrl_dout32[23:16], ctrl_dout32[31:24]}
                                          : {ctrl_dout32[7:0],   ctrl_dout32[15:8]};
+                        rdata32 <= ctrl_dout32;
+                    end
                     if (!ctrl_rd && !ctrl_busy) begin dtack <= 1'b1; state <= S_ACK; end
                 end
 

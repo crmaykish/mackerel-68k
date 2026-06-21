@@ -286,23 +286,44 @@ module mackerel_f (
     // space -> the CPU takes autovector 24 + level (timer = 30, UART = 29).
     assign VPAn = ~iack;
 
-    // SDRAM (8 MB, in-package SDRAM via the sdram.v adapter + sdram_nano.v controller)
-    wire [15:0] sdram_dout;
-    wire        dtack_sdram;
+    // SDRAM Read Cache
+    wire [15:0] sdram_dout;       // CPU-side read data (from the cache)
+    wire        dtack_sdram;      // CPU-side DTACK (from the cache)
+    wire        cache_mem_cs_n;   // cache -> adapter chip-select
+    wire [15:0] mem_rdata_w;      // adapter -> cache: selected 16-bit word
+    wire [31:0] mem_rdata32_w;    // adapter -> cache: full 32-bit line
+    wire        mem_dtack_w;      // adapter -> cache: DTACK
+
+    sdram_cache cache(
+        .clk(clk_soc),
+        .rst_n(pll_lock),
+        .cs_n(cs_sdram_n),
+        .addr(ADDR_BUS[22:1]),
+        .rwn(RWn),
+        .udsn(UDSn),
+        .ldsn(LDSn),
+        .rdata(sdram_dout),
+        .dtack_n(dtack_sdram),
+        .mem_cs_n(cache_mem_cs_n),
+        .mem_rdata(mem_rdata_w),
+        .mem_rdata32(mem_rdata32_w),
+        .mem_dtack_n(mem_dtack_w)
+    );
 
     sdram_controller s(
         .clk(clk_soc),
         .clk_ps(clk_soc_ps),
         .rst_n(pll_lock),          // inits independently of the CPU reset counter
 
-        .cs_n(cs_sdram_n),
+        .cs_n(cache_mem_cs_n),
         .addr(ADDR_BUS[22:1]),
         .rwn(RWn),
         .udsn(UDSn),
         .ldsn(LDSn),
         .wdata(DATA_BUS_OUT),
-        .rdata(sdram_dout),
-        .dtack_n(dtack_sdram),
+        .rdata(mem_rdata_w),
+        .rdata32(mem_rdata32_w),
+        .dtack_n(mem_dtack_w),
         .init_done(),              // reserved: gate reset until SDRAM init done (when SDRAM is system RAM)
 
         .O_sdram_clk(O_sdram_clk),

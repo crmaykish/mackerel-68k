@@ -5,6 +5,7 @@ add_file mackerel_f.v
 add_file pll.v
 
 add_file sdram_controller.v
+add_file sdram_cache.v
 add_file cores/sdram-tang-nano-20k/src/sdram.v
 
 add_file uart.v
