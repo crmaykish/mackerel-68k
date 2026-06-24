@@ -1,0 +1,14 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "778178e0-c7d0-4786-86dd-2c97ed6e8554")
+	(paper "A4")
+	(title_block
+		(title "Mackerel-30 v1")
+		(date "2026-06-22")
+		(rev "1.0")
+		(company "Colin Maykish")
+	)
+	(lib_symbols)
+)

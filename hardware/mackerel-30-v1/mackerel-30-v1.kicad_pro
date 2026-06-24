@@ -666,7 +666,7 @@
         "uuid": "f87c48dc-c3d5-4996-ac86-ba552a719c2e"
       }
     ],
-    "used_designators": "R10-17,J3,#PWR37-53,C8-26,U5-6",
+    "used_designators": "C44-60,R22,R26-28,J11,U2,U13-17,#PWR85,#PWR99-114",
     "variants": []
   },
   "sheets": [
@@ -677,6 +677,30 @@
     [
       "211a4443-e201-4e5a-9d99-89b8bca37a90",
       "Clock & Reset"
+    ],
+    [
+      "f1f17144-2f81-4a59-83b2-91b33fea8419",
+      "Power & Mechanical"
+    ],
+    [
+      "0602d134-acac-431e-a4c6-41be014f314d",
+      "ROM & SRAM"
+    ],
+    [
+      "09f6b7fa-a237-4d61-bdbb-c9bc596019a2",
+      "FPU"
+    ],
+    [
+      "93225717-1da3-4dec-8ce1-6b9bb95c2565",
+      "DUART"
+    ],
+    [
+      "5cbf01bf-1578-4453-8c49-0916f379c556",
+      "IDE"
+    ],
+    [
+      "4d40a837-3705-404c-b0d5-13197d2fd868",
+      "DRAM"
     ]
   ],
   "text_variables": {},
