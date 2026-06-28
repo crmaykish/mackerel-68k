@@ -3532,7 +3532,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "10ef810c-aaa3-4244-a660-d61b19cf28a3")
-		(property "Reference" "R24"
+		(property "Reference" "R19"
 			(at 118.11 55.372 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3555,7 +3555,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 116.332 53.34 90)
 			(hide yes)
 			(show_name no)
@@ -3588,6 +3588,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 118.11 53.34 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "1244c1ef-229c-4d60-8043-d325dabd34c6")
 		)
@@ -3597,7 +3608,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "R24")
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -3615,7 +3626,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "141533d7-eb23-4ef2-8454-cc668991a2db")
-		(property "Reference" "#PWR080"
+		(property "Reference" "#PWR0100"
 			(at 165.1 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -3675,7 +3686,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "#PWR080")
+					(reference "#PWR0100")
 					(unit 1)
 				)
 			)
@@ -3692,7 +3703,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "167717e1-33d2-438f-8faf-143057000f69")
-		(property "Reference" "R23"
+		(property "Reference" "R18"
 			(at 114.3 55.372 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3715,7 +3726,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
 			(at 112.522 53.34 90)
 			(hide yes)
 			(show_name no)
@@ -3748,6 +3759,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 114.3 53.34 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "bbb60ddf-ce4a-473a-9b09-80d00b149e1f")
 		)
@@ -3757,7 +3779,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "R23")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -3774,8 +3796,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1a5d0117-9495-4d4d-854b-6d437c42e1ab")
-		(property "Reference" "C39"
-			(at 251.46 34.798 0)
+		(property "Reference" "C62"
+			(at 247.142 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3785,8 +3807,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 248.666 34.798 0)
+		(property "Value" "0.1uF"
+			(at 245.872 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3796,7 +3818,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 251.46 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -3819,6 +3841,17 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
+			(at 251.46 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 251.46 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -3838,7 +3871,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C39")
+					(reference "C62")
 					(unit 1)
 				)
 			)
@@ -3855,8 +3888,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1bb8f3e2-e9b1-4595-80e2-1cfac5133b12")
-		(property "Reference" "C34"
-			(at 214.63 34.798 0)
+		(property "Reference" "C57"
+			(at 210.566 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3866,8 +3899,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 211.836 34.798 0)
+		(property "Value" "0.1uF"
+			(at 209.296 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3877,7 +3910,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 214.63 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -3900,6 +3933,17 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
+			(at 214.63 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 214.63 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -3919,7 +3963,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C34")
+					(reference "C57")
 					(unit 1)
 				)
 			)
@@ -3936,8 +3980,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2400bf9c-9260-42f9-b7f5-11764271edd9")
-		(property "Reference" "C33"
-			(at 208.28 34.798 0)
+		(property "Reference" "C56"
+			(at 204.216 39.878 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3947,8 +3991,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 205.486 34.798 0)
+		(property "Value" "0.1uF"
+			(at 202.692 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3958,7 +4002,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 208.28 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -3981,6 +4025,17 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
+			(at 208.28 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 208.28 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4000,7 +4055,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C33")
+					(reference "C56")
 					(unit 1)
 				)
 			)
@@ -4017,8 +4072,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3c2c4982-1ed4-4165-92d2-adaee1d14e1f")
-		(property "Reference" "C40"
-			(at 259.08 34.798 0)
+		(property "Reference" "C63"
+			(at 255.016 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4028,8 +4083,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 256.286 34.798 0)
+		(property "Value" "0.1uF"
+			(at 253.492 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4039,7 +4094,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 259.08 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4062,6 +4117,17 @@
 			)
 		)
 		(property "Description" "capacitor, US symbol"
+			(at 259.08 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 259.08 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4081,7 +4147,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C40")
+					(reference "C63")
 					(unit 1)
 				)
 			)
@@ -4098,8 +4164,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4b905948-2924-46ff-94a2-69755b0a4973")
-		(property "Reference" "C37"
-			(at 236.22 34.798 0)
+		(property "Reference" "C60"
+			(at 232.156 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4109,8 +4175,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 233.426 34.798 0)
+		(property "Value" "0.1uF"
+			(at 230.632 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4120,7 +4186,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 236.22 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4153,6 +4219,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 236.22 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "f391c374-af56-41d8-b4e9-c87654759389")
 		)
@@ -4162,7 +4239,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C37")
+					(reference "C60")
 					(unit 1)
 				)
 			)
@@ -4180,7 +4257,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "57ee95e6-dba5-48e1-9b3e-e6910952b186")
-		(property "Reference" "#PWR077"
+		(property "Reference" "#PWR0102"
 			(at 259.08 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -4240,7 +4317,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "#PWR077")
+					(reference "#PWR0102")
 					(unit 1)
 				)
 			)
@@ -4258,7 +4335,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "69e32873-367d-489f-a710-5144f7caee7f")
-		(property "Reference" "#PWR078"
+		(property "Reference" "#PWR098"
 			(at 114.3 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -4318,7 +4395,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "#PWR078")
+					(reference "#PWR098")
 					(unit 1)
 				)
 			)
@@ -4336,7 +4413,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7d9e0ab5-03fb-485e-a846-7165ef467876")
-		(property "Reference" "#PWR079"
+		(property "Reference" "#PWR099"
 			(at 142.24 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -4396,7 +4473,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "#PWR079")
+					(reference "#PWR099")
 					(unit 1)
 				)
 			)
@@ -4413,8 +4490,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a0f3c20b-1834-4b4a-8f5a-f2f9d37a8f8f")
-		(property "Reference" "C36"
-			(at 228.6 34.798 0)
+		(property "Reference" "C59"
+			(at 224.282 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4424,8 +4501,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 225.806 34.798 0)
+		(property "Value" "0.1uF"
+			(at 222.758 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4435,7 +4512,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 228.6 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4468,6 +4545,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 228.6 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "26544590-6c6a-454f-9bed-f86def156e41")
 		)
@@ -4477,7 +4565,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C36")
+					(reference "C59")
 					(unit 1)
 				)
 			)
@@ -4495,7 +4583,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b07a87ac-476e-455d-aa86-3835b810ff47")
-		(property "Reference" "#PWR076"
+		(property "Reference" "#PWR0101"
 			(at 208.28 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4555,7 +4643,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "#PWR076")
+					(reference "#PWR0101")
 					(unit 1)
 				)
 			)
@@ -4572,8 +4660,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e574eb4b-fa1b-45be-8b35-61d6308e0507")
-		(property "Reference" "C35"
-			(at 220.98 34.798 0)
+		(property "Reference" "C58"
+			(at 216.916 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4583,8 +4671,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 218.186 34.798 0)
+		(property "Value" "0.1uF"
+			(at 215.646 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4594,7 +4682,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 220.98 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4627,6 +4715,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 220.98 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "af64cafe-6a08-416f-99c6-6f96bdaaf177")
 		)
@@ -4636,7 +4735,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C35")
+					(reference "C58")
 					(unit 1)
 				)
 			)
@@ -4653,7 +4752,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "eea1487c-f113-49b8-841f-b97f955f104f")
-		(property "Reference" "U11"
+		(property "Reference" "U17"
 			(at 166.116 48.768 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4698,6 +4797,17 @@
 			)
 		)
 		(property "Description" ""
+			(at 151.13 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 151.13 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -4915,7 +5025,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "U11")
+					(reference "U17")
 					(unit 1)
 				)
 			)
@@ -4932,8 +5042,8 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f6121009-69a1-4ee5-8dc4-41ceaec22bfc")
-		(property "Reference" "C38"
-			(at 243.84 34.798 0)
+		(property "Reference" "C61"
+			(at 239.522 39.624 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4943,8 +5053,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 241.046 34.798 0)
+		(property "Value" "0.1uF"
+			(at 238.252 34.798 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4954,7 +5064,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
 			(at 243.84 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -4987,6 +5097,17 @@
 				)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 243.84 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "715d59c6-da35-444d-b6db-4f0eb6d0df1f")
 		)
@@ -4996,7 +5117,7 @@
 		(instances
 			(project "mackerel-30-v1"
 				(path "/f87c48dc-c3d5-4996-ac86-ba552a719c2e/09f6b7fa-a237-4d61-bdbb-c9bc596019a2"
-					(reference "C38")
+					(reference "C61")
 					(unit 1)
 				)
 			)
