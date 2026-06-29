@@ -52,8 +52,6 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name MAX7000_DEVICE_IO_STANDARD TTL
 
 set_location_assignment PIN_83 -to CLK
-set_location_assignment PIN_25 -to GPIO[2]
-set_location_assignment PIN_27 -to GPIO[3]
 set_location_assignment PIN_5 -to ADDR_H[23]
 set_location_assignment PIN_6 -to ADDR_H[22]
 set_location_assignment PIN_8 -to ADDR_H[21]
@@ -86,6 +84,11 @@ set_global_assignment -name VERILOG_FILE clock_gen.v
 set_global_assignment -name VERILOG_FILE boot_signal.v
 set_global_assignment -name VERILOG_FILE "system-controller.v"
 set_global_assignment -name VERILOG_FILE irq_encoder.v
+set_global_assignment -name VERILOG_FILE spi.v
+set_global_assignment -name VERILOG_FILE cores/tiny_spi/rtl/verilog/tiny_spi.v
+
+set_global_assignment -name OPTIMIZATION_TECHNIQUE AREA
+set_global_assignment -name AUTO_RESOURCE_SHARING ON
 set_location_assignment PIN_4 -to RST_n
 set_location_assignment PIN_63 -to AS_n
 set_location_assignment PIN_51 -to DTACK_n
@@ -108,11 +111,14 @@ set_location_assignment PIN_79 -to CS_DUART_n
 set_location_assignment PIN_80 -to IACK_DUART_n
 set_location_assignment PIN_77 -to IRQ_DUART_n
 set_location_assignment PIN_31 -to IACK_EXP_n
-set_location_assignment PIN_29 -to IRQ_EXP_n
 set_location_assignment PIN_39 -to IDE_BUF_n
 set_location_assignment PIN_34 -to CS_IDE0_n
 set_location_assignment PIN_36 -to IDE_RD_n
 set_location_assignment PIN_37 -to IDE_WR_n
 set_location_assignment PIN_50 -to CS_IDE1_n
-set_location_assignment PIN_22 -to GPIO[0]
-set_location_assignment PIN_24 -to GPIO[1]
+
+set_location_assignment PIN_27 -to SPI_SCK
+set_location_assignment PIN_25 -to SPI_MOSI
+set_location_assignment PIN_24 -to SPI_MISO
+set_location_assignment PIN_22 -to NIC_CS_n
+set_location_assignment PIN_29 -to NIC_INT_n
