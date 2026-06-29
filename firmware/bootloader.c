@@ -14,7 +14,6 @@
 #include "fat16.h"
 #ifdef MACKEREL_F
 #include "sd_spi.h"  // mackf: SD over the tiny_spi master
-#include "netboot.h" // mackf: network boot over the W5500
 #include "uart.h"    // mackf: uart_rx_ready()/uart_getc() for the autoboot key-poll
 #elif defined(MACKEREL_08)
 #include "sd.h"     // mack08: bitbang SD
@@ -22,7 +21,11 @@
 #include "ide.h"    // mack10/mack30: IDE
 #endif
 
-#define VERSION "0.8.22"
+#ifdef HAS_NETBOOT
+#include "netboot.h" // network boot over the W5500
+#endif
+
+#define VERSION "0.8.23"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -67,8 +70,8 @@ void handler_help()
     printf("Available commands:\r\n");
     printf(" ymodem <addr>         - Receive a file via YMODEM into RAM at <addr> (default 0x%X)\r\n", PROGRAM_START);
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
-#ifdef MACKEREL_F
-    printf(" netboot               - Fetch IMAGE.BIN + ROMFS.BIN over Ethernet and run\r\n");
+#ifdef HAS_NETBOOT
+    printf(" netboot               - Fetch an image over Ethernet (W5500) and run\r\n");
 #endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
@@ -130,7 +133,7 @@ int main()
         {
             handler_boot();
         }
-#ifdef MACKEREL_F
+#ifdef HAS_NETBOOT
         else if (strncmp(buffer, "netboot", 7) == 0)
         {
             if (netboot_load())

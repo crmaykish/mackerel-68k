@@ -1,16 +1,32 @@
 #include "w5500.h"
 
-// W5500 is on its own tiny_spi master
-#define SPI2_RXDATA (SPI2_BASE + 0)
-#define SPI2_TXDATA (SPI2_BASE + 4)
-#define SPI2_STATUS (SPI2_BASE + 8)
-#define SPI2_BAUD (SPI2_BASE + 16)
-#define SPI2_TXE 0x01 // engine idle (transfer complete)
-#define SPI2_TXR 0x02 // ready to accept the next byte (holding register empty)
-
-#define NIC_CS 0x80 // GPIO bit 7 -> cs_spi_nic = ~gpio[7] (set = selected)
-
-#define W5500_SPI_BAUD 1 // SCLK = clk_soc/(2*(baud+1)); 1 = ~18.9 MHz, 0 = ~37.8 MHz
+// Everything below is board-independent. This block is the ONLY per-board part: the
+// W5500 SPI master's register addresses, the baud value, and which register/bit drives
+// the chip-select. Setting NIC_CS_MASK in NIC_CS_REG asserts CS (active low) on both.
+#ifdef MACKEREL_10
+// W5500 on the system-controller tiny_spi (LDS byte lane; odd-address regs from
+// spi_tiny.h). CS is a dedicated 1-bit register. SCLK = 20 MHz / (2*(baud+1)).
+#include "spi_tiny.h"
+#define NIC_TXDATA SPI_TXDATA
+#define NIC_RXDATA SPI_RXDATA
+#define NIC_STATUS SPI_STATUS
+#define NIC_BAUD SPI_BAUD
+#define NIC_TXE SPI_TXE
+#define NIC_CS_REG SPI_NIC_CS
+#define NIC_CS_MASK 0x01
+#define W5500_SPI_BAUD 0    // 10 MHz (CLK/2)
+#else
+// Mackerel-F: W5500 on a 2nd tiny_spi (x4 stride). CS is bit 7 of the GPIO register
+// (shared with the LEDs + SD chip-select), so it must be read-modify-written.
+#define NIC_RXDATA (SPI2_BASE + 0)
+#define NIC_TXDATA (SPI2_BASE + 4)
+#define NIC_STATUS (SPI2_BASE + 8)
+#define NIC_BAUD (SPI2_BASE + 16)
+#define NIC_TXE 0x01        // engine idle (transfer complete)
+#define NIC_CS_REG GPIO_BASE
+#define NIC_CS_MASK 0x80    // gpio[7] -> cs_spi_nic = ~gpio[7]
+#define W5500_SPI_BAUD 1    // SCLK = clk_soc/(2*(baud+1)); 1 = ~18.9 MHz, 0 = ~37.8 MHz
+#endif
 
 // W5500 SPI frame: [addr_hi][addr_lo][control][data...], control = BSB<<3 | RW | OM.
 #define BSB_COMMON 0x00
@@ -48,15 +64,20 @@
 #define SR_CLOSE_WAIT 0x1C
 #define MR_TCP 0x01
 
+// SPI transport -- fully board-independent (the defines above are the only per-board
+// part). One full-duplex byte over the master, then the chip-select helpers (set the
+// bit to select; the RMW preserves Mackerel-F's shared GPIO byte).
 static uint8_t spi2(uint8_t tx)
 {
-    MEM(SPI2_TXDATA) = tx;
-    while (!(MEM(SPI2_STATUS) & SPI2_TXE)) {}
-    return MEM(SPI2_RXDATA);
+    MEM(NIC_TXDATA) = tx;
+    while (!(MEM(NIC_STATUS) & NIC_TXE)) {}
+    return MEM(NIC_RXDATA);
 }
 
-static void cs_low(void) { MEM(GPIO_BASE) |= NIC_CS; }
-static void cs_high(void) { MEM(GPIO_BASE) &= ~NIC_CS; }
+static void cs_low(void) { MEM(NIC_CS_REG) |= NIC_CS_MASK; }   // select
+static void cs_high(void) { MEM(NIC_CS_REG) &= ~NIC_CS_MASK; } // deselect
+
+static void w5500_spi_init(void) { MEM(NIC_BAUD) = W5500_SPI_BAUD; }
 
 static void w5_write(uint16_t addr, uint8_t bsb, const uint8_t *data, int len)
 {
@@ -102,7 +123,7 @@ static void w5_ww(uint16_t a, uint8_t b, uint16_t v)
 
 bool w5500_init(const uint8_t mac[6], const uint8_t ip[4], const uint8_t gw[4], const uint8_t sub[4])
 {
-    MEM(SPI2_BAUD) = W5500_SPI_BAUD;
+    w5500_spi_init();
     cs_high();
 
     w5_wb(W5_MR, BSB_COMMON, 0x80); // software reset

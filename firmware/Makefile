@@ -66,6 +66,8 @@ endif
 # tiny_spi master; the DUART boards bitbang SD (mack08) or use IDE (mack10/30).
 ifeq ($(BOARD),mackf)
 STORAGE_OBJS = sd_spi.o spi_tiny.o fat16.o w5500.o netboot.o
+else ifeq ($(BOARD),mack10)
+STORAGE_OBJS = ide.o fat16.o w5500.o netboot.o
 else
 STORAGE_OBJS = sd.o spi.o ide.o fat16.o
 endif
@@ -132,6 +134,14 @@ spitest.elf: $(COMMON_OBJS_RAM) spitest.o spi_tiny.o
 
 # SD card smoke test: sd_spi init + read CID/CSD/block 0 (RAM program, ymodem + run).
 sdtest.elf: $(COMMON_OBJS_RAM) sdtest.o sd_spi.o spi_tiny.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+# Mackerel-10 W5500 SPI smoke test: read VERSIONR (RAM program, ymodem + run).
+w5500test.elf: $(COMMON_OBJS_RAM) w5500test.o spi_tiny.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
+
+# Mackerel-10 W5500 network RX test: TCP receive + verify (RAM program, ymodem + run).
+w5500nettest.elf: $(COMMON_OBJS_RAM) w5500nettest.o w5500.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) -Wl,--build-id=none -T $(MEMORY_MAP_RAM) -nostartfiles $^ -o $@ -lc -lgcc
 
 # SD file read + throughput test: FAT16 mount + read IMAGE.BIN (RAM program, ymodem + run).

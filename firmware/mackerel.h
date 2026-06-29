@@ -28,6 +28,7 @@
 #define UART_BASE 0xFF8000
 #define IDE_BASE 0xFFC000
 #define IDE_CTL_BASE 0xFF4000
+#define SPI_BASE 0xFF0000
 #define PROGRAM_START 0x400
 #define CPU_CLK_HZ 10000000UL
 #define SLEEP_CYCLES_PER_LOOP 40
@@ -56,6 +57,10 @@
 // Bootloader peripheral capabilities, per board.
 #ifndef MACKEREL_F
 #define HAS_DUART_GPIO   // 'gpio' command toggles the DUART's port pins (DUART boards only)
+#endif
+
+#if defined(MACKEREL_F) || defined(MACKEREL_10)
+#define HAS_NETBOOT
 #endif
 
 // Enable/disable CPU interrupts

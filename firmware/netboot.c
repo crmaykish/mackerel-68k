@@ -60,9 +60,14 @@ bool netboot_load(void)
         return false;
     }
 
-    // Server streams [u32 len][IMAGE.BIN][u32 len][ROMFS.BIN], then closes.
-    bool ok = netboot_blob("IMAGE.BIN", PROGRAM_START) &&
-              netboot_blob("ROMFS.BIN", ROMFS_LOAD_ADDR);
+    bool image_ok = netboot_blob("IMAGE.BIN", PROGRAM_START);
+    #ifdef MACKEREL_F
+    bool romfs_ok = netboot_blob("ROMFS.BIN", ROMFS_LOAD_ADDR);
+    bool ok = image_ok && romfs_ok;
+    #else
+    bool ok = image_ok;
+    #endif
+
     w5500_tcp_close();
     if (ok)
         printf("Netboot load complete.\r\n");

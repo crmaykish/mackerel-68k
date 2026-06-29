@@ -64,19 +64,24 @@ def main():
     except OSError as e:
         sys.exit(f"netboot: cannot bind {args.host}:{args.port}: {e}")
     srv.listen(1)
-    print(f"netboot: serving {args.image} + {args.romfs} on {args.host}:{args.port} "
-          f"-- run `netboot` on the board (Ctrl-C to stop)", flush=True)
+    print(f"netboot: serving {args.image} (+ {args.romfs} if present) on "
+          f"{args.host}:{args.port} -- run `netboot` on the board (Ctrl-C to stop)", flush=True)
 
     try:
         while True:
             conn, addr = srv.accept()
             try:
                 # Re-read each time so a rebuild is picked up without a restart.
-                payload = length_prefixed(args.image) + length_prefixed(args.romfs)
+                payload = length_prefixed(args.image)
             except OSError as e:
-                print(f"netboot: [{addr[0]}] cannot read files: {e}", flush=True)
+                print(f"netboot: [{addr[0]}] cannot read {args.image}: {e}", flush=True)
                 conn.close()
                 continue
+            # ROMfs is optional
+            try:
+                payload += length_prefixed(args.romfs)
+            except FileNotFoundError:
+                print(f"netboot: [{addr[0]}] no {args.romfs}, sending image only", flush=True)
             print(f"netboot: [{addr[0]}] sending {len(payload)} bytes...", flush=True)
             try:
                 conn.sendall(payload)
