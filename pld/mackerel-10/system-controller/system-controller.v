@@ -81,12 +81,15 @@ boot_signal bs1(RST_n, AS_n, BOOT);
 // Generate CPU clock from source oscillator
 clock_gen cg1(CLK, CLK_CPU);
 
+// W5500 IRQ enable (software mask)
+wire nic_irq_en;
+
 // Encode interrupt sources to the CPU's IPL pins
 irq_encoder ie1(
 	.irq1(0),
 	.irq2(0),
 	.irq3(IDE_INT),
-	.irq4(~NIC_INT_n),
+	.irq4(~NIC_INT_n & nic_irq_en),
 	.irq5(~IRQ_DUART_n),
 	.irq6(0),
 	.irq7(0),
@@ -133,7 +136,7 @@ wire [7:0] spi_data_out;
 wire spi_irq;
 
 spi spi1(
-	.clk(CLK),			// run the SPI in the 20 MHz oscillator domain
+	.clk(CLK),			// run the SPI in the 33 MHz oscillator domain
 	.rst_n(RST_n),
 	.cs_n(CS_SPI_n),
 	.reg_addr(ADDR_L[3:1]),
@@ -146,7 +149,8 @@ spi spi1(
 	.mosi(SPI_MOSI),
 	.sck(SPI_SCK),
 	.miso(SPI_MISO),
-	.nic_cs_n(NIC_CS_n)
+	.nic_cs_n(NIC_CS_n),
+	.nic_irq_en(nic_irq_en)
 );
 
 // Drive the low data byte back to the CPU only on an SPI read

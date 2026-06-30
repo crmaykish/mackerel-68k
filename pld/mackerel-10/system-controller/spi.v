@@ -18,25 +18,29 @@ module spi (
     output sck,
     input miso,
 
-    output nic_cs_n
+    output nic_cs_n,
+    output nic_irq_en
 );
 
     localparam IDLE = 2'd0, REQ = 2'd1, DONE = 2'd2;
 
     reg [1:0] state = IDLE;
     reg nic_cs = 1'b0;
+    reg [7:0] intc = 8'b0;
 
     wire wb_ack;
     wire [31:0] wb_dat_o;
 
     wire spi_sel = ~cs_n & (reg_addr < 3'd5);
     wire cs_sel  = ~cs_n & (reg_addr == 3'd5);
+    wire intc_sel = ~cs_n & (reg_addr == 3'd6);
     wire start   = spi_sel & ~ds_n;
 
     always @(posedge clk) begin
         if (!rst_n) begin
             state <= IDLE;
             nic_cs <= 1'b0;
+            intc <= 8'b0;
         end else begin
             case (state)
                 IDLE: if (start) state <= REQ;
@@ -45,14 +49,16 @@ module spi (
                 default: state <= IDLE;
             endcase
             if (cs_sel & ~ds_n & ~rwn) nic_cs <= data_in[0];
+            if (intc_sel & ~ds_n & ~rwn) intc <= data_in;
         end
     end
 
     wire stb = (state == REQ);
 
-    assign dtack_n  = ~((state == DONE) | (cs_sel & ~ds_n));
-    assign data_out = cs_sel ? {7'b0, nic_cs} : wb_dat_o[7:0];
+    assign dtack_n  = ~((state == DONE) | (cs_sel & ~ds_n) | (intc_sel & ~ds_n));
+    assign data_out = cs_sel ? {7'b0, nic_cs} : intc_sel  ? intc : wb_dat_o[7:0];
     assign nic_cs_n = ~nic_cs;
+    assign nic_irq_en = intc[4];
 
     tiny_spi #(.BAUD_WIDTH(5), .SPI_MODE(0)) core (
         .clk_i(clk),
