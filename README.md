@@ -115,7 +115,7 @@ Status: Prototype (FPGA)
 - microSD (SPI) and W5500 Ethernet
 - Linux 7.1.x NOMMU
 
-![Mackerel-F on a Tang Nano 20k](media/images/mackerel-f.png)
+![Mackerel-F on a Tang Nano 20k](media/images/mackerel-f-proto.png)
 
 Mackerel-F is an entire Mackerel system implemented inside an FPGA. Everything that is discrete hardware on the other boards - the CPU, glue logic, memory controller, UART, timer, interrupt controller, and SPI masters - is RTL here, built around the [fx68k](https://github.com/ijor/fx68k) soft 68000 core and synthesized for the Tang Nano 20k. The SoC runs at 75.6 MHz with the 68000 core clocked at half that (37.8 MHz).
 
