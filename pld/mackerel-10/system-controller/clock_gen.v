@@ -3,9 +3,12 @@ module clock_gen(
     output CLK_OUT
 );
 
-// Generate CPU clock from source oscillator
+// 0: Run the CPU clock at the full oscillator frequency
+// 1: Run the CPU clock at half the oscillator frequency
+parameter DIV2 = 0;
+
 reg clk_buf = 1'b0;
-assign CLK_OUT = clk_buf;	// Divide source clock by 2 to get CPU clock
 always @(posedge CLK_IN) clk_buf <= clk_buf + 1'b1;
+assign CLK_OUT = DIV2 ? clk_buf : CLK_IN;
 
 endmodule

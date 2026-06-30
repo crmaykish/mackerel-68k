@@ -30,7 +30,7 @@
 #define IDE_CTL_BASE 0xFF4000
 #define SPI_BASE 0xFF0000
 #define PROGRAM_START 0x400
-#define CPU_CLK_HZ 10000000UL
+#define CPU_CLK_HZ 33000000UL // 33 MHz can, clock_gen DIV2=0 pass-through (was 10 = 20 MHz osc /2)
 #define SLEEP_CYCLES_PER_LOOP 40
 #elif MACKEREL_08
 #define SYSTEM_NAME "Mackerel-08"
@@ -48,7 +48,6 @@
 #define SPI_BASE 0xFFFB00 // slot 3: tiny_spi master (SD card)
 #define SPI2_BASE 0xFFFC00 // slot 4: tiny_spi master (W5500 NIC)
 #define PROGRAM_START 0x400
-#define ROMFS_LOAD_ADDR 0x7A0000UL // ROMfs region (top 384 KB of SDRAM)
 #define CPU_CLK_HZ 37800000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters
 #define SLEEP_CYCLES_PER_LOOP 40
