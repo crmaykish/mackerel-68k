@@ -69,6 +69,24 @@ There is no reset button (the board's buttons are tied to FPGA configuration str
 Reset by power-cycling USB, or simply re-load the bitstream - `make prog` reconfigures
 the FPGA and restarts the CPU.
 
+## W5500 Ethernet wiring
+
+The microSD is on the onboard slot, but the W5500 NIC is external. It connects to the
+Tang Nano 20k header as a SPI device (CS driven by `gpio[7]`):
+
+| Nano 20k pin | Signal | W5500 pin |
+|---|---|---|
+| 25 | CS   | SCS  |
+| 26 | MOSI | MOSI |
+| 27 | SCLK | SCLK |
+| 28 | MISO | MISO |
+| 29 | INT  | INT  |
+| 3V3 | power | VCC |
+| GND | ground | GND |
+| 3V3 | reset (do not float) | RST |
+
+All signals are 3.3 V. Tie the W5500's `RST` to 3.3v.
+
 ## Running Linux
 
 Mackerel-F runs the mainline NOMMU kernel as board `f`. Build it from the
@@ -82,10 +100,11 @@ bash build_rootfs.sh  f
 bash build_kernel.sh  f
 ```
 
-This produces `image.bin` (the kernel, loaded to `0x400`) and `romf.bin` (the ROMfs
-root, loaded to `0x7A0000`). There are three ways to boot them:
+This produces `image.bin` (the kernel, loaded to `0x400`, with the XIP ROMfs root
+appended inside it via `MTD_UCLINUX`; the bare ROMfs intermediate is `rom.bin`).
+There are three ways to boot it:
 
-1. **From the SD card.** Copy both files to the FAT16 boot partition (`install_disk.sh f`)
+1. **From the SD card.** Copy `image.bin` to the FAT16 boot partition (`install_disk.sh f`)
    and use the bootloader's `boot` command - or just power on and let the **five-second
    autoboot** start it.
 2. **Over Ethernet (`netboot`).** Run the netboot server from the kernel build tree and

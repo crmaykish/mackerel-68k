@@ -25,7 +25,7 @@
 #include "netboot.h" // network boot over the W5500
 #endif
 
-#define VERSION "0.8.23"
+#define VERSION "0.9.0"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -446,20 +446,12 @@ void handler_boot()
     printf("\r\nReading files on disk...\r\n");
     fat16_list_files(&boot_sector, files_list);
 
-    // Load the kernel image
+    // Load the kernel image (the ROMfs root is appended inside IMAGE.BIN)
     if (load_named_file(&boot_sector, files_list, "IMAGE   .BIN", PROGRAM_START) < 0)
     {
         printf("ERROR: Could not load IMAGE.BIN from disk\r\n");
         return;
     }
-
-#ifdef MACKEREL_F
-    // Load the ROMfs image
-    if (load_named_file(&boot_sector, files_list, "ROMFS   .BIN", ROMFS_LOAD_ADDR) < 0)
-    {
-        printf("WARNING: ROMFS.BIN not found -- kernel will panic without a root fs\r\n");
-    }
-#endif
 
     handler_run(PROGRAM_START);
 }
@@ -532,8 +524,6 @@ static void autoboot(void)
         leds_show(0x00);
         return;
     }
-    if (load_named_file(&bs, files, "ROMFS   .BIN", ROMFS_LOAD_ADDR) < 0)
-        printf("WARNING: ROMFS.BIN not found - kernel will panic without a root fs\r\n");
 
     handler_run(PROGRAM_START);
 }
