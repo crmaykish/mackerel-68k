@@ -57,9 +57,9 @@ Run them in that order - `build_rootfs.sh` needs the BusyBox binary, and `build_
 What each board's scripts produce:
 
 - **Mackerel-30** - BusyBox `busybox` (dynamic musl), a full root tree in `rootfs_mackerel30/` (written to disk separately), and a ~5 MB `image.bin` that loads and runs at `0x1000`.
-- **Mackerel-10** - BusyBox `busybox_nommu` (bFLT), an `initramfs.list` that the kernel turns into an *embedded* initramfs, and an `image.bin` (flat binary) that loads and runs at `0x400`.
+- **Mackerel-10** - BusyBox `busybox_nommu` (bFLT), an XIP ROMfs root appended into `image.bin` (via `MTD_UCLINUX`; bare ROMfs intermediate is `rom.bin`), which loads and runs at `0x400`.
 - **Mackerel-08** - BusyBox `busybox_mackerel08` (bFLT), also assembles `rom08.bin`.
-- **Mackerel-F** - BusyBox `busybox_mackerelf` (bFLT), a `romf.bin` execute-in-place ROMfs root, and an `image.bin` (flat binary) that loads and runs at `0x400`.
+- **Mackerel-F** - BusyBox `busybox_mackerelf` (bFLT), an XIP ROMfs root appended into `image.bin` (via `MTD_UCLINUX`; bare ROMfs intermediate is `rom.bin`), which loads and runs at `0x400`.
 
 To start completely fresh, `bash clean_all.sh` removes all build products and intermediate trees.
 
