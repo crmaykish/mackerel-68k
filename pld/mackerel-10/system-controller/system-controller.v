@@ -79,7 +79,14 @@ wire BOOT;
 boot_signal bs1(RST_n, AS_n, BOOT);
 
 // Generate CPU clock from source oscillator
-clock_gen cg1(CLK, CLK_CPU);
+// A class 68000/68010 runs at half oscillator speed
+// The 68SEC000 on the adapter PCB runs at full oscillator speed (up to 33 MHz)
+`ifdef SEC
+localparam CPU_DIV2 = 0;   // 68SEC000 at full oscillator speed
+`else
+localparam CPU_DIV2 = 1;   // classic 68000/68010 divide by two
+`endif
+clock_gen #(.DIV2(CPU_DIV2)) cg1(CLK, CLK_CPU);
 
 // W5500 IRQ enable (software mask)
 wire nic_irq_en;

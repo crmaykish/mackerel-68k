@@ -18,12 +18,20 @@ STA := $(QUARTUS_HOME)/bin/quartus_sta
 PGM := $(QUARTUS_HOME)/bin/quartus_pgm
 JTAGCONFIG := $(QUARTUS_HOME)/bin/jtagconfig
 
+# 68000/68010 CPUs run at half the oscillator frequency
+# 68SEC000 on adapter can run at full speed (up to a 33 MHz oscillator)
+# Use make SEC=yes to build for 68SEC000, defaults to 68000/68010
+SEC ?= no
+ifeq ($(SEC),yes)
+MAP_ARGS := --verilog_macro=SEC=1
+endif
+
 # Default target: build everything
 all: $(TARGET_FILE)
 
 # Step 1: Synthesis
 $(PROJECT).map:
-	$(MAP) $(PROJECT)
+	$(MAP) $(MAP_ARGS) $(PROJECT)
 
 # Step 2: Fitting
 $(PROJECT).fit: $(PROJECT).map
