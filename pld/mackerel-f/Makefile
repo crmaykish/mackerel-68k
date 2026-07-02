@@ -3,7 +3,8 @@ UART   = cores/uart16550/rtl/verilog
 SDRAM  = cores/sdram-tang-nano-20k/src
 SPI    = cores/tiny_spi/rtl/verilog
 TOP    = mackerel_f
-GW       = LD_LIBRARY_PATH=$(HOME)/Gowin_EDA/IDE/lib $(HOME)/Gowin_EDA/IDE/bin/gw_sh
+# QT_GPA_PLATFORM=offscreen is needed to run Gowin in headless mode (e.g. over SSH)
+GW       = QT_QPA_PLATFORM=offscreen LD_LIBRARY_PATH=$(HOME)/Gowin_EDA/IDE/lib $(HOME)/Gowin_EDA/IDE/bin/gw_sh
 LOADER   = $(HOME)/oss-cad-suite/bin/openFPGALoader
 IVERILOG = $(HOME)/oss-cad-suite/bin/iverilog
 VVP      = $(HOME)/oss-cad-suite/bin/vvp
