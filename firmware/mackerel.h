@@ -54,7 +54,9 @@
 #endif
 
 // Bootloader peripheral capabilities, per board.
-#ifndef MACKEREL_F
+#ifdef MACKEREL_F
+#define HAS_GPIO_LED     // 'gpio' command drives the memory-mapped GPIO register
+#else
 #define HAS_DUART_GPIO   // 'gpio' command toggles the DUART's port pins (DUART boards only)
 #endif
 

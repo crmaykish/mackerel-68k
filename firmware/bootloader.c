@@ -25,7 +25,7 @@
 #include "netboot.h" // network boot over the W5500
 #endif
 
-#define VERSION "0.9.0"
+#define VERSION "0.9.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -36,8 +36,8 @@ void handler_boot();
 #ifdef MACKEREL_F
 static void autoboot(void);
 #endif
-#ifdef HAS_DUART_GPIO
-void handler_gpio(char *dir, char *pin_str, char *val_str);
+#if defined(HAS_DUART_GPIO) || defined(HAS_GPIO_LED)
+void handler_gpio(char *arg1, char *arg2, char *arg3);
 #endif
 void handler_help();
 void handler_info();
@@ -84,6 +84,9 @@ void handler_help()
 #ifdef HAS_DUART_GPIO
     printf(" gpio in <pin>         - Read DUART input pin IP<pin> (0-6)\r\n");
     printf(" gpio out <pin> <0|1>  - Set DUART output pin OP<pin> (2-7, 0-1 reserved for RTS)\r\n");
+#endif
+#ifdef HAS_GPIO_LED
+    printf(" gpio [<led> <0|1>]    - Show GPIO reg, or set LED 0-5 (1=on)\r\n");
 #endif
     printf(" info                  - Show system information\r\n");
     printf(" help                  - Show this help message\r\n");
@@ -221,14 +224,14 @@ int main()
             uint32_t size = strtoul(param2, 0, 16);
             handler_zero(start, size);
         }
-#ifdef HAS_DUART_GPIO
+#if defined(HAS_DUART_GPIO) || defined(HAS_GPIO_LED)
         else if (strncmp(buffer, "gpio", 4) == 0)
         {
             strtok(buffer, " ");
-            char *dir     = strtok(NULL, " ");
-            char *pin_str = strtok(NULL, " ");
-            char *val_str = strtok(NULL, " ");
-            handler_gpio(dir, pin_str, val_str);
+            char *arg1 = strtok(NULL, " ");
+            char *arg2 = strtok(NULL, " ");
+            char *arg3 = strtok(NULL, " ");
+            handler_gpio(arg1, arg2, arg3);
         }
 #endif
         else if (strncmp(buffer, "info", 4) == 0)
@@ -332,7 +335,41 @@ void handler_gpio(char *dir, char *pin_str, char *val_str)
         printf("Direction must be 'in' or 'out'\r\n");
     }
 }
-#endif /* HAS_DUART_GPIO */
+#elif defined(HAS_GPIO_LED)
+// Mackerel-F GPIO is 6 LEDs in a memory-mapped register within the FPGA
+void handler_gpio(char *num_str, char *val_str, char *unused)
+{
+    (void)unused;
+
+    if (!num_str)
+    {
+        printf("GPIO = 0x%02X\r\n", MEM(GPIO_BASE));
+        return;
+    }
+    if (!val_str)
+    {
+        printf("Usage: gpio [<led 0-5> <0|1>]\r\n");
+        return;
+    }
+
+    uint8_t led = (uint8_t)strtoul(num_str, 0, 10);
+    if (led > 5)
+    {
+        printf("LEDs are 0-5\r\n");
+        return;
+    }
+
+    // Set the bit to light the LED, clear it to turn it off
+    // The read-modify-write preserves the other LEDs and the CS bits (6-7)
+    uint8_t reg = MEM(GPIO_BASE);
+    if (*val_str == '1')
+        reg |= (1 << led);
+    else
+        reg &= ~(1 << led);
+    MEM(GPIO_BASE) = reg;
+    printf("GPIO = 0x%02X\r\n", reg);
+}
+#endif
 
 void handler_run(uint32_t addr)
 {
