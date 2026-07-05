@@ -1,12 +1,12 @@
 MEMORY
 {
-    ROM(RX) : ORIGIN = 0xFF8000,  LENGTH = 0x7800             /* 30 KB ROM region (32 KB physical in RTL) */
-    RAM(RW) : ORIGIN = 0xFF0000,  LENGTH = 0x8000             /* 32 KB BSRAM for the bootloader */
+    ROM(RX) : ORIGIN = 0xFF0000,  LENGTH = 0xC000             /* 48 KB ROM region */
+    RAM(RW) : ORIGIN = 0xFFC000,  LENGTH = 0x3800             /* 14 KB BSRAM for the bootloader (top 2 KB = peripherals) */
 }
 
 SECTIONS
 {
-    .vectors 0xFF8000 : { *(.vectors) } > ROM
+    .vectors 0xFF0000 : { *(.vectors) } > ROM
     .text   : { *(.text*) } > ROM
     .rodata : { *(.rodata*) } > ROM
     .data : {

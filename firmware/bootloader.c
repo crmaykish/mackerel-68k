@@ -15,6 +15,7 @@
 #ifdef MACKEREL_F
 #include "sd_spi.h"  // mackf: SD over the tiny_spi master
 #include "uart.h"    // mackf: uart_rx_ready()/uart_getc() for the autoboot key-poll
+#include "ws2812.h"  // mackf: the "rgb" command drives the onboard WS2812
 #elif defined(MACKEREL_08)
 #include "sd.h"     // mack08: bitbang SD
 #else
@@ -25,7 +26,7 @@
 #include "netboot.h" // network boot over the W5500
 #endif
 
-#define VERSION "0.9.1"
+#define VERSION "0.9.3"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -35,6 +36,7 @@ void handler_zero(uint32_t addr, uint32_t size);
 void handler_boot();
 #ifdef MACKEREL_F
 static void autoboot(void);
+void handler_rgb(char *r_str, char *g_str, char *b_str);
 #endif
 #if defined(HAS_DUART_GPIO) || defined(HAS_GPIO_LED)
 void handler_gpio(char *arg1, char *arg2, char *arg3);
@@ -87,6 +89,9 @@ void handler_help()
 #endif
 #ifdef HAS_GPIO_LED
     printf(" gpio [<led> <0|1>]    - Show GPIO reg, or set LED 0-5 (1=on)\r\n");
+#endif
+#ifdef MACKEREL_F
+    printf(" rgb <r> <g> <b>       - Set the onboard WS2812 RGB LED (0-255 each)\r\n");
 #endif
     printf(" info                  - Show system information\r\n");
     printf(" help                  - Show this help message\r\n");
@@ -234,6 +239,16 @@ int main()
             handler_gpio(arg1, arg2, arg3);
         }
 #endif
+#ifdef MACKEREL_F
+        else if (strncmp(buffer, "rgb", 3) == 0)
+        {
+            strtok(buffer, " ");
+            char *r = strtok(NULL, " ");
+            char *g = strtok(NULL, " ");
+            char *b = strtok(NULL, " ");
+            handler_rgb(r, g, b);
+        }
+#endif
         else if (strncmp(buffer, "info", 4) == 0)
         {
             handler_info();
@@ -368,6 +383,24 @@ void handler_gpio(char *num_str, char *val_str, char *unused)
         reg &= ~(1 << led);
     MEM(GPIO_BASE) = reg;
     printf("GPIO = 0x%02X\r\n", reg);
+}
+#endif
+
+#ifdef MACKEREL_F
+// Set the onboard WS2812 RGB LED. Each value is 0-255, decimal or 0x hex.
+void handler_rgb(char *r_str, char *g_str, char *b_str)
+{
+    if (!r_str || !g_str || !b_str)
+    {
+        printf("Usage: rgb <r> <g> <b>  (0-255 each, decimal or 0x)\r\n");
+        return;
+    }
+
+    uint8_t r = (uint8_t)strtoul(r_str, 0, 0);
+    uint8_t g = (uint8_t)strtoul(g_str, 0, 0);
+    uint8_t b = (uint8_t)strtoul(b_str, 0, 0);
+    ws2812_set(r, g, b);
+    printf("RGB = %u %u %u\r\n", r, g, b);
 }
 #endif
 

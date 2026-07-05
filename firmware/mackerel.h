@@ -47,6 +47,7 @@
 #define TIMER_BASE 0xFFFA00 // slot 2: programmable system-tick timer
 #define SPI_BASE 0xFFFB00 // slot 3: tiny_spi master (SD card)
 #define SPI2_BASE 0xFFFC00 // slot 4: tiny_spi master (W5500 NIC)
+#define WS2812_BASE 0xFFFE00 // slot 6: onboard WS2812B RGB LED
 #define PROGRAM_START 0x400
 #define CPU_CLK_HZ 37800000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters

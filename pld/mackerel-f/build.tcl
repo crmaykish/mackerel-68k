@@ -27,6 +27,7 @@ add_file spi.v
 add_file cores/tiny_spi/rtl/verilog/tiny_spi.v
 
 add_file timer.v
+add_file ws2812.v
 add_file irq_encoder.v
 add_file bus_watchdog.v
 

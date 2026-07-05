@@ -14,7 +14,7 @@ BIT      = impl/pnr/$(TOP).fs
 FX68K  = $(CORE)/fx68k.sv $(CORE)/fx68kAlu.sv $(CORE)/uaddrPla.sv
 
 # Everything build.tcl feeds to Gowin -> editing any of it forces a re-synth
-SRCS   = mackerel_f.v pll.v sdram_controller.v sdram_cache.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v irq_encoder.v bus_watchdog.v boot_signal.v $(FX68K) $(wildcard $(UART)/*.v)
+SRCS   = mackerel_f.v pll.v sdram_controller.v sdram_cache.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v ws2812.v irq_encoder.v bus_watchdog.v boot_signal.v $(FX68K) $(wildcard $(UART)/*.v)
 INPUTS = $(SRCS) $(TOP).cst $(TOP).sdc build.tcl microrom.mem nanorom.mem rom.hex
 
 $(BIT): $(INPUTS)

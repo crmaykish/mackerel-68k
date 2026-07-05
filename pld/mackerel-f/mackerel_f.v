@@ -4,6 +4,8 @@ module mackerel_f (
 
     output [5:0] led, // 6 onboard LEDs
 
+    output ws2812_out, // onboard WS2812B RGB LED
+
     input uart_rx,
     output uart_tx,
 
@@ -108,21 +110,22 @@ module mackerel_f (
     // Memory Map
     //  SDRAM        0x000000-0x7FFFFF  8 MB system RAM (sdram.v adapter + sdram_nano.v controller)
     //  (unmapped)   0x800000-0xFEFFFF  Nothing - BERR will trigger
-    //  BSRAM        0xFF0000-0xFF7FFF  32 KB onboard BSRAM
-    //  ROM          0xFF8000-0xFFF7FF  30 KB
+    //  ROM          0xFF0000-0xFFBFFF  48 KB
+    //  BSRAM        0xFFC000-0xFFF7FF  14 KB onboard BSRAM
     //  Peripherals  0xFFF800-0xFFFFFF  2 KB    8 slots x 256 B:
     //                 slot 0  0xFFF800  GPIO
     //                 slot 1  0xFFF900  UART
     //                 slot 2  0xFFFA00  Timer (system tick)
-    //                 slot 3-7          reserved
+    //                 slot 6  0xFFFE00  WS2812 onboard RGB LED
+    //                 slots 3-5, 7      other peripherals / reserved
     wire [23:0] address = {ADDR_BUS, 1'b0};   // ADDR_BUS has no bit 0, add it for convenient math
 
-    wire in_periph = &address[23:11];                 // top 2 KB
-    wire in_rom    = (&address[23:15]) && ~in_periph;  // top 32 KB minus top 2 KB
-    wire in_ram    = ~(&address[23:15]);               // everything below 0xFF8000
-    wire in_sdram  = in_ram && ~address[23];           // low 8 MB (0x000000-0x7FFFFF) - SDRAM system RAM
-    wire in_bsram  = (address[23:15] == 9'h1FE);       // 0xFF0000-0xFF7FFF - BSRAM
-    wire [2:0] periph_sel = address[10:8];             // 1 of 8 peripheral slots
+    wire in_top    = (address[23:16] == 8'hFF);                          // top 64 KB page
+    wire in_periph = &address[23:11];                                    // 0xFFF800-0xFFFFFF (top 2 KB)
+    wire in_rom    = in_top && (address[15:14] != 2'b11);                // 0xFF0000-0xFFBFFF (48 KB)
+    wire in_bsram  = in_top && (address[15:14] == 2'b11) && ~in_periph;  // 0xFFC000-0xFFF7FF (14 KB)
+    wire in_sdram  = ~address[23];                                       // low 8 MB (0x000000-0x7FFFFF) - SDRAM system RAM
+    wire [2:0] periph_sel = address[10:8];                               // 1 of 8 peripheral slots
 
     // CPU space (FC = 111): the 68000 drives this only for interrupt-acknowledge.
     // Gate the peripheral decode on it so an IACK (address 0xFFFFFx) can't alias
@@ -143,22 +146,25 @@ module mackerel_f (
     wire cs_spi_n   = ~(~cs_periph_n && periph_sel == 3'd3);
     wire cs_spi2_n  = ~(~cs_periph_n && periph_sel == 3'd4);
     wire cs_intc_n  = ~(~cs_periph_n && periph_sel == 3'd5);
+    wire cs_ws2812_n = ~(~cs_periph_n && periph_sel == 3'd6);
 
-    // ROM (16K x 16 = 32 KB)
-    reg [15:0] rom [0:16383];
+    // ROM (24K x 16 = 48 KB) at 0xFF0000. Indexed by ADDR_BUS[15:1] so the one
+    // expression serves both the shadowed reset-vector fetch at 0x0 and the real
+    // ROM base at 0xFF0000 -- both have low 16 bits 0, so rom[0] = the vectors.
+    reg [15:0] rom [0:24575];
     reg [15:0] rom_out;
     // Preload the ROM with a hex file
     initial $readmemh("rom.hex", rom);
-    always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[14:1]];
+    always @(posedge clk_soc) rom_out <= rom[ADDR_BUS[15:1]];
 
-    // BSRAM (16k x 16 = 32 KB)
-    reg [7:0] bsram_hi [0:16383];
-    reg [7:0] bsram_lo [0:16383];
+    // BSRAM (8k x 16 = 16 KB window; 0xFFC000-0xFFF7FF decoded, top 2 KB is peripherals)
+    reg [7:0] bsram_hi [0:8191];
+    reg [7:0] bsram_lo [0:8191];
     reg [15:0] bsram_out;
     always @(posedge clk_soc) begin
-        if (~cs_bsram_n && ~RWn && ~UDSn) bsram_hi[ADDR_BUS[14:1]] <= DATA_BUS_OUT[15:8];
-        if (~cs_bsram_n && ~RWn && ~LDSn) bsram_lo[ADDR_BUS[14:1]] <= DATA_BUS_OUT[7:0];
-        bsram_out <= {bsram_hi[ADDR_BUS[14:1]], bsram_lo[ADDR_BUS[14:1]]};
+        if (~cs_bsram_n && ~RWn && ~UDSn) bsram_hi[ADDR_BUS[13:1]] <= DATA_BUS_OUT[15:8];
+        if (~cs_bsram_n && ~RWn && ~LDSn) bsram_lo[ADDR_BUS[13:1]] <= DATA_BUS_OUT[7:0];
+        bsram_out <= {bsram_hi[ADDR_BUS[13:1]], bsram_lo[ADDR_BUS[13:1]]};
     end
 
 
@@ -215,6 +221,25 @@ module mackerel_f (
         .data_out(timer_dout),
         .dtack_n(dtack_timer),
         .irq(irq_timer)
+    );
+
+    // WS2812 onboard RGB LED
+    wire       dtack_ws2812;
+    wire [7:0] ws2812_dout;
+
+    ws2812 rgb(
+        .clk(clk_soc),
+        .rst_n(~rst_cpu),
+
+        .cs_n(cs_ws2812_n),
+        .reg_addr(ADDR_BUS[3:1]),
+        .rwn(RWn),
+        .ds_n(UDSn),
+        .data_in(DATA_BUS_OUT[15:8]),
+        .data_out(ws2812_dout),
+        .dtack_n(dtack_ws2812),
+
+        .led_out(ws2812_out)
     );
 
     // SPI Master
@@ -352,6 +377,7 @@ module mackerel_f (
                     ~cs_spi_n   ? dtack_spi   :
                     ~cs_spi2_n  ? dtack_spi2  :
                     ~cs_intc_n  ? 1'b0        :
+                    ~cs_ws2812_n ? dtack_ws2812 :
                                   1'b1;
 
     // Bus Watchdog - if a bus cycles fails to DTACK within a reasonable time (4096 clock cycles), assert BERR
@@ -375,6 +401,7 @@ module mackerel_f (
         else if (~cs_spi_n) DATA_BUS_IN = {spi_dout, 8'h00};     // "
         else if (~cs_spi2_n) DATA_BUS_IN = {spi2_dout, 8'h00};   // "
         else if (~cs_intc_n) DATA_BUS_IN = {intc, 8'h00};        // "
+        else if (~cs_ws2812_n) DATA_BUS_IN = {ws2812_dout, 8'h00}; // "
         else DATA_BUS_IN = 16'h0000;
     end
 
