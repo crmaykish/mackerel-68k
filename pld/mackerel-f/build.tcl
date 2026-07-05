@@ -1,6 +1,10 @@
 set_device -name GW2AR-18C GW2AR-LV18QN88C8/I7
 
-add_file cores/fx68k/fx68k.v
+set_option -verilog_std sysv2017
+
+add_file cores/fx68k/fx68k.sv
+add_file cores/fx68k/fx68kAlu.sv
+add_file cores/fx68k/uaddrPla.sv
 add_file mackerel_f.v
 add_file pll.v
 

@@ -1,4 +1,3 @@
-fx68k.v
 *.mem
 *.fs
 impl/

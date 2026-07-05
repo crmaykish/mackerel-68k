@@ -10,8 +10,11 @@ IVERILOG = $(HOME)/oss-cad-suite/bin/iverilog
 VVP      = $(HOME)/oss-cad-suite/bin/vvp
 BIT      = impl/pnr/$(TOP).fs
 
+# fx68k SystemVerilog sources
+FX68K  = $(CORE)/fx68k.sv $(CORE)/fx68kAlu.sv $(CORE)/uaddrPla.sv
+
 # Everything build.tcl feeds to Gowin -> editing any of it forces a re-synth
-SRCS   = mackerel_f.v pll.v sdram_controller.v sdram_cache.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v irq_encoder.v bus_watchdog.v boot_signal.v $(CORE)/fx68k.v $(wildcard $(UART)/*.v)
+SRCS   = mackerel_f.v pll.v sdram_controller.v sdram_cache.v $(SDRAM)/sdram.v uart.v spi.v $(SPI)/tiny_spi.v timer.v irq_encoder.v bus_watchdog.v boot_signal.v $(FX68K) $(wildcard $(UART)/*.v)
 INPUTS = $(SRCS) $(TOP).cst $(TOP).sdc build.tcl microrom.mem nanorom.mem rom.hex
 
 $(BIT): $(INPUTS)
@@ -33,11 +36,9 @@ cache-test: sdram_cache.v sdram_cache_tb.v
 	$(IVERILOG) -g2012 -o sdram_cache_tb.vvp sdram_cache.v sdram_cache_tb.v && $(VVP) sdram_cache_tb.vvp
 
 clean:
-	rm -f $(CORE)/fx68k.v microrom.mem nanorom.mem *.json *.vvp *.vcd
+	rm -f microrom.mem nanorom.mem *.json *.vvp *.vcd
 	rm -rf impl
 
-$(CORE)/fx68k.v: $(CORE)/fx68k.sv $(CORE)/fx68kAlu.sv $(CORE)/uaddrPla.sv
-	sv2v $^ > $(CORE)/fx68k.v
 microrom.mem: $(CORE)/microrom.mem ; cp $< $@
 nanorom.mem:  $(CORE)/nanorom.mem ; cp $< $@
 
