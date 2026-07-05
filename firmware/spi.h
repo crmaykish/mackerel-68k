@@ -10,7 +10,6 @@
 #define CS0     (4)
 #define CS1     (5)
 #define CS2     (6)
-#define CS_ENC  CS0   /* ENC28J60 Ethernet chip select (OP4) */
 
 // SPI input pins
 #define MISO (4) // DO on SD card
