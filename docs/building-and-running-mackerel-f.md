@@ -14,10 +14,13 @@ firmware [Makefile](../firmware/Makefile)).
 
 - **Gowin EDA** (the free "Education" edition is fine) for synthesis and place &
   route. The build calls its command-line tool, `gw_sh`.
-- **[oss-cad-suite](https://github.com/YosysHQ/oss-cad-suite-build)** for `sv2v`
-  (the fx68k core is SystemVerilog and is converted to Verilog before synthesis) and
-  `openFPGALoader` (loads the bitstream over the onboard JTAG). Add its `bin/` to your
-  `PATH` before running `make`.
+- **[oss-cad-suite](https://github.com/YosysHQ/oss-cad-suite-build)** for
+  `openFPGALoader` (loads the bitstream over the onboard JTAG) and, optionally,
+  `iverilog`/`vvp`.
+  `openFPGALoader` is used in preference to Gowin's own `programmer_cli` because it
+  detaches the kernel FTDI driver per-operation, so it coexists with a live console
+  on the same chip. Add oss-cad-suite's `bin/` to your `PATH`
+  before running `make`.
 - The **bare-metal toolchain** (`m68k-mackerel-elf-`) to build the bootloader ROM
   image. See [Building the Mackerel Toolchains](building-the-mackerel-toolchains.md).
 
@@ -44,7 +47,7 @@ cp bootloader.hex ../pld/mackerel-f/rom.hex
 
 # 2. Synthesize, place & route, and load
 cd ../pld/mackerel-f
-make                  # sv2v + Gowin synth/PnR -> impl/pnr/mackerel_f.fs
+make                  # Gowin synth/PnR -> impl/pnr/mackerel_f.fs
 make prog             # load into SRAM (volatile, fast to iterate; lost on power cycle)
 make flash            # OR: write the SPI flash (persists across a power cycle)
 ```
