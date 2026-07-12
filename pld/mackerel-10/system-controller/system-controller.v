@@ -116,13 +116,15 @@ end
 // Address Decoding
 //================================//
 
-//   0x000000-0xEFFFFF  DRAM     (~HIGH1M)
+//   0x000000-0xDFFFFF  DRAM     (~HIGH1M & ~SRAM_SEL)
+//   0xE00000-0xEFFFFF  SRAM     (SRAM_SEL)
 //   0xF00000-0xFEFFFF  ROM      (HIGH1M & ~TOP64K)
 //   0xFF0000-0xFF3FFF  SPI
 //   0xFF4000-0xFF7FFF  IDE1
 //   0xFF8000-0xFFBFFF  DUART
 //   0xFFC000-0xFFFFFF  IDE0
 wire HIGH1M = (ADDR_H[23:20] == 4'hF);
+wire SRAM_SEL = (ADDR_H[23:20] == 4'hE);
 wire TOP64K = HIGH1M && (ADDR_H[19:16] == 4'hF);
 wire [1:0] sub = ADDR_H[15:14];
 wire DECODE = BOOT && IACK_n;
@@ -163,12 +165,13 @@ spi spi1(
 // Drive the low data byte back to the CPU only on an SPI read
 assign DATA = (~CS_SPI_n && RW && ~LDS_n) ? spi_data_out : 8'bz;
 
-// SRAM disabled (replaced by DRAM)
-assign CS_SRAM0_n = 1'b1;
-assign CS_SRAM1_n = 1'b1;
+// SRAM at 0xE00000 - 0xEFFFFF (1 MB)
+wire RAM_EN = DECODE && SRAM_SEL;
+assign CS_SRAM0_n = ~(~AS_n && ~LDS_n && RAM_EN);
+assign CS_SRAM1_n = ~(~AS_n && ~UDS_n && RAM_EN);
 
-// DRAM at 0x000000 - 0xEFFFFF
-assign CS_DRAM_n = ~(DECODE && ~HIGH1M);
+// DRAM at 0x000000 - 0xDFFFFF
+assign CS_DRAM_n = ~(DECODE && ~HIGH1M && ~SRAM_SEL);
 
 // DUART at 0xFF8000 - 0xFFBFFF (low byte lane)
 assign CS_DUART_n = ~(DECODE && ~LDS_n && TOP64K && sub == 2'b10);

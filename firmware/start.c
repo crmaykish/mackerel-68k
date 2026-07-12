@@ -39,7 +39,7 @@ void _start()
     asm volatile("movec %0, %%cacr" : : "d"(CACR_CLEAR_ICACHE | CACR_ENABLE_ICACHE));
 #endif
 
-#ifdef MACKEREL_30_SRAM
+#ifdef MACKEREL_30
     // Relocate VBR to SRAM so exception vectors go there, not DRAM
     set_vbr(0xC0000000);
 #endif

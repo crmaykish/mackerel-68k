@@ -74,9 +74,12 @@ Mackerel-10 is the second SBC in the project. It expands on the design of Macker
 
 The memory map looks like this:
 
-- DRAM:     0x000000 - 0xEFFFFF (15MB)
+- DRAM:     0x000000 - 0xDFFFFF (14MB)
+- SRAM:     0xE00000 - 0xEFFFFF (1 MB)
 - ROM:      0xF00000 - 0xFF4000 (not quite 1MB)
 - I/O:      0xF40000 - 0xFFFFFF
+
+It's also possible to install a MC68SEC000 CPU on [an adapter](https://github.com/crmaykish/adapters-and-breakout-boards/tree/main/MC68SEC000-to-DIP-64) for a major speed boost. This CPU can run at 33 MHz with the correct CPU oscillator installed and an updated system controller CPLD.
 
 ### Mackerel-30
 
