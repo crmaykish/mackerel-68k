@@ -26,7 +26,7 @@
 #include "netboot.h" // network boot over the W5500
 #endif
 
-#define VERSION "0.9.3"
+#define VERSION "0.10.0"
 
 #define INPUT_BUFFER_SIZE 32
 
