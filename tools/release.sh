@@ -120,7 +120,7 @@ build_bootloader mack30 30 "" "" 0
 echo "-- glue logic --"
 build_gal
 # Mackerel-10 system controller: classic (68000/010, ÷2) vs SEC (68SEC000, 33 MHz)
-build_cpld pld/mackerel-10/system-controller system-controller "mackerel-10-system-controller-classic-$STAMP.pof"
+build_cpld pld/mackerel-10/system-controller system-controller "mackerel-10-system-controller-classic-$STAMP.pof" "SEC=no"
 build_cpld pld/mackerel-10/system-controller system-controller "mackerel-10-system-controller-sec-$STAMP.pof" "SEC=yes"
 build_cpld pld/mackerel-10/dram_controller   dram_controller   "mackerel-10-dram-controller-$STAMP.pof"
 # Mackerel-30

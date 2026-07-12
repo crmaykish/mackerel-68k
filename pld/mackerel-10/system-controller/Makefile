@@ -24,6 +24,9 @@ JTAGCONFIG := $(QUARTUS_HOME)/bin/jtagconfig
 SEC ?= no
 ifeq ($(SEC),yes)
 MAP_ARGS := --verilog_macro=SEC=1
+CLK_MODE := 68SEC000, CPU clock = full oscillator (no divide)
+else
+CLK_MODE := 68000/68010, CPU clock = oscillator / 2
 endif
 
 # Default target: build everything
@@ -31,6 +34,7 @@ all: $(TARGET_FILE)
 
 # Step 1: Synthesis
 $(PROJECT).map:
+	@echo ">> Clock mode [SEC=$(SEC)]: $(CLK_MODE)"
 	$(MAP) $(MAP_ARGS) $(PROJECT)
 
 # Step 2: Fitting
@@ -43,7 +47,8 @@ $(TARGET_FILE): $(PROJECT).fit
 	$(STA) $(PROJECT)
 
 # Step 4: Flash device
-flash: $(TARGET_FILE)
+flash:
+	@test -f $(TARGET_FILE) || { echo "No bitstream -- run 'make [SEC=yes]' first" >&2; exit 1; }
 	$(PGM) -m jtag -o "p;$(TARGET_FILE)"
 
 # Step 5: Check connected devices
