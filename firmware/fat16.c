@@ -184,7 +184,8 @@ uint16_t get_fat_entry(fat16_boot_sector_t *boot_sector, uint16_t cluster)
     static uint8_t fat_buffer[1024]; // Make sure this is large enough for your largest sector size
 
     uint32_t fat_offset = cluster * 2;
-    uint32_t fat_sector = boot_sector->hidden_sectors + boot_sector->reserved_sectors + (fat_offset / boot_sector->bytes_per_sector);
+    // Locate the FAT relative to the MBR-derived partition start
+    uint32_t fat_sector = fat16_part_lba + boot_sector->reserved_sectors + (fat_offset / boot_sector->bytes_per_sector);
     uint32_t fat_entry_offset = fat_offset % boot_sector->bytes_per_sector;
 
     // Only read if not already cached
