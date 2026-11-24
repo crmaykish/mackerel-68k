@@ -16,6 +16,7 @@
 #include "sd_spi.h"  // mackf: SD over the tiny_spi master
 #include "uart.h"    // mackf: uart_rx_ready()/uart_getc() for the autoboot key-poll
 #include "ws2812.h"  // mackf: the "rgb" command drives the onboard WS2812
+#include "sdflash.h" // mackf: the "sdflash" command writes IMAGE.BIN to SD
 #elif defined(MACKEREL_08)
 #include "sd.h"     // mack08: bitbang SD
 #else
@@ -26,7 +27,7 @@
 #include "netboot.h" // network boot over the W5500
 #endif
 
-#define VERSION "0.10.0"
+#define VERSION "0.10.1"
 
 #define INPUT_BUFFER_SIZE 32
 
@@ -36,6 +37,7 @@ void handler_zero(uint32_t addr, uint32_t size);
 void handler_boot();
 #ifdef MACKEREL_F
 static void autoboot(void);
+static void handler_sdflash(void);
 void handler_rgb(char *r_str, char *g_str, char *b_str);
 #endif
 #if defined(HAS_DUART_GPIO) || defined(HAS_GPIO_LED)
@@ -74,6 +76,9 @@ void handler_help()
     printf(" boot                  - Load Linux (IMAGE.BIN) from disk and run\r\n");
 #ifdef HAS_NETBOOT
     printf(" netboot               - Fetch an image over Ethernet (W5500) and run\r\n");
+#endif
+#ifdef MACKEREL_F
+    printf(" sdflash               - Fetch an image over Ethernet and write it to SD as IMAGE.BIN\r\n");
 #endif
     printf(" run                   - Jump to RAM at 0x%X\r\n", PROGRAM_START);
     printf(" dump <addr>           - Dump 256 bytes of memory starting at <addr>\r\n");
@@ -240,6 +245,10 @@ int main()
         }
 #endif
 #ifdef MACKEREL_F
+        else if (strncmp(buffer, "sdflash", 7) == 0)
+        {
+            handler_sdflash();
+        }
         else if (strncmp(buffer, "rgb", 3) == 0)
         {
             strtok(buffer, " ");
@@ -596,6 +605,31 @@ static void autoboot(void)
     }
 
     handler_run(PROGRAM_START);
+}
+
+// Fetch an image from the netboot server and make it the SD card's IMAGE.BIN
+static void handler_sdflash(void)
+{
+    if (!sd_spi_init())
+    {
+        printf("SD init failed\r\n");
+        return;
+    }
+    if (fat16_init(block_read) != 0 || !sdflash_prepare())
+        return;
+
+    uint32_t len = netboot_load();
+    if (len == 0)
+        return;
+
+    // Read-back scratch goes just past the image
+    uint32_t scratch = (PROGRAM_START + len + 511) & ~511UL;
+    if (scratch + SDFLASH_SCRATCH > (uint32_t)__dram_start + (uint32_t)__dram_length)
+    {
+        printf("ERROR: no RAM left past the image for read-back\r\n");
+        return;
+    }
+    sdflash_write((const uint8_t *)PROGRAM_START, len, (uint8_t *)scratch);
 }
 #endif /* MACKEREL_F */
 

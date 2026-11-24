@@ -109,7 +109,10 @@ There are three ways to boot it:
 
 1. **From the SD card.** Copy `image.bin` to the FAT16 boot partition (`install_disk.sh f`)
    and use the bootloader's `boot` command - or just power on and let the **five-second
-   autoboot** start it.
+   autoboot** start it. To update the card without removing it, run the netboot server
+   (below) and use the bootloader's `sdflash` command: it fetches `image.bin` over
+   Ethernet, writes it to the boot partition as `IMAGE.BIN` (replacing whatever else is
+   there) and reads it back to verify.
 2. **Over Ethernet (`netboot`).** Run the netboot server from the kernel build tree and
    use the bootloader's `netboot` command. This re-reads the images on every connection,
    so it is the fast edit/build/boot loop:

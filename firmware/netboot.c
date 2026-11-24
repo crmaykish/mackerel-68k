@@ -24,8 +24,8 @@ static const uint8_t srv[4] = {NETBOOT_SERVER_IP};
 #define NETBOOT_SRC_PORT 3333 // local TCP source port (arbitrary)
 
 // Pull one length-prefixed blob ([u32 big-endian length][bytes]) from the open TCP
-// socket into RAM at addr. Returns false on a short/failed read.
-static bool netboot_blob(const char *name, uint32_t addr)
+// socket into RAM at addr, storing its length. Returns false on a short/failed read.
+static bool netboot_blob(const char *name, uint32_t addr, uint32_t *len_out)
 {
     uint8_t lb[4];
     if (!w5500_tcp_recv(lb, 4))
@@ -40,30 +40,33 @@ static bool netboot_blob(const char *name, uint32_t addr)
         printf("ERROR: %s data recv failed (short read)\r\n", name);
         return false;
     }
+    *len_out = len;
     return true;
 }
 
-// Fill RAM with the kernel image + ROMfs over the network.
-bool netboot_load(void)
+// Fill RAM with the kernel image (ROMfs appended) over the network.
+uint32_t netboot_load(void)
 {
     printf("Netboot: initializing W5500...\r\n");
     if (!w5500_init(mac, ip, gw, sub))
     {
         printf("ERROR: W5500 not detected (VERSIONR != 0x04)\r\n");
-        return false;
+        return 0;
     }
 
     printf("Connecting to %d.%d.%d.%d:%d ...\r\n", srv[0], srv[1], srv[2], srv[3], NETBOOT_SERVER_PORT);
     if (!w5500_tcp_connect(srv, NETBOOT_SERVER_PORT, NETBOOT_SRC_PORT))
     {
         printf("ERROR: TCP connect failed (server running? cable in?)\r\n");
-        return false;
+        return 0;
     }
 
-    bool ok = netboot_blob("IMAGE.BIN", PROGRAM_START);
+    uint32_t len = 0;
+    bool ok = netboot_blob("IMAGE.BIN", PROGRAM_START, &len);
 
     w5500_tcp_close();
-    if (ok)
-        printf("Netboot load complete.\r\n");
-    return ok;
+    if (!ok)
+        return 0;
+    printf("Netboot load complete.\r\n");
+    return len;
 }

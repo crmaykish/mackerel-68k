@@ -118,6 +118,52 @@ int sd_spi_read(uint32_t lba, uint8_t *buf, uint32_t count)
     return 0;
 }
 
+// Wait for the card to release MISO (busy = 0x00) after a write
+static int wait_ready(void)
+{
+    for (uint32_t i = 0; i < 100000; i++)
+        if (rx() == 0xFF)
+            return 0;
+    return -1;
+}
+
+int sd_spi_write(uint32_t lba, const uint8_t *buf, uint32_t count)
+{
+    if (count == 0)
+        return 0;
+
+    uint32_t addr = sdhc ? lba : lba * 512;
+    cs_low();
+    if (sd_cmd(25, addr, 0x01) != 0x00)
+    {
+        cs_high();
+        rx();
+        return -1;
+    }
+    rx();
+
+    int ok = 1;
+    for (uint32_t b = 0; b < count && ok; b++)
+    {
+        spi_transfer(0xFC);
+        for (int i = 0; i < 512; i++)
+            spi_transfer(buf[b * 512 + i]);
+        rx(); // CRC (ignored in SPI mode)
+        rx();
+        // Data response xxx0sss1: 010 = accepted
+        ok = ((rx() & 0x1F) == 0x05) && (wait_ready() == 0);
+    }
+
+    // Stop token, then the card goes busy while it finishes programming
+    spi_transfer(0xFD);
+    rx();
+    if (wait_ready() != 0)
+        ok = 0;
+    cs_high();
+    rx();
+    return ok ? 0 : -1;
+}
+
 void sd_spi_print_info(void)
 {
     uint8_t cid[16], csd[16];

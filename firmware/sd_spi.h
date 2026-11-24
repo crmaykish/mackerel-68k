@@ -20,6 +20,9 @@ void sd_spi_set_baud(uint8_t baud);
 // Returns 0 on success, -1 on error (matches fat16_read_sector_f).
 int sd_spi_read(uint32_t lba, uint8_t *buf, uint32_t count);
 
+// Write `count` 512-byte blocks from buf to LBA `lba` (CMD25). Returns 0 or -1.
+int sd_spi_write(uint32_t lba, const uint8_t *buf, uint32_t count);
+
 // Print CID/CSD identity + capacity (call after sd_spi_init).
 void sd_spi_print_info(void);
 

@@ -19,7 +19,7 @@ Three discrete boards are running today (68008, 68010, and 68030), with a 68040 
 ## Links
 
 1. [Hackaday Project Page](https://hackaday.io/project/183861-mackerel-68k-computer)
-2. [Mackerel Linux v7.1.x](https://github.com/crmaykish/mackerel-linux/tree/mackerel)
+2. [Mackerel Linux v7.3.x](https://github.com/crmaykish/mackerel-linux/tree/mackerel)
 3. [Mackerel uClinux (deprecated)](https://github.com/crmaykish/mackerel-uclinux-20160919)
 
 ## Docs
@@ -40,7 +40,7 @@ Status: Complete
 - 512 KB of Flash ROM, 3.5MB SRAM
 - Two serial ports
 - SD card support (bitbang SPI)
-- Linux 7.1.x NOMMU
+- Linux 7.3.x NOMMU
 
 ![Mackerel-08 SBC v1](media/images/mackerel-08-v1.1_cropped.jpg)
 
@@ -66,7 +66,7 @@ Status: Complete
 - Up to 16 MB of 30-pin DRAM (15 usable)
 - Two serial ports
 - IDE interface
-- Linux 7.1.x NOMMU
+- Linux 7.3.x NOMMU
 
 ![Mackerel-10 v1](media/images/mackerel-10-v1.2.jpg)
 
@@ -92,7 +92,7 @@ Status: Prototype
 - Two serial ports
 - IDE interface
 - Ethernet over SPI
-- Linux 7.1.x
+- Linux 7.3.x
 
 ![Mackerel-30 v0.1](media/images/mackerel-30-v0.1-assembled.jpg)
 
@@ -116,13 +116,13 @@ Status: Prototype (FPGA)
 - 30 KB ROM (bootloader) and 32 KB BSRAM
 - UART console, programmable timer, and interrupt controller
 - microSD (SPI) and W5500 Ethernet
-- Linux 7.1.x NOMMU
+- Linux 7.3.x NOMMU
 
 ![Mackerel-F on a Tang Nano 20k](media/images/mackerel-f-proto.png)
 
 Mackerel-F is an entire Mackerel system implemented inside an FPGA. Everything that is discrete hardware on the other boards - the CPU, glue logic, memory controller, UART, timer, interrupt controller, and SPI masters - is RTL here, built around the [fx68k](https://github.com/ijor/fx68k) soft 68000 core and synthesized for the Tang Nano 20k. The SoC runs at 75.6 MHz with the 68000 core clocked at half that (37.8 MHz).
 
-Unlike the other boards there is no separate ROM chip: the bootloader is baked into the FPGA bitstream as on-chip ROM and its scratch RAM lives in block RAM, so the entire 8 MB of SDRAM is free for Linux. Alongside the usual `boot` (from SD) and YMODEM transfer, the bootloader adds a `netboot` command that pulls the kernel over Ethernet (raw TCP, with a small host server) and a five-second SD autoboot.
+Unlike the other boards there is no separate ROM chip: the bootloader is baked into the FPGA bitstream as on-chip ROM and its scratch RAM lives in block RAM, so the entire 8 MB of SDRAM is free for Linux. Alongside the usual `boot` (from SD) and YMODEM transfer, the bootloader adds a `netboot` command that pulls the kernel over Ethernet (raw TCP, with a small host server), an `sdflash` command that does the same ethernet transfer then writes the kernel to the SD card, and a five-second SD autoboot.
 
 The memory map:
 
@@ -146,7 +146,7 @@ On Mackerel-F the bootloader also supports `netboot` (pulling the kernel over Et
 
 ### Linux on Mackerel
 
-Every Mackerel board runs the latest mainline kernel (v7.1.x). Mackerel-08, Mackerel-10, and the FPGA-based Mackerel-F run NOMMU and are more limited in their capabilities. Mackerel-30 supports the MMU and the external FPU in Linux and functions more like a traditional headless Linux install. Userspace is made up of busybox (init and shell) with driver support for the DUART, IDE storage, and networking over SPI.
+Every Mackerel board runs the latest mainline kernel (v7.3.x). Mackerel-08, Mackerel-10, and the FPGA-based Mackerel-F run NOMMU and are more limited in their capabilities. Mackerel-30 supports the MMU and the external FPU in Linux and functions more like a traditional headless Linux install. Userspace is made up of busybox (init and shell) with driver support for the DUART, IDE storage, and networking over SPI.
 
 ### Compilers and Tools
 There are three different toolchains for Mackerel. The baremetal toolchain builds the bootloader and other low level programs in this repo. There are also two variants of the Linux toolchain - one for Mackerel-30 with MMU support and the other for NOMMU/ucLinux on Mackerel-08/10. Prebuilt toolchains are available on the [releases page](https://github.com/crmaykish/mackerel-68k/releases/tag/toolchains-2026-06-06); see [Building the Mackerel Toolchains](docs/building-the-mackerel-toolchains.md) for both the download steps and instructions on building them all with crosstools-ng.
