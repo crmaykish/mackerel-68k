@@ -111,7 +111,7 @@ Status: Design
 
 Status: Prototype (FPGA)
 
-- fx68k soft 68000 core at 37.8 MHz, in a Tang Nano 20k
+- fx68k soft 68000 core at 32.4 MHz, in a Tang Nano 20k
 - 8 MB SDRAM
 - 30 KB ROM (bootloader) and 32 KB BSRAM
 - UART console, programmable timer, and interrupt controller
@@ -120,7 +120,7 @@ Status: Prototype (FPGA)
 
 ![Mackerel-F on a Tang Nano 20k](media/images/mackerel-f-proto.png)
 
-Mackerel-F is an entire Mackerel system implemented inside an FPGA. Everything that is discrete hardware on the other boards - the CPU, glue logic, memory controller, UART, timer, interrupt controller, and SPI masters - is RTL here, built around the [fx68k](https://github.com/ijor/fx68k) soft 68000 core and synthesized for the Tang Nano 20k. The SoC runs at 75.6 MHz with the 68000 core clocked at half that (37.8 MHz).
+Mackerel-F is an entire Mackerel system implemented inside an FPGA. Everything that is discrete hardware on the other boards - the CPU, glue logic, memory controller, UART, timer, interrupt controller, and SPI masters - is RTL here, built around the [fx68k](https://github.com/ijor/fx68k) soft 68000 core and synthesized for the Tang Nano 20k. The SoC runs at 64.8 MHz with the 68000 core clocked at half that (32.4 MHz).
 
 Unlike the other boards there is no separate ROM chip: the bootloader is baked into the FPGA bitstream as on-chip ROM and its scratch RAM lives in block RAM, so the entire 8 MB of SDRAM is free for Linux. Alongside the usual `boot` (from SD) and YMODEM transfer, the bootloader adds a `netboot` command that pulls the kernel over Ethernet (raw TCP, with a small host server), an `sdflash` command that does the same ethernet transfer then writes the kernel to the SD card, and a five-second SD autoboot.
 

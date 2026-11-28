@@ -49,7 +49,7 @@
 #define SPI2_BASE 0xFFFC00 // slot 4: tiny_spi master (W5500 NIC)
 #define WS2812_BASE 0xFFFE00 // slot 6: onboard WS2812B RGB LED
 #define PROGRAM_START 0x400
-#define CPU_CLK_HZ 37800000UL
+#define CPU_CLK_HZ 32400000UL
 // fx68k 68000; estimate matching Mackerel-10's 68000 -- calibrate if sleep_*() timing matters
 #define SLEEP_CYCLES_PER_LOOP 40
 #endif

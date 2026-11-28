@@ -35,7 +35,7 @@ module mackerel_f (
     inout  [31:0] IO_sdram_dq
 );
 
-    // PLL: 27 MHz oscillator -> 75.6 MHz SoC clock (+ phase-shifted SDRAM chip clock)
+    // PLL: 27 MHz oscillator -> 64.8 MHz SoC clock (+ phase-shifted SDRAM chip clock)
     wire clk_soc;
     wire clk_soc_ps;
     wire pll_lock;
@@ -44,13 +44,14 @@ module mackerel_f (
     // Reset
     reg [23:0] rst = 24'd0;
     wire rst_cpu = ~rst[23];
+    reg soft_reset = 1'b0; // software reset strobe (slot 5 +2)
 
     always @(posedge clk_soc) begin
-        if (!pll_lock) rst <= 24'd0;   // power-on reset, held until the PLL locks
+        if (!pll_lock || soft_reset) rst <= 24'd0; // held until the PLL locks, restarted by a software reset
         else if (rst_cpu) rst <= rst + 1'b1;
     end
 
-    // Two-phase clock: fx68k enables on alternate clk_soc cycles -> CPU = clk_soc/2 = 37.8 MHz
+    // Two-phase clock: fx68k enables on alternate clk_soc cycles -> CPU = clk_soc/2 = 32.4 MHz
     reg phase = 1'b0;
     always @(posedge clk_soc) phase <= ~phase;
     wire enPhi1 = (phase == 1'b1);
@@ -116,8 +117,11 @@ module mackerel_f (
     //                 slot 0  0xFFF800  GPIO
     //                 slot 1  0xFFF900  UART
     //                 slot 2  0xFFFA00  Timer (system tick)
+    //                 slot 3  0xFFFB00  SPI (SD card)
+    //                 slot 4  0xFFFC00  SPI2 (W5500 NIC)
+    //                 slot 5  0xFFFD00  INTC mask (+0), reset (+2)
     //                 slot 6  0xFFFE00  WS2812 onboard RGB LED
-    //                 slots 3-5, 7      other peripherals / reserved
+    //                 slot 7            reserved
     wire [23:0] address = {ADDR_BUS, 1'b0};   // ADDR_BUS has no bit 0, add it for convenient math
 
     wire in_top    = (address[23:16] == 8'hFF);                          // top 64 KB page
@@ -171,15 +175,19 @@ module mackerel_f (
     // GPIO
     reg [7:0] gpio = 8'b0;
     always @(posedge clk_soc) begin
-        // GPIO writes
-        if (~cs_gpio_n && ~RWn && ~UDSn) gpio <= DATA_BUS_OUT[15:8];
+        if (rst_cpu) gpio <= 8'b0;
+        else if (~cs_gpio_n && ~RWn && ~UDSn) gpio <= DATA_BUS_OUT[15:8];
     end
 
     // Simple interrupt masking register
     reg [7:0] intc = 8'b0;
     always @(posedge clk_soc) begin
-        if (~cs_intc_n && ~RWn && ~UDSn) intc <= DATA_BUS_OUT[15:8];
+        if (rst_cpu) intc <= 8'b0;
+        else if (~cs_intc_n && ~RWn && ~UDSn && ~address[1]) intc <= DATA_BUS_OUT[15:8];
     end
+
+    // Writing 0xA5 to slot 5 +2 re-runs the power-on reset: CPU, peripherals and boot shadow
+    always @(posedge clk_soc) soft_reset <= ~cs_intc_n && ~RWn && ~UDSn && address[1] && DATA_BUS_OUT[15:8] == 8'hA5;
 
     // UART
     wire irq_uart;
@@ -204,7 +212,7 @@ module mackerel_f (
     );
 
     // Timer (slot 2 @ 0xFFFA00) -- programmable system-tick interrupt source.
-    // CLK_HZ defaults to 75.6 MHz (= clk_soc), so the tick rates divide exactly.
+    // CLK_HZ defaults to 64.8 MHz (= clk_soc), so the tick rates divide exactly.
     wire       irq_timer;
     wire       dtack_timer;
     wire [7:0] timer_dout;

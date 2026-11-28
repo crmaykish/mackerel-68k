@@ -25,7 +25,7 @@
 #define NIC_TXE 0x01        // engine idle (transfer complete)
 #define NIC_CS_REG GPIO_BASE
 #define NIC_CS_MASK 0x80    // gpio[7] -> cs_spi_nic = ~gpio[7]
-#define W5500_SPI_BAUD 1    // SCLK = clk_soc/(2*(baud+1)); 1 = ~18.9 MHz, 0 = ~37.8 MHz
+#define W5500_SPI_BAUD 1    // SCLK = clk_soc/(2*(baud+1)); 1 = ~16.2 MHz, 0 = ~32.4 MHz
 #endif
 
 // W5500 SPI frame: [addr_hi][addr_lo][control][data...], control = BSB<<3 | RW | OM.

@@ -69,8 +69,10 @@ The Tang Nano 20k's onboard Sipeed USB bridge presents two serial ports:
 - **`/dev/ttyUSB1`** - JTAG, used by `openFPGALoader` (`make prog` / `make flash`).
 
 There is no reset button (the board's buttons are tied to FPGA configuration straps).
-Reset by power-cycling USB, or simply re-load the bitstream - `make prog` reconfigures
-the FPGA and restarts the CPU.
+From Linux, `reboot` resets the whole SoC back to the bootloader. At the bootloader
+prompt, `poke FFFD02 A5` does the same. Both keep the currently loaded bitstream.
+Otherwise, power-cycle USB, or re-load the bitstream - `make prog` reconfigures the FPGA
+and restarts the CPU.
 
 ## W5500 Ethernet wiring
 

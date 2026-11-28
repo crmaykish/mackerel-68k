@@ -10,7 +10,7 @@
 `default_nettype none
 
 module ws2812 #(
-    parameter integer CLK_HZ = 75_600_000 // clk frequency; bit timing derives from this
+    parameter integer CLK_HZ = 64_800_000 // clk frequency; bit timing derives from this
 ) (
     input wire clk,
     input wire rst_n,
